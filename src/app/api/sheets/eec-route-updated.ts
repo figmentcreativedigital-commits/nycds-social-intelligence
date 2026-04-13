@@ -38,7 +38,7 @@ export async function GET() {
     if (!latest) return NextResponse.json({ error: "No data found in Overview Metrics" }, { status: 404 });
 
     /*
-     * Column mapping (16-column schema):
+     * Column mapping:
      *  A(0): Week Start       B(1): Week End        C(2): Client Slug
      *  D(3): Followers        E(4): New Followers    F(5): Reach
      *  G(6): Total Views      H(7): Engagements     I(8): Engagement Rate %
@@ -96,7 +96,7 @@ export async function GET() {
     ]};
 
     return NextResponse.json({
-      client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: periodStr },
+      client: { name: "EEC", fullName: "Edgard El Chaar, DDS, PC", period: periodStr },
       kpi: {
         followers: { value: Number(latest[3]) || 0, change: Number(latest[4]) || 0, label: "Followers" },
         reach: { value: Number(latest[5]) || 0, label: "Reach" },

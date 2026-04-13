@@ -111,9 +111,116 @@ export default function Dashboard() {
   const isVideo = (url: string) => /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
   const isIgEmbed = (url: string) => /instagram\.com\/(p|reel)\//i.test(url);
 
+  const linkData = {
+    period: "Mar 30 – Apr 12, 2026",
+    totalClicks: 95,
+    humanClicks: 79,
+    botClicks: 16,
+    topLinks: [
+      { path: "NYCDS 60th Street", clicks: 19 },
+      { path: "NYCDS 35th Street", clicks: 17 },
+      { path: "NYCDS 5th Ave", clicks: 15 },
+      { path: "NYCDS 58th Street", clicks: 14 },
+      { path: "NYCDS Website", clicks: 7 },
+      { path: "Homepage", clicks: 4 },
+    ],
+    trafficSources: [
+      { source: "Direct / Unknown", clicks: 28 },
+      { source: "Website", clicks: 24 },
+      { source: "Link in Bio", clicks: 2 },
+      { source: "Google", clicks: 1 },
+    ],
+    topCountries: [
+      { country: "United States", clicks: 37 },
+      { country: "The Netherlands", clicks: 9 },
+      { country: "United Kingdom", clicks: 7 },
+      { country: "Germany", clicks: 5 },
+      { country: "Poland", clicks: 4 },
+    ],
+    topCities: [
+      { city: "Slough", clicks: 7 },
+      { city: "New York City", clicks: 6 },
+      { city: "Columbus", clicks: 5 },
+      { city: "Istanbul", clicks: 4 },
+      { city: "Warsaw", clicks: 4 },
+    ],
+    devices: [
+      { os: "Android", clicks: 29 },
+      { os: "Windows", clicks: 24 },
+      { os: "Mac OS X", clicks: 22 },
+      { os: "iOS", clicks: 13 },
+    ],
+  };
+
+  const websiteData = {
+    period: "Mar 30 – Apr 13, 2026",
+    sessions: 260,
+    topPages: [
+      { page: "/", label: "Home", views: 195 },
+      { page: "/ourdoctors", label: "Our Doctors", views: 89 },
+      { page: "/locations", label: "Locations", views: 31 },
+      { page: "/about", label: "About", views: 30 },
+      { page: "/cosmetic-dentistry", label: "Cosmetic Dentistry", views: 16 },
+      { page: "/dr-michael-chesner", label: "Dr. Michael Chesner", views: 12 },
+      { page: "/dr-sherman-farahani", label: "Dr. Sherman Farahani", views: 11 },
+      { page: "/comprehensive-care", label: "Comprehensive Care", views: 8 },
+      { page: "/nerve-pain-after-onlay", label: "Nerve Pain After Onlay", views: 7 },
+    ],
+    trafficSources: [
+      { source: "Google", medium: "organic", sessions: 124, pct: 47.9 },
+      { source: "Direct", medium: "(none)", sessions: 121, pct: 46.7 },
+      { source: "Instagram", medium: "social", sessions: 7, pct: 2.7 },
+      { source: "Yahoo", medium: "organic", sessions: 2, pct: 0.8 },
+      { source: "Other", medium: "mixed", sessions: 6, pct: 2.3 },
+    ],
+    devices: [
+      { device: "Desktop", pct: 72.4 },
+      { device: "Mobile", pct: 27.6 },
+    ],
+    dailyVisitors: [
+      { date: "Mar 30", visitors: 12 },{ date: "Mar 31", visitors: 15 },
+      { date: "Apr 1", visitors: 28 },{ date: "Apr 2", visitors: 22 },
+      { date: "Apr 3", visitors: 20 },{ date: "Apr 4", visitors: 13 },
+      { date: "Apr 5", visitors: 8 },{ date: "Apr 6", visitors: 14 },
+      { date: "Apr 7", visitors: 15 },{ date: "Apr 8", visitors: 18 },
+      { date: "Apr 9", visitors: 15 },{ date: "Apr 10", visitors: 17 },
+      { date: "Apr 11", visitors: 14 },{ date: "Apr 12", visitors: 15 },
+      { date: "Apr 13", visitors: 14 },
+    ],
+  };
+
+  const socialData = {
+    period: "Mar 30 – Apr 13, 2026",
+    followers: 678,
+    followerGrowth: 3,
+    totalViews: 2783,
+    totalReach: 1261,
+    totalEngagements: 71,
+    avgEngagementRate: 6.4,
+    totalLikes: 61,
+    totalComments: 2,
+    totalSaves: 3,
+    totalShares: 6,
+    postsPublished: 6,
+    contentMix: { reels: 3, carousels: 3 },
+    reelViews: 907,
+    carouselViews: 1876,
+    posts: [
+      { id: 1, title: "Dental Bonding – Subtle, Natural & Precise", type: "Carousel", date: "Apr 3", views: 1311, reach: 402, likes: 24, comments: 0, saves: 0, shares: 1, er: 6.2, igUrl: "https://www.instagram.com/p/DWrVdmNFhwJ/", isTop: true },
+      { id: 2, title: "NYC Dental Smiles – Multiple Locations", type: "Carousel", date: "Apr 2", views: 397, reach: 132, likes: 14, comments: 2, saves: 0, shares: 4, er: 15.0, igUrl: "https://www.instagram.com/p/DWoqaB3FtO2/", isTop: false },
+      { id: 3, title: "Treat or Monitor? – Dr. Tamay", type: "Reel", date: "Apr 4", views: 329, reach: 218, likes: 6, comments: 0, saves: 1, shares: 0, er: 3.2, igUrl: "https://www.instagram.com/reel/DWtslASpVu2/", isTop: false },
+      { id: 4, title: "Dental Hygienist Appreciation Week", type: "Reel", date: "Apr 9", views: 294, reach: 216, likes: 7, comments: 0, saves: 1, shares: 0, er: 3.7, igUrl: "https://www.instagram.com/reel/DW7I57GEcdo/", isTop: false },
+      { id: 5, title: "National Hygienist Week – Team Recognition", type: "Reel", date: "Apr 11", views: 284, reach: 215, likes: 5, comments: 0, saves: 0, shares: 1, er: 2.8, igUrl: "https://www.instagram.com/reel/DW_768Ipp9Z/", isTop: false },
+      { id: 6, title: "Veneers – Myths vs Facts", type: "Carousel", date: "Apr 10", views: 168, reach: 78, likes: 5, comments: 0, saves: 1, shares: 0, er: 7.7, igUrl: "https://www.instagram.com/p/DW9Tlq9lmdr/", isTop: false },
+    ],
+  };
+
   const tabs = [
     { id: "overview", label: "Overview", icon: "◉" },
     { id: "content", label: "Content", icon: "◫" },
+    { id: "links", label: "Links", icon: "⊞" },
+    { id: "website", label: "Website", icon: "◈" },
+    { id: "social", label: "Social", icon: "◍" },
     { id: "audience", label: "Audience", icon: "◎" },
     { id: "insights", label: "Insights", icon: "✦" },
   ];
@@ -177,6 +284,317 @@ export default function Dashboard() {
           <div className="cols2">
             <div className="card"><div className="card-hd">Watch Time Analytics</div><div style={{ textAlign: "center", padding: "8px 0 22px" }}><div className="big-num">{typeof d.kpi.watchTime.value === "string" ? d.kpi.watchTime.value.replace(/\s*\d+s$/, "") : d.kpi.watchTime.value}</div><div style={{ fontSize: 12, color: "#9B9196", marginTop: 2 }}>Total Watch Time</div></div><div style={{ display: "flex", gap: 14 }}><div className="stat-box"><div className="big-num-sm plum">6s</div><div className="stat-label">Avg Duration</div></div><div className="stat-box"><div className="big-num-sm steel">{d.kpi.views.value.toLocaleString()}</div><div className="stat-label">Total Views</div></div></div><div className="alert-box plum-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>⚡ 6s avg signals weak retention — strengthen opening hooks</span></div></div>
             <div className="card"><div className="card-hd">Engagement Breakdown</div><div style={{ display: "flex", flexDirection: "column", gap: 14 }}>{[{ label: "Likes", value: d.posts.reduce((s: number, p: any) => s + (p.likes||0), 0), max: 50, color: "#6F5060" }, { label: "Comments", value: d.posts.reduce((s: number, p: any) => s + (p.comments||0), 0), max: 50, color: "#8FA1A6" }, { label: "Shares", value: d.posts.reduce((s: number, p: any) => s + (p.shares||0), 0), max: 50, color: "#A6968D" }, { label: "Saves", value: d.posts.reduce((s: number, p: any) => s + (p.saves||0), 0), max: 50, color: "#BE5A5A" }].map((m) => (<div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div><div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}><div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} /></div><div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div></div>))}</div><div className="alert-box danger-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Zero saves is the #1 gap — create bookmark-worthy content</span></div></div>
+          </div>
+        </>)}
+
+        {tab === "links" && (<>
+          <div className="kpi-row">
+            {[
+              { label: "Total Clicks", value: linkData.totalClicks, delay: 0 },
+              { label: "Human Clicks", value: linkData.humanClicks, delay: 80 },
+              { label: "Bot Traffic", value: `${((linkData.botClicks / linkData.totalClicks) * 100).toFixed(1)}%`, delay: 160 },
+            ].map((k, i) => (
+              <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}>
+                <div className="kpi-label">{k.label}</div>
+                <div className="kpi-val">{typeof k.value === "number" ? <AnimatedNumber value={k.value} /> : <span>{k.value}</span>}</div>
+              </div>
+            ))}
+          </div>
+          <div className="card"><div className="card-hd">Top Links · {linkData.period}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {linkData.topLinks.map((l, i) => {
+                const maxClicks = Math.max(...linkData.topLinks.map(x => x.clicks));
+                return (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                    <div style={{ width: 22, height: 22, borderRadius: 99, background: "#6F5060", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</div>
+                    <div style={{ width: 140, fontSize: 13, fontWeight: 500, flexShrink: 0 }}>{l.path}</div>
+                    <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
+                      <div style={{ width: `${(l.clicks / maxClicks) * 100}%`, height: "100%", background: i === 0 ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", borderRadius: 99, transition: "width 1.2s ease" }} />
+                    </div>
+                    <div className="display-num" style={{ width: 40, textAlign: "right" as const }}>{l.clicks}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="cols2">
+            <div className="card"><div className="card-hd">Traffic Sources</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+                <Donut data={linkData.trafficSources.map(s => ({ value: Math.round((s.clicks / linkData.trafficSources.reduce((a, b) => a + b.clicks, 0)) * 100) }))} colors={["#6F5060", "#8FA1A6", "#A6968D", "#D9C5C1"]} size={120} stroke={18} />
+                <div style={{ flex: 1 }}>
+                  {linkData.trafficSources.map((s, i) => (
+                    <div key={s.source} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 3, background: ["#6F5060", "#8FA1A6", "#A6968D", "#D9C5C1"][i] }} />
+                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{s.source}</span>
+                      <span className="display-num">{s.clicks}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="card"><div className="card-hd">Device Breakdown</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+                <Donut data={linkData.devices.map(d => ({ value: Math.round((d.clicks / linkData.devices.reduce((a, b) => a + b.clicks, 0)) * 100) }))} colors={["#6F5060", "#8FA1A6", "#A6968D", "#D9C5C1"]} size={120} stroke={18} />
+                <div style={{ flex: 1 }}>
+                  {linkData.devices.map((d, i) => (
+                    <div key={d.os} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 3, background: ["#6F5060", "#8FA1A6", "#A6968D", "#D9C5C1"][i] }} />
+                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{d.os}</span>
+                      <span className="display-num">{d.clicks}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="cols2">
+            <div className="card"><div className="card-hd">Top Countries</div>
+              {linkData.topCountries.map((c) => {
+                const max = Math.max(...linkData.topCountries.map(x => x.clicks));
+                return (
+                  <div key={c.country} className="age-row">
+                    <div className="age-label" style={{ width: 110 }}>{c.country}</div>
+                    <div className="age-track"><div className="age-fill" style={{ width: `${(c.clicks / max) * 100}%`, background: c.clicks === max ? "#6F5060" : "#8FA1A6" }} /></div>
+                    <div className="age-pct">{c.clicks}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="card"><div className="card-hd">Top Cities</div>
+              {linkData.topCities.map((c) => {
+                const max = Math.max(...linkData.topCities.map(x => x.clicks));
+                return (
+                  <div key={c.city} className="age-row">
+                    <div className="age-label" style={{ width: 110 }}>{c.city}</div>
+                    <div className="age-track"><div className="age-fill" style={{ width: `${(c.clicks / max) * 100}%`, background: c.clicks === max ? "#6F5060" : "#8FA1A6" }} /></div>
+                    <div className="age-pct">{c.clicks}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="card">
+            <InsightCard title="Link Attribution · Mar 30 – Apr 12" body="60th Street leads with 19 clicks (25% of filtered traffic). Website UTM drives 24 clicks — the locations page is the primary referrer. Bytespider bot traffic (16 clicks from China) was excluded. New York City ranks 2nd among cities with 6 clicks. Android is the top device at 29 clicks, suggesting strong mobile engagement. Direct/unknown traffic accounts for 51% — consider adding UTM tracking to all link placements." severity="info" />
+          </div>
+        </>)}
+
+        {tab === "website" && (<>
+          <div className="kpi-row">
+            {[
+              { label: "Total Sessions", value: websiteData.sessions, delay: 0 },
+              { label: "Page Views", value: websiteData.topPages.reduce((s, p) => s + p.views, 0), delay: 80 },
+              { label: "Top Source", value: "Google (47.9%)", delay: 160 },
+            ].map((k, i) => (
+              <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}>
+                <div className="kpi-label">{k.label}</div>
+                <div className="kpi-val">{typeof k.value === "number" ? <AnimatedNumber value={k.value} /> : <span>{k.value}</span>}</div>
+              </div>
+            ))}
+          </div>
+          <div className="card"><div className="card-hd">Visitors Over Time · {websiteData.period}</div>
+            <div style={{ position: "relative", height: 180 }}>
+              <svg viewBox="0 0 700 160" style={{ width: "100%", height: "100%" }}>
+                <defs><linearGradient id="vg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6F5060" stopOpacity="0.18" /><stop offset="100%" stopColor="#6F5060" stopOpacity="0" /></linearGradient></defs>
+                {(() => {
+                  const pts = websiteData.dailyVisitors;
+                  const maxV = Math.max(...pts.map(p => p.visitors));
+                  const coords = pts.map((p, i) => ({ x: 30 + (i / (pts.length - 1)) * 640, y: 145 - (p.visitors / maxV) * 130 }));
+                  const line = coords.map((c, i) => `${i === 0 ? "M" : "L"}${c.x},${c.y}`).join(" ");
+                  const area = `${line} L${coords[coords.length-1].x},150 L${coords[0].x},150 Z`;
+                  return (<>
+                    {[0, 0.25, 0.5, 0.75, 1].map(f => { const y = 145 - f * 130; return <line key={f} x1="30" x2="670" y1={y} y2={y} stroke="#D9CCC1" strokeWidth="0.5" strokeDasharray="4,4" />; })}
+                    <path d={area} fill="url(#vg)" />
+                    <path d={line} fill="none" stroke="#6F5060" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    {coords.map((c, i) => <circle key={i} cx={c.x} cy={c.y} r="3" fill="#6F5060" stroke="#FAFAF8" strokeWidth="1.5" />)}
+                    {pts.map((p, i) => <text key={`l${i}`} x={coords[i].x} y="158" textAnchor="middle" fontSize="8" fill="#9B9196">{p.date.replace("Apr ", "4/").replace("Mar ", "3/")}</text>)}
+                  </>);
+                })()}
+              </svg>
+            </div>
+          </div>
+          <div className="card"><div className="card-hd">Top Pages</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {websiteData.topPages.map((p, i) => {
+                const maxViews = websiteData.topPages[0].views;
+                return (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                    <div style={{ width: 22, height: 22, borderRadius: 99, background: i === 0 ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</div>
+                    <div style={{ width: 150, fontSize: 13, fontWeight: 500, flexShrink: 0 }}>{p.label}</div>
+                    <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
+                      <div style={{ width: `${(p.views / maxViews) * 100}%`, height: "100%", background: i === 0 ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", borderRadius: 99, transition: "width 1.2s ease" }} />
+                    </div>
+                    <div className="display-num" style={{ width: 40, textAlign: "right" as const }}>{p.views}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="cols2">
+            <div className="card"><div className="card-hd">Traffic Sources</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+                <Donut data={websiteData.trafficSources.map(s => ({ value: Math.round(s.pct) }))} colors={["#6F5060", "#8FA1A6", "#A6968D", "#D9C5C1", "#BEB0A7"]} size={120} stroke={18} />
+                <div style={{ flex: 1 }}>
+                  {websiteData.trafficSources.map((s, i) => (
+                    <div key={s.source} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0" }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 3, background: ["#6F5060", "#8FA1A6", "#A6968D", "#D9C5C1", "#BEB0A7"][i] }} />
+                      <span style={{ flex: 1, fontSize: 13, fontWeight: 500 }}>{s.source}</span>
+                      <span className="display-num">{s.sessions}</span>
+                      <span style={{ fontSize: 11, color: "#9B9196", width: 44, textAlign: "right" as const }}>{s.pct}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="card"><div className="card-hd">Device Breakdown</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+                <Donut data={websiteData.devices.map(d => ({ value: Math.round(d.pct) }))} colors={["#6F5060", "#8FA1A6"]} size={120} stroke={18} />
+                <div style={{ flex: 1 }}>
+                  {websiteData.devices.map((dv, i) => (
+                    <div key={dv.device} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0" }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 3, background: ["#6F5060", "#8FA1A6"][i] }} />
+                      <span style={{ flex: 1, fontSize: 15, fontWeight: 500 }}>{dv.device}</span>
+                      <span className="display-num-lg">{dv.pct}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>✦ Desktop-heavy traffic (72%) — optimize for desktop conversion</span>
+              </div>
+            </div>
+          </div>
+          <div className="card">
+            <InsightCard title="Website Intelligence · Mar 30 – Apr 13" body="260 sessions split almost evenly between Google organic (47.9%) and direct traffic (46.7%). The homepage dominates with 195 views, followed by the Our Doctors page (89) — suggesting users are researching the team before booking. Instagram social drives 7 sessions (2.7%). Desktop accounts for 72.4% of traffic, indicating strong professional/office browsing behavior. The Our Doctors + Locations pages combined account for 120 views — these are high-intent pages worth optimizing with stronger CTAs." severity="info" />
+          </div>
+        </>)}
+
+        {tab === "social" && (<>
+          <div className="kpi-row">
+            {[
+              { label: "Total Views", value: socialData.totalViews, delay: 0 },
+              { label: "Accounts Reached", value: socialData.totalReach, delay: 80 },
+              { label: "Total Interactions", value: socialData.totalEngagements, delay: 160 },
+              { label: "Avg Engagement Rate", value: `${socialData.avgEngagementRate}%`, delay: 240 },
+              { label: "Followers", value: socialData.followers, delay: 320 },
+            ].map((k, i) => (
+              <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}>
+                <div className="kpi-label">{k.label}</div>
+                <div className="kpi-val">{typeof k.value === "number" ? <AnimatedNumber value={k.value} /> : <span>{k.value}</span>}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="card"><div className="card-hd">Content Performance · {socialData.period}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {socialData.posts.map((p, i) => {
+                const maxV = socialData.posts[0].views;
+                return (
+                  <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                    <div style={{ width: 22, height: 22, borderRadius: 99, background: p.isTop ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</div>
+                    <div style={{ minWidth: 0, flex: "0 0 200px" }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" as const }}>{p.title}</div>
+                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.type} · {p.date}{p.isTop ? " · ★ Top Post" : ""}</div>
+                    </div>
+                    <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
+                      <div style={{ width: `${(p.views / maxV) * 100}%`, height: "100%", background: p.isTop ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", borderRadius: 99, transition: "width 1.2s ease" }} />
+                    </div>
+                    <div style={{ display: "flex", gap: 16, flexShrink: 0 }}>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.views.toLocaleString()}</div><div style={{ fontSize: 9, color: "#9B9196" }}>views</div></div>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.reach}</div><div style={{ fontSize: 9, color: "#9B9196" }}>reach</div></div>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.er}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>ER</div></div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="cols2">
+            <div className="card"><div className="card-hd">Content Mix</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+                <Donut data={[{ value: Math.round((socialData.carouselViews / socialData.totalViews) * 100) }, { value: Math.round((socialData.reelViews / socialData.totalViews) * 100) }]} colors={["#6F5060", "#8FA1A6"]} size={120} stroke={18} />
+                <div style={{ flex: 1 }}>
+                  {[
+                    { label: "Carousels", count: socialData.contentMix.carousels, views: socialData.carouselViews, color: "#6F5060" },
+                    { label: "Reels", count: socialData.contentMix.reels, views: socialData.reelViews, color: "#8FA1A6" },
+                  ].map((item) => (
+                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0" }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
+                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label} ({item.count})</span>
+                      <span className="display-num">{item.views.toLocaleString()} views</span>
+                    </div>
+                  ))}
+                  <div style={{ marginTop: 10, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>✦ Carousels outperform Reels 2:1 on views — driven by the Dental Bonding post (1,311)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card"><div className="card-hd">Engagement Breakdown</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {[
+                  { label: "Likes", value: socialData.totalLikes, max: 65, color: "#6F5060" },
+                  { label: "Shares", value: socialData.totalShares, max: 65, color: "#8FA1A6" },
+                  { label: "Saves", value: socialData.totalSaves, max: 65, color: "#A6968D" },
+                  { label: "Comments", value: socialData.totalComments, max: 65, color: "#D9C5C1" },
+                ].map((m) => (
+                  <div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                    <div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div>
+                    <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
+                      <div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} />
+                    </div>
+                    <div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(190,90,90,0.10)", borderRadius: 10, border: "1px solid rgba(190,90,90,0.25)" }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Saves (3) and Comments (2) are critically low — create bookmark-worthy content</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="cols2">
+            <div className="card"><div className="card-hd">Reels Performance</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {socialData.posts.filter(p => p.type === "Reel").map((p) => (
+                  <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 14px", background: "rgba(143,161,166,0.08)", borderRadius: 12 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600 }}>{p.title}</div>
+                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.date}</div>
+                    </div>
+                    <div style={{ display: "flex", gap: 18, flexShrink: 0 }}>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#6F5060" }}>{p.views}</div><div style={{ fontSize: 9, color: "#9B9196" }}>views</div></div>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#8FA1A6" }}>{p.reach}</div><div style={{ fontSize: 9, color: "#9B9196" }}>reach</div></div>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#A6968D" }}>{p.er}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>ER</div></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 12, fontSize: 12, color: "#9B9196", fontStyle: "italic" as const }}>Avg Reel views: {Math.round(socialData.reelViews / socialData.contentMix.reels)} · Avg Reel reach: {Math.round(socialData.posts.filter(p => p.type === "Reel").reduce((s, p) => s + p.reach, 0) / socialData.contentMix.reels)}</div>
+            </div>
+            <div className="card"><div className="card-hd">Carousel Performance</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {socialData.posts.filter(p => p.type === "Carousel").map((p) => (
+                  <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 14px", background: p.isTop ? "rgba(111,80,96,0.10)" : "rgba(143,161,166,0.08)", borderRadius: 12, border: p.isTop ? "1px solid rgba(111,80,96,0.25)" : "1px solid transparent" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600 }}>{p.title}{p.isTop ? " ★" : ""}</div>
+                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.date}</div>
+                    </div>
+                    <div style={{ display: "flex", gap: 18, flexShrink: 0 }}>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#6F5060" }}>{p.views.toLocaleString()}</div><div style={{ fontSize: 9, color: "#9B9196" }}>views</div></div>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#8FA1A6" }}>{p.reach}</div><div style={{ fontSize: 9, color: "#9B9196" }}>reach</div></div>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#A6968D" }}>{p.er}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>ER</div></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 12, fontSize: 12, color: "#9B9196", fontStyle: "italic" as const }}>Avg Carousel views: {Math.round(socialData.carouselViews / socialData.contentMix.carousels)} · Avg Carousel reach: {Math.round(socialData.posts.filter(p => p.type === "Carousel").reduce((s, p) => s + p.reach, 0) / socialData.contentMix.carousels)}</div>
+            </div>
+          </div>
+
+          <div className="card">
+            <InsightCard title="Social Intelligence · Mar 30 – Apr 13" body="6 posts published (3 Carousels, 3 Reels) generating 2,783 total views and reaching 1,261 accounts. The 'Dental Bonding' carousel (Apr 3) was the breakout hit at 1,311 views — nearly half of all views from a single post. Carousels outperformed Reels 2:1 on views (1,876 vs 907), suggesting the audience engages more deeply with swipeable educational content. The 'Multiple Locations' post achieved the highest engagement rate (15%) with 4 shares — location-awareness content drives action. Saves (3 total) and comments (2) remain critically low across all content. Recommendation: create save-worthy educational carousels and add direct CTAs to drive comments." severity="info" />
+            <InsightCard title="Follower Trajectory" body={`Follower count grew from 675 to 678 (+${socialData.followerGrowth}) over the period. At this pace (~1.5/week), growth is organic but slow. With 1,261 accounts reached, the follow-through rate is only 0.24%. Strengthen profile CTAs and pin high-performing content to convert viewers into followers.`} severity="warning" />
           </div>
         </>)}
 
