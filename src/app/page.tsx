@@ -120,9 +120,7 @@ export default function Dashboard() {
 
   const linkData = {
     period: "Mar 30 – Apr 12, 2026",
-    totalClicks: 95,
-    humanClicks: 79,
-    botClicks: 16,
+    totalClicks: 79,
     topLinks: [
       { path: "NYCDS 60th Street", clicks: 19 },
       { path: "NYCDS 35th Street", clicks: 17 },
@@ -317,8 +315,6 @@ export default function Dashboard() {
           <div className="kpi-row">
             {[
               { label: "Total Clicks", value: linkData.totalClicks, delay: 0 },
-              { label: "Human Clicks", value: linkData.humanClicks, delay: 80 },
-              { label: "Bot Traffic", value: `${((linkData.botClicks / linkData.totalClicks) * 100).toFixed(1)}%`, delay: 160 },
             ].map((k, i) => (
               <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}>
                 <div className="kpi-label">{k.label}</div>
@@ -400,7 +396,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="card">
-            <InsightCard title="Link Attribution · Mar 30 – Apr 12" body="60th Street leads with 19 clicks (25% of filtered traffic). Website UTM drives 24 clicks — the locations page is the primary referrer. Bytespider bot traffic (16 clicks from China) was excluded. New York City ranks 2nd among cities with 6 clicks. Android is the top device at 29 clicks, suggesting strong mobile engagement. Direct/unknown traffic accounts for 51% — consider adding UTM tracking to all link placements." severity="info" />
+            <InsightCard title="Link Attribution · Mar 30 – Apr 12" body="60th Street leads with 19 clicks (25% of traffic). Website UTM drives 24 clicks — the locations page is the primary referrer. New York City ranks 2nd among cities with 6 clicks. Android is the top device at 29 clicks, suggesting strong mobile engagement. Direct/unknown traffic accounts for 51% — consider adding UTM tracking to all link placements." severity="info" />
           </div>
         </>)}
 
