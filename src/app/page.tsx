@@ -91,27 +91,18 @@ function Donut({ data, size = 130, stroke = 18, colors }: { data: { value: numbe
 export default function Dashboard() {
   const [tab, setTab] = useState("overview");
   const [loaded, setLoaded] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [d, setD] = useState<ReportData>(FALLBACK_DATA);
-  const [mediaUrls, setMediaUrls] = useState<Record<number, string>>({});
+  const [loading, setLoading] = useState(false);
+  const d = FALLBACK_DATA;
+  const [mediaUrls, setMediaUrls] = useState<Record<number, string>>(() => {
+    const urls: Record<number, string> = {};
+    FALLBACK_DATA.posts.forEach((p: any) => { if (p.igPostUrl) urls[p.id] = p.igPostUrl; });
+    return urls;
+  });
   const [editingMedia, setEditingMedia] = useState<number | null>(null);
   const [mediaInput, setMediaInput] = useState("");
   const engine = generateInsights(d);
 
-  useEffect(() => {
-    fetch("/api/sheets")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.error) {
-          setD(data);
-          const urls: Record<number, string> = {};
-          (data.posts || []).forEach((p: any) => { if (p.igPostUrl) urls[p.id] = p.igPostUrl; else if (p.mediaUrl) urls[p.id] = p.mediaUrl; });
-          setMediaUrls(urls);
-        }
-        setLoading(false); setTimeout(() => setLoaded(true), 80);
-      })
-      .catch(() => { setLoading(false); setTimeout(() => setLoaded(true), 80); });
-  }, []);
+  useEffect(() => { setTimeout(() => setLoaded(true), 80); }, []);
 
   const handleMediaSave = (postId: number) => { if (mediaInput.trim()) setMediaUrls((prev) => ({ ...prev, [postId]: mediaInput.trim() })); setEditingMedia(null); setMediaInput(""); };
   const handleMediaRemove = (postId: number) => { setMediaUrls((prev) => { const n = { ...prev }; delete n[postId]; return n; }); };
@@ -243,10 +234,9 @@ export default function Dashboard() {
 
   const tabs = [
     { id: "overview", label: "Overview", icon: "◉" },
-    { id: "content", label: "Content", icon: "◫" },
+    { id: "social", label: "Social", icon: "◍" },
     { id: "links", label: "Links", icon: "⊞" },
     { id: "website", label: "Website", icon: "◈" },
-    { id: "social", label: "Social", icon: "◍" },
     { id: "audience", label: "Audience", icon: "◎" },
     { id: "insights", label: "Insights", icon: "✦" },
   ];
@@ -291,27 +281,6 @@ export default function Dashboard() {
           {engine.alerts.length > 0 && <div>{engine.alerts.map((a, i) => <InsightCard key={i} {...a} />)}</div>}
         </>)}
 
-        {tab === "content" && (<>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 18 }}>
-            {d.posts.map((p: any) => { const url = mediaUrls[p.id]; const isEditing = editingMedia === p.id; const maxViews = Math.max(...d.posts.map((x: any) => x.views), 1); return (
-              <div key={p.id} className={`postcard ${p.isTop ? "postcard-top" : ""}`}>
-                <div className="postcard-header"><div className="postcard-type-badge">{p.type}</div>{p.isTop && <div className="postcard-top-badge">★ Top Post</div>}</div>
-                <div className="postcard-title">{p.title}</div>
-                <div className={`postcard-media ${url ? "has-media" : ""}`}>
-                  {!url && !isEditing && (<div className="postcard-media-empty" onClick={() => { setEditingMedia(p.id); setMediaInput(""); }}><div className="postcard-empty-inner"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A6968D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span className="postcard-empty-label">Add Post Visual</span><span className="postcard-empty-hint">Image, video, or Instagram link</span></div></div>)}
-                  {isEditing && (<div className="postcard-media-input"><input className="media-input" type="text" placeholder="Paste image, video, or Instagram URL..." value={mediaInput} onChange={(e) => setMediaInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") handleMediaSave(p.id); if (e.key === "Escape") { setEditingMedia(null); setMediaInput(""); } }} autoFocus /><div style={{ display: "flex", gap: 6 }}><button className="media-btn secondary" onClick={() => { setEditingMedia(null); setMediaInput(""); }}>Cancel</button><button className="media-btn primary" onClick={() => handleMediaSave(p.id)}>Save</button></div></div>)}
-                  {url && !isEditing && (<div className="postcard-media-filled">{isIgEmbed(url) ? (<div className="postcard-ig-crop"><iframe src={url.replace(/\/?(\?.*)?$/, "/embed")} title={p.title} scrolling="no" allowFullScreen /></div>) : isVideo(url) ? (<video controls playsInline preload="metadata"><source src={url} /></video>) : (<img src={url} alt={p.title} />)}<div className="postcard-media-actions"><button onClick={() => { setEditingMedia(p.id); setMediaInput(url); }}>✎</button><button onClick={() => handleMediaRemove(p.id)}>✕</button></div></div>)}
-                </div>
-                <div className="postcard-primary"><div className="postcard-hero-metric"><span className="postcard-hero-val">{p.views?.toLocaleString()}</span><span className="postcard-hero-label">Views</span></div><div className="postcard-hero-divider" /><div className="postcard-hero-metric"><span className="postcard-hero-val">{p.reach?.toLocaleString()}</span><span className="postcard-hero-label">Reach</span></div></div>
-                <div className="postcard-perf-bar"><div className="postcard-perf-fill" style={{ width: `${(p.views / maxViews) * 100}%` }} /></div>
-                <div className="postcard-secondary">{[{ icon: "♡", val: p.likes, label: "Likes" }, { icon: "↗", val: p.shares, label: "Shares" }, { icon: "💬", val: p.comments, label: "Comments" }, { icon: "⊕", val: p.saves, label: "Saves" }].map((m) => (<div key={m.label} className={`postcard-sec-item ${m.val === 0 ? "zero" : ""}`}><span className="postcard-sec-val">{m.val}</span><span className="postcard-sec-label">{m.label}</span></div>))}</div>
-              </div>); })}
-          </div>
-          <div className="cols2">
-            <div className="card"><div className="card-hd">Watch Time Analytics</div><div style={{ textAlign: "center", padding: "8px 0 22px" }}><div className="big-num">{typeof d.kpi.watchTime.value === "string" ? d.kpi.watchTime.value.replace(/\s*\d+s$/, "") : d.kpi.watchTime.value}</div><div style={{ fontSize: 12, color: "#9B9196", marginTop: 2 }}>Total Watch Time</div></div><div style={{ display: "flex", gap: 14 }}><div className="stat-box"><div className="big-num-sm plum">6s</div><div className="stat-label">Avg Duration</div></div><div className="stat-box"><div className="big-num-sm steel">{d.kpi.views.value.toLocaleString()}</div><div className="stat-label">Total Views</div></div></div><div className="alert-box plum-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>⚡ 6s avg signals weak retention — strengthen opening hooks</span></div></div>
-            <div className="card"><div className="card-hd">Engagement Breakdown</div><div style={{ display: "flex", flexDirection: "column", gap: 14 }}>{[{ label: "Likes", value: d.posts.reduce((s: number, p: any) => s + (p.likes||0), 0), max: 50, color: "#6F5060" }, { label: "Comments", value: d.posts.reduce((s: number, p: any) => s + (p.comments||0), 0), max: 50, color: "#8FA1A6" }, { label: "Shares", value: d.posts.reduce((s: number, p: any) => s + (p.shares||0), 0), max: 50, color: "#A6968D" }, { label: "Saves", value: d.posts.reduce((s: number, p: any) => s + (p.saves||0), 0), max: 50, color: "#BE5A5A" }].map((m) => (<div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div><div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}><div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} /></div><div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div></div>))}</div><div className="alert-box danger-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Zero saves is the #1 gap — create bookmark-worthy content</span></div></div>
-          </div>
-        </>)}
 
         {tab === "links" && (<>
           <div className="kpi-row">
@@ -494,6 +463,8 @@ export default function Dashboard() {
           </div>
         </>)}
 
+
+
         {tab === "social" && (<>
           <div className="kpi-row">
             {[
@@ -532,33 +503,24 @@ export default function Dashboard() {
               </svg>
             </div>
             <div style={{ marginTop: 8, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>⚡ Spike-driven performance — Apr 10–12 generated 40% of all views. Growth depends on individual content wins, not sustained distribution.</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>⚡ Spike-driven — Apr 10–12 generated 40% of all views. Growth depends on individual content wins.</span>
             </div>
           </div>
 
-          <div className="card"><div className="card-hd">Content Performance</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {socialData.posts.map((p, i) => {
-                const maxV = socialData.posts[0].views;
-                return (
-                  <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <div style={{ width: 22, height: 22, borderRadius: 99, background: p.isTop ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</div>
-                    <div style={{ minWidth: 0, flex: "0 0 200px" }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" as const }}>{p.title}</div>
-                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.type} · {p.date}{p.isTop ? " · ★ Top Post" : ""}</div>
-                    </div>
-                    <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
-                      <div style={{ width: `${(p.views / maxV) * 100}%`, height: "100%", background: p.isTop ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", borderRadius: 99, transition: "width 1.2s ease" }} />
-                    </div>
-                    <div style={{ display: "flex", gap: 16, flexShrink: 0 }}>
-                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.views.toLocaleString()}</div><div style={{ fontSize: 9, color: "#9B9196" }}>views</div></div>
-                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.reach}</div><div style={{ fontSize: 9, color: "#9B9196" }}>reach</div></div>
-                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.er}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>ER</div></div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 18 }}>
+            {d.posts.map((p: any) => { const url = mediaUrls[p.id]; const isEditing = editingMedia === p.id; const maxViews = Math.max(...d.posts.map((x: any) => x.views), 1); return (
+              <div key={p.id} className={`postcard ${p.isTop ? "postcard-top" : ""}`}>
+                <div className="postcard-header"><div className="postcard-type-badge">{p.type}</div>{p.isTop && <div className="postcard-top-badge">★ Top Post</div>}</div>
+                <div className="postcard-title">{p.title}</div>
+                <div className={`postcard-media ${url ? "has-media" : ""}`}>
+                  {!url && !isEditing && (<div className="postcard-media-empty" onClick={() => { setEditingMedia(p.id); setMediaInput(""); }}><div className="postcard-empty-inner"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A6968D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span className="postcard-empty-label">Add Post Visual</span><span className="postcard-empty-hint">Image, video, or Instagram link</span></div></div>)}
+                  {isEditing && (<div className="postcard-media-input"><input className="media-input" type="text" placeholder="Paste image, video, or Instagram URL..." value={mediaInput} onChange={(e) => setMediaInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") handleMediaSave(p.id); if (e.key === "Escape") { setEditingMedia(null); setMediaInput(""); } }} autoFocus /><div style={{ display: "flex", gap: 6 }}><button className="media-btn secondary" onClick={() => { setEditingMedia(null); setMediaInput(""); }}>Cancel</button><button className="media-btn primary" onClick={() => handleMediaSave(p.id)}>Save</button></div></div>)}
+                  {url && !isEditing && (<div className="postcard-media-filled">{isIgEmbed(url) ? (<div className="postcard-ig-crop"><iframe src={url.replace(/\/?(\?.*)?$/, "/embed")} title={p.title} scrolling="no" allowFullScreen /></div>) : isVideo(url) ? (<video controls playsInline preload="metadata"><source src={url} /></video>) : (<img src={url} alt={p.title} />)}<div className="postcard-media-actions"><button onClick={() => { setEditingMedia(p.id); setMediaInput(url); }}>✎</button><button onClick={() => handleMediaRemove(p.id)}>✕</button></div></div>)}
+                </div>
+                <div className="postcard-primary"><div className="postcard-hero-metric"><span className="postcard-hero-val">{p.views?.toLocaleString()}</span><span className="postcard-hero-label">Views</span></div><div className="postcard-hero-divider" /><div className="postcard-hero-metric"><span className="postcard-hero-val">{p.reach?.toLocaleString()}</span><span className="postcard-hero-label">Reach</span></div></div>
+                <div className="postcard-perf-bar"><div className="postcard-perf-fill" style={{ width: `${(p.views / maxViews) * 100}%` }} /></div>
+                <div className="postcard-secondary">{[{ icon: "♡", val: p.likes, label: "Likes" }, { icon: "↗", val: p.shares, label: "Shares" }, { icon: "💬", val: p.comments, label: "Comments" }, { icon: "⊕", val: p.saves, label: "Saves" }].map((m) => (<div key={m.label} className={`postcard-sec-item ${m.val === 0 ? "zero" : ""}`}><span className="postcard-sec-val">{m.val}</span><span className="postcard-sec-label">{m.label}</span></div>))}</div>
+              </div>); })}
           </div>
 
           <div className="cols2">
@@ -566,16 +528,8 @@ export default function Dashboard() {
               <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
                 <Donut data={[{ value: Math.round(socialData.viewsByType.posts) }, { value: Math.round(socialData.viewsByType.reels) }, { value: Math.round(socialData.viewsByType.stories) }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} />
                 <div style={{ flex: 1 }}>
-                  {[
-                    { label: "Posts", value: socialData.viewsByType.posts, color: "#6F5060" },
-                    { label: "Reels", value: socialData.viewsByType.reels, color: "#8FA1A6" },
-                    { label: "Stories", value: socialData.viewsByType.stories, color: "#A6968D" },
-                  ].map((item) => (
-                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
-                      <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
-                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span>
-                      <span className="display-num">{item.value}%</span>
-                    </div>
+                  {[{ label: "Posts", value: socialData.viewsByType.posts, color: "#6F5060" }, { label: "Reels", value: socialData.viewsByType.reels, color: "#8FA1A6" }, { label: "Stories", value: socialData.viewsByType.stories, color: "#A6968D" }].map((item) => (
+                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num">{item.value}%</span></div>
                   ))}
                 </div>
               </div>
@@ -584,20 +538,10 @@ export default function Dashboard() {
               <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
                 <Donut data={[{ value: Math.round(socialData.interactionsByType.posts) }, { value: Math.round(socialData.interactionsByType.reels) }, { value: Math.round(socialData.interactionsByType.stories) }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} />
                 <div style={{ flex: 1 }}>
-                  {[
-                    { label: "Posts", value: socialData.interactionsByType.posts, color: "#6F5060" },
-                    { label: "Reels", value: socialData.interactionsByType.reels, color: "#8FA1A6" },
-                    { label: "Stories", value: socialData.interactionsByType.stories, color: "#A6968D" },
-                  ].map((item) => (
-                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
-                      <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
-                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span>
-                      <span className="display-num">{item.value}%</span>
-                    </div>
+                  {[{ label: "Posts", value: socialData.interactionsByType.posts, color: "#6F5060" }, { label: "Reels", value: socialData.interactionsByType.reels, color: "#8FA1A6" }, { label: "Stories", value: socialData.interactionsByType.stories, color: "#A6968D" }].map((item) => (
+                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num">{item.value}%</span></div>
                   ))}
-                  <div style={{ marginTop: 10, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Posts dominate both views (45.3%) and interactions (50.5%) — proof-based content wins</span>
-                  </div>
+                  <div style={{ marginTop: 10, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}><span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Posts dominate both views (45.3%) and interactions (50.5%)</span></div>
                 </div>
               </div>
             </div>
@@ -608,32 +552,25 @@ export default function Dashboard() {
               <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
                 <Donut data={[{ value: Math.round(socialData.viewSplit.nonFollowers) }, { value: Math.round(socialData.viewSplit.followers) }]} colors={["#6F5060", "#D9C5C1"]} size={120} stroke={18} />
                 <div style={{ flex: 1 }}>
-                  {[
-                    { label: "Non-Followers (views)", value: socialData.viewSplit.nonFollowers, color: "#6F5060" },
-                    { label: "Followers (views)", value: socialData.viewSplit.followers, color: "#D9C5C1" },
-                  ].map((item) => (
-                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0" }}>
-                      <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
-                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span>
-                      <span className="display-num-lg">{item.value}%</span>
-                    </div>
+                  {[{ label: "Non-Followers (views)", value: socialData.viewSplit.nonFollowers, color: "#6F5060" }, { label: "Followers (views)", value: socialData.viewSplit.followers, color: "#D9C5C1" }].map((item) => (
+                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num-lg">{item.value}%</span></div>
                   ))}
                 </div>
               </div>
             </div>
             <div className="card"><div className="card-hd">Reel Diagnostic</div>
               <div style={{ display: "flex", gap: 14, marginBottom: 14 }}>
-                <div className="stat-box" style={{ flex: 1, textAlign: "center" as const, padding: "14px", background: "rgba(111,80,96,0.08)", borderRadius: 12 }}>
+                <div style={{ flex: 1, textAlign: "center" as const, padding: "14px", background: "rgba(111,80,96,0.08)", borderRadius: 12 }}>
                   <div style={{ fontSize: 22, fontWeight: 700, color: "#6F5060" }}>{socialData.reelAvgWatchTime}</div>
                   <div style={{ fontSize: 11, color: "#9B9196", marginTop: 4 }}>Avg Watch Time</div>
                 </div>
-                <div className="stat-box" style={{ flex: 1, textAlign: "center" as const, padding: "14px", background: "rgba(190,90,90,0.08)", borderRadius: 12 }}>
+                <div style={{ flex: 1, textAlign: "center" as const, padding: "14px", background: "rgba(190,90,90,0.08)", borderRadius: 12 }}>
                   <div style={{ fontSize: 22, fontWeight: 700, color: "#BE5A5A" }}>{socialData.reelSkipRate}</div>
                   <div style={{ fontSize: 11, color: "#9B9196", marginTop: 4 }}>Skip Rate</div>
                 </div>
               </div>
               <div style={{ padding: "10px 14px", background: "rgba(190,90,90,0.10)", borderRadius: 10, border: "1px solid rgba(190,90,90,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Hooks are failing — 71–82% skip within first 3 seconds. Reels need immediate visual payoff.</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Hooks failing — 71–82% skip within 3 seconds</span>
               </div>
             </div>
           </div>
@@ -641,21 +578,11 @@ export default function Dashboard() {
           <div className="cols2">
             <div className="card"><div className="card-hd">Engagement Breakdown</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {[
-                  { label: "Likes", value: socialData.totalLikes, max: 65, color: "#6F5060" },
-                  { label: "Shares", value: socialData.totalShares, max: 65, color: "#8FA1A6" },
-                  { label: "Saves", value: socialData.totalSaves, max: 65, color: "#A6968D" },
-                  { label: "Comments", value: socialData.totalComments, max: 65, color: "#BE5A5A" },
-                ].map((m) => (
-                  <div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div>
-                    <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
-                      <div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} />
-                    </div>
-                    <div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div>
-                  </div>
+                {[{ label: "Likes", value: socialData.totalLikes, max: 65, color: "#6F5060" }, { label: "Shares", value: socialData.totalShares, max: 65, color: "#8FA1A6" }, { label: "Saves", value: socialData.totalSaves, max: 65, color: "#A6968D" }, { label: "Comments", value: socialData.totalComments, max: 65, color: "#BE5A5A" }].map((m) => (
+                  <div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div><div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}><div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} /></div><div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div></div>
                 ))}
               </div>
+              <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(190,90,90,0.10)", borderRadius: 10, border: "1px solid rgba(190,90,90,0.25)" }}><span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Saves (3) and Comments (2) critically low</span></div>
             </div>
             <div className="card"><div className="card-hd">Growth Efficiency</div>
               <div style={{ textAlign: "center" as const, padding: "12px 0 18px" }}>
@@ -663,30 +590,19 @@ export default function Dashboard() {
                 <div style={{ fontSize: 12, color: "#9B9196", marginTop: 4 }}>Views → Follower Conversion</div>
               </div>
               <div style={{ display: "flex", gap: 14 }}>
-                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(143,161,166,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>4,690</div>
-                  <div style={{ fontSize: 10, color: "#9B9196" }}>views</div>
-                </div>
+                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(143,161,166,0.08)", borderRadius: 10 }}><div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>4,690</div><div style={{ fontSize: 10, color: "#9B9196" }}>views</div></div>
                 <div style={{ flex: 0, display: "flex", alignItems: "center", fontSize: 16, color: "#D9CCC1" }}>→</div>
-                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(143,161,166,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>1,026</div>
-                  <div style={{ fontSize: 10, color: "#9B9196" }}>reached</div>
-                </div>
+                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(143,161,166,0.08)", borderRadius: 10 }}><div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>1,026</div><div style={{ fontSize: 10, color: "#9B9196" }}>reached</div></div>
                 <div style={{ flex: 0, display: "flex", alignItems: "center", fontSize: 16, color: "#D9CCC1" }}>→</div>
-                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(111,80,96,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#6F5060" }}>+6</div>
-                  <div style={{ fontSize: 10, color: "#9B9196" }}>followers</div>
-                </div>
+                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(111,80,96,0.08)", borderRadius: 10 }}><div style={{ fontSize: 16, fontWeight: 700, color: "#6F5060" }}>+6</div><div style={{ fontSize: 10, color: "#9B9196" }}>followers</div></div>
               </div>
-              <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>▲ Primary constraint: content attracts attention but does not convert to audience</span>
-              </div>
+              <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}><span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>▲ Content attracts attention but does not convert to audience</span></div>
             </div>
           </div>
 
           <div className="card">
-            <InsightCard title="Social Intelligence · Mar 30 – Apr 13" body="4,690 platform views with 52.5% from non-followers — discovery is working. The Before & After post (1,311 views, 10 profile visits) was the dominant performer, proving that visual transformation content drives action. Posts outperform Reels significantly: 45.3% of views and 50.5% of interactions from posts vs 32.6%/30.3% from Reels. Daily views are spike-driven — Apr 10–12 generated 1,897 views (40% of total) while most days hover at 150–250. Growth depends on individual content wins, not sustained distribution." severity="info" />
-            <InsightCard title="Primary Growth Constraint" body="This is not a reach problem (52.5% non-follower discovery) or a distribution problem (algorithm IS pushing content). It is a content conversion problem. 4,690 views → 6 new followers = 0.13% conversion. The content attracts attention but does not build audience. Fix: serialize content into recurring series, add follow CTAs, double down on before/after transformations, and fix Reel hooks (71–82% skip rate means viewers leave within 3 seconds)." severity="warning" />
+            <InsightCard title="Social Intelligence · Mar 30 – Apr 13" body="4,690 views with 52.5% non-follower discovery. The Before & After post (1,311 views, 10 profile visits) was the dominant performer — proof-based transformation content drives action. Posts outperform Reels: 45.3% of views and 50.5% of interactions. Daily views are spike-driven — Apr 10–12 generated 40% of total. Reel retention is critically weak at 71–82% skip rate." severity="info" />
+            <InsightCard title="Primary Growth Constraint" body="Not a reach or distribution problem — it's a content conversion problem. 4,690 views → 6 new followers = 0.13% conversion. Fix: serialize content into recurring series, add follow CTAs, double down on before/after transformations, and fix Reel hooks (viewers leave within 3 seconds)." severity="warning" />
           </div>
         </>)}
 
