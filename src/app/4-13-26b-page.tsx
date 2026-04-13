@@ -2,32 +2,25 @@
 import { useState, useEffect } from "react";
 
 const FALLBACK_DATA = {
-  client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: "Mar 30 – Apr 13, 2026" },
+  client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: "Loading..." },
   kpi: {
-    followers: { value: 676, change: 6, label: "Followers" },
-    reach: { value: 1026, label: "Reach" },
-    views: { value: 4690, label: "Total Views" },
-    engagementRate: { value: 9.3, label: "Engagement Rate", suffix: "%" },
-    engagements: { value: 95, label: "Engagements" },
-    watchTime: { value: "18m 42s", label: "Watch Time" },
+    followers: { value: 0, change: 0, label: "Followers" },
+    reach: { value: 0, label: "Reach" },
+    views: { value: 0, label: "Total Views" },
+    engagementRate: { value: 0, label: "Engagement Rate", suffix: "%" },
+    engagements: { value: 0, label: "Engagements" },
+    watchTime: { value: "–", label: "Watch Time" },
   },
-  posts: [
-    { id: 1, title: "Dental Bonding – Before & After", type: "Carousel", views: 1311, reach: 402, likes: 24, comments: 0, saves: 0, shares: 1, isTop: true, igPostUrl: "https://www.instagram.com/p/DWrVdmNFhwJ/" },
-    { id: 2, title: "NYC Dental Smiles – Multiple Locations", type: "Carousel", views: 397, reach: 132, likes: 14, comments: 2, saves: 0, shares: 4, isTop: false, igPostUrl: "https://www.instagram.com/p/DWoqaB3FtO2/" },
-    { id: 3, title: "Treat or Monitor? – Dr. Tamay", type: "Reel", views: 329, reach: 218, likes: 6, comments: 0, saves: 1, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/reel/DWtslASpVu2/" },
-    { id: 4, title: "Dental Hygienist Appreciation Week", type: "Reel", views: 294, reach: 216, likes: 7, comments: 0, saves: 1, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/reel/DW7I57GEcdo/" },
-    { id: 5, title: "National Hygienist Week – Team Recognition", type: "Reel", views: 284, reach: 215, likes: 5, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/reel/DW_768Ipp9Z/" },
-    { id: 6, title: "Veneers – Myths vs Facts", type: "Carousel", views: 168, reach: 78, likes: 5, comments: 0, saves: 1, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/p/DW9Tlq9lmdr/" },
-  ] as any[],
-  contentMix: { posts: 45, reels: 33, stories: 22 },
+  posts: [] as any[],
+  contentMix: { posts: 0, reels: 0, stories: 0 },
   audience: {
-    gender: { male: 52, female: 48 },
+    gender: { male: 50, female: 50 },
     age: [
-      { range: "18–24", pct: 6 }, { range: "25–34", pct: 33 }, { range: "35–44", pct: 30 },
-      { range: "45–54", pct: 19 }, { range: "55–64", pct: 9 }, { range: "65+", pct: 4 },
+      { range: "18–24", pct: 0 }, { range: "25–34", pct: 0 }, { range: "35–44", pct: 0 },
+      { range: "45–54", pct: 0 }, { range: "55–64", pct: 0 }, { range: "65+", pct: 0 },
     ],
   },
-  viewerSplit: { followers: 48, nonFollowers: 52 },
+  viewerSplit: { followers: 50, nonFollowers: 50 },
 };
 type ReportData = typeof FALLBACK_DATA;
 
@@ -280,9 +273,9 @@ export default function Dashboard() {
             ))}
           </div>
           <div className="exec"><div className="card-hd">Executive Summary</div><div className="exec-cols">
-            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views come from non-followers. The algorithm is distributing content to new audiences — discovery is working. Performance is spike-driven: Apr 10–12 generated 40% of all views.</div></div>
-            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">{d.kpi.engagementRate.value}% rate with {d.kpi.engagements.value} total interactions. Saves (3) and comments (2) remain critically low — these metrics drive algorithmic amplification more than likes.</div></div>
-            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Posts lead at {d.contentMix.posts}% of views, outperforming Reels ({d.contentMix.reels}%). The Before & After carousel was the dominant performer at 1,311 views — proof-based transformation content resonates most.</div></div>
+            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views come from non-followers. The algorithm is actively pushing content to new audiences — a strong organic discovery signal for a growing practice.</div></div>
+            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">{d.kpi.engagementRate.value}% rate with {d.kpi.engagements.value} total interactions. Zero saves is the critical gap — saves drive algorithmic amplification more than any other metric.</div></div>
+            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Reels dominate at {d.contentMix.reels}% of content. Office tour and educational content generate the highest engagement — personality-driven content resonates with this audience.</div></div>
           </div></div>
           <div className="cols2">
             <div className="card"><div className="card-hd">Content Mix</div><div style={{ display: "flex", alignItems: "center", gap: 28 }}><Donut data={[{ value: d.contentMix.reels }, { value: d.contentMix.posts }, { value: d.contentMix.stories }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} /><div style={{ flex: 1 }}>{[{ label: "Reels", value: d.contentMix.reels, color: "#6F5060" }, { label: "Posts", value: d.contentMix.posts, color: "#8FA1A6" }, { label: "Stories", value: d.contentMix.stories, color: "#A6968D" }].map((item) => (<div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num">{item.value}%</span></div>))}</div></div></div>
@@ -696,8 +689,8 @@ export default function Dashboard() {
             <div className="card"><div className="card-hd">Age Distribution</div>{d.audience.age.map((a) => (<div key={a.range} className="age-row"><div className="age-label">{a.range}</div><div className="age-track"><div className="age-fill" style={{ width: `${(a.pct / 36) * 100}%`, background: a.pct >= 28 ? "#6F5060" : a.pct >= 20 ? "#8FA1A6" : "#A6968D" }} /></div><div className="age-pct">{a.pct}%</div></div>))}</div>
           </div>
           <div className="card"><div className="card-hd">Audience Intelligence</div>
-            <InsightCard title="Core Patient Demographic" body="63% of the audience falls in the 25–44 age range (33% aged 25–34, 30% aged 35–44) — the prime demographic for general dentistry, cosmetic procedures, and Invisalign. This represents the highest lifetime patient value segment for NYC Dental Smiles." severity="success" />
-            <InsightCard title="Gender Balance" body="At 52% male / 48% female (excluding 28.6% who preferred not to say), the audience is nearly balanced. The 25–34 male segment is the largest single cohort. Consider testing content themes that resonate with female audiences — cosmetic dentistry, teeth whitening, and wellness-focused oral health — to drive appointment bookings." severity="info" />
+            <InsightCard title="Core Patient Demographic" body="60% of the audience falls in the 25–44 age range — the prime demographic for general dentistry, cosmetic procedures, and Invisalign. This represents the highest lifetime patient value segment for NYC Dental Smiles." severity="success" />
+            <InsightCard title="Gender Balance" body="At 53% male / 47% female, the audience is nearly balanced. Consider testing content themes that resonate with female audiences — cosmetic dentistry, teeth whitening, and wellness-focused oral health — to drive appointment bookings." severity="info" />
           </div>
         </>)}
 
