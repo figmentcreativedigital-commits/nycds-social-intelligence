@@ -191,46 +191,27 @@ export default function Dashboard() {
 
   const socialData = {
     period: "Mar 30 – Apr 13, 2026",
-    followers: 676,
-    followerStart: 670,
-    followerGrowth: 6,
-    totalViews: 4690,
-    totalViewsCSV: 5784,
-    totalReach: 1026,
-    totalReachCSV: 1606,
-    totalInteractions: 95,
-    reachChange: 0,
-    viewSplit: { followers: 47.5, nonFollowers: 52.5 },
-    engagementSplit: { followers: 71.6, nonFollowers: 28.4 },
-    viewsByType: { posts: 45.3, reels: 32.6, stories: 22.2 },
-    interactionsByType: { posts: 50.5, reels: 30.3, stories: 19.3 },
-    reelAvgWatchTime: "3–4s",
-    reelSkipRate: "71–82%",
-    postsPublished: 6,
-    contentMix: { reels: 3, carousels: 3 },
-    reelViews: 907,
-    carouselViews: 1876,
+    followers: 678,
+    followerGrowth: 3,
+    totalViews: 2783,
+    totalReach: 1261,
+    totalEngagements: 71,
+    avgEngagementRate: 6.4,
     totalLikes: 61,
     totalComments: 2,
     totalSaves: 3,
     totalShares: 6,
-    dailyViews: [
-      { date: "Mar 30", views: 128 },{ date: "Mar 31", views: 195 },
-      { date: "Apr 1", views: 210 },{ date: "Apr 2", views: 385 },
-      { date: "Apr 3", views: 442 },{ date: "Apr 4", views: 265 },
-      { date: "Apr 5", views: 158 },{ date: "Apr 6", views: 175 },
-      { date: "Apr 7", views: 220 },{ date: "Apr 8", views: 195 },
-      { date: "Apr 9", views: 310 },{ date: "Apr 10", views: 484 },
-      { date: "Apr 11", views: 893 },{ date: "Apr 12", views: 520 },
-      { date: "Apr 13", views: 204 },
-    ],
+    postsPublished: 6,
+    contentMix: { reels: 3, carousels: 3 },
+    reelViews: 907,
+    carouselViews: 1876,
     posts: [
-      { id: 1, title: "Dental Bonding – Before & After", type: "Carousel", date: "Apr 3", views: 1311, reach: 402, likes: 24, comments: 0, saves: 0, shares: 1, er: 6.2, profileActivity: 10, igUrl: "https://www.instagram.com/p/DWrVdmNFhwJ/", isTop: true },
-      { id: 2, title: "NYC Dental Smiles – Multiple Locations", type: "Carousel", date: "Apr 2", views: 397, reach: 132, likes: 14, comments: 2, saves: 0, shares: 4, er: 15.0, profileActivity: 0, igUrl: "https://www.instagram.com/p/DWoqaB3FtO2/", isTop: false },
-      { id: 3, title: "Treat or Monitor? – Dr. Tamay", type: "Reel", date: "Apr 4", views: 329, reach: 218, likes: 6, comments: 0, saves: 1, shares: 0, er: 3.2, profileActivity: 0, igUrl: "https://www.instagram.com/reel/DWtslASpVu2/", isTop: false },
-      { id: 4, title: "Dental Hygienist Appreciation Week", type: "Reel", date: "Apr 9", views: 294, reach: 216, likes: 7, comments: 0, saves: 1, shares: 0, er: 3.7, profileActivity: 0, igUrl: "https://www.instagram.com/reel/DW7I57GEcdo/", isTop: false },
-      { id: 5, title: "National Hygienist Week – Team Recognition", type: "Reel", date: "Apr 11", views: 284, reach: 215, likes: 5, comments: 0, saves: 0, shares: 1, er: 2.8, profileActivity: 0, igUrl: "https://www.instagram.com/reel/DW_768Ipp9Z/", isTop: false },
-      { id: 6, title: "Veneers – Myths vs Facts", type: "Carousel", date: "Apr 10", views: 168, reach: 78, likes: 5, comments: 0, saves: 1, shares: 0, er: 7.7, profileActivity: 0, igUrl: "https://www.instagram.com/p/DW9Tlq9lmdr/", isTop: false },
+      { id: 1, title: "Dental Bonding – Subtle, Natural & Precise", type: "Carousel", date: "Apr 3", views: 1311, reach: 402, likes: 24, comments: 0, saves: 0, shares: 1, er: 6.2, igUrl: "https://www.instagram.com/p/DWrVdmNFhwJ/", isTop: true },
+      { id: 2, title: "NYC Dental Smiles – Multiple Locations", type: "Carousel", date: "Apr 2", views: 397, reach: 132, likes: 14, comments: 2, saves: 0, shares: 4, er: 15.0, igUrl: "https://www.instagram.com/p/DWoqaB3FtO2/", isTop: false },
+      { id: 3, title: "Treat or Monitor? – Dr. Tamay", type: "Reel", date: "Apr 4", views: 329, reach: 218, likes: 6, comments: 0, saves: 1, shares: 0, er: 3.2, igUrl: "https://www.instagram.com/reel/DWtslASpVu2/", isTop: false },
+      { id: 4, title: "Dental Hygienist Appreciation Week", type: "Reel", date: "Apr 9", views: 294, reach: 216, likes: 7, comments: 0, saves: 1, shares: 0, er: 3.7, igUrl: "https://www.instagram.com/reel/DW7I57GEcdo/", isTop: false },
+      { id: 5, title: "National Hygienist Week – Team Recognition", type: "Reel", date: "Apr 11", views: 284, reach: 215, likes: 5, comments: 0, saves: 0, shares: 1, er: 2.8, igUrl: "https://www.instagram.com/reel/DW_768Ipp9Z/", isTop: false },
+      { id: 6, title: "Veneers – Myths vs Facts", type: "Carousel", date: "Apr 10", views: 168, reach: 78, likes: 5, comments: 0, saves: 1, shares: 0, er: 7.7, igUrl: "https://www.instagram.com/p/DW9Tlq9lmdr/", isTop: false },
     ],
   };
 
@@ -492,9 +473,9 @@ export default function Dashboard() {
             {[
               { label: "Total Views", value: socialData.totalViews, delay: 0 },
               { label: "Accounts Reached", value: socialData.totalReach, delay: 80 },
-              { label: "Interactions", value: socialData.totalInteractions, delay: 160 },
-              { label: "Followers", value: socialData.followers, delay: 240 },
-              { label: "Net Growth", value: `+${socialData.followerGrowth}`, delay: 320 },
+              { label: "Total Interactions", value: socialData.totalEngagements, delay: 160 },
+              { label: "Avg Engagement Rate", value: `${socialData.avgEngagementRate}%`, delay: 240 },
+              { label: "Followers", value: socialData.followers, delay: 320 },
             ].map((k, i) => (
               <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}>
                 <div className="kpi-label">{k.label}</div>
@@ -503,33 +484,7 @@ export default function Dashboard() {
             ))}
           </div>
 
-          <div className="card"><div className="card-hd">Performance Over Time · {socialData.period}</div>
-            <div style={{ position: "relative", height: 180 }}>
-              <svg viewBox="0 0 700 160" style={{ width: "100%", height: "100%" }}>
-                <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6F5060" stopOpacity="0.18" /><stop offset="100%" stopColor="#6F5060" stopOpacity="0" /></linearGradient></defs>
-                {(() => {
-                  const pts = socialData.dailyViews;
-                  const maxV = Math.max(...pts.map(p => p.views));
-                  const coords = pts.map((p, i) => ({ x: 30 + (i / (pts.length - 1)) * 640, y: 145 - (p.views / maxV) * 130 }));
-                  const line = coords.map((c, i) => `${i === 0 ? "M" : "L"}${c.x},${c.y}`).join(" ");
-                  const area = `${line} L${coords[coords.length-1].x},150 L${coords[0].x},150 Z`;
-                  return (<>
-                    {[0, 0.25, 0.5, 0.75, 1].map(f => { const y = 145 - f * 130; return <line key={f} x1="30" x2="670" y1={y} y2={y} stroke="#D9CCC1" strokeWidth="0.5" strokeDasharray="4,4" />; })}
-                    <path d={area} fill="url(#sg)" />
-                    <path d={line} fill="none" stroke="#6F5060" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    {coords.map((c, i) => <circle key={i} cx={c.x} cy={c.y} r={pts[i].views >= 484 ? 5 : 3} fill={pts[i].views >= 484 ? "#6F5060" : "#8FA1A6"} stroke="#FAFAF8" strokeWidth="1.5" />)}
-                    {pts.map((p, i) => <text key={`l${i}`} x={coords[i].x} y="158" textAnchor="middle" fontSize="8" fill="#9B9196">{p.date.replace("Apr ", "4/").replace("Mar ", "3/")}</text>)}
-                    {pts.filter(p => p.views >= 484).map((p, idx) => { const i = pts.indexOf(p); return <text key={`v${idx}`} x={coords[i].x} y={coords[i].y - 10} textAnchor="middle" fontSize="9" fontWeight="700" fill="#6F5060">{p.views}</text>; })}
-                  </>);
-                })()}
-              </svg>
-            </div>
-            <div style={{ marginTop: 8, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>⚡ Spike-driven performance — Apr 10–12 generated 40% of all views. Growth depends on individual content wins, not sustained distribution.</span>
-            </div>
-          </div>
-
-          <div className="card"><div className="card-hd">Content Performance</div>
+          <div className="card"><div className="card-hd">Content Performance · {socialData.period}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {socialData.posts.map((p, i) => {
                 const maxV = socialData.posts[0].views;
@@ -555,90 +510,33 @@ export default function Dashboard() {
           </div>
 
           <div className="cols2">
-            <div className="card"><div className="card-hd">Views by Content Type</div>
+            <div className="card"><div className="card-hd">Content Mix</div>
               <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-                <Donut data={[{ value: Math.round(socialData.viewsByType.posts) }, { value: Math.round(socialData.viewsByType.reels) }, { value: Math.round(socialData.viewsByType.stories) }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} />
+                <Donut data={[{ value: Math.round((socialData.carouselViews / socialData.totalViews) * 100) }, { value: Math.round((socialData.reelViews / socialData.totalViews) * 100) }]} colors={["#6F5060", "#8FA1A6"]} size={120} stroke={18} />
                 <div style={{ flex: 1 }}>
                   {[
-                    { label: "Posts", value: socialData.viewsByType.posts, color: "#6F5060" },
-                    { label: "Reels", value: socialData.viewsByType.reels, color: "#8FA1A6" },
-                    { label: "Stories", value: socialData.viewsByType.stories, color: "#A6968D" },
+                    { label: "Carousels", count: socialData.contentMix.carousels, views: socialData.carouselViews, color: "#6F5060" },
+                    { label: "Reels", count: socialData.contentMix.reels, views: socialData.reelViews, color: "#8FA1A6" },
                   ].map((item) => (
-                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
+                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0" }}>
                       <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
-                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span>
-                      <span className="display-num">{item.value}%</span>
+                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label} ({item.count})</span>
+                      <span className="display-num">{item.views.toLocaleString()} views</span>
                     </div>
                   ))}
-                </div>
-              </div>
-            </div>
-            <div className="card"><div className="card-hd">Interactions by Type</div>
-              <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-                <Donut data={[{ value: Math.round(socialData.interactionsByType.posts) }, { value: Math.round(socialData.interactionsByType.reels) }, { value: Math.round(socialData.interactionsByType.stories) }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} />
-                <div style={{ flex: 1 }}>
-                  {[
-                    { label: "Posts", value: socialData.interactionsByType.posts, color: "#6F5060" },
-                    { label: "Reels", value: socialData.interactionsByType.reels, color: "#8FA1A6" },
-                    { label: "Stories", value: socialData.interactionsByType.stories, color: "#A6968D" },
-                  ].map((item) => (
-                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
-                      <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
-                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span>
-                      <span className="display-num">{item.value}%</span>
-                    </div>
-                  ))}
-                  <div style={{ marginTop: 10, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Posts dominate both views (45.3%) and interactions (50.5%) — proof-based content wins</span>
+                  <div style={{ marginTop: 10, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>✦ Carousels outperform Reels 2:1 on views — driven by the Dental Bonding post (1,311)</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="cols2">
-            <div className="card"><div className="card-hd">Discovery Funnel</div>
-              <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-                <Donut data={[{ value: Math.round(socialData.viewSplit.nonFollowers) }, { value: Math.round(socialData.viewSplit.followers) }]} colors={["#6F5060", "#D9C5C1"]} size={120} stroke={18} />
-                <div style={{ flex: 1 }}>
-                  {[
-                    { label: "Non-Followers (views)", value: socialData.viewSplit.nonFollowers, color: "#6F5060" },
-                    { label: "Followers (views)", value: socialData.viewSplit.followers, color: "#D9C5C1" },
-                  ].map((item) => (
-                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0" }}>
-                      <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
-                      <span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span>
-                      <span className="display-num-lg">{item.value}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="card"><div className="card-hd">Reel Diagnostic</div>
-              <div style={{ display: "flex", gap: 14, marginBottom: 14 }}>
-                <div className="stat-box" style={{ flex: 1, textAlign: "center" as const, padding: "14px", background: "rgba(111,80,96,0.08)", borderRadius: 12 }}>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: "#6F5060" }}>{socialData.reelAvgWatchTime}</div>
-                  <div style={{ fontSize: 11, color: "#9B9196", marginTop: 4 }}>Avg Watch Time</div>
-                </div>
-                <div className="stat-box" style={{ flex: 1, textAlign: "center" as const, padding: "14px", background: "rgba(190,90,90,0.08)", borderRadius: 12 }}>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: "#BE5A5A" }}>{socialData.reelSkipRate}</div>
-                  <div style={{ fontSize: 11, color: "#9B9196", marginTop: 4 }}>Skip Rate</div>
-                </div>
-              </div>
-              <div style={{ padding: "10px 14px", background: "rgba(190,90,90,0.10)", borderRadius: 10, border: "1px solid rgba(190,90,90,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Hooks are failing — 71–82% skip within first 3 seconds. Reels need immediate visual payoff.</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="cols2">
             <div className="card"><div className="card-hd">Engagement Breakdown</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[
                   { label: "Likes", value: socialData.totalLikes, max: 65, color: "#6F5060" },
                   { label: "Shares", value: socialData.totalShares, max: 65, color: "#8FA1A6" },
                   { label: "Saves", value: socialData.totalSaves, max: 65, color: "#A6968D" },
-                  { label: "Comments", value: socialData.totalComments, max: 65, color: "#BE5A5A" },
+                  { label: "Comments", value: socialData.totalComments, max: 65, color: "#D9C5C1" },
                 ].map((m) => (
                   <div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}>
                     <div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div>
@@ -649,37 +547,54 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="card"><div className="card-hd">Growth Efficiency</div>
-              <div style={{ textAlign: "center" as const, padding: "12px 0 18px" }}>
-                <div style={{ fontSize: 36, fontWeight: 700, color: "#6F5060" }}>0.13%</div>
-                <div style={{ fontSize: 12, color: "#9B9196", marginTop: 4 }}>Views → Follower Conversion</div>
-              </div>
-              <div style={{ display: "flex", gap: 14 }}>
-                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(143,161,166,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>4,690</div>
-                  <div style={{ fontSize: 10, color: "#9B9196" }}>views</div>
-                </div>
-                <div style={{ flex: 0, display: "flex", alignItems: "center", fontSize: 16, color: "#D9CCC1" }}>→</div>
-                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(143,161,166,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>1,026</div>
-                  <div style={{ fontSize: 10, color: "#9B9196" }}>reached</div>
-                </div>
-                <div style={{ flex: 0, display: "flex", alignItems: "center", fontSize: 16, color: "#D9CCC1" }}>→</div>
-                <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(111,80,96,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#6F5060" }}>+6</div>
-                  <div style={{ fontSize: 10, color: "#9B9196" }}>followers</div>
-                </div>
-              </div>
-              <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>▲ Primary constraint: content attracts attention but does not convert to audience</span>
+              <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(190,90,90,0.10)", borderRadius: 10, border: "1px solid rgba(190,90,90,0.25)" }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Saves (3) and Comments (2) are critically low — create bookmark-worthy content</span>
               </div>
             </div>
           </div>
 
+          <div className="cols2">
+            <div className="card"><div className="card-hd">Reels Performance</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {socialData.posts.filter(p => p.type === "Reel").map((p) => (
+                  <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 14px", background: "rgba(143,161,166,0.08)", borderRadius: 12 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600 }}>{p.title}</div>
+                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.date}</div>
+                    </div>
+                    <div style={{ display: "flex", gap: 18, flexShrink: 0 }}>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#6F5060" }}>{p.views}</div><div style={{ fontSize: 9, color: "#9B9196" }}>views</div></div>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#8FA1A6" }}>{p.reach}</div><div style={{ fontSize: 9, color: "#9B9196" }}>reach</div></div>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#A6968D" }}>{p.er}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>ER</div></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 12, fontSize: 12, color: "#9B9196", fontStyle: "italic" as const }}>Avg Reel views: {Math.round(socialData.reelViews / socialData.contentMix.reels)} · Avg Reel reach: {Math.round(socialData.posts.filter(p => p.type === "Reel").reduce((s, p) => s + p.reach, 0) / socialData.contentMix.reels)}</div>
+            </div>
+            <div className="card"><div className="card-hd">Carousel Performance</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {socialData.posts.filter(p => p.type === "Carousel").map((p) => (
+                  <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 14px", background: p.isTop ? "rgba(111,80,96,0.10)" : "rgba(143,161,166,0.08)", borderRadius: 12, border: p.isTop ? "1px solid rgba(111,80,96,0.25)" : "1px solid transparent" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600 }}>{p.title}{p.isTop ? " ★" : ""}</div>
+                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.date}</div>
+                    </div>
+                    <div style={{ display: "flex", gap: 18, flexShrink: 0 }}>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#6F5060" }}>{p.views.toLocaleString()}</div><div style={{ fontSize: 9, color: "#9B9196" }}>views</div></div>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#8FA1A6" }}>{p.reach}</div><div style={{ fontSize: 9, color: "#9B9196" }}>reach</div></div>
+                      <div style={{ textAlign: "center" as const }}><div style={{ fontSize: 18, fontWeight: 700, color: "#A6968D" }}>{p.er}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>ER</div></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 12, fontSize: 12, color: "#9B9196", fontStyle: "italic" as const }}>Avg Carousel views: {Math.round(socialData.carouselViews / socialData.contentMix.carousels)} · Avg Carousel reach: {Math.round(socialData.posts.filter(p => p.type === "Carousel").reduce((s, p) => s + p.reach, 0) / socialData.contentMix.carousels)}</div>
+            </div>
+          </div>
+
           <div className="card">
-            <InsightCard title="Social Intelligence · Mar 30 – Apr 13" body="4,690 platform views with 52.5% from non-followers — discovery is working. The Before & After post (1,311 views, 10 profile visits) was the dominant performer, proving that visual transformation content drives action. Posts outperform Reels significantly: 45.3% of views and 50.5% of interactions from posts vs 32.6%/30.3% from Reels. Daily views are spike-driven — Apr 10–12 generated 1,897 views (40% of total) while most days hover at 150–250. Growth depends on individual content wins, not sustained distribution." severity="info" />
-            <InsightCard title="Primary Growth Constraint" body="This is not a reach problem (52.5% non-follower discovery) or a distribution problem (algorithm IS pushing content). It is a content conversion problem. 4,690 views → 6 new followers = 0.13% conversion. The content attracts attention but does not build audience. Fix: serialize content into recurring series, add follow CTAs, double down on before/after transformations, and fix Reel hooks (71–82% skip rate means viewers leave within 3 seconds)." severity="warning" />
+            <InsightCard title="Social Intelligence · Mar 30 – Apr 13" body="6 posts published (3 Carousels, 3 Reels) generating 2,783 total views and reaching 1,261 accounts. The 'Dental Bonding' carousel (Apr 3) was the breakout hit at 1,311 views — nearly half of all views from a single post. Carousels outperformed Reels 2:1 on views (1,876 vs 907), suggesting the audience engages more deeply with swipeable educational content. The 'Multiple Locations' post achieved the highest engagement rate (15%) with 4 shares — location-awareness content drives action. Saves (3 total) and comments (2) remain critically low across all content. Recommendation: create save-worthy educational carousels and add direct CTAs to drive comments." severity="info" />
+            <InsightCard title="Follower Trajectory" body={`Follower count grew from 675 to 678 (+${socialData.followerGrowth}) over the period. At this pace (~1.5/week), growth is organic but slow. With 1,261 accounts reached, the follow-through rate is only 0.24%. Strengthen profile CTAs and pin high-performing content to convert viewers into followers.`} severity="warning" />
           </div>
         </>)}
 
