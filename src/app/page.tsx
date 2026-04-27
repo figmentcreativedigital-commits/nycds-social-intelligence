@@ -2,32 +2,33 @@
 import { useState, useEffect } from "react";
 
 const FALLBACK_DATA = {
-  client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: "Mar 30 – Apr 13, 2026" },
+  client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: "Apr 13 – Apr 27, 2026" },
   kpi: {
-    followers: { value: 676, change: 6, label: "Followers" },
-    reach: { value: 1026, label: "Reach" },
-    views: { value: 4690, label: "Total Views" },
-    engagementRate: { value: 9.3, label: "Engagement Rate", suffix: "%" },
-    engagements: { value: 95, label: "Engagements" },
-    watchTime: { value: "18m 42s", label: "Watch Time" },
+    followers: { value: 681, change: 5, label: "Followers" },
+    reach: { value: 895, label: "Reach" },
+    views: { value: 6153, label: "Total Views" },
+    engagementRate: { value: 20.3, label: "Engagement Rate", suffix: "%" },
+    engagements: { value: 182, label: "Engagements" },
+    watchTime: { value: "—", label: "Watch Time" },
   },
   posts: [
-    { id: 1, title: "Dental Bonding – Before & After", type: "Carousel", views: 1311, reach: 402, likes: 24, comments: 0, saves: 0, shares: 1, isTop: true, igPostUrl: "https://www.instagram.com/p/DWrVdmNFhwJ/" },
-    { id: 2, title: "NYC Dental Smiles – Multiple Locations", type: "Carousel", views: 397, reach: 132, likes: 14, comments: 2, saves: 0, shares: 4, isTop: false, igPostUrl: "https://www.instagram.com/p/DWoqaB3FtO2/" },
-    { id: 3, title: "Treat or Monitor? – Dr. Tamay", type: "Reel", views: 329, reach: 218, likes: 6, comments: 0, saves: 1, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/reel/DWtslASpVu2/" },
-    { id: 4, title: "Dental Hygienist Appreciation Week", type: "Reel", views: 294, reach: 216, likes: 7, comments: 0, saves: 1, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/reel/DW7I57GEcdo/" },
-    { id: 5, title: "National Hygienist Week – Team Recognition", type: "Reel", views: 284, reach: 215, likes: 5, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/reel/DW_768Ipp9Z/" },
-    { id: 6, title: "Veneers – Myths vs Facts", type: "Carousel", views: 168, reach: 78, likes: 5, comments: 0, saves: 1, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/p/DW9Tlq9lmdr/" },
+    { id: 1, title: "Building Patient Trust – Collab w/ EEC", type: "Reel", views: 2000, reach: 600, likes: 40, comments: 3, saves: 1, shares: 3, isTop: true, isCollab: true, igPostUrl: "" },
+    { id: 2, title: "More Than a Job – Collab w/ EEC", type: "Reel", views: 1900, reach: 550, likes: 35, comments: 0, saves: 1, shares: 5, isTop: false, isCollab: true, igPostUrl: "" },
+    { id: 3, title: "Team Culture – What Keeps Us Going", type: "Reel", views: 864, reach: 407, likes: 19, comments: 2, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/reel/DXcQnoSp92L/" },
+    { id: 4, title: "Have You Seen Our Ad Yet?", type: "Reel", views: 696, reach: 275, likes: 10, comments: 3, saves: 1, shares: 4, isTop: false, igPostUrl: "https://www.instagram.com/reel/DXjqa3ZpvbN/" },
+    { id: 5, title: "Your New Favorite Dentist", type: "Reel", views: 555, reach: 275, likes: 7, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/reel/DXhTaOyp0hT/" },
+    { id: 6, title: "This Snack Is Bad for Your Teeth", type: "Reel", views: 356, reach: 248, likes: 8, comments: 0, saves: 0, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/reel/DXP0R0Mkb1G/" },
+    { id: 7, title: "Don't Skip Your Cleanings", type: "Carousel", views: 289, reach: 157, likes: 3, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/p/DXSFpUZp0hG/" },
   ] as any[],
-  contentMix: { posts: 45, reels: 33, stories: 22 },
+  contentMix: { posts: 6, reels: 76, stories: 17 },
   audience: {
     gender: { male: 52, female: 48 },
     age: [
-      { range: "18–24", pct: 6 }, { range: "25–34", pct: 33 }, { range: "35–44", pct: 30 },
-      { range: "45–54", pct: 19 }, { range: "55–64", pct: 9 }, { range: "65+", pct: 4 },
+      { range: "18–24", pct: 5 }, { range: "25–34", pct: 31 }, { range: "35–44", pct: 29 },
+      { range: "45–54", pct: 21 }, { range: "55–64", pct: 10 }, { range: "65+", pct: 4 },
     ],
   },
-  viewerSplit: { followers: 48, nonFollowers: 52 },
+  viewerSplit: { followers: 33, nonFollowers: 67 },
 };
 type ReportData = typeof FALLBACK_DATA;
 
@@ -91,27 +92,18 @@ function Donut({ data, size = 130, stroke = 18, colors }: { data: { value: numbe
 export default function Dashboard() {
   const [tab, setTab] = useState("overview");
   const [loaded, setLoaded] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [d, setD] = useState<ReportData>(FALLBACK_DATA);
-  const [mediaUrls, setMediaUrls] = useState<Record<number, string>>({});
+  const [loading, setLoading] = useState(false);
+  const d = FALLBACK_DATA;
+  const [mediaUrls, setMediaUrls] = useState<Record<number, string>>(() => {
+    const urls: Record<number, string> = {};
+    FALLBACK_DATA.posts.forEach((p: any) => { if (p.igPostUrl) urls[p.id] = p.igPostUrl; });
+    return urls;
+  });
   const [editingMedia, setEditingMedia] = useState<number | null>(null);
   const [mediaInput, setMediaInput] = useState("");
   const engine = generateInsights(d);
 
-  useEffect(() => {
-    fetch("/api/sheets")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.error) {
-          setD(data);
-          const urls: Record<number, string> = {};
-          (data.posts || []).forEach((p: any) => { if (p.igPostUrl) urls[p.id] = p.igPostUrl; else if (p.mediaUrl) urls[p.id] = p.mediaUrl; });
-          setMediaUrls(urls);
-        }
-        setLoading(false); setTimeout(() => setLoaded(true), 80);
-      })
-      .catch(() => { setLoading(false); setTimeout(() => setLoaded(true), 80); });
-  }, []);
+  useEffect(() => { setTimeout(() => setLoaded(true), 80); }, []);
 
   const handleMediaSave = (postId: number) => { if (mediaInput.trim()) setMediaUrls((prev) => ({ ...prev, [postId]: mediaInput.trim() })); setEditingMedia(null); setMediaInput(""); };
   const handleMediaRemove = (postId: number) => { setMediaUrls((prev) => { const n = { ...prev }; delete n[postId]; return n; }); };
@@ -119,123 +111,151 @@ export default function Dashboard() {
   const isIgEmbed = (url: string) => /instagram\.com\/(p|reel)\//i.test(url);
 
   const linkData = {
-    period: "Mar 30 – Apr 12, 2026",
-    totalClicks: 79,
+    period: "Apr 13 – Apr 27, 2026",
+    totalClicks: 62,
     topLinks: [
-      { path: "NYCDS 60th Street", clicks: 19 },
-      { path: "NYCDS 35th Street", clicks: 17 },
-      { path: "NYCDS 5th Ave", clicks: 15 },
-      { path: "NYCDS 58th Street", clicks: 14 },
-      { path: "NYCDS Website", clicks: 7 },
-      { path: "Homepage", clicks: 4 },
+      { path: "NYCDS 58th Street", clicks: 15 },
+      { path: "NYCDS 35th Street", clicks: 14 },
+      { path: "NYCDS 5th Ave", clicks: 14 },
+      { path: "NYCDS 60th Street", clicks: 10 },
+      { path: "Homepage", clicks: 2 },
     ],
     trafficSources: [
-      { source: "Direct / Unknown", clicks: 28 },
-      { source: "Website", clicks: 24 },
-      { source: "Link in Bio", clicks: 2 },
+      { source: "Website", clicks: 23 },
+      { source: "Direct / Unknown", clicks: 13 },
+      { source: "Social", clicks: 22 },
       { source: "Google", clicks: 1 },
     ],
     topCountries: [
-      { country: "United States", clicks: 37 },
-      { country: "The Netherlands", clicks: 9 },
-      { country: "United Kingdom", clicks: 7 },
-      { country: "Germany", clicks: 5 },
-      { country: "Poland", clicks: 4 },
+      { country: "United States", clicks: 33 },
+      { country: "The Netherlands", clicks: 13 },
+      { country: "Luxembourg", clicks: 4 },
+      { country: "Sweden", clicks: 3 },
+      { country: "Singapore", clicks: 2 },
     ],
     topCities: [
-      { city: "Slough", clicks: 7 },
-      { city: "New York City", clicks: 6 },
-      { city: "Columbus", clicks: 5 },
-      { city: "Istanbul", clicks: 4 },
-      { city: "Warsaw", clicks: 4 },
+      { city: "New York City", clicks: 17 },
+      { city: "Luxembourg", clicks: 4 },
+      { city: "The Bronx", clicks: 4 },
+      { city: "Lelystad", clicks: 2 },
+      { city: "Dronten", clicks: 2 },
     ],
     devices: [
-      { os: "Android", clicks: 29 },
-      { os: "Windows", clicks: 24 },
-      { os: "Mac OS X", clicks: 22 },
-      { os: "iOS", clicks: 13 },
+      { os: "Android", clicks: 19 },
+      { os: "iOS", clicks: 15 },
+      { os: "Windows", clicks: 10 },
+      { os: "Mac OS X", clicks: 10 },
     ],
   };
 
   const websiteData = {
-    period: "Mar 30 – Apr 13, 2026",
-    sessions: 260,
+    period: "Apr 13 – Apr 27, 2026",
+    sessions: 404,
     topPages: [
-      { page: "/", label: "Home", views: 195 },
-      { page: "/ourdoctors", label: "Our Doctors", views: 89 },
-      { page: "/locations", label: "Locations", views: 31 },
-      { page: "/about", label: "About", views: 30 },
-      { page: "/cosmetic-dentistry", label: "Cosmetic Dentistry", views: 16 },
-      { page: "/dr-michael-chesner", label: "Dr. Michael Chesner", views: 12 },
-      { page: "/dr-sherman-farahani", label: "Dr. Sherman Farahani", views: 11 },
-      { page: "/comprehensive-care", label: "Comprehensive Care", views: 8 },
-      { page: "/nerve-pain-after-onlay", label: "Nerve Pain After Onlay", views: 7 },
+      { page: "/", label: "Home", views: 308 },
+      { page: "/ourdoctors", label: "Our Doctors", views: 155 },
+      { page: "/services", label: "Services", views: 32 },
+      { page: "/about", label: "About", views: 26 },
+      { page: "/locations", label: "Locations", views: 24 },
+      { page: "/why-nycds", label: "Why NYCDS", views: 24 },
+      { page: "/comprehensive-care", label: "Comprehensive Care", views: 15 },
+      { page: "/dr-michael-chesner", label: "Dr. Michael Chesner", views: 14 },
+      { page: "/nerve-pain-after-onlay", label: "Nerve Pain After Onlay", views: 13 },
     ],
     trafficSources: [
-      { source: "Google", medium: "organic", sessions: 124, pct: 47.9 },
-      { source: "Direct", medium: "(none)", sessions: 121, pct: 46.7 },
-      { source: "Instagram", medium: "social", sessions: 7, pct: 2.7 },
-      { source: "Yahoo", medium: "organic", sessions: 2, pct: 0.8 },
-      { source: "Other", medium: "mixed", sessions: 6, pct: 2.3 },
+      { source: "Direct", medium: "(none)", sessions: 232, pct: 57.4 },
+      { source: "Google", medium: "organic", sessions: 151, pct: 37.4 },
+      { source: "Instagram", medium: "social", sessions: 8, pct: 2.0 },
+      { source: "Yahoo", medium: "organic", sessions: 4, pct: 1.0 },
+      { source: "Other", medium: "mixed", sessions: 9, pct: 2.2 },
     ],
     devices: [
-      { device: "Desktop", pct: 72.4 },
-      { device: "Mobile", pct: 27.6 },
+      { device: "Mobile", pct: 78.5 },
+      { device: "Desktop", pct: 21.5 },
     ],
     dailyVisitors: [
-      { date: "Mar 30", visitors: 12 },{ date: "Mar 31", visitors: 15 },
-      { date: "Apr 1", visitors: 28 },{ date: "Apr 2", visitors: 22 },
-      { date: "Apr 3", visitors: 20 },{ date: "Apr 4", visitors: 13 },
-      { date: "Apr 5", visitors: 8 },{ date: "Apr 6", visitors: 14 },
-      { date: "Apr 7", visitors: 15 },{ date: "Apr 8", visitors: 18 },
-      { date: "Apr 9", visitors: 15 },{ date: "Apr 10", visitors: 17 },
-      { date: "Apr 11", visitors: 14 },{ date: "Apr 12", visitors: 15 },
-      { date: "Apr 13", visitors: 14 },
+      { date: "Apr 13", visitors: 8 },{ date: "Apr 14", visitors: 12 },
+      { date: "Apr 15", visitors: 15 },{ date: "Apr 16", visitors: 10 },
+      { date: "Apr 17", visitors: 12 },{ date: "Apr 18", visitors: 18 },
+      { date: "Apr 19", visitors: 35 },{ date: "Apr 20", visitors: 38 },
+      { date: "Apr 21", visitors: 18 },{ date: "Apr 22", visitors: 42 },
+      { date: "Apr 23", visitors: 35 },{ date: "Apr 24", visitors: 28 },
+      { date: "Apr 25", visitors: 22 },{ date: "Apr 26", visitors: 25 },
+      { date: "Apr 27", visitors: 20 },
     ],
+    search: {
+      totalClicks: 150,
+      totalImpressions: 5120,
+      avgCTR: 2.9,
+      avgPosition: 30.0,
+      topQueries: [
+        { query: "nyc dental smiles", clicks: 7, impressions: 16, ctr: 43.8, position: 1.3 },
+        { query: "dr michael chesner", clicks: 5, impressions: 21, ctr: 23.8, position: 2.9 },
+        { query: "nyc dental smile team", clicks: 5, impressions: 13, ctr: 38.5, position: 1.3 },
+        { query: "michael chesner", clicks: 4, impressions: 18, ctr: 22.2, position: 2.2 },
+        { query: "nerve pain after onlay", clicks: 3, impressions: 22, ctr: 13.6, position: 1.1 },
+      ],
+      topPages: [
+        { page: "Homepage", clicks: 57, impressions: 2952, ctr: 1.9 },
+        { page: "Nerve Pain After Onlay", clicks: 37, impressions: 1008, ctr: 3.7 },
+        { page: "Our Doctors", clicks: 31, impressions: 761, ctr: 4.1 },
+        { page: "Dr. Michael Chesner", clicks: 19, impressions: 180, ctr: 10.6 },
+        { page: "About", clicks: 3, impressions: 217, ctr: 1.4 },
+      ],
+      searchDevices: [
+        { device: "Mobile", clicks: 90, pct: 60 },
+        { device: "Desktop", clicks: 60, pct: 40 },
+      ],
+    },
   };
 
   const socialData = {
-    period: "Mar 30 – Apr 13, 2026",
-    followers: 676,
-    followerStart: 670,
-    followerGrowth: 6,
-    totalViews: 4690,
-    totalViewsCSV: 5784,
-    totalReach: 1026,
-    totalReachCSV: 1606,
-    totalInteractions: 95,
-    reachChange: 0,
-    viewSplit: { followers: 47.5, nonFollowers: 52.5 },
-    engagementSplit: { followers: 71.6, nonFollowers: 28.4 },
-    viewsByType: { posts: 45.3, reels: 32.6, stories: 22.2 },
-    interactionsByType: { posts: 50.5, reels: 30.3, stories: 19.3 },
-    reelAvgWatchTime: "3–4s",
-    reelSkipRate: "71–82%",
-    postsPublished: 6,
-    contentMix: { reels: 3, carousels: 3 },
-    reelViews: 907,
-    carouselViews: 1876,
-    totalLikes: 61,
-    totalComments: 2,
-    totalSaves: 3,
-    totalShares: 6,
+    period: "Apr 13 – Apr 27, 2026",
+    followers: 681,
+    followerStart: 676,
+    followerGrowth: 5,
+    follows: 5,
+    unfollows: 4,
+    totalViews: 6153,
+    totalReach: 895,
+    reachChange: 110.1,
+    totalInteractions: 182,
+    viewSplit: { followers: 33.4, nonFollowers: 66.6 },
+    engagementSplit: { followers: 49.2, nonFollowers: 50.8 },
+    viewsByType: { reels: 76.4, posts: 6.4, stories: 17.2 },
+    interactionsByType: { reels: 84.3, posts: 2.2, stories: 13.5 },
+    reelAvgWatchTime: "5–9s",
+    reelSkipRate: "53–77%",
+    postsPublished: 5,
+    contentMix: { reels: 4, carousels: 1 },
+    reelViews: 2115,
+    carouselViews: 289,
+    totalLikes: 45,
+    totalComments: 5,
+    totalSaves: 1,
+    totalShares: 7,
+    storyViews: 634,
+    storyReach: 478,
+    storyCompletion: 88,
+    storyCount: 9,
     dailyViews: [
-      { date: "Mar 30", views: 128 },{ date: "Mar 31", views: 195 },
-      { date: "Apr 1", views: 210 },{ date: "Apr 2", views: 385 },
-      { date: "Apr 3", views: 442 },{ date: "Apr 4", views: 265 },
-      { date: "Apr 5", views: 158 },{ date: "Apr 6", views: 175 },
-      { date: "Apr 7", views: 220 },{ date: "Apr 8", views: 195 },
-      { date: "Apr 9", views: 310 },{ date: "Apr 10", views: 484 },
-      { date: "Apr 11", views: 893 },{ date: "Apr 12", views: 520 },
-      { date: "Apr 13", views: 204 },
+      { date: "Apr 13", views: 120 },{ date: "Apr 14", views: 135 },
+      { date: "Apr 15", views: 110 },{ date: "Apr 16", views: 95 },
+      { date: "Apr 17", views: 356 },{ date: "Apr 18", views: 289 },
+      { date: "Apr 19", views: 80 },{ date: "Apr 20", views: 250 },
+      { date: "Apr 21", views: 350 },{ date: "Apr 22", views: 864 },
+      { date: "Apr 23", views: 400 },{ date: "Apr 24", views: 555 },
+      { date: "Apr 25", views: 696 },{ date: "Apr 26", views: 200 },
+      { date: "Apr 27", views: 150 },
     ],
     posts: [
-      { id: 1, title: "Dental Bonding – Before & After", type: "Carousel", date: "Apr 3", views: 1311, reach: 402, likes: 24, comments: 0, saves: 0, shares: 1, er: 6.2, profileActivity: 10, igUrl: "https://www.instagram.com/p/DWrVdmNFhwJ/", isTop: true },
-      { id: 2, title: "NYC Dental Smiles – Multiple Locations", type: "Carousel", date: "Apr 2", views: 397, reach: 132, likes: 14, comments: 2, saves: 0, shares: 4, er: 15.0, profileActivity: 0, igUrl: "https://www.instagram.com/p/DWoqaB3FtO2/", isTop: false },
-      { id: 3, title: "Treat or Monitor? – Dr. Tamay", type: "Reel", date: "Apr 4", views: 329, reach: 218, likes: 6, comments: 0, saves: 1, shares: 0, er: 3.2, profileActivity: 0, igUrl: "https://www.instagram.com/reel/DWtslASpVu2/", isTop: false },
-      { id: 4, title: "Dental Hygienist Appreciation Week", type: "Reel", date: "Apr 9", views: 294, reach: 216, likes: 7, comments: 0, saves: 1, shares: 0, er: 3.7, profileActivity: 0, igUrl: "https://www.instagram.com/reel/DW7I57GEcdo/", isTop: false },
-      { id: 5, title: "National Hygienist Week – Team Recognition", type: "Reel", date: "Apr 11", views: 284, reach: 215, likes: 5, comments: 0, saves: 0, shares: 1, er: 2.8, profileActivity: 0, igUrl: "https://www.instagram.com/reel/DW_768Ipp9Z/", isTop: false },
-      { id: 6, title: "Veneers – Myths vs Facts", type: "Carousel", date: "Apr 10", views: 168, reach: 78, likes: 5, comments: 0, saves: 1, shares: 0, er: 7.7, profileActivity: 0, igUrl: "https://www.instagram.com/p/DW9Tlq9lmdr/", isTop: false },
+      { id: 1, title: "Building Patient Trust – Collab w/ EEC", type: "Reel", date: "Apr 22", views: 2000, reach: 600, likes: 40, comments: 3, saves: 1, shares: 3, er: 5.0, skipRate: 0, avgWatch: "", profileActivity: 0, igUrl: "", isTop: true, isCollab: true },
+      { id: 2, title: "More Than a Job – Collab w/ EEC", type: "Reel", date: "Apr 21", views: 1900, reach: 550, likes: 35, comments: 0, saves: 1, shares: 5, er: 4.5, skipRate: 0, avgWatch: "", profileActivity: 0, igUrl: "", isTop: false, isCollab: true },
+      { id: 3, title: "Team Culture – What Keeps Us Going", type: "Reel", date: "Apr 22", views: 864, reach: 407, likes: 19, comments: 2, saves: 0, shares: 1, er: 4.7, skipRate: 62.7, avgWatch: "9s", profileActivity: 0, igUrl: "https://www.instagram.com/reel/DXcQnoSp92L/", isTop: false },
+      { id: 4, title: "Have You Seen Our Ad Yet?", type: "Reel", date: "Apr 25", views: 696, reach: 275, likes: 10, comments: 3, saves: 1, shares: 4, er: 5.4, skipRate: 69, avgWatch: "5s", profileActivity: 0, igUrl: "https://www.instagram.com/reel/DXjqa3ZpvbN/", isTop: false },
+      { id: 5, title: "Your New Favorite Dentist", type: "Reel", date: "Apr 24", views: 555, reach: 275, likes: 7, comments: 0, saves: 0, shares: 1, er: 2.5, skipRate: 76.8, avgWatch: "5s", profileActivity: 0, igUrl: "https://www.instagram.com/reel/DXhTaOyp0hT/", isTop: false },
+      { id: 6, title: "This Snack Is Bad for Your Teeth", type: "Reel", date: "Apr 17", views: 356, reach: 248, likes: 8, comments: 0, saves: 0, shares: 0, er: 3.2, skipRate: 53, avgWatch: "", profileActivity: 0, igUrl: "https://www.instagram.com/reel/DXP0R0Mkb1G/", isTop: false },
+      { id: 7, title: "Don't Skip Your Cleanings", type: "Carousel", date: "Apr 18", views: 289, reach: 157, likes: 3, comments: 0, saves: 0, shares: 1, er: 2.3, skipRate: 0, avgWatch: "", profileActivity: 0, igUrl: "https://www.instagram.com/p/DXSFpUZp0hG/", isTop: false },
     ],
   };
 
@@ -278,9 +298,9 @@ export default function Dashboard() {
             ))}
           </div>
           <div className="exec"><div className="card-hd">Executive Summary</div><div className="exec-cols">
-            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views come from non-followers. The algorithm is distributing content to new audiences — discovery is working. Performance is spike-driven: Apr 10–12 generated 40% of all views.</div></div>
-            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">{d.kpi.engagementRate.value}% rate with {d.kpi.engagements.value} total interactions. Saves (3) and comments (2) remain critically low — these metrics drive algorithmic amplification more than likes.</div></div>
-            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Posts lead at {d.contentMix.posts}% of views, outperforming Reels ({d.contentMix.reels}%). The Before & After carousel was the dominant performer at 1,311 views — proof-based transformation content resonates most.</div></div>
+            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views from non-followers — strongest discovery signal yet. Reach surged +110% vs prior period to 895 accounts. "Team Culture" Reel led with 864 views and 62.7% skip rate (better than account average).</div></div>
+            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">{d.kpi.engagements.value} interactions with 50.8% from non-followers — nearly even split. "Ad Spotted" Reel had best ER at 5.4%. Comments at 5. Saves still critically low at 1.</div></div>
+            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Reels drive {d.contentMix.reels}% of views and 84.3% of interactions. Skip rates improved: 62.7% on top Reel vs 68.9% typical. 681 followers (+5 net). 9 Stories with 88% completion.</div></div>
           </div></div>
           <div className="cols2">
             <div className="card"><div className="card-hd">Content Mix</div><div style={{ display: "flex", alignItems: "center", gap: 28 }}><Donut data={[{ value: d.contentMix.reels }, { value: d.contentMix.posts }, { value: d.contentMix.stories }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} /><div style={{ flex: 1 }}>{[{ label: "Reels", value: d.contentMix.reels, color: "#6F5060" }, { label: "Posts", value: d.contentMix.posts, color: "#8FA1A6" }, { label: "Stories", value: d.contentMix.stories, color: "#A6968D" }].map((item) => (<div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num">{item.value}%</span></div>))}</div></div></div>
@@ -293,7 +313,7 @@ export default function Dashboard() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 18 }}>
             {d.posts.map((p: any) => { const url = mediaUrls[p.id]; const isEditing = editingMedia === p.id; const maxViews = Math.max(...d.posts.map((x: any) => x.views), 1); return (
               <div key={p.id} className={`postcard ${p.isTop ? "postcard-top" : ""}`}>
-                <div className="postcard-header"><div className="postcard-type-badge">{p.type}</div>{p.isTop && <div className="postcard-top-badge">★ Top Post</div>}</div>
+                <div className="postcard-header"><div className="postcard-type-badge">{p.type}</div>{p.isTop && <div className="postcard-top-badge">★ Top Post</div>}{p.isCollab && <div className="postcard-top-badge" style={{background: "rgba(88,130,220,0.15)", color: "#5882DC"}}>⚡ Collab</div>}</div>
                 <div className="postcard-title">{p.title}</div>
                 <div className={`postcard-media ${url ? "has-media" : ""}`}>
                   {!url && !isEditing && (<div className="postcard-media-empty" onClick={() => { setEditingMedia(p.id); setMediaInput(""); }}><div className="postcard-empty-inner"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A6968D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span className="postcard-empty-label">Add Post Visual</span><span className="postcard-empty-hint">Image, video, or Instagram link</span></div></div>)}
@@ -396,7 +416,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="card">
-            <InsightCard title="Link Attribution · Mar 30 – Apr 12" body="60th Street leads with 19 clicks (25% of traffic). Website UTM drives 24 clicks — the locations page is the primary referrer. New York City ranks 2nd among cities with 6 clicks. Android is the top device at 29 clicks, suggesting strong mobile engagement. Direct/unknown traffic accounts for 51% — consider adding UTM tracking to all link placements." severity="info" />
+            <InsightCard title="Link Attribution · Apr 13 – Apr 27" body="58th Street leads with 15 clicks, closely followed by 35th Street and 5th Ave (14 each). NYC leads all cities with 17 clicks — strong local intent. Website UTM drives 23 clicks via the locations page. Social referrals jumped to 22 clicks — a significant increase. Mobile traffic leads at 63% (Android 19 + iOS 15)." severity="info" />
           </div>
         </>)}
 
@@ -485,8 +505,59 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+          <div className="card"><div className="card-hd">Google Search Performance · {websiteData.period}</div>
+            <div className="kpi-row" style={{ marginBottom: 18 }}>
+              {[
+                { label: "Search Clicks", value: websiteData.search.totalClicks },
+                { label: "Impressions", value: websiteData.search.totalImpressions.toLocaleString() },
+                { label: "Avg CTR", value: `${websiteData.search.avgCTR}%` },
+                { label: "Avg Position", value: websiteData.search.avgPosition.toFixed(0) },
+              ].map((k, i) => (
+                <div key={i} className="kpi" style={{ animationDelay: `${i * 80}ms` }}>
+                  <div className="kpi-label">{k.label}</div>
+                  <div className="kpi-val">{typeof k.value === "number" ? <AnimatedNumber value={k.value} /> : <span>{k.value}</span>}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="cols2">
+            <div className="card"><div className="card-hd">Top Search Queries</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {websiteData.search.topQueries.map((q, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "8px 12px", background: i === 0 ? "rgba(111,80,96,0.08)" : "rgba(143,161,166,0.06)", borderRadius: 10 }}>
+                    <div style={{ width: 22, height: 22, borderRadius: 99, background: i === 0 ? "#6F5060" : "#8FA1A6", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</div>
+                    <div style={{ flex: 1, fontSize: 13, fontWeight: 500 }}>{q.query}</div>
+                    <div style={{ display: "flex", gap: 14, flexShrink: 0 }}>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{q.clicks}</div><div style={{ fontSize: 9, color: "#9B9196" }}>clicks</div></div>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{q.ctr}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>CTR</div></div>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">#{q.position.toFixed(1)}</div><div style={{ fontSize: 9, color: "#9B9196" }}>pos</div></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="card"><div className="card-hd">Top Pages in Search</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {websiteData.search.topPages.map((p, i) => {
+                  const maxClicks = websiteData.search.topPages[0].clicks;
+                  return (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                      <div style={{ width: 120, fontSize: 13, fontWeight: 500, flexShrink: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" as const }}>{p.page}</div>
+                      <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
+                        <div style={{ width: `${(p.clicks / maxClicks) * 100}%`, height: "100%", background: i === 0 ? "#6F5060" : "#8FA1A6", borderRadius: 99, transition: "width 1.2s ease" }} />
+                      </div>
+                      <div style={{ display: "flex", gap: 14, flexShrink: 0 }}>
+                        <div style={{ textAlign: "center" as const }}><div className="display-num">{p.clicks}</div><div style={{ fontSize: 9, color: "#9B9196" }}>clicks</div></div>
+                        <div style={{ textAlign: "center" as const }}><div className="display-num">{p.ctr}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>CTR</div></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
           <div className="card">
-            <InsightCard title="Website Intelligence · Mar 30 – Apr 13" body="260 sessions split almost evenly between Google organic (47.9%) and direct traffic (46.7%). The homepage dominates with 195 views, followed by the Our Doctors page (89) — suggesting users are researching the team before booking. Instagram social drives 7 sessions (2.7%). Desktop accounts for 72.4% of traffic, indicating strong professional/office browsing behavior. The Our Doctors + Locations pages combined account for 120 views — these are high-intent pages worth optimizing with stronger CTAs." severity="info" />
+            <InsightCard title="Website Intelligence · Apr 13 – Apr 27" body="404 sessions (+55% vs prior). Direct traffic leads at 57.4%, overtaking Google (37.4%). Mobile dominates at 78.5% — dramatic flip from 27.6% last period. Google Search drives 150 clicks from 5,120 impressions (2.9% CTR). 'Nerve Pain After Onlay' is the #1 organic content page at 37 search clicks — educational SEO content is working. Dr. Michael Chesner's page achieves 10.6% CTR, the highest of any page. Branded queries ('nyc dental smiles') convert at 43.8% CTR, indicating strong brand recognition in search." severity="info" />
           </div>
         </>)}
 
@@ -541,7 +612,7 @@ export default function Dashboard() {
                     <div style={{ width: 22, height: 22, borderRadius: 99, background: p.isTop ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</div>
                     <div style={{ minWidth: 0, flex: "0 0 200px" }}>
                       <div style={{ fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" as const }}>{p.title}</div>
-                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.type} · {p.date}{p.isTop ? " · ★ Top Post" : ""}</div>
+                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.type} · {p.date}{p.isTop ? " · ★ Top Post" : ""}{p.isCollab ? " · ⚡ Collab" : ""}</div>
                     </div>
                     <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
                       <div style={{ width: `${(p.views / maxV) * 100}%`, height: "100%", background: p.isTop ? "#6F5060" : i < 3 ? "#8FA1A6" : "#A6968D", borderRadius: 99, transition: "width 1.2s ease" }} />
@@ -681,8 +752,8 @@ export default function Dashboard() {
           </div>
 
           <div className="card">
-            <InsightCard title="Social Intelligence · Mar 30 – Apr 13" body="4,690 platform views with 52.5% from non-followers — discovery is working. The Before & After post (1,311 views, 10 profile visits) was the dominant performer, proving that visual transformation content drives action. Posts outperform Reels significantly: 45.3% of views and 50.5% of interactions from posts vs 32.6%/30.3% from Reels. Daily views are spike-driven — Apr 10–12 generated 1,897 views (40% of total) while most days hover at 150–250. Growth depends on individual content wins, not sustained distribution." severity="info" />
-            <InsightCard title="Primary Growth Constraint" body="This is not a reach problem (52.5% non-follower discovery) or a distribution problem (algorithm IS pushing content). It is a content conversion problem. 4,690 views → 6 new followers = 0.13% conversion. The content attracts attention but does not build audience. Fix: serialize content into recurring series, add follow CTAs, double down on before/after transformations, and fix Reel hooks (71–82% skip rate means viewers leave within 3 seconds)." severity="warning" />
+            <InsightCard title="Social Intelligence · Apr 13 – Apr 27" body="6,153 views (last 7 days platform data) reaching 895 accounts (+110% vs prior period). 66.6% non-follower views — strongest discovery signal yet. The 'Team Culture' Reel (864 views, 62.7% skip, 9s avg watch) is the top performer with the best skip rate on the account. 'Ad Spotted' Reel achieved 5.4% ER with 696 views. Reels drive 76.4% of views and 84.3% of interactions. 9 Stories posted with 88% completion rate." severity="info" />
+            <InsightCard title="Period Comparison" body="Reach surged +110% vs prior period. Non-follower views jumped to 66.6% (was 52.5%) — the algorithm is distributing content more aggressively. Skip rates improved: Team Culture at 62.7% beats the account typical of 68.9%. Followers grew to 681 (+5 net). The Reels-first strategy (76.4% of views) is working. Key gap: saves remain at 1 — save-worthy educational carousels needed." severity="success" />
           </div>
         </>)}
 
