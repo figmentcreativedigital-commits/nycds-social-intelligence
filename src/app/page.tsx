@@ -126,6 +126,12 @@ export default function Dashboard() {
       { city: "The Bronx", clicks: 2 },
       { city: "Portland", clicks: 2 },
     ],
+    trafficSources: [
+      { source: "Website", clicks: 10 },
+      { source: "Direct / Unknown", clicks: 8 },
+      { source: "Social", clicks: 7 },
+      { source: "Google", clicks: 1 },
+    ],
     devices: [
       { os: "Mac OS X", clicks: 8 },
       { os: "Android", clicks: 7 },
