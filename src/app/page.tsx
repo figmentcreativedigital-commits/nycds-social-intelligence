@@ -202,6 +202,12 @@ export default function Dashboard() {
       { device: "Desktop", pct: 72.9 },
       { device: "Mobile", pct: 26.4 },
     ],
+    dailyVisitors: [
+      { date: "Apr 27", visitors: 25 },{ date: "Apr 28", visitors: 22 },
+      { date: "Apr 29", visitors: 28 },{ date: "Apr 30", visitors: 30 },
+      { date: "May 1", visitors: 25 },{ date: "May 2", visitors: 18 },
+      { date: "May 3", visitors: 12 },{ date: "May 4", visitors: 2 },
+    ],
     search: {
       totalClicks: 881, totalImpressions: 29004, avgCTR: 3.04, avgPosition: 27.8,
       note: "3-month aggregate (Feb 3 – May 2)",
@@ -246,6 +252,14 @@ export default function Dashboard() {
     totalSaves: 0,
     totalShares: 2,
     storyViews: 200, storyCompletion: 88, storyCount: 4,
+    reelAvgWatchTime: "10s",
+    reelSkipRate: "58.9%",
+    dailyViews: [
+      { date: "Apr 27", views: 285 },{ date: "Apr 28", views: 145 },
+      { date: "Apr 29", views: 416 },{ date: "Apr 30", views: 642 },
+      { date: "May 1", views: 1759 },{ date: "May 2", views: 720 },
+      { date: "May 3", views: 398 },
+    ],
     posts: [
       { id: 1, title: "Prosthodontist – Dr. Farahani", type: "Reel", date: "Apr 29", views: 498, reach: 281, likes: 22, comments: 1, saves: 0, shares: 2, er: 8.2, skipRate: 58.9, avgWatch: "10s", igUrl: "https://www.instagram.com/reel/DYExample1/", isTop: true },
       { id: 2, title: "Patient Testimonial", type: "Image", date: "May 1", views: 124, reach: 62, likes: 5, comments: 0, saves: 0, shares: 0, er: 8.1, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/p/DYExample2/", isTop: false },
@@ -270,6 +284,15 @@ export default function Dashboard() {
     totalSaves: 7,
     totalShares: 15,
     storyViews: 1248, storyCompletion: 88, storyCount: 17,
+    reelAvgWatchTime: "5-9s",
+    reelSkipRate: "52-77%",
+    dailyViews: [
+      { date: "Apr 4", views: 200 },{ date: "Apr 9", views: 350 },
+      { date: "Apr 17", views: 369 },{ date: "Apr 18", views: 296 },
+      { date: "Apr 22", views: 635 },{ date: "Apr 24", views: 475 },
+      { date: "Apr 25", views: 578 },{ date: "Apr 29", views: 498 },
+      { date: "May 1", views: 124 },
+    ],
     posts: [
       { id: 1, title: "Team Culture – What Keeps Us Going", type: "Reel", date: "Apr 22", views: 635, reach: 422, likes: 17, comments: 2, saves: 0, shares: 1, er: 4.7, skipRate: 62, avgWatch: "9s", igUrl: "https://www.instagram.com/reel/DXcQnoSp92L/", isTop: true },
       { id: 2, title: "Ad Spotted – Have You Seen It?", type: "Reel", date: "Apr 25", views: 578, reach: 333, likes: 10, comments: 3, saves: 1, shares: 4, er: 5.4, skipRate: 69, avgWatch: "5s", igUrl: "https://www.instagram.com/reel/DXjqa3ZpvbN/", isTop: false },
