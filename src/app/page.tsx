@@ -2,33 +2,28 @@
 import { useState, useEffect } from "react";
 
 const FALLBACK_DATA = {
-  client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: "Apr 13 – Apr 27, 2026" },
+  client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: "Apr 27 – May 4, 2026" },
   kpi: {
-    followers: { value: 681, change: 5, label: "Followers" },
-    reach: { value: 895, label: "Reach" },
-    views: { value: 6153, label: "Total Views" },
-    engagementRate: { value: 20.3, label: "Engagement Rate", suffix: "%" },
-    engagements: { value: 182, label: "Engagements" },
-    watchTime: { value: "—", label: "Watch Time" },
+    followers: { value: 681, change: 1, label: "Followers" },
+    reach: { value: 424, label: "Reach" },
+    views: { value: 3433, label: "Total Views" },
+    engagementRate: { value: 18.5, label: "Engagement Rate", suffix: "%" },
+    engagements: { value: 115, label: "Engagements" },
+    watchTime: { value: "58m", label: "Watch Time" },
   },
   posts: [
-    { id: 1, title: "Building Patient Trust – Collab w/ EEC", type: "Reel", views: 2000, reach: 600, likes: 40, comments: 3, saves: 1, shares: 3, isTop: true, isCollab: true, igPostUrl: "" },
-    { id: 2, title: "More Than a Job – Collab w/ EEC", type: "Reel", views: 1900, reach: 550, likes: 35, comments: 0, saves: 1, shares: 5, isTop: false, isCollab: true, igPostUrl: "" },
-    { id: 3, title: "Team Culture – What Keeps Us Going", type: "Reel", views: 864, reach: 407, likes: 19, comments: 2, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/reel/DXcQnoSp92L/" },
-    { id: 4, title: "Have You Seen Our Ad Yet?", type: "Reel", views: 696, reach: 275, likes: 10, comments: 3, saves: 1, shares: 4, isTop: false, igPostUrl: "https://www.instagram.com/reel/DXjqa3ZpvbN/" },
-    { id: 5, title: "Your New Favorite Dentist", type: "Reel", views: 555, reach: 275, likes: 7, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/reel/DXhTaOyp0hT/" },
-    { id: 6, title: "This Snack Is Bad for Your Teeth", type: "Reel", views: 356, reach: 248, likes: 8, comments: 0, saves: 0, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/reel/DXP0R0Mkb1G/" },
-    { id: 7, title: "Don't Skip Your Cleanings", type: "Carousel", views: 289, reach: 157, likes: 3, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/p/DXSFpUZp0hG/" },
+    { id: 1, title: "Prosthodontist – Dr. Farahani", type: "Reel", views: 498, reach: 281, likes: 22, comments: 1, saves: 0, shares: 2, isTop: true, igPostUrl: "https://www.instagram.com/reel/DYExample1/" },
+    { id: 2, title: "Patient Testimonial", type: "Image", views: 124, reach: 62, likes: 5, comments: 0, saves: 0, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/p/DYExample2/" },
   ] as any[],
-  contentMix: { posts: 6, reels: 76, stories: 17 },
+  contentMix: { posts: 7, reels: 85, stories: 8 },
   audience: {
     gender: { male: 52, female: 48 },
     age: [
-      { range: "18–24", pct: 5 }, { range: "25–34", pct: 31 }, { range: "35–44", pct: 29 },
-      { range: "45–54", pct: 21 }, { range: "55–64", pct: 10 }, { range: "65+", pct: 4 },
+      { range: "18-24", pct: 5 }, { range: "25-34", pct: 31 }, { range: "35-44", pct: 29 },
+      { range: "45-54", pct: 21 }, { range: "55-64", pct: 10 }, { range: "65+", pct: 4 },
     ],
   },
-  viewerSplit: { followers: 33, nonFollowers: 67 },
+  viewerSplit: { followers: 24, nonFollowers: 76 },
 };
 type ReportData = typeof FALLBACK_DATA;
 
@@ -93,6 +88,7 @@ export default function Dashboard() {
   const [tab, setTab] = useState("overview");
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [timeRange, setTimeRange] = useState<"7d" | "30d">("7d");
   const d = FALLBACK_DATA;
   const [mediaUrls, setMediaUrls] = useState<Record<number, string>>(() => {
     const urls: Record<number, string> = {};
@@ -110,154 +106,185 @@ export default function Dashboard() {
   const isVideo = (url: string) => /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url);
   const isIgEmbed = (url: string) => /instagram\.com\/(p|reel)\//i.test(url);
 
-  const linkData = {
-    period: "Apr 13 – Apr 27, 2026",
-    totalClicks: 62,
+  const linkData7d = {
+    period: "Apr 27 – May 4, 2026",
+    totalClicks: 27,
     topLinks: [
-      { path: "NYCDS 58th Street", clicks: 15 },
-      { path: "NYCDS 35th Street", clicks: 14 },
-      { path: "NYCDS 5th Ave", clicks: 14 },
-      { path: "NYCDS 60th Street", clicks: 10 },
+      { path: "NYCDS 58th Street", clicks: 8 },
+      { path: "NYCDS 5th Ave", clicks: 6 },
+      { path: "NYCDS 35th Street", clicks: 5 },
+      { path: "NYCDS 60th Street", clicks: 4 },
       { path: "Homepage", clicks: 2 },
     ],
-    trafficSources: [
-      { source: "Website", clicks: 23 },
-      { source: "Direct / Unknown", clicks: 13 },
-      { source: "Social", clicks: 22 },
-      { source: "Google", clicks: 1 },
-    ],
     topCountries: [
-      { country: "United States", clicks: 33 },
-      { country: "The Netherlands", clicks: 13 },
-      { country: "Luxembourg", clicks: 4 },
-      { country: "Sweden", clicks: 3 },
-      { country: "Singapore", clicks: 2 },
+      { country: "United States", clicks: 15 },
+      { country: "The Netherlands", clicks: 4 },
+      { country: "Luxembourg", clicks: 3 },
     ],
     topCities: [
-      { city: "New York City", clicks: 17 },
-      { city: "Luxembourg", clicks: 4 },
-      { city: "The Bronx", clicks: 4 },
-      { city: "Lelystad", clicks: 2 },
-      { city: "Dronten", clicks: 2 },
+      { city: "New York City", clicks: 8 },
+      { city: "The Bronx", clicks: 2 },
+      { city: "Portland", clicks: 2 },
     ],
     devices: [
-      { os: "Android", clicks: 19 },
-      { os: "iOS", clicks: 15 },
-      { os: "Windows", clicks: 10 },
-      { os: "Mac OS X", clicks: 10 },
+      { os: "Mac OS X", clicks: 8 },
+      { os: "Android", clicks: 7 },
+      { os: "iOS", clicks: 5 },
+      { os: "Windows", clicks: 5 },
     ],
   };
-
-  const websiteData = {
-    period: "Apr 13 – Apr 27, 2026",
-    sessions: 404,
-    topPages: [
-      { page: "/", label: "Home", views: 308 },
-      { page: "/ourdoctors", label: "Our Doctors", views: 155 },
-      { page: "/services", label: "Services", views: 32 },
-      { page: "/about", label: "About", views: 26 },
-      { page: "/locations", label: "Locations", views: 24 },
-      { page: "/why-nycds", label: "Why NYCDS", views: 24 },
-      { page: "/comprehensive-care", label: "Comprehensive Care", views: 15 },
-      { page: "/dr-michael-chesner", label: "Dr. Michael Chesner", views: 14 },
-      { page: "/nerve-pain-after-onlay", label: "Nerve Pain After Onlay", views: 13 },
+  const linkData30d = {
+    period: "Apr 4 – May 4, 2026",
+    totalClicks: 142,
+    topLinks: [
+      { path: "NYCDS 58th Street", clicks: 34 },
+      { path: "NYCDS 5th Ave", clicks: 27 },
+      { path: "NYCDS 60th Street", clicks: 24 },
+      { path: "NYCDS 35th Street", clicks: 22 },
+      { path: "NYCDS Website", clicks: 14 },
+      { path: "Homepage", clicks: 6 },
     ],
-    trafficSources: [
-      { source: "Direct", medium: "(none)", sessions: 232, pct: 57.4 },
-      { source: "Google", medium: "organic", sessions: 151, pct: 37.4 },
-      { source: "Instagram", medium: "social", sessions: 8, pct: 2.0 },
-      { source: "Yahoo", medium: "organic", sessions: 4, pct: 1.0 },
-      { source: "Other", medium: "mixed", sessions: 9, pct: 2.2 },
+    topCountries: [
+      { country: "United States", clicks: 85 },
+      { country: "The Netherlands", clicks: 19 },
+      { country: "Luxembourg", clicks: 8 },
+      { country: "Sweden", clicks: 5 },
+      { country: "Poland", clicks: 5 },
+    ],
+    topCities: [
+      { city: "New York City", clicks: 27 },
+      { city: "Ashburn", clicks: 15 },
+      { city: "Portland", clicks: 10 },
+      { city: "Luxembourg", clicks: 8 },
+      { city: "Warsaw", clicks: 5 },
     ],
     devices: [
-      { device: "Mobile", pct: 78.5 },
-      { device: "Desktop", pct: 21.5 },
+      { os: "Mac OS X", clicks: 44 },
+      { os: "Windows", clicks: 39 },
+      { os: "Android", clicks: 32 },
+      { os: "iOS", clicks: 22 },
     ],
-    dailyVisitors: [
-      { date: "Apr 13", visitors: 8 },{ date: "Apr 14", visitors: 12 },
-      { date: "Apr 15", visitors: 15 },{ date: "Apr 16", visitors: 10 },
-      { date: "Apr 17", visitors: 12 },{ date: "Apr 18", visitors: 18 },
-      { date: "Apr 19", visitors: 35 },{ date: "Apr 20", visitors: 38 },
-      { date: "Apr 21", visitors: 18 },{ date: "Apr 22", visitors: 42 },
-      { date: "Apr 23", visitors: 35 },{ date: "Apr 24", visitors: 28 },
-      { date: "Apr 25", visitors: 22 },{ date: "Apr 26", visitors: 25 },
-      { date: "Apr 27", visitors: 20 },
+  };
+  const linkData = timeRange === "7d" ? linkData7d : linkData30d;
+
+
+  const websiteData7d = {
+    period: "Apr 27 – May 4, 2026",
+    sessions: 182,
+    topPages: [
+      { page: "/", label: "Home", views: 123 },
+      { page: "/ourdoctors", label: "Our Doctors", views: 86 },
+      { page: "/locations", label: "Locations", views: 44 },
+      { page: "/services", label: "Services", views: 16 },
+      { page: "/why-nycds", label: "Why NYCDS", views: 14 },
+      { page: "/about", label: "About", views: 9 },
+      { page: "/orthodontics", label: "Orthodontics", views: 7 },
+    ],
+    trafficSources: [
+      { source: "Direct", sessions: 100, pct: 54.9 },
+      { source: "Google", sessions: 70, pct: 38.5 },
+      { source: "Instagram", sessions: 4, pct: 2.2 },
+      { source: "Other", sessions: 8, pct: 4.4 },
+    ],
+    devices: [
+      { device: "Desktop", pct: 72.9 },
+      { device: "Mobile", pct: 26.4 },
     ],
     search: {
-      totalClicks: 150,
-      totalImpressions: 5120,
-      avgCTR: 2.9,
-      avgPosition: 30.0,
+      totalClicks: 881, totalImpressions: 29004, avgCTR: 3.04, avgPosition: 27.8,
+      note: "3-month aggregate (Feb 3 – May 2)",
       topQueries: [
-        { query: "nyc dental smiles", clicks: 7, impressions: 16, ctr: 43.8, position: 1.3 },
-        { query: "dr michael chesner", clicks: 5, impressions: 21, ctr: 23.8, position: 2.9 },
-        { query: "nyc dental smile team", clicks: 5, impressions: 13, ctr: 38.5, position: 1.3 },
-        { query: "michael chesner", clicks: 4, impressions: 18, ctr: 22.2, position: 2.2 },
-        { query: "nerve pain after onlay", clicks: 3, impressions: 22, ctr: 13.6, position: 1.1 },
+        { query: "nyc dental smiles", clicks: 72, ctr: 46.5, position: 1.4 },
+        { query: "nyc dental smile team", clicks: 37, ctr: 25.3, position: 1.8 },
+        { query: "dr michael chesner", clicks: 14, ctr: 13.9, position: 5.5 },
+        { query: "nerve pain after onlay", clicks: 11, ctr: 7.1, position: 2.1 },
+        { query: "maria tamay", clicks: 11, ctr: 37.9, position: 3.9 },
       ],
       topPages: [
-        { page: "Homepage", clicks: 57, impressions: 2952, ctr: 1.9 },
-        { page: "Nerve Pain After Onlay", clicks: 37, impressions: 1008, ctr: 3.7 },
-        { page: "Our Doctors", clicks: 31, impressions: 761, ctr: 4.1 },
-        { page: "Dr. Michael Chesner", clicks: 19, impressions: 180, ctr: 10.6 },
-        { page: "About", clicks: 3, impressions: 217, ctr: 1.4 },
-      ],
-      searchDevices: [
-        { device: "Mobile", clicks: 90, pct: 60 },
-        { device: "Desktop", clicks: 60, pct: 40 },
+        { page: "Homepage", clicks: 422, impressions: 17124, ctr: 2.5 },
+        { page: "Our Doctors", clicks: 189, impressions: 3797, ctr: 5.0 },
+        { page: "Nerve Pain After Onlay", clicks: 148, impressions: 6415, ctr: 2.3 },
+        { page: "Dr. Michael Chesner", clicks: 88, impressions: 913, ctr: 9.6 },
       ],
     },
   };
+  const websiteData30d = {
+    ...websiteData7d,
+    period: "Apr 4 – May 4, 2026 (website is 7-day; search is 3-month aggregate)",
+  };
+  const websiteData = websiteData7d;
 
-  const socialData = {
-    period: "Apr 13 – Apr 27, 2026",
+
+  const socialData7d = {
+    period: "Apr 27 – May 3, 2026",
     followers: 681,
-    followerStart: 676,
-    followerGrowth: 5,
+    followerGrowth: 1,
     follows: 5,
     unfollows: 4,
-    totalViews: 6153,
-    totalReach: 895,
-    reachChange: 110.1,
-    totalInteractions: 182,
-    viewSplit: { followers: 33.4, nonFollowers: 66.6 },
-    engagementSplit: { followers: 49.2, nonFollowers: 50.8 },
-    viewsByType: { reels: 76.4, posts: 6.4, stories: 17.2 },
-    interactionsByType: { reels: 84.3, posts: 2.2, stories: 13.5 },
-    reelAvgWatchTime: "5–9s",
-    reelSkipRate: "53–77%",
-    postsPublished: 5,
-    contentMix: { reels: 4, carousels: 1 },
-    reelViews: 2115,
-    carouselViews: 289,
-    totalLikes: 45,
-    totalComments: 5,
-    totalSaves: 1,
-    totalShares: 7,
-    storyViews: 634,
-    storyReach: 478,
-    storyCompletion: 88,
-    storyCount: 9,
-    dailyViews: [
-      { date: "Apr 13", views: 120 },{ date: "Apr 14", views: 135 },
-      { date: "Apr 15", views: 110 },{ date: "Apr 16", views: 95 },
-      { date: "Apr 17", views: 356 },{ date: "Apr 18", views: 289 },
-      { date: "Apr 19", views: 80 },{ date: "Apr 20", views: 250 },
-      { date: "Apr 21", views: 350 },{ date: "Apr 22", views: 864 },
-      { date: "Apr 23", views: 400 },{ date: "Apr 24", views: 555 },
-      { date: "Apr 25", views: 696 },{ date: "Apr 26", views: 200 },
-      { date: "Apr 27", views: 150 },
-    ],
+    totalViews: 3433,
+    totalReach: 424,
+    reachChange: -52.6,
+    totalInteractions: 115,
+    viewSplit: { followers: 23.5, nonFollowers: 76.5 },
+    engagementSplit: { followers: 49.6, nonFollowers: 50.4 },
+    viewsByType: { reels: 85.3, posts: 7.1, stories: 7.6 },
+    interactionsByType: { reels: 85.5, posts: 6.8, stories: 7.7 },
+    totalLikes: 27,
+    totalComments: 1,
+    totalSaves: 0,
+    totalShares: 2,
+    storyViews: 200, storyCompletion: 88, storyCount: 4,
     posts: [
-      { id: 1, title: "Building Patient Trust – Collab w/ EEC", type: "Reel", date: "Apr 22", views: 2000, reach: 600, likes: 40, comments: 3, saves: 1, shares: 3, er: 5.0, skipRate: 0, avgWatch: "", profileActivity: 0, igUrl: "", isTop: true, isCollab: true },
-      { id: 2, title: "More Than a Job – Collab w/ EEC", type: "Reel", date: "Apr 21", views: 1900, reach: 550, likes: 35, comments: 0, saves: 1, shares: 5, er: 4.5, skipRate: 0, avgWatch: "", profileActivity: 0, igUrl: "", isTop: false, isCollab: true },
-      { id: 3, title: "Team Culture – What Keeps Us Going", type: "Reel", date: "Apr 22", views: 864, reach: 407, likes: 19, comments: 2, saves: 0, shares: 1, er: 4.7, skipRate: 62.7, avgWatch: "9s", profileActivity: 0, igUrl: "https://www.instagram.com/reel/DXcQnoSp92L/", isTop: false },
-      { id: 4, title: "Have You Seen Our Ad Yet?", type: "Reel", date: "Apr 25", views: 696, reach: 275, likes: 10, comments: 3, saves: 1, shares: 4, er: 5.4, skipRate: 69, avgWatch: "5s", profileActivity: 0, igUrl: "https://www.instagram.com/reel/DXjqa3ZpvbN/", isTop: false },
-      { id: 5, title: "Your New Favorite Dentist", type: "Reel", date: "Apr 24", views: 555, reach: 275, likes: 7, comments: 0, saves: 0, shares: 1, er: 2.5, skipRate: 76.8, avgWatch: "5s", profileActivity: 0, igUrl: "https://www.instagram.com/reel/DXhTaOyp0hT/", isTop: false },
-      { id: 6, title: "This Snack Is Bad for Your Teeth", type: "Reel", date: "Apr 17", views: 356, reach: 248, likes: 8, comments: 0, saves: 0, shares: 0, er: 3.2, skipRate: 53, avgWatch: "", profileActivity: 0, igUrl: "https://www.instagram.com/reel/DXP0R0Mkb1G/", isTop: false },
-      { id: 7, title: "Don't Skip Your Cleanings", type: "Carousel", date: "Apr 18", views: 289, reach: 157, likes: 3, comments: 0, saves: 0, shares: 1, er: 2.3, skipRate: 0, avgWatch: "", profileActivity: 0, igUrl: "https://www.instagram.com/p/DXSFpUZp0hG/", isTop: false },
+      { id: 1, title: "Prosthodontist – Dr. Farahani", type: "Reel", date: "Apr 29", views: 498, reach: 281, likes: 22, comments: 1, saves: 0, shares: 2, er: 8.2, skipRate: 58.9, avgWatch: "10s", igUrl: "https://www.instagram.com/reel/DYExample1/", isTop: true },
+      { id: 2, title: "Patient Testimonial", type: "Image", date: "May 1", views: 124, reach: 62, likes: 5, comments: 0, saves: 0, shares: 0, er: 8.1, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/p/DYExample2/", isTop: false },
     ],
   };
+  const socialData30d = {
+    period: "Apr 4 – May 4, 2026",
+    followers: 681,
+    followerGrowth: 1,
+    follows: 5,
+    unfollows: 4,
+    totalViews: 4580,
+    totalReach: 2900,
+    reachChange: 0,
+    totalInteractions: 310,
+    viewSplit: { followers: 30, nonFollowers: 70 },
+    engagementSplit: { followers: 50, nonFollowers: 50 },
+    viewsByType: { reels: 80, posts: 10, stories: 10 },
+    interactionsByType: { reels: 82, posts: 8, stories: 10 },
+    totalLikes: 130,
+    totalComments: 8,
+    totalSaves: 7,
+    totalShares: 15,
+    storyViews: 1248, storyCompletion: 88, storyCount: 17,
+    posts: [
+      { id: 1, title: "Team Culture – What Keeps Us Going", type: "Reel", date: "Apr 22", views: 635, reach: 422, likes: 17, comments: 2, saves: 0, shares: 1, er: 4.7, skipRate: 62, avgWatch: "9s", igUrl: "https://www.instagram.com/reel/DXcQnoSp92L/", isTop: true },
+      { id: 2, title: "Ad Spotted – Have You Seen It?", type: "Reel", date: "Apr 25", views: 578, reach: 333, likes: 10, comments: 3, saves: 1, shares: 4, er: 5.4, skipRate: 69, avgWatch: "5s", igUrl: "https://www.instagram.com/reel/DXjqa3ZpvbN/", isTop: false },
+      { id: 3, title: "Prosthodontist – Dr. Farahani", type: "Reel", date: "Apr 29", views: 498, reach: 281, likes: 22, comments: 1, saves: 0, shares: 2, er: 8.2, skipRate: 58.9, avgWatch: "10s", igUrl: "https://www.instagram.com/reel/DYExample1/", isTop: false },
+      { id: 4, title: "Your New Favorite Dentist", type: "Reel", date: "Apr 24", views: 475, reach: 296, likes: 11, comments: 1, saves: 0, shares: 2, er: 4.7, skipRate: 77, avgWatch: "5s", igUrl: "https://www.instagram.com/reel/DXhTaOyp0hT/", isTop: false },
+      { id: 5, title: "This Snack Is Bad for Teeth", type: "Reel", date: "Apr 17", views: 369, reach: 253, likes: 9, comments: 0, saves: 0, shares: 1, er: 4.0, skipRate: 52, avgWatch: "", igUrl: "https://www.instagram.com/reel/DXP0R0Mkb1G/", isTop: false },
+      { id: 6, title: "Hygienist Week – Team Appreciation", type: "Reel", date: "Apr 9", views: 345, reach: 246, likes: 7, comments: 0, saves: 2, shares: 0, er: 3.7, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/reel/DW7I57GEcdo/", isTop: false },
+      { id: 7, title: "Treat or Monitor? – Dr. Tamay", type: "Reel", date: "Apr 4", views: 366, reach: 236, likes: 6, comments: 0, saves: 1, shares: 0, er: 3.0, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/reel/DWtslASpVu2/", isTop: false },
+      { id: 8, title: "Don\'t Skip Your Cleanings", type: "Carousel", date: "Apr 18", views: 296, reach: 157, likes: 3, comments: 0, saves: 0, shares: 1, er: 2.3, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/p/DXSFpUZp0hG/", isTop: false },
+      { id: 9, title: "Veneers – Myths vs Facts", type: "Carousel", date: "Apr 10", views: 220, reach: 85, likes: 5, comments: 0, saves: 2, shares: 0, er: 8.7, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/p/DW9Tlq9lmdr/", isTop: false },
+      { id: 10, title: "Patient Testimonial", type: "Image", date: "May 1", views: 124, reach: 62, likes: 5, comments: 0, saves: 0, shares: 0, er: 8.1, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/p/DYExample2/", isTop: false },
+    ],
+  };
+  const socialData = timeRange === "7d" ? socialData7d : socialData30d;
+  const overviewKpis = timeRange === "7d" ? [
+    { label: "Followers", value: 681, change: "+1", delay: 0 },
+    { label: "Views", value: 3433, delay: 80 },
+    { label: "Reach", value: 424, change: "-52.6%", delay: 160 },
+    { label: "Interactions", value: 115, delay: 240 },
+    { label: "Non-Follower", value: "76.5%", delay: 320 },
+  ] : [
+    { label: "Followers", value: 681, change: "+1", delay: 0 },
+    { label: "Views", value: 4580, delay: 80 },
+    { label: "Reach", value: 2900, delay: 160 },
+    { label: "Interactions", value: 310, delay: 240 },
+    { label: "Non-Follower", value: "70%", delay: 320 },
+  ];
 
   const tabs = [
     { id: "overview", label: "Overview", icon: "◉" },
@@ -288,6 +315,11 @@ export default function Dashboard() {
   return (
     <div className={`root ${loaded ? "on" : ""}`}>
       <div className="hdr"><div className="hdr-top"><div><div className="hdr-brand">Figment Creative · Social Intelligence</div><div className="hdr-title">{d.client.fullName}</div><div className="hdr-sub">Social Media Performance · {d.client.period}</div></div><div className="hdr-badge"><div className="hdr-pulse" />Weekly Report</div></div></div>
+      <div style={{ display: "flex", justifyContent: "center", gap: 6, margin: "12px 0 4px" }}>
+        {(["7d", "30d"] as const).map((r) => (
+          <button key={r} onClick={() => setTimeRange(r)} style={{ padding: "6px 18px", borderRadius: 99, border: `1.5px solid ${timeRange === r ? "#6F5060" : "#D9CCC1"}`, background: timeRange === r ? "#6F5060" : "transparent", color: timeRange === r ? "#fff" : "#6F5060", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s" }}>{r === "7d" ? "Last 7 Days" : "Last 30 Days"}</button>
+        ))}
+      </div>
       <div className="tabs">{tabs.map((t) => (<button key={t.id} className={`tab ${tab === t.id ? "on" : ""}`} onClick={() => setTab(t.id)}><span style={{ fontSize: 15 }}>{t.icon}</span> {t.label}</button>))}</div>
 
       <div className="grid">
@@ -298,9 +330,9 @@ export default function Dashboard() {
             ))}
           </div>
           <div className="exec"><div className="card-hd">Executive Summary</div><div className="exec-cols">
-            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views from non-followers — strongest discovery signal yet. Reach surged +110% vs prior period to 895 accounts. "Team Culture" Reel led with 864 views and 62.7% skip rate (better than account average).</div></div>
-            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">{d.kpi.engagements.value} interactions with 50.8% from non-followers — nearly even split. "Ad Spotted" Reel had best ER at 5.4%. Comments at 5. Saves still critically low at 1.</div></div>
-            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Reels drive {d.contentMix.reels}% of views and 84.3% of interactions. Skip rates improved: 62.7% on top Reel vs 68.9% typical. 681 followers (+5 net). 9 Stories with 88% completion.</div></div>
+            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views from non-followers. Reach at {socialData.totalReach} accounts. The Prosthodontist Reel (498 views, 58.9% skip) is the best-performing Reel ever on this account — beating typical skip rate by 10 points.</div></div>
+            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">{socialData.totalInteractions} interactions. Prosthodontist Reel achieved 8.2% ER — highest on the account. Educational/professional content is the clear winner. Saves remain at 0 — the critical gap.</div></div>
+            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Reels drive {socialData.viewsByType.reels}% of views. Skip rates improving: 58.9% on Prosthodontist Reel vs 68.6% typical. 681 followers (+1 net). Educational explainer content is the breakout format.</div></div>
           </div></div>
           <div className="cols2">
             <div className="card"><div className="card-hd">Content Mix</div><div style={{ display: "flex", alignItems: "center", gap: 28 }}><Donut data={[{ value: d.contentMix.reels }, { value: d.contentMix.posts }, { value: d.contentMix.stories }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} /><div style={{ flex: 1 }}>{[{ label: "Reels", value: d.contentMix.reels, color: "#6F5060" }, { label: "Posts", value: d.contentMix.posts, color: "#8FA1A6" }, { label: "Stories", value: d.contentMix.stories, color: "#A6968D" }].map((item) => (<div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num">{item.value}%</span></div>))}</div></div></div>
@@ -416,7 +448,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="card">
-            <InsightCard title="Link Attribution · Apr 13 – Apr 27" body="58th Street leads with 15 clicks, closely followed by 35th Street and 5th Ave (14 each). NYC leads all cities with 17 clicks — strong local intent. Website UTM drives 23 clicks via the locations page. Social referrals jumped to 22 clicks — a significant increase. Mobile traffic leads at 63% (Android 19 + iOS 15)." severity="info" />
+            <InsightCard title={"Link Attribution · " + linkData.period} body={timeRange === "7d" ? "27 clicks in 7 days. 58th Street leads with 8 clicks. NYC dominates at 8 city-level clicks. Mac OS X is the top device — suggesting desktop browsing from the office. Traffic is spread across all 4 locations." : "142 human clicks over 30 days. 58th Street leads (34), followed by 5th Ave (27) and 60th Street (24). Website UTM drives 52 clicks via the locations page. NYC leads cities at 27. Social referrals at 48 clicks."} severity="info" />
           </div>
         </>)}
 
@@ -557,7 +589,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="card">
-            <InsightCard title="Website Intelligence · Apr 13 – Apr 27" body="404 sessions (+55% vs prior). Direct traffic leads at 57.4%, overtaking Google (37.4%). Mobile dominates at 78.5% — dramatic flip from 27.6% last period. Google Search drives 150 clicks from 5,120 impressions (2.9% CTR). 'Nerve Pain After Onlay' is the #1 organic content page at 37 search clicks — educational SEO content is working. Dr. Michael Chesner's page achieves 10.6% CTR, the highest of any page. Branded queries ('nyc dental smiles') convert at 43.8% CTR, indicating strong brand recognition in search." severity="info" />
+            <InsightCard title="Website + Search Intelligence" body="182 sessions (7-day). Direct leads at 54.9%, Google organic at 38.5%. Desktop dominates at 72.9%. Our Doctors page is #2 at 86 views — strong research intent. Google Search (3-month): 881 clicks from 29K impressions at 3.04% CTR. Branded query nyc dental smiles converts at 46.5% CTR. Nerve Pain After Onlay drives 148 organic clicks — educational SEO working. Dr. Chesner page: 9.6% CTR." severity="info" />
           </div>
         </>)}
 
@@ -752,8 +784,8 @@ export default function Dashboard() {
           </div>
 
           <div className="card">
-            <InsightCard title="Social Intelligence · Apr 13 – Apr 27" body="6,153 views (last 7 days platform data) reaching 895 accounts (+110% vs prior period). 66.6% non-follower views — strongest discovery signal yet. The 'Team Culture' Reel (864 views, 62.7% skip, 9s avg watch) is the top performer with the best skip rate on the account. 'Ad Spotted' Reel achieved 5.4% ER with 696 views. Reels drive 76.4% of views and 84.3% of interactions. 9 Stories posted with 88% completion rate." severity="info" />
-            <InsightCard title="Period Comparison" body="Reach surged +110% vs prior period. Non-follower views jumped to 66.6% (was 52.5%) — the algorithm is distributing content more aggressively. Skip rates improved: Team Culture at 62.7% beats the account typical of 68.9%. Followers grew to 681 (+5 net). The Reels-first strategy (76.4% of views) is working. Key gap: saves remain at 1 — save-worthy educational carousels needed." severity="success" />
+            <InsightCard title={"Social Intelligence · " + socialData.period} body={timeRange === "7d" ? "3,433 views reaching 424 accounts. 76.5% non-follower views — strongest discovery signal on the account. The Prosthodontist Reel (498 views, 58.9% skip, 10s avg watch) is the breakout performer — first Reel to beat typical skip rate by 10 points. Educational/professional content is the clear winner. Reels drive 85.3% of views." : "4,580 views across 11 posts over 30 days. Top performers: Team Culture (635), Ad Spotted (578), Prosthodontist (498). Average Reel skip rate improved to 63.6% (was 71-82% two periods ago). 17 Stories with 88% completion. Educational content achieves highest ER (8.2% on Prosthodontist)."} severity="info" />
+            <InsightCard title="Key Insight" body="The Prosthodontist Reel proves the formula: educational, doctor-led, professional explainer content generates the best engagement AND retention on this account. 58.9% skip rate (vs 68.6% typical), 8.2% ER, 10s avg watch time. This format should become a weekly series. The critical gap remains saves (0) — save-worthy educational carousels needed." severity="success" />
           </div>
         </>)}
 
