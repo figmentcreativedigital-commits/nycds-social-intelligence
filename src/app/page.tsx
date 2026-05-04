@@ -164,6 +164,12 @@ export default function Dashboard() {
       { city: "Luxembourg", clicks: 8 },
       { city: "Warsaw", clicks: 5 },
     ],
+    trafficSources: [
+      { source: "Website", clicks: 52 },
+      { source: "Social", clicks: 48 },
+      { source: "Direct / Unknown", clicks: 42 },
+      { source: "Google", clicks: 2 },
+    ],
     devices: [
       { os: "Mac OS X", clicks: 44 },
       { os: "Windows", clicks: 39 },
