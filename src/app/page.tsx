@@ -12,9 +12,9 @@ const FALLBACK_DATA = {
     watchTime: { value: "2h 39m", label: "Watch Time" },
   },
   posts: [
-    { id: 1, title: "Dental Implants – Dr. Tamay", type: "Reel", views: 1716, reach: 895, likes: 59, comments: 0, saves: 1, shares: 0, isTop: true, igPostUrl: "" },
-    { id: 2, title: "Toothbrush Tips", type: "Reel", views: 823, reach: 509, likes: 6, comments: 0, saves: 0, shares: 2, isTop: false, igPostUrl: "" },
-    { id: 3, title: "Invisalign Carousel", type: "Carousel", views: 112, reach: 45, likes: 3, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "" },
+    { id: 1, title: "Dental Implants – Dr. Tamay", type: "Reel", views: 1716, reach: 895, likes: 59, comments: 0, saves: 1, shares: 0, isTop: true, igPostUrl: "https://www.instagram.com/p/DYP-UpfJ_26/" },
+    { id: 2, title: "Toothbrush Tips", type: "Reel", views: 823, reach: 509, likes: 6, comments: 0, saves: 0, shares: 2, isTop: false, igPostUrl: "https://www.instagram.com/p/DYUzOKspMvg/" },
+    { id: 3, title: "Invisalign Carousel", type: "Carousel", views: 112, reach: 45, likes: 3, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/p/DYXsmIUFroy/" },
   ] as any[],
   contentMix: { posts: 8, reels: 80, stories: 12 },
   audience: {
@@ -262,9 +262,9 @@ export default function Dashboard() {
       { date: "May 17", views: 100 },
     ],
     posts: [
-      { id: 1, title: "Dental Implants – Dr. Tamay", type: "Reel", date: "May 12", views: 1716, reach: 895, likes: 59, comments: 0, saves: 1, shares: 0, er: 6.6, skipRate: 58.5, avgWatch: "7s", igUrl: "", isTop: true },
-      { id: 2, title: "Toothbrush Tips", type: "Reel", date: "May 14", views: 823, reach: 509, likes: 6, comments: 0, saves: 0, shares: 2, er: 1.6, skipRate: 75.0, avgWatch: "4s", igUrl: "", isTop: false },
-      { id: 3, title: "Invisalign Carousel", type: "Carousel", date: "May 15", views: 112, reach: 45, likes: 3, comments: 0, saves: 0, shares: 1, er: 9.5, skipRate: 0, avgWatch: "", igUrl: "", isTop: false },
+      { id: 1, title: "Dental Implants – Dr. Tamay", type: "Reel", date: "May 12", views: 1716, reach: 895, likes: 59, comments: 0, saves: 1, shares: 0, er: 6.6, skipRate: 58.5, avgWatch: "7s", igUrl: "https://www.instagram.com/p/DYP-UpfJ_26/", isTop: true },
+      { id: 2, title: "Toothbrush Tips", type: "Reel", date: "May 14", views: 823, reach: 509, likes: 6, comments: 0, saves: 0, shares: 2, er: 1.6, skipRate: 75.0, avgWatch: "4s", igUrl: "https://www.instagram.com/p/DYUzOKspMvg/", isTop: false },
+      { id: 3, title: "Invisalign Carousel", type: "Carousel", date: "May 15", views: 112, reach: 45, likes: 3, comments: 0, saves: 0, shares: 1, er: 9.5, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/p/DYXsmIUFroy/", isTop: false },
     ],
   };
   const socialData30d = {
@@ -295,12 +295,12 @@ export default function Dashboard() {
       { date: "May 12", views: 1716 },{ date: "May 14", views: 823 },
     ],
     posts: [
-      { id: 1, title: "Dental Implants – Dr. Tamay", type: "Reel", date: "May 12", views: 1716, reach: 895, likes: 59, comments: 0, saves: 1, shares: 0, er: 6.6, skipRate: 58.5, avgWatch: "7s", igUrl: "", isTop: true },
-      { id: 2, title: "Toothbrush Tips", type: "Reel", date: "May 14", views: 823, reach: 509, likes: 6, comments: 0, saves: 0, shares: 2, er: 1.6, skipRate: 75.0, avgWatch: "4s", igUrl: "", isTop: false },
+      { id: 1, title: "Dental Implants – Dr. Tamay", type: "Reel", date: "May 12", views: 1716, reach: 895, likes: 59, comments: 0, saves: 1, shares: 0, er: 6.6, skipRate: 58.5, avgWatch: "7s", igUrl: "https://www.instagram.com/p/DYP-UpfJ_26/", isTop: true },
+      { id: 2, title: "Toothbrush Tips", type: "Reel", date: "May 14", views: 823, reach: 509, likes: 6, comments: 0, saves: 0, shares: 2, er: 1.6, skipRate: 75.0, avgWatch: "4s", igUrl: "https://www.instagram.com/p/DYUzOKspMvg/", isTop: false },
       { id: 3, title: "Team Culture – What Keeps Us Going", type: "Reel", date: "Apr 22", views: 864, reach: 407, likes: 19, comments: 2, saves: 0, shares: 1, er: 4.7, skipRate: 62.7, avgWatch: "9s", igUrl: "", isTop: false },
       { id: 4, title: "Ad Spotted – Have You Seen It?", type: "Reel", date: "Apr 25", views: 696, reach: 333, likes: 10, comments: 3, saves: 1, shares: 4, er: 5.4, skipRate: 69, avgWatch: "5s", igUrl: "", isTop: false },
       { id: 5, title: "Prosthodontist – Dr. Farahani", type: "Reel", date: "Apr 29", views: 498, reach: 281, likes: 22, comments: 1, saves: 0, shares: 2, er: 8.2, skipRate: 58.9, avgWatch: "10s", igUrl: "", isTop: false },
-      { id: 6, title: "Invisalign Carousel", type: "Carousel", date: "May 15", views: 112, reach: 45, likes: 3, comments: 0, saves: 0, shares: 1, er: 9.5, skipRate: 0, avgWatch: "", igUrl: "", isTop: false },
+      { id: 6, title: "Invisalign Carousel", type: "Carousel", date: "May 15", views: 112, reach: 45, likes: 3, comments: 0, saves: 0, shares: 1, er: 9.5, skipRate: 0, avgWatch: "", igUrl: "https://www.instagram.com/p/DYXsmIUFroy/", isTop: false },
     ],
   };
   const socialData = timeRange === "7d" ? socialData7d : socialData30d;
