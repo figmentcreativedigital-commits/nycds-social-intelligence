@@ -181,7 +181,59 @@ export default function Dashboard() {
   const linkData = timeRange === "7d" ? linkData7d : linkData30d;
 
   const websiteData7d = {
-    period: "Apr 18 – May 17, 2026 (~30 days)",
+    period: "May 11 – May 17, 2026",
+    sessions: 158,
+    topPages: [
+      { page: "/", label: "Home", views: 139 },
+      { page: "/ourdoctors", label: "Our Doctors", views: 44 },
+      { page: "/about", label: "About", views: 17 },
+      { page: "/dr-maria-tamay", label: "Dr. Maria Tamay", views: 12 },
+      { page: "/dr-doris-giraldo", label: "Dr. Doris Giraldo", views: 9 },
+      { page: "/murray-hill-booking", label: "Murray Hill Booking", views: 9 },
+      { page: "/dr-michael-chesner", label: "Dr. Michael Chesner", views: 8 },
+      { page: "/locations", label: "Locations", views: 7 },
+      { page: "/restorative-dentistry", label: "Restorative Dentistry", views: 6 },
+    ],
+    trafficSources: [
+      { source: "Google", sessions: 75, pct: 47.5 },
+      { source: "Direct", sessions: 66, pct: 41.8 },
+      { source: "Instagram", sessions: 4, pct: 2.5 },
+      { source: "Yahoo", sessions: 3, pct: 1.9 },
+      { source: "ChatGPT", sessions: 2, pct: 1.3 },
+      { source: "Bing", sessions: 2, pct: 1.3 },
+      { source: "Other", sessions: 6, pct: 3.7 },
+    ],
+    devices: [
+      { device: "Desktop", pct: 73.1 },
+      { device: "Mobile", pct: 26.9 },
+    ],
+    dailyVisitors: [
+      { date: "Apr 18", visitors: 22 },{ date: "Apr 25", visitors: 28 },
+      { date: "May 1", visitors: 30 },{ date: "May 4", visitors: 35 },
+      { date: "May 8", visitors: 28 },{ date: "May 11", visitors: 32 },
+      { date: "May 14", visitors: 25 },{ date: "May 17", visitors: 18 },
+    ],
+    search: {
+      totalClicks: 322, totalImpressions: 10896, avgCTR: 2.95, avgPosition: 27.9,
+      note: "30-day (Apr 18 – May 17)",
+      topQueries: [
+        { query: "nyc dental smiles", clicks: 30, ctr: 53.6, position: 1.3 },
+        { query: "dr michael chesner", clicks: 8, ctr: 22.2, position: 3.6 },
+        { query: "nyc dental smile team", clicks: 8, ctr: 32.0, position: 1.2 },
+        { query: "michael chesner", clicks: 6, ctr: 17.7, position: 3.6 },
+        { query: "doris giraldo", clicks: 6, ctr: 35.3, position: 3.4 },
+        { query: "nerve pain after onlay", clicks: 4, ctr: 7.7, position: 1.3 },
+      ],
+      topPages: [
+        { page: "Homepage", clicks: 145, impressions: 6672, ctr: 2.2 },
+        { page: "Our Doctors", clicks: 65, impressions: 1637, ctr: 4.0 },
+        { page: "Nerve Pain After Onlay", clicks: 51, impressions: 1991, ctr: 2.6 },
+        { page: "Dr. Michael Chesner", clicks: 37, impressions: 401, ctr: 9.2 },
+      ],
+    },
+  };
+  const websiteData30d = {
+    period: "Apr 18 – May 17, 2026",
     sessions: 793,
     topPages: [
       { page: "/", label: "Home", views: 578 },
@@ -231,8 +283,7 @@ export default function Dashboard() {
       ],
     },
   };
-  const websiteData30d = { ...websiteData7d };
-  const websiteData = websiteData7d;
+  const websiteData = timeRange === "7d" ? websiteData7d : websiteData30d;
 
   const socialData7d = {
     period: "May 11 – May 17, 2026",
@@ -348,7 +399,7 @@ export default function Dashboard() {
   return (
     <div className={`root ${loaded ? "on" : ""}`}>
       <div className="hdr"><div className="hdr-top"><div><div className="hdr-brand">Figment Creative · Social Intelligence</div><div className="hdr-title">{d.client.fullName}</div><div className="hdr-sub">Social Media Performance · {d.client.period}</div></div><div className="hdr-badge"><div className="hdr-pulse" />Weekly Report</div></div></div>
-      {(tab === "links" || tab === "social") && <div style={{ display: "flex", justifyContent: "center", gap: 6, margin: "12px 0 4px" }}>
+      {(tab === "links" || tab === "social" || tab === "website") && <div style={{ display: "flex", justifyContent: "center", gap: 6, margin: "12px 0 4px" }}>
         {(["7d", "30d"] as const).map((r) => (
           <button key={r} onClick={() => setTimeRange(r)} style={{ padding: "6px 18px", borderRadius: 99, border: `1.5px solid ${timeRange === r ? "#6F5060" : "#D9CCC1"}`, background: timeRange === r ? "#6F5060" : "transparent", color: timeRange === r ? "#fff" : "#6F5060", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s" }}>{r === "7d" ? "Last 7 Days" : "Last 30 Days"}</button>
         ))}
@@ -622,7 +673,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="card">
-            <InsightCard title="Website + Search Intelligence" body="793 sessions (~30 days). Direct leads at 54.6%, Google at 38.7%. Desktop 75.9%. Our Doctors #2 at 300 views. Dr. Maria Tamay page appeared for first time at 26 views — driven by her Reel performance. ChatGPT.com referral: 3 sessions (AI discovery emerging). Search: 322 clicks from 10.9K impressions at 2.95% CTR. Branded query nyc dental smiles at 53.6% CTR. Dr. Chesner: 9.2% CTR." severity="info" />
+            <InsightCard title={"Website + Search · " + websiteData.period} body={timeRange === "7d" ? "158 sessions. Google reclaimed #1 at 47.5% (75), Direct 41.8% (66). Dr. Maria Tamay page surged to #4 at 12 views — her Reel is driving website traffic. Murray Hill Booking appeared at 9 views — conversion intent. ChatGPT sent 2 sessions. Desktop 73.1%. Search (7d): 75 clicks, best days May 11-12 at 16 each." : "793 sessions over 30 days. Direct leads 54.6%, Google 38.7%. Our Doctors #2 at 300 views. Dr. Tamay page at 26 views. ChatGPT 3 sessions. Search (30d): 322 clicks, 2.95% CTR. Branded query nyc dental smiles at 53.6% CTR. Dr. Chesner: 9.2% CTR. Nerve Pain After Onlay: 51 clicks."} severity="info" />
           </div>
         </>)}
 
