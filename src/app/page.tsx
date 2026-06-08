@@ -7,13 +7,13 @@ const FALLBACK_DATA = {
     followers: { value: 690, change: 8, label: "Followers" },
     reach: { value: 362, label: "Reach" },
     views: { value: 3410, label: "Total Views" },
-    engagementRate: { value: 51.9, label: "Engagement Rate", suffix: "%" },
+    engagementRate: { value: 9.0, label: "Engagement Rate", suffix: "%" },
     engagements: { value: 188, label: "Engagements" },
     watchTime: { value: "—", label: "Watch Time" },
   },
   posts: [
-    { id: 1, title: "Authenticity in Dentistry · Collab w/ Dr. El Chaar", type: "Reel", views: 3300, reach: "—", likes: 0, comments: 0, saves: 0, shares: 0, isTop: true, isCollab: true, igPostUrl: "https://www.instagram.com/reel/DZK-h6ZAO_d/" },
-    { id: 2, title: "Is Dentistry Losing Its Soul? · Collab w/ Dr. El Chaar", type: "Reel", views: 1400, reach: "—", likes: 0, comments: 0, saves: 0, shares: 0, isTop: false, isCollab: true, igPostUrl: "https://www.instagram.com/reel/DZOF7qTBswB/" },
+    { id: 1, title: "Authenticity in Dentistry · Collab w/ Dr. El Chaar", type: "Reel", views: 3321, reach: 1212, likes: 97, comments: 26, saves: 3, shares: 11, isTop: true, isCollab: true, igPostUrl: "https://www.instagram.com/reel/DZK-h6ZAO_d/" },
+    { id: 2, title: "Is Dentistry Losing Its Soul? · Collab w/ Dr. El Chaar", type: "Reel", views: 1441, reach: 366, likes: 16, comments: 0, saves: 0, shares: 2, isTop: false, isCollab: true, igPostUrl: "https://www.instagram.com/reel/DZOF7qTBswB/" },
     { id: 3, title: "What X-Rays Don’t Show You — Dr. Tamay", type: "Reel", views: 286, reach: 214, likes: 5, comments: 1, saves: 0, shares: 0, isTop: false, igPostUrl: "" },
   ] as any[],
   contentMix: { posts: 4, reels: 88, stories: 8 },
@@ -41,7 +41,7 @@ function generateInsights(data: ReportData) {
     opportunities.push({ title: "Views Surged on Collab Reels — Reach Still Rebuilding", body: `Account views jumped to ${data.kpi.views.value.toLocaleString()} (from 1,327) on the back of two collaboration Reels with Dr. El Chaar — "Authenticity in Dentistry" (3.3K) and "Is Dentistry Losing Its Soul?" (1.4K). Reach itself dipped to ${reach} accounts (−26.9%): because NYCDS is a tagged co-author on those Reels, Instagram credits the account with the views and interactions but only a fraction of the reach. ${data.viewerSplit.nonFollowers}% of views came from non-followers — discovery is wide. The lever is converting that borrowed reach into NYCDS follows and rebuilding owned-content cadence.`, severity: "success" });
   }
   if (er >= 8) {
-    insights.push({ title: "Engagement Rate Inflated by Collab Attribution", body: `Engagement rate computes to ${er}% (188 interactions ÷ 362 reach), but read it with caution this cycle. The collaboration Reels drove most of the 188 interactions while NYCDS was credited with only a sliver of their reach, shrinking the denominator. Treat it as a signal the collab content is resonating, not as a true content-engagement rate — NYCDS's own Jun 3 Reel ran a more representative 2.8% on 214 reach.`, severity: "info" });
+    insights.push({ title: "Engagement Rate Strong at ~9%", body: `Measured against the reach the week's Reels actually achieved (~1,790 across the two collab Reels and the owned Jun 3 Reel), engagement rate lands at ${er}% — comfortably above the 5% healthcare benchmark. The "Authenticity in Dentistry" collab carried it: 137 interactions on 1,212 reach (11.3%). NYCDS's own Jun 3 Reel ran 2.8%. Note: the raw account view (188 interactions ÷ 362 attributed reach = 51.9%) overstates badly, because IG credits NYCDS the collab interactions but only a sliver of the collab reach — ~9% is the honest figure.`, severity: "success" });
   }
   const sorted = [
     { name: "Reels", val: data.contentMix.reels },
@@ -314,12 +314,12 @@ export default function Dashboard() {
     engagementSplit: { followers: 43.9, nonFollowers: 56.1 },
     viewsByType: { reels: 87.7, posts: 3.9, stories: 8.4 },
     interactionsByType: { reels: 84.2, posts: 2.3, stories: 13.5 },
-    totalLikes: 5,
-    totalComments: 1,
-    totalSaves: 0,
-    totalShares: 0,
+    totalLikes: 118,
+    totalComments: 27,
+    totalSaves: 3,
+    totalShares: 13,
     storyViews: 138, storyCompletion: 76, storyCount: 3,
-    reelAvgWatchTime: "4s",
+    reelAvgWatchTime: "4–10s",
     reelSkipRate: "63%",
     dailyViews: [
       { date: "Jun 1", views: 164 },{ date: "Jun 2", views: 229 },
@@ -328,7 +328,9 @@ export default function Dashboard() {
       { date: "Jun 7", views: 329 },
     ],
     posts: [
-      { id: 1, title: "What X-Rays Don’t Show You — Dr. Tamay", type: "Reel", date: "Jun 3", views: 286, reach: 214, likes: 5, comments: 1, saves: 0, shares: 0, er: 2.8, skipRate: 63, avgWatch: "4s", igUrl: "", isTop: true },
+      { id: 1, title: "Authenticity in Dentistry · Collab w/ Dr. El Chaar", type: "Reel", date: "Jun 4", views: 3321, reach: 1212, likes: 97, comments: 26, saves: 3, shares: 11, er: 11.3, skipRate: 0, avgWatch: "10s", igUrl: "https://www.instagram.com/reel/DZK-h6ZAO_d/", isTop: true, isCollab: true },
+      { id: 2, title: "Is Dentistry Losing Its Soul? · Collab w/ Dr. El Chaar", type: "Reel", date: "Jun 5", views: 1441, reach: 366, likes: 16, comments: 0, saves: 0, shares: 2, er: 4.9, skipRate: 0, avgWatch: "7s", igUrl: "https://www.instagram.com/reel/DZOF7qTBswB/", isTop: false, isCollab: true },
+      { id: 3, title: "What X-Rays Don’t Show You — Dr. Tamay", type: "Reel", date: "Jun 3", views: 286, reach: 214, likes: 5, comments: 1, saves: 0, shares: 0, er: 2.8, skipRate: 63, avgWatch: "4s", igUrl: "", isTop: false },
     ],
   };
   const socialData30d = {
@@ -429,7 +431,7 @@ export default function Dashboard() {
           </div>
           <div className="exec"><div className="card-hd">Executive Summary</div><div className="exec-cols">
             <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views came from non-followers — the widest discovery skew in months, driven by two collaboration Reels with Dr. El Chaar (&ldquo;Authenticity in Dentistry&rdquo; 3.3K, &ldquo;Is Dentistry Losing Its Soul?&rdquo; 1.4K). Account views jumped to 3,410 (from 1,327). Reach itself dipped to 362 (−26.9%) — a collaborator-attribution effect, since NYCDS is credited with the Reels&rsquo; views but only a sliver of their reach.</div></div>
-            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">188 account interactions (up from 40), 84% on Reels — overwhelmingly the two collab Reels. The headline ER (51.9%) is inflated by that same attribution quirk and should be read as a resonance signal, not a true rate; NYCDS&rsquo;s own Jun 3 Reel ran ~2.8%. Followers grew +8 net (9 follows / 1 unfollow). Saves stayed at 0 on owned content. 25–44 demo = 59% of audience.</div></div>
+            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">188 account interactions (up from 40), 84% on Reels. Measured against the reach the content actually achieved (~1,790), engagement rate is ~9% — above the 5% healthcare benchmark. The &ldquo;Authenticity&rdquo; collab carried it (97 likes / 26 comments / 1,212 reach = 11.3%); &ldquo;Soul&rdquo; ran 4.9% and the owned Jun 3 Reel 2.8%. (The raw 188÷362 account view reads 51.9%, but that divides collab-credited interactions by a sliver of the collab reach.) Followers +8 net (9 follows / 1 unfollow). 25–44 demo = 59% of audience.</div></div>
             <div><div className="exec-col-title">Content</div><div className="exec-col-body">Reels {d.contentMix.reels}% of views, Stories {d.contentMix.stories}%, Posts {d.contentMix.posts}%. Only one NYCDS-originated Reel published this week (Jun 3, 286 views); the 30d window is anchored by the May 12 implants Reel at 1,768. GSC 28d: 270 clicks at pos 34; brand-search heavy, but the nerve-pain page (48 clicks, pos 6.3) outranks every brand page. Mobile ranks ~2.5× better than desktop on Google — the SEO lever.</div></div>
           </div></div>
           <div className="cols2">
@@ -456,11 +458,11 @@ export default function Dashboard() {
               </div>); })}
           </div>
           <div style={{ margin: "2px 0 16px", padding: "11px 16px", background: "rgba(88,130,220,0.08)", borderRadius: 10, border: "1px solid rgba(88,130,220,0.25)" }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#5882DC" }}>⚡ The two collab Reels were co-posted with Dr. El Chaar — their views show on NYCDS&rsquo;s account, but per-reel reach and engagement live on the partner accounts, so NYCDS&rsquo;s share is captured in the account total (188 interactions) rather than per card.</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#5882DC" }}>⚡ The two collab Reels were co-published with Dr. El Chaar (&ldquo;Authenticity&rdquo; also with Dr. Laura) and crossposted to Facebook. Reach and engagement shown are the post totals, shared across the collaborating accounts — which is why they exceed NYCDS&rsquo;s account-attributed reach of 362.</span>
           </div>
           <div className="cols2">
             <div className="card"><div className="card-hd">Watch Time Analytics</div><div style={{ textAlign: "center", padding: "8px 0 22px" }}><div className="big-num">{typeof d.kpi.watchTime.value === "string" ? d.kpi.watchTime.value.replace(/\s*\d+s$/, "") : d.kpi.watchTime.value}</div><div style={{ fontSize: 12, color: "#9B9196", marginTop: 2 }}>Total Watch Time</div></div><div style={{ display: "flex", gap: 14 }}><div className="stat-box"><div className="big-num-sm plum">7s</div><div className="stat-label">Avg Duration</div></div><div className="stat-box"><div className="big-num-sm steel">{d.kpi.views.value.toLocaleString()}</div><div className="stat-label">Total Views</div></div></div><div className="alert-box plum-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>✦ Reels drove 88% of views and 73% non-follower reach — the two collab Reels carried the week</span></div></div>
-            <div className="card"><div className="card-hd">Engagement Breakdown</div><div style={{ display: "flex", flexDirection: "column", gap: 14 }}>{[{ label: "Likes", value: d.posts.reduce((s: number, p: any) => s + (p.likes||0), 0), max: 50, color: "#6F5060" }, { label: "Comments", value: d.posts.reduce((s: number, p: any) => s + (p.comments||0), 0), max: 50, color: "#8FA1A6" }, { label: "Shares", value: d.posts.reduce((s: number, p: any) => s + (p.shares||0), 0), max: 50, color: "#A6968D" }, { label: "Saves", value: d.posts.reduce((s: number, p: any) => s + (p.saves||0), 0), max: 50, color: "#BE5A5A" }].map((m) => (<div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div><div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}><div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} /></div><div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div></div>))}</div><div className="alert-box danger-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ Breakdown reflects NYCDS-owned posts; the collab Reels’ engagement sits in the account total (188 interactions). 0 saves on owned content — the lever to push.</span></div></div>
+            <div className="card"><div className="card-hd">Engagement Breakdown</div><div style={{ display: "flex", flexDirection: "column", gap: 14 }}>{[{ label: "Likes", value: d.posts.reduce((s: number, p: any) => s + (p.likes||0), 0), max: 120, color: "#6F5060" }, { label: "Comments", value: d.posts.reduce((s: number, p: any) => s + (p.comments||0), 0), max: 120, color: "#8FA1A6" }, { label: "Shares", value: d.posts.reduce((s: number, p: any) => s + (p.shares||0), 0), max: 120, color: "#A6968D" }, { label: "Saves", value: d.posts.reduce((s: number, p: any) => s + (p.saves||0), 0), max: 120, color: "#BE5A5A" }].map((m) => (<div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div><div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}><div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} /></div><div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div></div>))}</div><div className="alert-box danger-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ 161 interactions across the week’s Reels — the collab content drove the bulk (137 on &ldquo;Authenticity&rdquo; alone). Saves (3) remain the weakest signal; carousels and explainers need bookmark CTAs.</span></div></div>
           </div>
         </>)}
 
@@ -885,8 +887,8 @@ export default function Dashboard() {
           </div>
 
           <div className="card">
-            <InsightCard title={"Social Intelligence · " + socialData.period} body={timeRange === "7d" ? "3,410 views reaching 362 accounts (−26.9% WoW) — views surged on two Dr. El Chaar collaboration Reels (3.3K + 1.4K) while reach dipped, a collaborator-attribution effect. 73.4% non-follower views. 188 interactions (84% Reels); the 51.9% ER is inflated by the small reach denominator — read it as resonance, not a true rate. Only one owned Reel published (Jun 3, 286 views). 3 Stories at ~76% avg completion. Followers +8 net (9 follows, 1 unfollow)." : "6,048 views over 30 days across NYCDS-originated posts (the Jun 4–5 collab Reels live on the account totals, not the owned-post export). May 12 'Dental Implants Misunderstood' anchors at 1,768 views and 57% skip. Reels deliver the bulk of views and interactions — the workhorse format. Skip rates on the month's reels ranged 56–77% — content quality, not algorithm, is the differentiator."} severity="info" />
-            <InsightCard title="Key Insight" body="The collaboration play worked: two co-posted Reels with Dr. El Chaar drove account views from 1,327 to 3,410 and pushed 73% non-follower discovery. The catch — that reach is borrowed (NYCDS is credited the views but little of the reach, so account reach read −26.9%) and owned cadence was thin (one originated Reel). What's working: the collab format and doctor-led educational Reels (May 12 implants anchors the month at 1,768). What's not: only +8 net follows off a big discovery week, and 0 saves on owned content. Convert the borrowed reach into follows and rebuild a 2–3 Reel/week owned cadence." severity="success" />
+            <InsightCard title={"Social Intelligence · " + socialData.period} body={timeRange === "7d" ? "3,410 account views; two Dr. El Chaar collaboration Reels drove the week — “Authenticity” (3,321 views / 1,212 reach / 11.3% ER) and “Soul” (1,441 / 366 / 4.9%). 188 interactions, 84% on Reels; measured against the content’s real reach (~1,790) engagement rate is ~9% (the 188÷362 account read of 51.9% overstates, dividing collab interactions by account-attributed reach). 73.4% non-follower views. Only one owned Reel published (Jun 3, 286 views). Followers +8 net (9 follows, 1 unfollow)." : "6,048 views over 30 days across NYCDS-originated posts (the Jun 4–5 collab Reels live on the account totals, not the owned-post export). May 12 'Dental Implants Misunderstood' anchors at 1,768 views and 57% skip. Reels deliver the bulk of views and interactions — the workhorse format. Skip rates on the month's reels ranged 56–77% — content quality, not algorithm, is the differentiator."} severity="info" />
+            <InsightCard title="Key Insight" body="The collaboration play worked: two co-published Reels with Dr. El Chaar drove account views from 1,327 to 3,410, reached 1,212 and 366 accounts at the post level, and engaged at 11.3% and 4.9%. The catch — that reach is shared with the partner accounts (NYCDS’s own account-attributed reach actually read −26.9%) and owned cadence was thin (one originated Reel). What's working: the collab format and doctor-led educational Reels (May 12 implants anchors the month at 1,768). What's not: only +8 net follows off a big discovery week, and saves stayed low. Convert the borrowed reach into follows and rebuild a 2–3 Reel/week owned cadence." severity="success" />
           </div>
         </>)}
 
