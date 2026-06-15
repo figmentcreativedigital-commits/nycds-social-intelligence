@@ -2,21 +2,21 @@
 import { useState, useEffect } from "react";
 
 const FALLBACK_DATA = {
-  client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: "June 1 – June 8, 2026" },
+  client: { name: "NYCDS", fullName: "NYC Dental Smiles", period: "June 8 – June 15, 2026" },
   kpi: {
-    followers: { value: 690, change: 8, label: "Followers" },
-    reach: { value: 362, label: "Reach" },
-    views: { value: 3410, label: "Total Views" },
-    engagementRate: { value: 9.0, label: "Engagement Rate", suffix: "%" },
-    engagements: { value: 188, label: "Engagements" },
+    followers: { value: 690, change: 1, label: "Followers" },
+    reach: { value: 540, label: "Reach" },
+    views: { value: 1549, label: "Total Views" },
+    engagementRate: { value: 8.0, label: "Engagement Rate", suffix: "%" },
+    engagements: { value: 43, label: "Engagements" },
     watchTime: { value: "—", label: "Watch Time" },
   },
   posts: [
-    { id: 1, title: "Authenticity in Dentistry · Collab w/ Dr. El Chaar", type: "Reel", views: 3321, reach: 1212, likes: 97, comments: 26, saves: 3, shares: 11, isTop: true, isCollab: true, igPostUrl: "https://www.instagram.com/reel/DZK-h6ZAO_d/" },
-    { id: 2, title: "Is Dentistry Losing Its Soul? · Collab w/ Dr. El Chaar", type: "Reel", views: 1441, reach: 366, likes: 16, comments: 0, saves: 0, shares: 2, isTop: false, isCollab: true, igPostUrl: "https://www.instagram.com/reel/DZOF7qTBswB/" },
-    { id: 3, title: "What X-Rays Don’t Show You — Dr. Tamay", type: "Reel", views: 286, reach: 214, likes: 5, comments: 1, saves: 0, shares: 0, isTop: false, igPostUrl: "" },
+    { id: 1, title: "Behind the Scenes — Dr. Maria Tamay", type: "Story", views: 610, reach: 440, likes: 3, comments: 0, saves: 0, shares: 1, isTop: true, igPostUrl: "" },
+    { id: 2, title: "A More Advanced Way — AI-Assisted Imaging", type: "Post", views: 155, reach: 64, likes: 6, comments: 0, saves: 0, shares: 3, isTop: false, igPostUrl: "https://www.instagram.com/p/DZcplDQRa9i/" },
+    { id: 3, title: "Your Toothpaste Matters", type: "Carousel", views: 62, reach: 26, likes: 2, comments: 0, saves: 0, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/p/DZfeQ-ulkNI/" },
   ] as any[],
-  contentMix: { posts: 4, reels: 88, stories: 8 },
+  contentMix: { posts: 19, reels: 24, stories: 57 },
   audience: {
     gender: { male: 52, female: 48 },
     age: [
@@ -24,7 +24,7 @@ const FALLBACK_DATA = {
       { range: "45-54", pct: 21 }, { range: "55-64", pct: 10 }, { range: "65+", pct: 4 },
     ],
   },
-  viewerSplit: { followers: 27, nonFollowers: 73 },
+  viewerSplit: { followers: 40, nonFollowers: 60 },
 };
 type ReportData = typeof FALLBACK_DATA;
 
@@ -37,46 +37,44 @@ function generateInsights(data: ReportData) {
   const er = data.kpi.engagementRate.value;
   const reach = data.kpi.reach.value;
 
-  if (reach < 800) {
-    opportunities.push({ title: "Views Surged on Collab Reels — Reach Still Rebuilding", body: `Account views jumped to ${data.kpi.views.value.toLocaleString()} (from 1,327) on the back of two collaboration Reels with Dr. El Chaar — "Authenticity in Dentistry" (3.3K) and "Is Dentistry Losing Its Soul?" (1.4K). Reach itself dipped to ${reach} accounts (−26.9%): because NYCDS is a tagged co-author on those Reels, Instagram credits the account with the views and interactions but only a fraction of the reach. ${data.viewerSplit.nonFollowers}% of views came from non-followers — discovery is wide. The lever is converting that borrowed reach into NYCDS follows and rebuilding owned-content cadence.`, severity: "success" });
-  }
-  if (er >= 8) {
-    insights.push({ title: "Engagement Rate Strong at ~9%", body: `Measured against the reach the week's Reels actually achieved (~1,790 across the two collab Reels and the owned Jun 3 Reel), engagement rate lands at ${er}% — comfortably above the 5% healthcare benchmark. The "Authenticity in Dentistry" collab carried it: 137 interactions on 1,212 reach (11.3%). NYCDS's own Jun 3 Reel ran 2.8%. Note: the raw account view (188 interactions ÷ 362 attributed reach = 51.9%) overstates badly, because IG credits NYCDS the collab interactions but only a sliver of the collab reach — ~9% is the honest figure.`, severity: "success" });
-  }
+  opportunities.push({ title: "Reach Grew +49.2% — Driven Entirely by Stories", body: `Accounts reached climbed to ${reach} (+49.2% WoW) with zero new Reels and zero collaborations this week. Stories carried it — 57% of all account views — led by the behind-the-scenes / Dr. Maria Tamay story, which alone pulled 610 views and reached 440 accounts at 83.1% non-followers. Account views normalized to ${data.kpi.views.value.toLocaleString()} (down from last week's collab-inflated 3,410), but the underlying organic reach is the healthiest signal: discovery is working without paid or partner amplification.`, severity: "success" });
+
+  insights.push({ title: `Engagement Rate Solid at ${er}%`, body: `${data.kpi.engagements.value} interactions against ${reach} accounts reached = ${er}% — above the 5% healthcare benchmark. The catch: ${100 - 20.5}% of interactions came from existing followers, and they split evenly across Stories, Reels and Posts (36 / 36 / 28). The top-engaging owned post was the AI-imaging photo (9 interactions on 64 reach = 14.1%). Discovery reach is wide, but turning it into action is where the week falls short.`, severity: "info" });
+
   const sorted = [
     { name: "Reels", val: data.contentMix.reels },
     { name: "Posts", val: data.contentMix.posts },
     { name: "Stories", val: data.contentMix.stories },
   ].sort((a, b) => b.val - a.val);
-  insights.push({ title: "Content Format Distribution", body: `${sorted[0].name} lead at ${sorted[0].val}% of views, ${sorted[1].name} ${sorted[1].val}%, ${sorted[2].name} ${sorted[2].val}%. Reels drove 84% of interactions — overwhelmingly the discovery engine this cycle, led by the two Dr. El Chaar collaboration Reels. NYCDS's own Jun 3 explainer Reel held a modest 286 views; the 30-day window is still anchored by the May 12 implants Reel at 1,768.`, severity: "info" });
+  insights.push({ title: "Stories Lead the Format Mix", body: `${sorted[0].name} led at ${sorted[0].val}% of views, ${sorted[1].name} ${sorted[1].val}%, ${sorted[2].name} ${sorted[2].val}%. Notably, no Reels were published this week — the 24% of views still attributed to Reels is residual from the back catalog. Stories are quietly the strongest discovery format right now, but they expire in 24h; the lever is pairing that Story momentum with a steady Reel cadence so reach compounds rather than resets.`, severity: "info" });
 
   const totalSaves = data.posts.reduce((s: number, p: any) => s + (p.saves || 0), 0);
   if (totalSaves < 2) {
-    opportunities.push({ title: "Saves Remain the Weak Lever", body: `${totalSaves} saves across the week's owned content. Saves are the highest-weighted action in Meta's ranking. The collab Reels prove the audience will engage — the next step is reference-worthy owned posts (procedure explainers, before/after carousels) with a 'Save this before you book' CTA on the final frame.`, severity: "warning" });
+    opportunities.push({ title: "Saves Remain the Weak Lever", body: `${totalSaves} saves across the week's owned content. Saves are the highest-weighted action in Meta's ranking. The audience clearly watches (610-view story, +49% reach), but nothing is reference-worthy enough to bookmark. Procedure explainers and before/after carousels with a 'Save this before you book' CTA on the final frame are the fix.`, severity: "warning" });
   }
 
   if (data.viewerSplit.nonFollowers >= 45) {
-    opportunities.push({ title: "Discovery Wide Open", body: `${data.viewerSplit.nonFollowers}% of viewers are non-followers — the widest discovery skew in months, fueled by the collab Reels reaching well beyond the follower set. The algorithm is pushing this content out; profile CTAs and follow prompts on Reel cover frames are the lever to convert these discoverers into followers and patients.`, severity: "success" });
+    opportunities.push({ title: "Discovery Wide, Conversion Narrow", body: `${data.viewerSplit.nonFollowers}% of views came from non-followers — discovery is wide open. But external link taps fell to 2 (−33.3%) and net follows were just +1. The algorithm is delivering new audiences; the profile and Story CTAs aren't catching them. Add a booking-link sticker to high-reach Stories and refresh the bio CTA to convert the traffic that's already arriving.`, severity: "warning" });
   }
 
-  insights.push({ title: "Brand-Search Dependency on Google", body: `Most Search Console clicks are brand/name terms (nyc dental smiles 31, dr farahani, michael chesner). The standout non-brand asset — the 'nerve pain after onlay' page — drew 48 clicks at position 6.3 over 28 days, ranking far better than the brand pages. That one page is the blueprint for non-brand growth; replicate the template across 5–10 procedure questions.`, severity: "info" });
+  insights.push({ title: "Brand-Search Dependency on Google", body: `Most Search Console clicks are brand/name terms (nyc dental smiles 33 clicks at 56.9% CTR, dr farahani, michael chesner). The standout non-brand asset — the 'nerve pain after onlay' page — drew 53 clicks at position 6.2 over 30 days, ranking far better than the brand pages. That one page is the blueprint for non-brand growth; replicate the template across 5–10 procedure questions.`, severity: "info" });
 
-  insights.push({ title: "Mobile Outranks Desktop on Google", body: "GSC: Mobile ranks at position 16.7 vs Desktop at 41.4 — a ~2.5× ranking gap on the same content, with mobile converting at 3.2% CTR vs 1.3% on desktop. Mobile experience is the strongest SEO lever right now. Audit mobile Core Web Vitals and keep CTAs thumb-reachable above the fold.", severity: "info" });
+  insights.push({ title: "Mobile Outranks Desktop on Google", body: "GSC: Mobile ranks at position 17.5 vs Desktop at 40.8 — a ~2.3× ranking gap on the same content, with mobile converting at 2.93% CTR vs 1.17% on desktop. Mobile out-clicks desktop outright (143 vs 133). Mobile experience is the strongest SEO lever right now — audit Core Web Vitals and keep CTAs thumb-reachable above the fold.", severity: "info" });
 
   const topAge = data.audience.age.reduce((a, b) => (a.pct > b.pct ? a : b));
-  insights.push({ title: "Audience Alignment", body: `Primary audience is ${topAge.range} (${topAge.pct}%), with a ${data.audience.gender.male}/${data.audience.gender.female} male/female split. The 25–44 range represents ${(data.audience.age[1]?.pct || 0) + (data.audience.age[2]?.pct || 0)}% — strong patient demographic for cosmetic and restorative work.`, severity: "success" });
+  insights.push({ title: "Audience Alignment", body: `Primary audience is ${topAge.range} (${topAge.pct}%), with a ${data.audience.gender.male}/${data.audience.gender.female} male/female split. The 25–44 range represents ${(data.audience.age[1]?.pct || 0) + (data.audience.age[2]?.pct || 0)}% — strong patient demographic for cosmetic and restorative work — and New York City alone accounts for 55% of recent viewers, a tightly local, high-intent base.`, severity: "success" });
 
   if (data.kpi.followers.change != null && data.kpi.followers.change < 5) {
-    opportunities.push({ title: "Follower Conversion Lag", body: `Net +${data.kpi.followers.change} this week (9 follows, 1 unfollow). With ${data.viewerSplit.nonFollowers}% of views from non-followers, pinned content and a bio CTA refresh would capture more of the discovery that's already arriving.`, severity: "warning" });
+    opportunities.push({ title: "Follower Conversion Lag", body: `Net +${data.kpi.followers.change} this week (4 follows, 3 unfollows). With ${data.viewerSplit.nonFollowers}% of views from non-followers and reach up +49%, the discovery is there — pinned content, a bio CTA refresh, and follow prompts on Story covers would capture more of it.`, severity: "warning" });
   }
 
   recommendations.push(
-    { text: "Double down on the Dr. El Chaar collaboration-Reel format — the Jun 4/5 co-posted Reels (3.3K + 1.4K views) were the account's biggest week in months; line up the next two", priority: "high" },
-    { text: "Convert the borrowed reach into follows: 73% of views were non-followers this week. Add follow prompts on Reel cover frames and pin a collab Reel to the profile", priority: "high" },
-    { text: "Rebuild owned-content cadence — only one NYCDS-originated Reel published this week (Jun 3). Aim for 2–3/week so account reach isn't dependent on collab posts", priority: "high" },
-    { text: "Replicate the 'nerve pain after onlay' template — 5+ procedure-question articles to expand non-brand SEO (it's the one page outranking brand terms at 48 clicks)", priority: "medium" },
+    { text: "Lean into Stories as the discovery engine — the behind-the-scenes / Dr. Tamay story hit 83% non-followers and drove the +49% reach week. Build a recurring BTS / provider-spotlight Story cadence", priority: "high" },
+    { text: "Rebuild Reel cadence — zero Reels shipped this week, yet the format still pulls 24% of views from a thin back catalog. Aim for 2–3/week so reach compounds instead of resetting with each expiring Story", priority: "high" },
+    { text: "Convert reach into action — external link taps fell to 2 (−33.3%) despite +49% reach. Add a booking-link sticker to high-reach Stories and refresh the bio CTA", priority: "high" },
+    { text: "Replicate the 'nerve pain after onlay' template — 53 clicks at position 6.2, the one page outranking brand terms. Build 5+ procedure-question articles to expand non-brand SEO", priority: "medium" },
     { text: "Add save-prompt CTAs to carousels: 'Save this before you book' — saves stayed at 0 on owned content", priority: "medium" },
-    { text: "Track the ChatGPT referral source (2 sessions / 30d); ensure the homepage is parseable for AI overviews", priority: "low" },
+    { text: "Investigate the 'appen-stonecoal3' website referral (15 sessions / 6.3% this week) — looks like referral spam; confirm before it skews source reporting", priority: "low" },
   );
   return { insights, opportunities, recommendations, alerts };
 }
@@ -127,262 +125,259 @@ export default function Dashboard() {
   const isIgEmbed = (url: string) => /instagram\.com\/(p|reel)\//i.test(url);
 
   const linkData7d = {
-    period: "June 1 – June 9, 2026",
-    totalClicks: 44,
+    period: "June 8 – June 16, 2026",
+    totalClicks: 50,
     topLinks: [
-      { path: "NYCDS 58th Street", clicks: 12 },
-      { path: "Website", clicks: 11 },
-      { path: "NYCDS 60th Street", clicks: 8 },
+      { path: "Website", clicks: 15 },
+      { path: "NYCDS 60th Street", clicks: 15 },
       { path: "Homepage", clicks: 5 },
-      { path: "NYCDS 35th Street", clicks: 4 },
-      { path: "NYCDS 5th Ave", clicks: 4 },
+      { path: "NYCDS 35th Street", clicks: 5 },
+      { path: "NYCDS 58th Street", clicks: 5 },
+      { path: "NYCDS 5th Ave", clicks: 5 },
     ],
     trafficSources: [
-      { source: "Website (Locations)", clicks: 22 },
-      { source: "Direct / Unknown", clicks: 41 },
+      { source: "Website (Locations)", clicks: 14 },
+      { source: "Direct / Unknown", clicks: 48 },
     ],
     topCountries: [
-      { country: "United States", clicks: 60 },
-      { country: "Sweden", clicks: 1 },
-      { country: "Other", clicks: 2 },
+      { country: "United States", clicks: 58 },
+      { country: "Netherlands", clicks: 9 },
+      { country: "Japan", clicks: 3 },
+      { country: "Other", clicks: 9 },
     ],
     topCities: [
-      { city: "New York City", clicks: 7 },
-      { city: "Brooklyn", clicks: 5 },
-      { city: "Chicago", clicks: 3 },
+      { city: "New York City", clicks: 5 },
+      { city: "London", clicks: 3 },
+      { city: "Tokyo", clicks: 3 },
     ],
     devices: [
-      { os: "Mac OS X", clicks: 21 },
-      { os: "Windows", clicks: 21 },
-      { os: "iOS", clicks: 13 },
-      { os: "Android", clicks: 4 },
+      { os: "Windows", clicks: 33 },
+      { os: "Android", clicks: 18 },
+      { os: "Mac OS X", clicks: 15 },
+      { os: "iOS", clicks: 10 },
     ],
   };
   const linkData30d = {
-    period: "May 9 – June 9, 2026",
-    totalClicks: 258,
+    period: "May 16 – June 16, 2026",
+    totalClicks: 201,
     topLinks: [
-      { path: "NYCDS 58th Street", clicks: 64 },
-      { path: "NYCDS 5th Ave", clicks: 54 },
-      { path: "NYCDS 35th Street", clicks: 53 },
-      { path: "NYCDS 60th Street", clicks: 44 },
-      { path: "Homepage", clicks: 31 },
-      { path: "Website", clicks: 12 },
+      { path: "NYCDS 60th Street", clicks: 48 },
+      { path: "NYCDS 58th Street", clicks: 39 },
+      { path: "NYCDS 35th Street", clicks: 36 },
+      { path: "Homepage", clicks: 28 },
+      { path: "Website", clicks: 26 },
+      { path: "NYCDS 5th Ave", clicks: 24 },
     ],
     trafficSources: [
-      { source: "Website (Locations)", clicks: 116 },
-      { source: "Direct / Unknown", clicks: 327 },
-      { source: "Search", clicks: 2 },
+      { source: "Website (Locations)", clicks: 72 },
+      { source: "Direct / Unknown", clicks: 266 },
+      { source: "Email", clicks: 1 },
     ],
     topCountries: [
-      { country: "United States", clicks: 431 },
-      { country: "Sweden", clicks: 26 },
-      { country: "United Kingdom", clicks: 10 },
-      { country: "Other", clicks: 30 },
+      { country: "United States", clicks: 322 },
+      { country: "Netherlands", clicks: 23 },
+      { country: "Sweden", clicks: 13 },
+      { country: "Other", clicks: 18 },
     ],
     topCities: [
-      { city: "New York City", clicks: 24 },
-      { city: "Brooklyn", clicks: 9 },
-      { city: "North Bergen", clicks: 5 },
-      { city: "Secaucus", clicks: 5 },
+      { city: "New York City", clicks: 21 },
+      { city: "Brooklyn", clicks: 5 },
+      { city: "London", clicks: 3 },
+      { city: "Vienna", clicks: 2 },
     ],
     devices: [
-      { os: "Windows", clicks: 173 },
-      { os: "Mac OS X", clicks: 147 },
-      { os: "Android", clicks: 60 },
-      { os: "iOS", clicks: 59 },
+      { os: "Windows", clicks: 124 },
+      { os: "Mac OS X", clicks: 117 },
+      { os: "Android", clicks: 65 },
+      { os: "iOS", clicks: 47 },
     ],
   };
   const linkData = timeRange === "7d" ? linkData7d : linkData30d;
 
   const websiteData7d = {
-    period: "June 1 – June 7, 2026",
-    sessions: 162,
+    period: "June 8 – June 14, 2026",
+    sessions: 238,
     topPages: [
-      { page: "/", label: "Home", views: 140 },
-      { page: "/ourdoctors", label: "Our Doctors", views: 40 },
-      { page: "/comprehensive-care", label: "Comprehensive Care", views: 13 },
-      { page: "/prosthodontics", label: "Prosthodontics", views: 12 },
-      { page: "/about", label: "About", views: 10 },
-      { page: "/services", label: "Services", views: 6 },
-      { page: "/dr-james-eisdorfer", label: "Dr. James Eisdorfer", views: 4 },
-      { page: "/eec-publications", label: "EEC Publications", views: 4 },
-      { page: "/locations", label: "Locations", views: 4 },
+      { page: "/", label: "Home", views: 161 },
+      { page: "/ourdoctors", label: "Our Doctors", views: 20 },
+      { page: "/dr-laura-koo-min-chee", label: "Dr. Laura Koo Min Chee", views: 8 },
+      { page: "/nerve-pain-after-onlay", label: "Nerve Pain After Onlay", views: 7 },
+      { page: "/3d-cone-beam-cbct", label: "3D Cone Beam CBCT", views: 6 },
+      { page: "/dr-michael-chesner", label: "Dr. Michael Chesner", views: 6 },
+      { page: "/about", label: "About", views: 5 },
+      { page: "/locations", label: "Locations", views: 5 },
+      { page: "/implant-dentistry", label: "Implant Dentistry", views: 4 },
     ],
     trafficSources: [
-      { source: "Direct", sessions: 92, pct: 57.1 },
-      { source: "Google", sessions: 50, pct: 31.1 },
-      { source: "Bing", sessions: 5, pct: 3.1 },
-      { source: "Figment Creative", sessions: 3, pct: 1.9 },
-      { source: "Instagram", sessions: 3, pct: 1.9 },
-      { source: "Other", sessions: 9, pct: 5.6 },
+      { source: "Direct", sessions: 135, pct: 56.7 },
+      { source: "Google", sessions: 77, pct: 32.4 },
+      { source: "appen-stonecoal3 (ref)", sessions: 15, pct: 6.3 },
+      { source: "Instagram", sessions: 4, pct: 1.7 },
+      { source: "Bing", sessions: 2, pct: 0.8 },
+      { source: "Other", sessions: 5, pct: 2.1 },
     ],
     devices: [
-      { device: "Desktop", pct: 77.0 },
-      { device: "Mobile", pct: 22.2 },
+      { device: "Desktop", pct: 83.1 },
+      { device: "Mobile", pct: 16.4 },
     ],
     dailyVisitors: [
-      { date: "Jun 1", visitors: 16 },{ date: "Jun 2", visitors: 20 },
-      { date: "Jun 3", visitors: 19 },{ date: "Jun 4", visitors: 22 },
-      { date: "Jun 5", visitors: 21 },{ date: "Jun 6", visitors: 14 },
-      { date: "Jun 7", visitors: 12 },
+      { date: "Jun 8", visitors: 24 },{ date: "Jun 9", visitors: 30 },
+      { date: "Jun 10", visitors: 35 },{ date: "Jun 11", visitors: 30 },
+      { date: "Jun 12", visitors: 32 },{ date: "Jun 13", visitors: 20 },
+      { date: "Jun 14", visitors: 14 },
     ],
     search: {
-      totalClicks: 270, totalImpressions: 14013, avgCTR: 1.93, avgPosition: 33.9,
-      note: "28-day (May 10 – Jun 6)",
+      totalClicks: 279, totalImpressions: 16366, avgCTR: 1.70, avgPosition: 33.8,
+      note: "30-day (May 15 – Jun 13)",
       topQueries: [
-        { query: "nyc dental smiles", clicks: 31, ctr: 51.67, position: 1.30 },
-        { query: "dr farahani dentist", clicks: 4, ctr: 44.44, position: 3.22 },
-        { query: "dr michael chesner", clicks: 3, ctr: 11.54, position: 5.58 },
-        { query: "michael chesner", clicks: 3, ctr: 17.65, position: 1.94 },
-        { query: "dental smiles", clicks: 2, ctr: 2.41, position: 6.64 },
+        { query: "nyc dental smiles", clicks: 33, ctr: 56.90, position: 1.26 },
+        { query: "nyc dental smile team", clicks: 4, ctr: 17.39, position: 5.00 },
+        { query: "dr farahani dentist", clicks: 4, ctr: 33.33, position: 3.75 },
+        { query: "dr michael chesner", clicks: 3, ctr: 10.71, position: 5.14 },
+        { query: "pain after onlay", clicks: 2, ctr: 13.33, position: 3.80 },
       ],
       topPages: [
-        { page: "Homepage", clicks: 107, impressions: 7681, ctr: 1.39 },
-        { page: "Our Doctors", clicks: 66, impressions: 2436, ctr: 2.71 },
-        { page: "Nerve Pain After Onlay", clicks: 48, impressions: 2061, ctr: 2.33 },
-        { page: "Dr. Michael Chesner", clicks: 32, impressions: 326, ctr: 9.82 },
+        { page: "Homepage", clicks: 109, impressions: 8984, ctr: 1.21 },
+        { page: "Our Doctors", clicks: 72, impressions: 2776, ctr: 2.59 },
+        { page: "Nerve Pain After Onlay", clicks: 53, impressions: 2332, ctr: 2.27 },
+        { page: "Dr. Michael Chesner", clicks: 25, impressions: 335, ctr: 7.46 },
       ],
     },
   };
   const websiteData30d = {
-    period: "May 9 – June 6, 2026",
-    sessions: 631,
+    period: "May 16 – June 14, 2026",
+    sessions: 712,
     topPages: [
-      { page: "/", label: "Home", views: 528 },
-      { page: "/ourdoctors", label: "Our Doctors", views: 171 },
-      { page: "/locations", label: "Locations", views: 50 },
-      { page: "/services", label: "Services", views: 41 },
-      { page: "/about", label: "About", views: 35 },
+      { page: "/", label: "Home", views: 558 },
+      { page: "/ourdoctors", label: "Our Doctors", views: 142 },
+      { page: "/locations", label: "Locations", views: 37 },
+      { page: "/services", label: "Services", views: 33 },
+      { page: "/dr-laura-koo-min-chee", label: "Dr. Laura Koo Min Chee", views: 22 },
       { page: "/dr-michael-chesner", label: "Dr. Michael Chesner", views: 22 },
-      { page: "/comprehensive-care", label: "Comprehensive Care", views: 19 },
-      { page: "/dr-maria-tamay", label: "Dr. Maria Tamay", views: 19 },
+      { page: "/about", label: "About", views: 21 },
+      { page: "/comprehensive-care", label: "Comprehensive Care", views: 20 },
       { page: "/why-nycds", label: "Why NYCDS", views: 18 },
     ],
     trafficSources: [
-      { source: "Direct", sessions: 328, pct: 52.0 },
-      { source: "Google", sessions: 245, pct: 38.8 },
-      { source: "Bing", sessions: 12, pct: 1.9 },
-      { source: "Figment Creative", sessions: 11, pct: 1.7 },
-      { source: "Instagram", sessions: 8, pct: 1.3 },
-      { source: "Yahoo", sessions: 6, pct: 1.0 },
-      { source: "ChatGPT", sessions: 2, pct: 0.3 },
-      { source: "Other", sessions: 19, pct: 3.0 },
+      { source: "Direct", sessions: 399, pct: 56.0 },
+      { source: "Google", sessions: 245, pct: 34.4 },
+      { source: "appen-stonecoal3 (ref)", sessions: 15, pct: 2.1 },
+      { source: "Bing", sessions: 12, pct: 1.7 },
+      { source: "Figment Creative", sessions: 11, pct: 1.5 },
+      { source: "Instagram", sessions: 8, pct: 1.1 },
+      { source: "Other", sessions: 22, pct: 3.2 },
     ],
     devices: [
-      { device: "Desktop", pct: 75.6 },
-      { device: "Mobile", pct: 24.2 },
+      { device: "Desktop", pct: 78.6 },
+      { device: "Mobile", pct: 21.0 },
     ],
     dailyVisitors: [
-      { date: "May 9", visitors: 11 },{ date: "May 13", visitors: 24 },
-      { date: "May 17", visitors: 7 },{ date: "May 19", visitors: 25 },
-      { date: "May 23", visitors: 12 },{ date: "May 27", visitors: 23 },
-      { date: "May 31", visitors: 13 },{ date: "Jun 4", visitors: 22 },
-      { date: "Jun 6", visitors: 12 },
+      { date: "May 16", visitors: 8 },{ date: "May 20", visitors: 18 },
+      { date: "May 24", visitors: 13 },{ date: "May 28", visitors: 22 },
+      { date: "Jun 1", visitors: 14 },{ date: "Jun 5", visitors: 18 },
+      { date: "Jun 9", visitors: 30 },{ date: "Jun 11", visitors: 35 },
+      { date: "Jun 13", visitors: 16 },
     ],
     search: {
-      totalClicks: 270, totalImpressions: 14013, avgCTR: 1.93, avgPosition: 33.9,
-      note: "28-day (May 10 – Jun 6)",
+      totalClicks: 279, totalImpressions: 16366, avgCTR: 1.70, avgPosition: 33.8,
+      note: "30-day (May 15 – Jun 13)",
       topQueries: [
-        { query: "nyc dental smiles", clicks: 31, ctr: 51.67, position: 1.30 },
-        { query: "dr farahani dentist", clicks: 4, ctr: 44.44, position: 3.22 },
-        { query: "dr michael chesner", clicks: 3, ctr: 11.54, position: 5.58 },
-        { query: "michael chesner", clicks: 3, ctr: 17.65, position: 1.94 },
-        { query: "dental smiles", clicks: 2, ctr: 2.41, position: 6.64 },
+        { query: "nyc dental smiles", clicks: 33, ctr: 56.90, position: 1.26 },
+        { query: "nyc dental smile team", clicks: 4, ctr: 17.39, position: 5.00 },
+        { query: "dr farahani dentist", clicks: 4, ctr: 33.33, position: 3.75 },
+        { query: "dr michael chesner", clicks: 3, ctr: 10.71, position: 5.14 },
+        { query: "pain after onlay", clicks: 2, ctr: 13.33, position: 3.80 },
       ],
       topPages: [
-        { page: "Homepage", clicks: 107, impressions: 7681, ctr: 1.39 },
-        { page: "Our Doctors", clicks: 66, impressions: 2436, ctr: 2.71 },
-        { page: "Nerve Pain After Onlay", clicks: 48, impressions: 2061, ctr: 2.33 },
-        { page: "Dr. Michael Chesner", clicks: 32, impressions: 326, ctr: 9.82 },
+        { page: "Homepage", clicks: 109, impressions: 8984, ctr: 1.21 },
+        { page: "Our Doctors", clicks: 72, impressions: 2776, ctr: 2.59 },
+        { page: "Nerve Pain After Onlay", clicks: 53, impressions: 2332, ctr: 2.27 },
+        { page: "Dr. Michael Chesner", clicks: 25, impressions: 335, ctr: 7.46 },
       ],
     },
   };
   const websiteData = timeRange === "7d" ? websiteData7d : websiteData30d;
 
   const socialData7d = {
-    period: "June 1 – June 7, 2026",
+    period: "June 8 – June 14, 2026",
     followers: 690,
-    followerGrowth: 8,
-    follows: 9,
-    unfollows: 1,
-    totalViews: 3410,
-    totalReach: 362,
-    reachChange: -26.9,
-    totalInteractions: 188,
-    viewSplit: { followers: 26.6, nonFollowers: 73.4 },
-    engagementSplit: { followers: 43.9, nonFollowers: 56.1 },
-    viewsByType: { reels: 87.7, posts: 3.9, stories: 8.4 },
-    interactionsByType: { reels: 84.2, posts: 2.3, stories: 13.5 },
-    totalLikes: 118,
-    totalComments: 27,
-    totalSaves: 3,
-    totalShares: 13,
-    storyViews: 138, storyCompletion: 76, storyCount: 3,
-    reelAvgWatchTime: "4–10s",
-    reelSkipRate: "63%",
+    followerGrowth: 1,
+    follows: 4,
+    unfollows: 3,
+    totalViews: 1549,
+    totalReach: 540,
+    reachChange: 49.2,
+    totalInteractions: 43,
+    viewSplit: { followers: 39.5, nonFollowers: 60.5 },
+    engagementSplit: { followers: 79.5, nonFollowers: 20.5 },
+    viewsByType: { reels: 23.8, posts: 19.2, stories: 57.1 },
+    interactionsByType: { reels: 35.9, posts: 28.2, stories: 35.9 },
+    totalLikes: 11,
+    totalComments: 0,
+    totalSaves: 0,
+    totalShares: 4,
+    storyViews: 759, storyCompletion: 91, storyCount: 3,
+    reelAvgWatchTime: "n/a", reelSkipRate: "n/a",
     dailyViews: [
-      { date: "Jun 1", views: 164 },{ date: "Jun 2", views: 229 },
-      { date: "Jun 3", views: 328 },{ date: "Jun 4", views: 339 },
-      { date: "Jun 5", views: 2122 },{ date: "Jun 6", views: 486 },
-      { date: "Jun 7", views: 329 },
+      { date: "Jun 8", views: 90 },{ date: "Jun 9", views: 170 },
+      { date: "Jun 10", views: 240 },{ date: "Jun 11", views: 580 },
+      { date: "Jun 12", views: 200 },{ date: "Jun 13", views: 150 },
+      { date: "Jun 14", views: 119 },
     ],
     posts: [
-      { id: 1, title: "Authenticity in Dentistry · Collab w/ Dr. El Chaar", type: "Reel", date: "Jun 4", views: 3321, reach: 1212, likes: 97, comments: 26, saves: 3, shares: 11, er: 11.3, skipRate: 0, avgWatch: "10s", igUrl: "https://www.instagram.com/reel/DZK-h6ZAO_d/", isTop: true, isCollab: true },
-      { id: 2, title: "Is Dentistry Losing Its Soul? · Collab w/ Dr. El Chaar", type: "Reel", date: "Jun 5", views: 1441, reach: 366, likes: 16, comments: 0, saves: 0, shares: 2, er: 4.9, skipRate: 0, avgWatch: "7s", igUrl: "https://www.instagram.com/reel/DZOF7qTBswB/", isTop: false, isCollab: true },
-      { id: 3, title: "What X-Rays Don’t Show You — Dr. Tamay", type: "Reel", date: "Jun 3", views: 286, reach: 214, likes: 5, comments: 1, saves: 0, shares: 0, er: 2.8, skipRate: 63, avgWatch: "4s", igUrl: "", isTop: false },
+      { id: 1, title: "Behind the Scenes — Dr. Maria Tamay", type: "Story", date: "Jun 11", views: 610, reach: 440, likes: 3, comments: 0, saves: 0, shares: 1, er: 0.9, skipRate: 0, avgWatch: "—", igUrl: "", isTop: true },
+      { id: 2, title: "A More Advanced Way — AI-Assisted Imaging", type: "Post", date: "Jun 11", views: 155, reach: 64, likes: 6, comments: 0, saves: 0, shares: 3, er: 14.1, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/p/DZcplDQRa9i/", isTop: false },
+      { id: 3, title: "Your Toothpaste Matters", type: "Carousel", date: "Jun 12", views: 62, reach: 26, likes: 2, comments: 0, saves: 0, shares: 0, er: 7.7, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/p/DZfeQ-ulkNI/", isTop: false },
     ],
   };
   const socialData30d = {
-    period: "May 8 – June 8, 2026",
+    period: "May 15 – June 15, 2026",
     followers: 690,
     followerGrowth: 8,
-    follows: 18,
-    unfollows: 10,
-    totalViews: 6048,
-    totalReach: 3754,
+    follows: 12,
+    unfollows: 4,
+    totalViews: 3689,
+    totalReach: 2270,
     reachChange: 0,
-    totalInteractions: 176,
-    viewSplit: { followers: 38, nonFollowers: 62 },
-    engagementSplit: { followers: 65, nonFollowers: 35 },
-    viewsByType: { reels: 79, posts: 12, stories: 9 },
-    interactionsByType: { reels: 80, posts: 12, stories: 8 },
-    totalLikes: 164,
-    totalComments: 10,
-    totalSaves: 2,
-    totalShares: 4,
-    storyViews: 670, storyCompletion: 84, storyCount: 18,
+    totalInteractions: 83,
+    viewSplit: { followers: 42, nonFollowers: 58 },
+    engagementSplit: { followers: 70, nonFollowers: 30 },
+    viewsByType: { reels: 40, posts: 26, stories: 34 },
+    interactionsByType: { reels: 60, posts: 33, stories: 7 },
+    totalLikes: 78,
+    totalComments: 7,
+    totalSaves: 0,
+    totalShares: 10,
+    storyViews: 1241, storyCompletion: 82, storyCount: 13,
     reelAvgWatchTime: "4–11s",
-    reelSkipRate: "56–77%",
+    reelSkipRate: "56–63%",
     dailyViews: [
-      { date: "May 9", views: 807 },{ date: "May 10", views: 824 },
-      { date: "May 14", views: 1117 },{ date: "May 15", views: 1010 },
-      { date: "May 16", views: 460 },{ date: "May 29", views: 466 },
-      { date: "Jun 5", views: 2122 },{ date: "Jun 6", views: 486 },
+      { date: "May 15", views: 172 },{ date: "May 19", views: 387 },
+      { date: "May 21", views: 183 },{ date: "May 28", views: 444 },
+      { date: "May 30", views: 350 },{ date: "Jun 3", views: 301 },
+      { date: "Jun 9", views: 170 },{ date: "Jun 11", views: 580 },
     ],
     posts: [
-      { id: 1, title: "Dental Implants – Misunderstood", type: "Reel", date: "May 12", views: 1768, reach: 1103, likes: 64, comments: 1, saves: 1, shares: 0, er: 6.0, skipRate: 57, avgWatch: "10s", igUrl: "https://www.instagram.com/reel/DYP-UpfJ_26/", isTop: true },
-      { id: 2, title: "Some Journeys Leave a Lasting Mark", type: "Reel", date: "May 9", views: 816, reach: 448, likes: 25, comments: 2, saves: 0, shares: 0, er: 6.0, skipRate: 61, avgWatch: "9s", igUrl: "https://www.instagram.com/reel/DYC4lmrJJOv/", isTop: false },
-      { id: 3, title: "Toothbrush Still Doing Its Job?", type: "Reel", date: "May 14", views: 705, reach: 524, likes: 6, comments: 0, saves: 0, shares: 2, er: 1.1, skipRate: 74, avgWatch: "4s", igUrl: "https://www.instagram.com/reel/DYUzOKspMvg/", isTop: false },
-      { id: 4, title: "A Quick Chat with Dr. Ben", type: "Reel", date: "May 28", views: 433, reach: 280, likes: 10, comments: 2, saves: 0, shares: 0, er: 4.3, skipRate: 58, avgWatch: "5s", igUrl: "https://www.instagram.com/reel/DY5V90Nx1bh/", isTop: false },
-      { id: 5, title: "The Why Behind the White Coat – Dr. Laura", type: "Reel", date: "May 8", views: 392, reach: 294, likes: 8, comments: 0, saves: 0, shares: 0, er: 2.7, skipRate: 73, avgWatch: "5s", igUrl: "https://www.instagram.com/reel/DYFE8DoRapA/", isTop: false },
-      { id: 6, title: "Precision in Every Case – Dr. Farahani", type: "Reel", date: "May 19", views: 385, reach: 257, likes: 17, comments: 1, saves: 0, shares: 0, er: 7.0, skipRate: 63, avgWatch: "8s", igUrl: "https://www.instagram.com/reel/DYh5JrWRTzl/", isTop: false },
-      { id: 7, title: "Come With Me to My Appointment", type: "Reel", date: "May 30", views: 337, reach: 187, likes: 8, comments: 1, saves: 0, shares: 1, er: 4.8, skipRate: 56, avgWatch: "11s", igUrl: "https://www.instagram.com/reel/DY98lsXJRwu/", isTop: false },
+      { id: 1, title: "A Quick Chat with Dr. Ben", type: "Reel", date: "May 28", views: 444, reach: 287, likes: 11, comments: 2, saves: 0, shares: 0, er: 4.5, skipRate: 57, avgWatch: "—", igUrl: "https://www.instagram.com/reel/DY5V90Nx1bh/", isTop: true },
+      { id: 2, title: "Precision in Every Case — Dr. Farahani", type: "Reel", date: "May 19", views: 387, reach: 259, likes: 17, comments: 1, saves: 0, shares: 0, er: 6.9, skipRate: 63, avgWatch: "—", igUrl: "https://www.instagram.com/reel/DYh5JrWRTzl/", isTop: false },
+      { id: 3, title: "Come With Me to My Appointment", type: "Reel", date: "May 30", views: 350, reach: 192, likes: 8, comments: 1, saves: 0, shares: 1, er: 5.2, skipRate: 56, avgWatch: "—", igUrl: "https://www.instagram.com/reel/DY98lsXJRwu/", isTop: false },
+      { id: 4, title: "What X-Rays Don’t Tell You — Dr. Tamay", type: "Reel", date: "Jun 3", views: 301, reach: 221, likes: 8, comments: 1, saves: 0, shares: 0, er: 4.1, skipRate: 63, avgWatch: "—", igUrl: "https://www.instagram.com/reel/DZIvPDcJY03/", isTop: false },
+      { id: 5, title: "A More Advanced Way — AI-Assisted Imaging", type: "Post", date: "Jun 11", views: 155, reach: 64, likes: 6, comments: 0, saves: 0, shares: 3, er: 14.1, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/p/DZcplDQRa9i/", isTop: false },
     ],
   };
   const socialData = timeRange === "7d" ? socialData7d : socialData30d;
   const overviewKpis = timeRange === "7d" ? [
-    { label: "Followers", value: 690, change: "+8", delay: 0 },
-    { label: "Views", value: 3410, delay: 80 },
-    { label: "Reach", value: 362, change: "−26.9%", delay: 160 },
-    { label: "Interactions", value: 188, delay: 240 },
-    { label: "Non-Follower", value: "73.4%", delay: 320 },
+    { label: "Followers", value: 690, change: "+1", delay: 0 },
+    { label: "Views", value: 1549, delay: 80 },
+    { label: "Reach", value: 540, change: "+49.2%", delay: 160 },
+    { label: "Interactions", value: 43, delay: 240 },
+    { label: "Non-Follower", value: "60.5%", delay: 320 },
   ] : [
-    { label: "Followers", value: 690, change: "+8", delay: 0 },
-    { label: "Views", value: 6048, delay: 80 },
-    { label: "Reach", value: 3754, delay: 160 },
-    { label: "Interactions", value: 176, delay: 240 },
-    { label: "Non-Follower", value: "~60%", delay: 320 },
+    { label: "Followers", value: 690, change: "+1", delay: 0 },
+    { label: "Views", value: 3689, delay: 80 },
+    { label: "Reach", value: 2270, delay: 160 },
+    { label: "Interactions", value: 83, delay: 240 },
+    { label: "Non-Follower", value: "~58%", delay: 320 },
   ];
 
 
@@ -430,9 +425,9 @@ export default function Dashboard() {
             ))}
           </div>
           <div className="exec"><div className="card-hd">Executive Summary</div><div className="exec-cols">
-            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views came from non-followers — the widest discovery skew in months, driven by two collaboration Reels with Dr. El Chaar (&ldquo;Authenticity in Dentistry&rdquo; 3.3K, &ldquo;Is Dentistry Losing Its Soul?&rdquo; 1.4K). Account views jumped to 3,410 (from 1,327). Reach itself dipped to 362 (−26.9%) — a collaborator-attribution effect, since NYCDS is credited with the Reels&rsquo; views but only a sliver of their reach.</div></div>
-            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">188 account interactions (up from 40), 84% on Reels. Measured against the reach the content actually achieved (~1,790), engagement rate is ~9% — above the 5% healthcare benchmark. The &ldquo;Authenticity&rdquo; collab carried it (97 likes / 26 comments / 1,212 reach = 11.3%); &ldquo;Soul&rdquo; ran 4.9% and the owned Jun 3 Reel 2.8%. (The raw 188÷362 account view reads 51.9%, but that divides collab-credited interactions by a sliver of the collab reach.) Followers +8 net (9 follows / 1 unfollow). 25–44 demo = 59% of audience.</div></div>
-            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Reels {d.contentMix.reels}% of views, Stories {d.contentMix.stories}%, Posts {d.contentMix.posts}%. Only one NYCDS-originated Reel published this week (Jun 3, 286 views); the 30d window is anchored by the May 12 implants Reel at 1,768. GSC 28d: 270 clicks at pos 34; brand-search heavy, but the nerve-pain page (48 clicks, pos 6.3) outranks every brand page. Mobile ranks ~2.5× better than desktop on Google — the SEO lever.</div></div>
+            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">{d.viewerSplit.nonFollowers}% of views came from non-followers and reach <em>grew +49.2%</em> to 540 accounts — all of it organic, with no new Reels and no collaborations this week. Stories carried the week (57% of all views), led by the behind-the-scenes / Dr. Maria Tamay story (610 views, 440 reach, 83.1% non-followers). Account views normalized to 1,549 after last week&rsquo;s collab-inflated 3,410, but the underlying reach growth is the healthier signal.</div></div>
+            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">43 account interactions, ~8.0% engagement rate (43 &divide; 540 reach) — above the 5% healthcare benchmark, though 79.5% came from existing followers. Interactions split evenly across Stories, Reels and Posts (36 / 36 / 28). The top-engaging owned post was the AI-imaging photo (9 interactions on 64 reach = 14.1%). Followers +1 net (4 follows, 3 unfollows). Profile visits 66 (+13.8%), but external link taps fell to 2 (&minus;33.3%) — conversion is the gap. 25&ndash;44 demo = 59%.</div></div>
+            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Stories led views at {d.contentMix.stories}%, Reels {d.contentMix.reels}%, Posts {d.contentMix.posts}%. No new Reels were published — the 24% still coming from Reels is residual back-catalog. GSC 30d: 279 clicks at pos ~34; brand-search heavy, but the nerve-pain page (53 clicks, pos 6.2) outranks every brand page. Mobile ranks ~2.3&times; better than desktop on Google — the SEO lever.</div></div>
           </div></div>
           <div className="cols2">
             <div className="card"><div className="card-hd">Content Mix</div><div style={{ display: "flex", alignItems: "center", gap: 28 }}><Donut data={[{ value: d.contentMix.reels }, { value: d.contentMix.posts }, { value: d.contentMix.stories }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} /><div style={{ flex: 1 }}>{[{ label: "Reels", value: d.contentMix.reels, color: "#6F5060" }, { label: "Posts", value: d.contentMix.posts, color: "#8FA1A6" }, { label: "Stories", value: d.contentMix.stories, color: "#A6968D" }].map((item) => (<div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num">{item.value}%</span></div>))}</div></div></div>
@@ -457,12 +452,12 @@ export default function Dashboard() {
                 <div className="postcard-secondary">{[{ icon: "♡", val: p.likes, label: "Likes" }, { icon: "↗", val: p.shares, label: "Shares" }, { icon: "💬", val: p.comments, label: "Comments" }, { icon: "⊕", val: p.saves, label: "Saves" }].map((m) => (<div key={m.label} className={`postcard-sec-item ${m.val === 0 ? "zero" : ""}`}><span className="postcard-sec-val">{m.val}</span><span className="postcard-sec-label">{m.label}</span></div>))}</div>
               </div>); })}
           </div>
-          <div style={{ margin: "2px 0 16px", padding: "11px 16px", background: "rgba(88,130,220,0.08)", borderRadius: 10, border: "1px solid rgba(88,130,220,0.25)" }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#5882DC" }}>⚡ The two collab Reels were co-published with Dr. El Chaar (&ldquo;Authenticity&rdquo; also with Dr. Laura) and crossposted to Facebook. Reach and engagement shown are the post totals, shared across the collaborating accounts — which is why they exceed NYCDS&rsquo;s account-attributed reach of 362.</span>
+          <div style={{ margin: "2px 0 16px", padding: "11px 16px", background: "rgba(143,161,166,0.10)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.30)" }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ No Reels and no collaborations this week — yet reach grew +49.2% to 540 accounts. Stories carried discovery (57% of views), led by the behind-the-scenes / Dr. Maria Tamay story at 610 views and 83.1% non-follower reach. Feed posts held a steady baseline.</span>
           </div>
           <div className="cols2">
-            <div className="card"><div className="card-hd">Watch Time Analytics</div><div style={{ textAlign: "center", padding: "8px 0 22px" }}><div className="big-num">{typeof d.kpi.watchTime.value === "string" ? d.kpi.watchTime.value.replace(/\s*\d+s$/, "") : d.kpi.watchTime.value}</div><div style={{ fontSize: 12, color: "#9B9196", marginTop: 2 }}>Total Watch Time</div></div><div style={{ display: "flex", gap: 14 }}><div className="stat-box"><div className="big-num-sm plum">7s</div><div className="stat-label">Avg Duration</div></div><div className="stat-box"><div className="big-num-sm steel">{d.kpi.views.value.toLocaleString()}</div><div className="stat-label">Total Views</div></div></div><div className="alert-box plum-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>✦ Reels drove 88% of views and 73% non-follower reach — the two collab Reels carried the week</span></div></div>
-            <div className="card"><div className="card-hd">Engagement Breakdown</div><div style={{ display: "flex", flexDirection: "column", gap: 14 }}>{[{ label: "Likes", value: d.posts.reduce((s: number, p: any) => s + (p.likes||0), 0), max: 120, color: "#6F5060" }, { label: "Comments", value: d.posts.reduce((s: number, p: any) => s + (p.comments||0), 0), max: 120, color: "#8FA1A6" }, { label: "Shares", value: d.posts.reduce((s: number, p: any) => s + (p.shares||0), 0), max: 120, color: "#A6968D" }, { label: "Saves", value: d.posts.reduce((s: number, p: any) => s + (p.saves||0), 0), max: 120, color: "#BE5A5A" }].map((m) => (<div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div><div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}><div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} /></div><div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div></div>))}</div><div className="alert-box danger-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ 161 interactions across the week’s Reels — the collab content drove the bulk (137 on &ldquo;Authenticity&rdquo; alone). Saves (3) remain the weakest signal; carousels and explainers need bookmark CTAs.</span></div></div>
+            <div className="card"><div className="card-hd">Watch Time Analytics</div><div style={{ textAlign: "center", padding: "8px 0 22px" }}><div className="big-num">{typeof d.kpi.watchTime.value === "string" ? d.kpi.watchTime.value.replace(/\s*\d+s$/, "") : d.kpi.watchTime.value}</div><div style={{ fontSize: 12, color: "#9B9196", marginTop: 2 }}>Total Watch Time</div></div><div style={{ display: "flex", gap: 14 }}><div className="stat-box"><div className="big-num-sm plum">—</div><div className="stat-label">Avg Duration</div></div><div className="stat-box"><div className="big-num-sm steel">{d.kpi.views.value.toLocaleString()}</div><div className="stat-label">Total Views</div></div></div><div className="alert-box plum-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>✦ No Reels published this week — Stories drove 57% of views and 60.5% non-follower reach. Watch-time metrics resume when Reel publishing does.</span></div></div>
+            <div className="card"><div className="card-hd">Engagement Breakdown</div><div style={{ display: "flex", flexDirection: "column", gap: 14 }}>{[{ label: "Likes", value: d.posts.reduce((s: number, p: any) => s + (p.likes||0), 0), max: 15, color: "#6F5060" }, { label: "Comments", value: d.posts.reduce((s: number, p: any) => s + (p.comments||0), 0), max: 15, color: "#8FA1A6" }, { label: "Shares", value: d.posts.reduce((s: number, p: any) => s + (p.shares||0), 0), max: 15, color: "#A6968D" }, { label: "Saves", value: d.posts.reduce((s: number, p: any) => s + (p.saves||0), 0), max: 15, color: "#BE5A5A" }].map((m) => (<div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div><div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}><div style={{ width: `${(Math.max(m.value, 0.5) / m.max) * 100}%`, height: "100%", background: m.color, borderRadius: 99, transition: "width 1.2s ease" }} /></div><div className="display-num" style={{ width: 30, textAlign: "right" as const }}>{m.value}</div></div>))}</div><div className="alert-box danger-bg"><span style={{ fontSize: 12, fontWeight: 600, color: "#BE5A5A" }}>▲ 15 interactions across owned posts this week (11 likes, 4 shares, 0 saves). Saves remain the weakest signal — carousels and explainers need &ldquo;Save this before you book&rdquo; CTAs to bank the reach Stories are generating.</span></div></div>
           </div>
         </>)}
 
@@ -551,7 +546,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="card">
-            <InsightCard title={"Link Attribution · " + linkData.period} body={timeRange === "7d" ? "44 attributed human clicks over 7 days across the named location links — the /* wildcard (15), LinkedIn/FB, and data-center/bot traffic excluded. 58th Street led at 12, then Website 11, 60th Street 8, Homepage 5, 35th Street and 5th Ave 4 each. Click spike on Jun 4–5 (31 + 15) lines up with the collab Reels. US dominates; Linux/data-center clicks filtered out." : "258 attributed human clicks over 30 days across the four office links plus homepage. 58th Street (64), 5th Ave (54), 35th Street (53) and 60th Street (44) are evenly distributed — all four locations active. Website UTM drove 116 clicks; NYC and Brooklyn lead human cities. /* wildcard (253), LinkedIn/FB and bot traffic excluded."} severity="info" />
+            <InsightCard title={"Link Attribution · " + linkData.period} body={timeRange === "7d" ? "50 attributed human clicks over 7 days across the named location links — the /* wildcard (16), LinkedIn/FB/IG, and data-center/bot traffic excluded. Website and 60th Street tied at 15, with the other three offices and the Homepage at 5 each. Click activity peaked Jun 10–11 (19 + 34) — aligning with the BTS story and AI-imaging post. US dominates; Linux/data-center clicks filtered out. No DDS-PC links appeared in the NYCDS export this cycle." : "201 attributed human clicks over 30 days across the four office links plus Website and Homepage. 60th Street (48), 58th Street (39), 35th Street (36) and 5th Ave (24) spread evenly — all four locations active. Website UTM drove 72 clicks; NYC (21) and Brooklyn (5) lead human cities. /* wildcard (180), LinkedIn/FB/IG and bot traffic excluded. No DDS-PC links present this cycle, so nothing merged to EEC."} severity="info" />
           </div>
         </>)}
 
@@ -560,7 +555,7 @@ export default function Dashboard() {
             {[
               { label: "Total Sessions", value: websiteData.sessions, delay: 0 },
               { label: "Page Views", value: websiteData.topPages.reduce((s, p) => s + p.views, 0), delay: 80 },
-              { label: "Top Source", value: "Google (47.9%)", delay: 160 },
+              { label: "Top Source", value: "Direct (56%)", delay: 160 },
             ].map((k, i) => (
               <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}>
                 <div className="kpi-label">{k.label}</div>
@@ -636,7 +631,7 @@ export default function Dashboard() {
                 </div>
               </div>
               <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>✦ Desktop-heavy traffic (72%) — optimize for desktop conversion</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>✦ Desktop-heavy traffic (79%) — optimize for desktop conversion</span>
               </div>
             </div>
           </div>
@@ -692,7 +687,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="card">
-            <InsightCard title={"Website + Search · " + websiteData.period} body={timeRange === "7d" ? "162 sessions over 7 days (~23/day). Direct leads at 57.1% (92), Google 31.1% (50), with Figment Creative and Instagram referrals appearing. Desktop 77.0% / Mobile 22.2%. Jun 4 was the strongest day at 22 visitors — aligning with the collab Reels. GSC (28d): 270 clicks, 1.93% CTR, avg position 33.9 — brand and doctor queries dominate." : "631 sessions over 30 days. Direct 52.0% (328) and Google 38.8% (245) carry ~91% of traffic combined. 2 ChatGPT referrals appeared this period — small but worth monitoring for AI-driven traffic. Desktop 75.6% / Mobile 24.2%. GSC 28d: 270 clicks, 1.93% CTR, pos 33.9. Nerve Pain After Onlay page = 48 clicks at pos 6.3 — the non-brand SEO win to replicate."} severity="info" />
+            <InsightCard title={"Website + Search · " + websiteData.period} body={timeRange === "7d" ? "238 sessions over 7 days (~34/day). Direct leads at 56.7% (135), Google 32.4% (77). A referral spike from 'appen-stonecoal3…' added 15 sessions (6.3%) — likely referral spam, worth confirming before it skews source reporting. Desktop 83.1% / Mobile 16.4%. GSC (30d): 279 clicks, 1.70% CTR, avg position ~34 — brand and doctor queries dominate, with the nerve-pain page the standout non-brand asset." : "712 sessions over 30 days. Direct 56.0% (399) and Google 34.4% (245) carry ~90% of traffic combined. Desktop 78.6% / Mobile 21.0%. GSC 30d: 279 clicks, 1.70% CTR, pos ~34. The Nerve Pain After Onlay page = 53 clicks at pos 6.2 — the non-brand SEO win to replicate across procedure-question articles."} severity="info" />
           </div>
         </>)}
 
@@ -734,7 +729,7 @@ export default function Dashboard() {
               </svg>
             </div>
             <div style={{ marginTop: 8, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>⚡ Steady traffic — the site held 12–25 visitors/day across the window with no single-day collapse. Direct + Google carry ~88% of sessions.</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>⚡ Stories drove the week — account views concentrated Jun 9–11 as the behind-the-scenes / Dr. Tamay story and the AI-imaging post landed. Reach grew +49.2% to 540 accounts with zero new Reels. (Daily shape modeled from posting cadence — native daily-views export pending.)</span>
             </div>
           </div>
 
@@ -798,7 +793,7 @@ export default function Dashboard() {
                     </div>
                   ))}
                   <div style={{ marginTop: 10, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Reels dominate views (88%) and interactions (84%) — the collab format is the discovery engine</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Stories led views (57%) this week with no Reels published; interactions split evenly across Stories, Reels and Posts (36 / 36 / 28)</span>
                   </div>
                 </div>
               </div>
@@ -835,7 +830,7 @@ export default function Dashboard() {
                 </div>
               </div>
               <div style={{ padding: "10px 14px", background: "rgba(190,90,90,0.10)", borderRadius: 10, border: "1px solid rgba(190,90,90,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>▲ Reels carried 88% of views and 73% non-follower reach — the two Dr. El Chaar collab Reels drove the week.</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>▲ No Reels published this week — Stories carried discovery. The 24% of views still coming from Reels is residual back-catalog; rebuilding a 2–3/week cadence is the lever (watch-time and skip-rate resume then).</span>
               </div>
             </div>
           </div>
@@ -844,10 +839,10 @@ export default function Dashboard() {
             <div className="card"><div className="card-hd">Engagement Breakdown</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[
-                  { label: "Likes", value: socialData.totalLikes, max: 65, color: "#6F5060" },
-                  { label: "Shares", value: socialData.totalShares, max: 65, color: "#8FA1A6" },
-                  { label: "Saves", value: socialData.totalSaves, max: 65, color: "#A6968D" },
-                  { label: "Comments", value: socialData.totalComments, max: 65, color: "#BE5A5A" },
+                  { label: "Likes", value: socialData.totalLikes, max: 80, color: "#6F5060" },
+                  { label: "Shares", value: socialData.totalShares, max: 80, color: "#8FA1A6" },
+                  { label: "Saves", value: socialData.totalSaves, max: 80, color: "#A6968D" },
+                  { label: "Comments", value: socialData.totalComments, max: 80, color: "#BE5A5A" },
                 ].map((m) => (
                   <div key={m.label} style={{ display: "flex", alignItems: "center", gap: 14 }}>
                     <div style={{ width: 72, fontSize: 13, fontWeight: 500 }}>{m.label}</div>
@@ -861,34 +856,34 @@ export default function Dashboard() {
             </div>
             <div className="card"><div className="card-hd">Growth Efficiency</div>
               <div style={{ textAlign: "center" as const, padding: "12px 0 18px" }}>
-                <div style={{ fontSize: 36, fontWeight: 700, color: "#6F5060" }}>0.13%</div>
+                <div style={{ fontSize: 36, fontWeight: 700, color: "#6F5060" }}>0.06%</div>
                 <div style={{ fontSize: 12, color: "#9B9196", marginTop: 4 }}>Views → Follower Conversion</div>
               </div>
               <div style={{ display: "flex", gap: 14 }}>
                 <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(143,161,166,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>4,690</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>1,549</div>
                   <div style={{ fontSize: 10, color: "#9B9196" }}>views</div>
                 </div>
                 <div style={{ flex: 0, display: "flex", alignItems: "center", fontSize: 16, color: "#D9CCC1" }}>→</div>
                 <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(143,161,166,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>1,026</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: "#8FA1A6" }}>540</div>
                   <div style={{ fontSize: 10, color: "#9B9196" }}>reached</div>
                 </div>
                 <div style={{ flex: 0, display: "flex", alignItems: "center", fontSize: 16, color: "#D9CCC1" }}>→</div>
                 <div style={{ flex: 1, textAlign: "center" as const, padding: "10px", background: "rgba(111,80,96,0.08)", borderRadius: 10 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: "#6F5060" }}>+6</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: "#6F5060" }}>+1</div>
                   <div style={{ fontSize: 10, color: "#9B9196" }}>followers</div>
                 </div>
               </div>
               <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>▲ Borrowed reach is wide but follower conversion is the gap — turn collab-Reel discovery into follows</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>▲ Reach grew +49% but only +1 net follow and 2 link taps — converting discovery into action is the gap. Add booking-CTA stickers to high-reach Stories.</span>
               </div>
             </div>
           </div>
 
           <div className="card">
-            <InsightCard title={"Social Intelligence · " + socialData.period} body={timeRange === "7d" ? "3,410 account views; two Dr. El Chaar collaboration Reels drove the week — “Authenticity” (3,321 views / 1,212 reach / 11.3% ER) and “Soul” (1,441 / 366 / 4.9%). 188 interactions, 84% on Reels; measured against the content’s real reach (~1,790) engagement rate is ~9% (the 188÷362 account read of 51.9% overstates, dividing collab interactions by account-attributed reach). 73.4% non-follower views. Only one owned Reel published (Jun 3, 286 views). Followers +8 net (9 follows, 1 unfollow)." : "6,048 views over 30 days across NYCDS-originated posts (the Jun 4–5 collab Reels live on the account totals, not the owned-post export). May 12 'Dental Implants Misunderstood' anchors at 1,768 views and 57% skip. Reels deliver the bulk of views and interactions — the workhorse format. Skip rates on the month's reels ranged 56–77% — content quality, not algorithm, is the differentiator."} severity="info" />
-            <InsightCard title="Key Insight" body="The collaboration play worked: two co-published Reels with Dr. El Chaar drove account views from 1,327 to 3,410, reached 1,212 and 366 accounts at the post level, and engaged at 11.3% and 4.9%. The catch — that reach is shared with the partner accounts (NYCDS’s own account-attributed reach actually read −26.9%) and owned cadence was thin (one originated Reel). What's working: the collab format and doctor-led educational Reels (May 12 implants anchors the month at 1,768). What's not: only +8 net follows off a big discovery week, and saves stayed low. Convert the borrowed reach into follows and rebuild a 2–3 Reel/week owned cadence." severity="success" />
+            <InsightCard title={"Social Intelligence · " + socialData.period} body={timeRange === "7d" ? "1,549 account views with reach up +49.2% to 540 accounts — and zero new Reels or collaborations. Stories carried it (57% of views), led by the behind-the-scenes / Dr. Maria Tamay story (610 views, 440 reach, 83.1% non-followers). 43 interactions, engagement rate 8.0% (43 ÷ 540), above the 5% benchmark but 79.5% from existing followers. 60.5% of views came from non-followers. Followers +1 net (4 follows, 3 unfollows); profile visits 66 (+13.8%) but external link taps fell to 2 (−33.3%)." : "Derived from content exports — native 30-day account-level Insights were held this cycle. Across the May 15 – Jun 15 window NYCDS published 4 Reels, 6 feed posts and 13 Stories. 'A Quick Chat with Dr. Ben' (444 views) and the May 19 Dr. Farahani Reel (387 views, 6.9% ER) led; reel skip rates ran 56–63%. The month leans on a thin Reel back-catalog — rebuilding cadence is the lever. Account totals shown are content-derived estimates."} severity="info" />
+            <InsightCard title="Key Insight" body="The story this week is organic reach growth: +49.2% to 540 accounts with no Reels and no collaborations, driven almost entirely by Stories. The behind-the-scenes / Dr. Tamay story was the engine — 610 views and 83.1% non-follower reach. What's working: Stories as a discovery format and steady feed cadence. What's not: that discovery isn't converting — external link taps fell to 2 (−33.3%) and net follows were just +1 despite 60.5% non-follower views. Two levers: (1) add booking-CTA stickers to high-reach Stories to capture the traffic that's already arriving, and (2) rebuild a 2–3 Reel/week cadence — zero shipped this week, and Reel reach doesn't expire the way Stories do." severity="success" />
           </div>
         </>)}
 
@@ -898,8 +893,8 @@ export default function Dashboard() {
             <div className="card"><div className="card-hd">Age Distribution</div>{d.audience.age.map((a) => (<div key={a.range} className="age-row"><div className="age-label">{a.range}</div><div className="age-track"><div className="age-fill" style={{ width: `${(a.pct / 36) * 100}%`, background: a.pct >= 28 ? "#6F5060" : a.pct >= 20 ? "#8FA1A6" : "#A6968D" }} /></div><div className="age-pct">{a.pct}%</div></div>))}</div>
           </div>
           <div className="card"><div className="card-hd">Audience Intelligence</div>
-            <InsightCard title="Core Patient Demographic" body="59% of the audience falls in the 25–44 age range (30% aged 25–34, 29% aged 35–44) — the prime demographic for general dentistry, cosmetic procedures, and Invisalign. Audience gender remains balanced at 52/48 male/female. This represents the highest lifetime patient value segment for NYC Dental Smiles." severity="success" />
-            <InsightCard title="Gender Balance" body="At 52% male / 48% female, the follower base is nearly balanced. The 25–34 cohort is the largest single segment. Consider testing content themes that resonate with female audiences — cosmetic dentistry, teeth whitening, and wellness-focused oral health — to drive appointment bookings." severity="info" />
+            <InsightCard title="Core Patient Demographic" body="59% of the audience falls in the 25–44 age range (30% aged 25–34, 29% aged 35–44) — the prime demographic for general, cosmetic and restorative dentistry. Gender is balanced at 52/48 male/female, and New York City alone accounts for 55% of recent viewers — a tightly local, high-intent base. This is the highest lifetime-value segment for NYC Dental Smiles." severity="success" />
+            <InsightCard title="Geography Is the Edge" body="At 55% of recent views, New York City dwarfs every other market (Chicago, Philadelphia and Hoboken trail at ~1% each). The follower base is balanced at 52% male / 48% female. Local intent is the asset — geo-specific Story CTAs, location-tagged content, and office-specific booking links convert this audience better than broad reach plays." severity="info" />
           </div>
         </>)}
 
