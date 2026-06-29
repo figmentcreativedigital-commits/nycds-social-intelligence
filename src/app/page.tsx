@@ -377,12 +377,29 @@ export default function Dashboard() {
   ];
 
 
+  const adsData = {
+    period: "May 30 – June 28, 2026",
+    campaign: "Summer Campaign Ads",
+    totalSpend: 196.71,
+    budget: 500,
+    impressions: 10944,
+    reach: 7867,
+    activeAds: 2,
+    pctOfViews: 11.3,
+    pctOfInteractions: 2.0,
+    ads: [
+      { name: "Summer smiles start here", spend: 166.94, impressions: 8675, reach: 5933, quality: "Below average (bottom 35%)" },
+      { name: "Make it a summer to remember", spend: 29.77, impressions: 2269, reach: 1934, quality: "—" },
+    ],
+  };
+
   const tabs = [
     { id: "overview", label: "Overview", icon: "◉" },
     { id: "content", label: "Content", icon: "◫" },
     { id: "links", label: "Links", icon: "⊞" },
     { id: "website", label: "Website", icon: "◈" },
     { id: "social", label: "Social", icon: "◍" },
+    { id: "ads", label: "Ads", icon: "◇" },
     { id: "audience", label: "Audience", icon: "◎" },
     { id: "insights", label: "Insights", icon: "✦" },
   ];
@@ -880,7 +897,85 @@ export default function Dashboard() {
           <div className="card">
             <InsightCard title={"Social Intelligence · " + socialData.period} body={timeRange === "7d" ? "3,002 account views (Metricool; 3,586 native daily) with reach holding ~925 (outlier-adjusted) and engagement normalizing to 2.3% (21 native interactions ÷ 925) — a quieter, evergreen week with no collab, so reach held but interactions stepped down from last cycle's doctor-led Reel. Reels still carried 57% of interactions on a single piece. The front-tooth-crown Reel is the standout — 279 views, 184 reach, ~8s watch time — but saves stayed at 0 across all content. The lever is engagement depth and a return to the doctor-led / collab format." : "11,648 native account views reaching 2,460 accounts over Jun 1–28 (+20.8% reach) with 348 interactions — far ahead of the in-week figure, because the month's top content was the NYC Dental Smiles × EEC collab Reels: 'Authenticity in Dentistry' (3.6K NYCDS-side views, Jun 4), 'Plot Twist: We're All Concierge Dentists' (3.1K, Jun 15) and 'Is Dentistry Losing Its Soul?' (1.7K, Jun 5). Reels drove 60% of views and 69.5% of interactions; 68.7% of views came from non-followers. Paid 'Summer Campaign' ads contributed ~11.3% of views and 2.0% of interactions (see Paid Ads). Collab-reel reach/ER are modeled from account-level ratios — NYCDS-side per-post reach wasn't separately exported."} severity="success" />
             <InsightCard title="Key Insight" body="This was a quieter, evergreen week. With one solo Reel and two carousels (no collab), reach held roughly steady (~925, outlier-adjusted) but engagement normalized to 2.3% (21 native interactions ÷ 925) — down from last cycle's collab-boosted 8.0%. The front-tooth-crown Reel was the strongest piece (279 views, 184 reach, 10 likes) and still carried 57% of interactions. What's working: solid evergreen reach and a clean website/search funnel. What's not yet: engagement depth and saves — 0 saves across all content, and the view mix tilted to feed posts as Reel cadence dipped to one. Two levers: (1) rebuild Reel cadence to 2–3/week and bring back the doctor-led / collab format that drove deep engagement last cycle, and (2) add save-prompts and booking stickers to convert reach into action." severity="info" />
-            <InsightCard title="Paid Ads · Summer Campaign (May 30 – Jun 28)" body="NYCDS ran two Meta ads in the 'Summer Campaign' set this month — 'Summer smiles start here' ($166.94 spent, 8,675 impressions / 5,933 reach) and 'Make it a summer to remember' ($29.77, 2,269 / 1,934) — roughly $197 total for 10,944 impressions and 7,867 paid reach. Per native IG, paid drove 11.3% of June views and 2.0% of interactions; in website analytics, Facebook / Audience-Network / Instagram paid sent 47 of the week's 237 sessions. ▲ 'Summer smiles start here' carries a below-average quality ranking (bottom 35% of ads) — worth a creative refresh. No conversion events were tracked on either ad (Results blank), so add a booking/lead event to measure cost-per-result." severity="warning" />
+          </div>
+        </>)}
+
+        {tab === "ads" && (<>
+          <div className="kpi-row">
+            {[
+              { label: "Total Spend", value: "$196.71", delay: 0 },
+              { label: "Impressions", value: adsData.impressions, delay: 80 },
+              { label: "Paid Reach", value: adsData.reach, delay: 160 },
+              { label: "Active Ads", value: adsData.activeAds, delay: 240 },
+            ].map((k, i) => (
+              <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}>
+                <div className="kpi-label">{k.label}</div>
+                <div className="kpi-val">{typeof k.value === "number" ? <AnimatedNumber value={k.value} /> : <span>{k.value}</span>}</div>
+              </div>
+            ))}
+          </div>
+          <div className="card"><div className="card-hd">Ad Performance · {adsData.campaign} · {adsData.period}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+              {adsData.ads.map((a, i) => {
+                const maxImp = Math.max(...adsData.ads.map(x => x.impressions));
+                return (
+                  <div key={i} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ width: 22, height: 22, borderRadius: 99, background: i === 0 ? "#6F5060" : "#8FA1A6", color: "#fff", fontSize: 11, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</div>
+                      <div style={{ flex: 1, fontSize: 14, fontWeight: 600 }}>{a.name}</div>
+                      <div className="display-num" style={{ fontSize: 15 }}>${a.spend.toFixed(2)}</div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14, paddingLeft: 32 }}>
+                      <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
+                        <div style={{ width: `${(a.impressions / maxImp) * 100}%`, height: "100%", background: i === 0 ? "#6F5060" : "#8FA1A6", borderRadius: 99, transition: "width 1.2s ease" }} />
+                      </div>
+                      <div style={{ display: "flex", gap: 16, flexShrink: 0 }}>
+                        <div style={{ textAlign: "center" as const }}><div className="display-num">{a.impressions.toLocaleString()}</div><div style={{ fontSize: 9, color: "#9B9196" }}>impr</div></div>
+                        <div style={{ textAlign: "center" as const }}><div className="display-num">{a.reach.toLocaleString()}</div><div style={{ fontSize: 9, color: "#9B9196" }}>reach</div></div>
+                      </div>
+                    </div>
+                    <div style={{ paddingLeft: 32, fontSize: 11, color: a.quality.indexOf("Below") === 0 ? "#BE5A5A" : "#9B9196" }}>Quality ranking: {a.quality}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ marginTop: 16, padding: "11px 16px", background: "rgba(143,161,166,0.10)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.30)" }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ ~$197 spent across the Summer Campaign for 10,944 impressions and 7,867 paid reach — about $0.025 per reached account. Budget cap is $500 lifetime ($250 per ad), so there's room to scale the winner.</span>
+            </div>
+          </div>
+          <div className="cols2">
+            <div className="card"><div className="card-hd">Spend Allocation</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+                <Donut data={[{ value: 85 }, { value: 15 }]} colors={["#6F5060", "#8FA1A6"]} size={120} stroke={18} />
+                <div style={{ flex: 1 }}>
+                  {[{ label: "Summer smiles start here", value: 85, color: "#6F5060" }, { label: "Make it a summer to remember", value: 15, color: "#8FA1A6" }].map((item) => (
+                    <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
+                      <span style={{ flex: 1, fontSize: 13, fontWeight: 500 }}>{item.label}</span>
+                      <span className="display-num">{item.value}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="card"><div className="card-hd">Paid Contribution · Native IG (June)</div>
+              <div style={{ display: "flex", gap: 14 }}>
+                <div className="stat-box" style={{ flex: 1, textAlign: "center" as const, padding: "16px", background: "rgba(111,80,96,0.08)", borderRadius: 12 }}>
+                  <div style={{ fontSize: 26, fontWeight: 700, color: "#6F5060" }}>{adsData.pctOfViews}%</div>
+                  <div style={{ fontSize: 11, color: "#9B9196", marginTop: 4 }}>of Views from ads</div>
+                </div>
+                <div className="stat-box" style={{ flex: 1, textAlign: "center" as const, padding: "16px", background: "rgba(143,161,166,0.10)", borderRadius: 12 }}>
+                  <div style={{ fontSize: 26, fontWeight: 700, color: "#8FA1A6" }}>{adsData.pctOfInteractions}%</div>
+                  <div style={{ fontSize: 11, color: "#9B9196", marginTop: 4 }}>of Interactions from ads</div>
+                </div>
+              </div>
+              <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Paid also sent 47 of the week's 237 website sessions (Facebook / Audience Network / Instagram).</span>
+              </div>
+            </div>
+          </div>
+          <div className="card">
+            <InsightCard title={"Paid Ads · " + adsData.campaign} body="Two ads ran in the Summer Campaign set (May 30 – Jun 28). 'Summer smiles start here' took 85% of spend ($166.94) and most of the delivery (8,675 impressions / 5,933 reach) but carries a below-average quality ranking (bottom 35% of ads) — the creative or audience targeting needs a refresh to bring delivery cost down. 'Make it a summer to remember' ran lean ($29.77 / 2,269 impressions) and has no quality flag. Together they generated about 11.3% of June account views and 2.0% of interactions. ▲ No conversion events were tracked on either ad (Results blank), so there is no cost-per-booking yet — add a Lead or Booking event so next cycle can measure ROI, not just reach." severity="warning" />
           </div>
         </>)}
 
