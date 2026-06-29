@@ -381,7 +381,7 @@ export default function Dashboard() {
     period: "May 30 – June 28, 2026",
     campaign: "Summer Campaign Ads",
     totalSpend: 196.71,
-    budget: 500,
+    budget: 250,
     impressions: 10944,
     reach: 7867,
     activeAds: 2,
@@ -940,7 +940,7 @@ export default function Dashboard() {
               })}
             </div>
             <div style={{ marginTop: 16, padding: "11px 16px", background: "rgba(143,161,166,0.10)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.30)" }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ ~$197 spent across the Summer Campaign for 10,944 impressions and 7,867 paid reach — about $0.025 per reached account. Budget cap is $500 lifetime ($250 per ad), so there's room to scale the winner.</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ ~$197 spent across the Summer Campaign for 10,944 impressions and 7,867 paid reach — about $0.025 per reached account. The whole set runs on a single $250 lifetime ad-set budget (Meta repeats that ad-set figure on each ad row, so it is not $250 per ad), leaving headroom to shift more toward the winner.</span>
             </div>
           </div>
           <div className="cols2">
