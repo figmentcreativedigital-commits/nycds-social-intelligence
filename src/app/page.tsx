@@ -377,18 +377,20 @@ export default function Dashboard() {
 
 
   const adsData = {
-    period: "July 6 – July 12, 2026",
-    campaign: "Paid Push (ongoing) — spend/campaign detail not re-exported this cycle",
-    totalSpend: 196.71,
+    period: "June 14 – July 13, 2026",
+    campaign: "July Whitening Promo (active) + Summer Campaign (ended Jul 1)",
+    totalSpend: 378.78,
     budget: 250,
-    impressions: 1842,
-    reach: 5943,
+    impressions: 26300,
+    reach: 19111,
     activeAds: 2,
-    pctOfViews: 41.9,
-    pctOfInteractions: 2.5,
+    pctOfViews: 45.4,
+    pctOfInteractions: 4.6,
     ads: [
-      { name: "Paid push (ongoing)", spend: 166.94, impressions: 1842, reach: 5943, quality: "Ad views fell to 42% of content-type views (from 73%) as organic Reels took share" },
-      { name: "Spend/creative split carried — verify in Meta Ads Manager", spend: 29.77, impressions: 0, reach: 0, quality: "—" },
+      { name: "Stars Stripes & Brighter Smiles (active)", spend: 130.11, impressions: 13833, reach: 10184, quality: "Quality Average · Engagement Average · Conversion rate Below average (bottom 35%) — 238 landing-page views @ $0.55" },
+      { name: "Summer smiles start here (ended Jul 1)", spend: 190.34, impressions: 9193, reach: 6202, quality: "Below average - Bottom 35% of ads — highest spend of the flight, no result event tracked" },
+      { name: "Make it a summer to remember (ended Jul 1)", spend: 54.71, impressions: 2821, reach: 2301, quality: "— (delivery pending_process) · no result event tracked" },
+      { name: "Let your smile sparkle this summer (active)", spend: 3.62, impressions: 453, reach: 424, quality: "— · 7 landing-page views @ $0.52 · barely delivered" },
     ],
   };
 
@@ -902,7 +904,7 @@ export default function Dashboard() {
         {tab === "ads" && (<>
           <div className="kpi-row">
             {[
-              { label: "Total Spend", value: "$196.71", delay: 0 },
+              { label: "Total Spend", value: "$378.78", delay: 0 },
               { label: "Impressions", value: adsData.impressions, delay: 80 },
               { label: "Paid Reach", value: adsData.reach, delay: 160 },
               { label: "Active Ads", value: adsData.activeAds, delay: 240 },
@@ -939,15 +941,15 @@ export default function Dashboard() {
               })}
             </div>
             <div style={{ marginTop: 16, padding: "11px 16px", background: "rgba(143,161,166,0.10)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.30)" }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Paid still carries most of the reach — Ads accounted for 849 of the ~967 average daily reach — but its share of views fell to 1,842 of 4,398 content-type views (~42%, down from ~73%) as organic Reels took ground back. ⚠ Spend and per-ad delivery were not re-exported this cycle; dollar figures are carried from the prior campaign — verify current spend in Meta Ads Manager before quoting cost-per-reach.</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ $378.78 across two ad sets over 30 days. The ended Summer Campaign took 65% of spend ($245.05) for 12,014 impressions with <em>no result event tracked</em> — and its biggest ad ranked Below Average (bottom 35%). The active July Whitening Promo spent $133.73 and returned 245 landing-page views at ~$0.55. ⚠ Per-ad reach is not de-duplicated (Meta reports it per ad), so the 19,111 total overstates unique people — impressions are the additive metric.</span>
             </div>
           </div>
           <div className="cols2">
             <div className="card"><div className="card-hd">Spend Allocation</div>
               <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-                <Donut data={[{ value: 85 }, { value: 15 }]} colors={["#6F5060", "#8FA1A6"]} size={120} stroke={18} />
+                <Donut data={[{ value: 65 }, { value: 35 }]} colors={["#6F5060", "#8FA1A6"]} size={120} stroke={18} />
                 <div style={{ flex: 1 }}>
-                  {[{ label: "Paid push (ongoing)", value: 85, color: "#6F5060" }, { label: "Secondary creative (carried)", value: 15, color: "#8FA1A6" }].map((item) => (
+                  {[{ label: "Summer Campaign (ended Jul 1)", value: 65, color: "#6F5060" }, { label: "July Whitening Promo (active)", value: 35, color: "#8FA1A6" }].map((item) => (
                     <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
                       <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
                       <span style={{ flex: 1, fontSize: 13, fontWeight: 500 }}>{item.label}</span>
@@ -957,7 +959,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="card"><div className="card-hd">Paid Contribution · Native IG (Jul 4th wk)</div>
+            <div className="card"><div className="card-hd">Paid Contribution · Native IG · Jun 14 – Jul 13</div>
               <div style={{ display: "flex", gap: 14 }}>
                 <div className="stat-box" style={{ flex: 1, textAlign: "center" as const, padding: "16px", background: "rgba(111,80,96,0.08)", borderRadius: 12 }}>
                   <div style={{ fontSize: 26, fontWeight: 700, color: "#6F5060" }}>{adsData.pctOfViews}%</div>
@@ -969,12 +971,12 @@ export default function Dashboard() {
                 </div>
               </div>
               <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Paid also sent ~12 of the week's 192 website sessions (paid Instagram / Audience Network).</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Paid also sent ~114 of the 973 website sessions over the same 30-day window (Instagram 61, Facebook 33, Audience Network 20) — ~12% of site traffic. Native-IG shares shown here are Metricool's account view; the spend and impression figures above are Meta's, which counts all placements.</span>
               </div>
             </div>
           </div>
           <div className="card">
-            <InsightCard title="Paid Ads · Jul 6–12 (spend detail not re-exported)" body="Paid is still the largest single reach driver — ads carried 849 of the ~967 average daily reach — but its grip on views loosened materially: ad views fell to ~42% of content-type views (1,842 of 4,398), down from ~73% last cycle, as the two patient-testimonial Reels pulled organic share back. Ads contributed just 4 of 163 account-level interactions (~2.5%), so paid is buying reach, not engagement. ⚠ Metricool's account view only confirms ad reach/views; per-ad spend, budget and quality ranking were not re-exported this cycle, so the dollar figures on the cards are carried from the prior campaign and should be treated as placeholders — pull current spend from Meta Ads Manager before quoting cost-per-reach or cost-per-booking. ▲ Still no conversion event: add a Lead or Booking event so next cycle can measure ROI rather than reach, especially now that organic is demonstrably capable of carrying engagement." severity="warning" />
+            <InsightCard title="Paid Ads · Jun 14 – Jul 13 (Meta Ads Manager — spend now verified)" body="Real spend lands this cycle and reframes the paid story: $378.78 across two ad sets, 26,300 impressions. The issue is where it went. The now-ended Summer Campaign absorbed $245.05 — 65% of spend — with no result event configured, so two-thirds of the budget has no measurable return; its largest line item ('Summer smiles start here', $190.34) ranked Below Average, bottom 35%. The active July Whitening Promo is the better half: $133.73 for 245 landing-page views at ~$0.55 — cheap traffic and a real improvement on last cycle's no-tracking state — but its conversion rate ranking is Below Average (bottom 35%), so clicks land and stall. 'Let your smile sparkle' has barely delivered ($3.62 / 453 impressions): fund it or cut it. On native IG, ads drove ~45% of content-type views but only ~5% of interactions (15 of 326) — paid buys reach, organic earns engagement, and the testimonial Reels proved organic can carry it. ▲ Next: landing-page views are a weak proxy — add a Lead/Booking event and fix the whitening landing page before adding budget. ⚠ Per-ad reach isn't de-duplicated; the 19,111 total overstates unique people — use impressions." severity="warning" />
           </div>
         </>)}
 
