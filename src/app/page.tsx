@@ -162,13 +162,28 @@ function generateInsights(data: ReportData) {
     severity: "success",
   });
 
+  opportunities.push({
+    title: "Paid buys cheap clicks that do not convert",
+    evidence: [
+      "$203.25 spend produced 387 landing-page views at $0.53",
+      "Spend fell 46% while results rose \u2014 efficiency improved",
+      "Conversion rate ranks Below average (bottom 35%) on both ads",
+      "\u2018Let your smile sparkle\u2019 spent $5.78 in a month \u2014 effectively dormant",
+    ],
+    impact: "The buy is efficient. The landing page wastes it.",
+    action: "Add a Lead/Booking event and fix the whitening page before raising budget.",
+    severity: "warning",
+  });
+
   // ---------- RECOMMENDATIONS ----------
   recommendations.push(
     { priority: "high", title: "Restore Reel publishing", why: "Engagement dropped immediately after Reel production stopped.", outcomes: ["Higher engagement rate", "Renewed reach", "Follower growth"] },
     { priority: "high", title: "Rebuild link-in-bio distribution", why: "Clicks fell 61% with no end-frames and only four Stories carrying links.", outcomes: ["Recovered booking clicks", "Location-level attribution"] },
     { priority: "high", title: "Merchandise the Modern Luxury award", why: "Best-performing content of the week, published once and left there.", outcomes: ["Additional organic reach", "Cross-platform lift"] },
+    { priority: "high", title: "Fix the whitening landing page", why: "Paid delivers 387 landing-page views at $0.53, but conversion rate ranks bottom 35%.", outcomes: ["Better return on existing spend", "Measurable bookings"] },
     { priority: "medium", title: "Distribute the Summer Sip Index", why: "The only save-worthy format published, and it was under-distributed.", outcomes: ["Higher saves", "Stronger ranking signal"] },
     { priority: "medium", title: "Replicate the nerve-pain SEO template", why: "It outranks every brand page and the query cluster is compounding.", outcomes: ["Non-brand search growth"] },
+    { priority: "medium", title: "Fund or cut \u2018Let your smile sparkle\u2019", why: "It has spent $5.78 across a full month and is effectively dormant.", outcomes: ["Cleaner account structure", "Budget redeployed"] },
     { priority: "low", title: "Improve mobile SEO", why: "Strong opportunity, but not the constraint on growth today.", outcomes: ["Long-term traffic improvement"] },
   );
 
@@ -473,20 +488,20 @@ export default function Dashboard() {
 
 
   const adsData = {
-    period: "June 14 – July 13, 2026 (carried — no fresh Meta Ads export this cycle)",
-    campaign: "July Whitening Promo (active) + Summer Campaign (ended Jul 1)",
-    totalSpend: 378.78,
+    period: "June 20 – July 19, 2026",
+    campaign: "July Whitening Promo (active through Jul 31)",
+    totalSpend: 203.25,
     budget: 250,
-    impressions: 26300,
-    reach: 19111,
+    impressions: 22670,
+    reach: 15293,
     activeAds: 2,
+    results: 387,
+    costPerResult: 0.53,
     pctOfViews: 46.5,
     pctOfInteractions: 4.1,
     ads: [
-      { name: "Stars Stripes & Brighter Smiles (active)", spend: 130.11, impressions: 13833, reach: 10184, quality: "Quality Average · Engagement Average · Conversion rate Below average (bottom 35%) — 238 landing-page views @ $0.55" },
-      { name: "Summer smiles start here (ended Jul 1)", spend: 190.34, impressions: 9193, reach: 6202, quality: "Below average - Bottom 35% of ads — highest spend of the flight, no result event tracked" },
-      { name: "Make it a summer to remember (ended Jul 1)", spend: 54.71, impressions: 2821, reach: 2301, quality: "— (delivery pending_process) · no result event tracked" },
-      { name: "Let your smile sparkle this summer (active)", spend: 3.62, impressions: 453, reach: 424, quality: "— · 7 landing-page views @ $0.52 · barely delivered" },
+      { name: "Stars Stripes & Brighter Smiles (active)", spend: 197.47, impressions: 22007, reach: 14686, quality: "Quality Average · Engagement Average · Conversion rate Below average (bottom 35%) — 379 landing-page views @ $0.52" },
+      { name: "Let your smile sparkle this summer (active)", spend: 5.78, impressions: 663, reach: 607, quality: "Quality Average · Engagement Average · Conversion rate Below average (bottom 35%) — 8 landing-page views @ $0.72 · still barely delivering" },
     ],
   };
 
@@ -1083,10 +1098,11 @@ export default function Dashboard() {
         {tab === "ads" && (<>
           <div className="kpi-row">
             {[
-              { label: "Total Spend", value: "$378.78", delay: 0 },
-              { label: "Impressions", value: adsData.impressions, delay: 80 },
-              { label: "Paid Reach", value: adsData.reach, delay: 160 },
-              { label: "Active Ads", value: adsData.activeAds, delay: 240 },
+              { label: "Total Spend", value: "$203.25", delay: 0 },
+              { label: "Landing-Page Views", value: adsData.results, delay: 80 },
+              { label: "Cost / Result", value: "$0.53", delay: 160 },
+              { label: "Impressions", value: adsData.impressions, delay: 240 },
+              { label: "Paid Reach", value: adsData.reach, delay: 320 },
             ].map((k, i) => (
               <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}>
                 <div className="kpi-label">{k.label}</div>
@@ -1120,15 +1136,15 @@ export default function Dashboard() {
               })}
             </div>
             <div style={{ marginTop: 16, padding: "11px 16px", background: "rgba(143,161,166,0.10)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.30)" }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ $378.78 across two ad sets over 30 days. The ended Summer Campaign took 65% of spend ($245.05) for 12,014 impressions with <em>no result event tracked</em> — and its biggest ad ranked Below Average (bottom 35%). The active July Whitening Promo spent $133.73 and returned 245 landing-page views at ~$0.55. ⚠ Per-ad reach is not de-duplicated (Meta reports it per ad), so the 19,111 total overstates unique people — impressions are the additive metric.</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ $203.25 over 30 days, now consolidated into a single ad set — the Summer Campaign has fully rolled out of the window and every dollar sits in the July Whitening Promo. Spend fell 46% while landing-page views rose to 387 at $0.53 each, materially cheaper traffic than last cycle. Quality and engagement rankings both improved to <em>Average</em>, but conversion rate ranks <em>Below average (bottom 35%)</em> on both ads — cheap clicks that stall on arrival. ⚠ Per-ad reach is not de-duplicated (Meta reports it per ad), so the 15,293 total overstates unique people — impressions are the additive metric.</span>
             </div>
           </div>
           <div className="cols2">
             <div className="card"><div className="card-hd">Spend Allocation</div>
               <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-                <Donut data={[{ value: 65 }, { value: 35 }]} colors={["#6F5060", "#8FA1A6"]} size={120} stroke={18} />
+                <Donut data={[{ value: 97 }, { value: 3 }]} colors={["#6F5060", "#8FA1A6"]} size={120} stroke={18} />
                 <div style={{ flex: 1 }}>
-                  {[{ label: "Summer Campaign (ended Jul 1)", value: 65, color: "#6F5060" }, { label: "July Whitening Promo (active)", value: 35, color: "#8FA1A6" }].map((item) => (
+                  {[{ label: "Stars Stripes & Brighter Smiles", value: 97, color: "#6F5060" }, { label: "Let your smile sparkle", value: 3, color: "#8FA1A6" }].map((item) => (
                     <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}>
                       <div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
                       <span style={{ flex: 1, fontSize: 13, fontWeight: 500 }}>{item.label}</span>
@@ -1150,12 +1166,23 @@ export default function Dashboard() {
                 </div>
               </div>
               <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Paid sent ~141 of the 1,051 website sessions over the 30-day window (Instagram 83, Facebook 38, Audience Network 20) — ~13% of site traffic, up from ~12%. In the 7-day view ads fell to ~29% of content-type views and just 2 of 133 interactions. Native-IG shares shown here are Metricool's account view and are current; the spend and impression figures above are Meta's and are carried from Jun 14 – Jul 13 — no fresh Meta Ads Manager export was provided this cycle.</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Paid sent ~141 of the 1,051 website sessions over the 30-day window (Instagram 83, Facebook 38, Audience Network 20) — ~13% of site traffic, up from ~12%. In the 7-day view ads fell to ~29% of content-type views and just 2 of 133 interactions. ⚠ Attribution gap worth watching: Meta claims 387 landing-page views over the same window while GA4 attributes 141 paid sessions — a ~2.7&times; spread driven by Meta's 7-day-click/1-day-view window and by landing-page views not equalling sessions. Trust the GA4 figure for traffic; use Meta's only for relative ad comparison. Native-IG shares shown here are Metricool's account view; spend and impressions above are Meta's, which counts all placements.</span>
               </div>
             </div>
           </div>
           <div className="card">
-            <InsightCard title="Paid Ads · Native IG current · spend carried from Jun 14 – Jul 13" body="⚠ Flag first: no Meta Ads Manager export was provided this cycle, so every spend, campaign and cost figure below is carried forward from the Jun 14 – Jul 13 pull and should not be read as current. What is current is the native-IG picture from Metricool, and it moved: ads fell to ~29% of content-type views in the 7-day window (from 42%) and contributed just 2 of 133 interactions. Over 30 days ads still account for ~47% of content-type views (7,567 of 16,288) but only ~4% of interactions (16 of 388) — paid buys reach, organic earns engagement, and that ratio has not changed. Carried detail: $378.78 across two ad sets and 26,300 impressions, of which the now-ended Summer Campaign absorbed $245.05 — 65% of spend — with no result event configured; its largest line item ('Summer smiles start here', $190.34) ranked Below Average, bottom 35%. The July Whitening Promo was the better half at $133.73 for 245 landing-page views (~$0.55) but ranked Below Average on conversion rate. ▲ Next: send this cycle's Meta Ads export so spend can be reconciled against the 7-day view collapse, and add a Lead/Booking event — landing-page views remain a weak proxy. ⚠ Per-ad reach is not de-duplicated; the 19,111 figure overstates unique people — use impressions." severity="warning" />
+            <InsightCard
+              title="Cheap paid traffic that stalls on arrival"
+              evidence={[
+                "$203.25 spend \u2014 down 46%, now one ad set",
+                "387 landing-page views at $0.53 \u2014 materially cheaper",
+                "Quality and engagement rankings improved to Average",
+                "Conversion rate ranks Below average on both ads",
+                "Ads = 47% of content views but 4% of interactions",
+              ]}
+              impact="Media buying is working. The page it points at is not."
+              action="Add a Lead/Booking event, then fix the whitening landing page before adding budget."
+              severity="warning" />
           </div>
         </>)}
 
