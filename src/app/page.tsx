@@ -28,54 +28,150 @@ const FALLBACK_DATA = {
 };
 type ReportData = typeof FALLBACK_DATA;
 
+type Insight = { title: string; evidence: string[]; impact: string; action: string; severity: string };
+type Rec = { priority: string; title: string; why: string; outcomes: string[] };
+
 function generateInsights(data: ReportData) {
-  const insights: { title: string; body: string; severity: string }[] = [];
-  const opportunities: typeof insights = [];
-  const recommendations: { text: string; priority: string }[] = [];
-  const alerts: typeof insights = [];
+  const insights: Insight[] = [];
+  const opportunities: Insight[] = [];
+  const alerts: Insight[] = [];
+  const recommendations: Rec[] = [];
 
   const er = data.kpi.engagementRate.value;
   const reach = data.kpi.reach.value;
+  const views = data.kpi.views.value;
+  const eng = data.kpi.engagements.value;
+  const nf = data.viewerSplit.nonFollowers;
 
-  opportunities.push({ title: "Press Feature Carried a Reel-Free Week — Owned Formats Held Reach", body: `Zero Reels shipped this cycle. The week ran on three static posts and four Stories, and the Modern Luxury Manhattan "Best of the City 2026" feature carried it — 733 views on 335 reach, 15 likes, and the account's best cross-platform showing of the quarter (LinkedIn 78 impressions / 6 reactions / 6 link clicks from a single post, Facebook 45 views). Account reach still rose to ${reach.toLocaleString()} (Metricool avg. reach/day of 1,131 × 7, +12% WoW) and views climbed to ${data.kpi.views.value.toLocaleString()} — but a good share of that is the Jul 10/11 testimonial Reels still circulating from last cycle, which alone booked 66 of the week's interactions with nothing new published. Story reach was the quiet standout: 147 avg reach per Story against a 30-day average of 60. The read: earned press and Stories can hold the floor for a week, but they cannot replace the Reel engine.`, severity: "success" });
+  // ---------- KEY INSIGHTS ----------
+  insights.push({
+    title: "Engagement fell because no Reels were published",
+    evidence: [
+      `Engagement rate ${er}% \u2014 down from 2.3%`,
+      `${eng} interactions \u2014 down 18%`,
+      "Reel interactions 66 \u2014 all carryover, none new",
+      `Reach still grew 12% to ${reach.toLocaleString()}`,
+    ],
+    impact: "Distribution held. Conversion of that reach slowed.",
+    action: "Restore 2\u20133 testimonial Reels per week.",
+    severity: "warning",
+  });
 
-  insights.push({ title: `Blended Engagement Rate ${er}% — Down as the Reel Engine Went Quiet`, body: `${data.kpi.engagements.value} account-level interactions (Reel 66 / Post 42 / Story 23 / Ad 2, per the locked account-level rule — not published-content actions) against ${reach.toLocaleString()} accounts reached = ${er}%, down from 2.3% last cycle. The denominator grew 12% while interactions fell 18%, which is the honest read: reach kept flowing but there was less new content to convert it. The composition shifted underneath — Post interactions rose to 42 (from 33) on the strength of the press feature, while Reel interactions fell to 66 (from 111) with no new Reels shipped; those 66 are residual engagement on the Jul 10 and Jul 11 testimonials. Eighty-eight unique accounts engaged, up from 80. Paid contributed almost nothing: 2 interactions and ~29% of content-type views, down from 42%. Organic per-content rates stayed healthy — the Lenox Hill patient post hit 14.29% ER on 42 reach and the press feature 5.67% on 335 — so this is a publishing-volume problem, not an audience problem.`, severity: "warning" });
+  insights.push({
+    title: "Static posts led the content mix for the first time",
+    evidence: [
+      `Posts ${data.contentMix.posts}% of organic views vs Reels ${data.contentMix.reels}%`,
+      "Reel share is entirely prior-week carryover",
+      "Stories over-delivered \u2014 147 avg reach vs 60 monthly",
+      "No watch-time data \u2014 nothing published",
+    ],
+    impact: "Owned formats can hold one week, not a quarter.",
+    action: "Re-cut the press feature as a Reel.",
+    severity: "info",
+  });
 
-  const sorted = [
-    { name: "Reels", val: data.contentMix.reels },
-    { name: "Posts", val: data.contentMix.posts },
-    { name: "Stories", val: data.contentMix.stories },
-  ].sort((a, b) => b.val - a.val);
-  insights.push({ title: "Format Mix Inverted — Static Posts Led for the First Time", body: `${sorted[0].name} led at ${sorted[0].val}% of published-content views, ${sorted[1].name} ${sorted[1].val}%, ${sorted[2].name} ${sorted[2].val}%. That is a genuine inversion: Reels fell from 62% to 34% of the organic view mix purely because none were published — the 1,287 Reel views on the account are carryover from the prior cycle's two testimonials. Static posts did more than hold: 1,413 organic views across the press feature (733), the Summer Sip Index carousel (144) and the Lenox Hill patient quote (70). Stories punched above their weight at 1,125 views and 600 impressions across only four posts, at 147 avg reach each versus a 30-day average of 60. Watch-time and skip-rate diagnostics are unavailable this cycle — no Reels were published, so there is no fresh view-through data to report.`, severity: "info" });
+  insights.push({
+    title: "Search quality improved while volume fell",
+    evidence: [
+      "90 clicks at 1.43% CTR \u2014 up from 86 at 1.25%",
+      "9% fewer impressions",
+      "Nerve-pain page: 16 clicks at position 5.7",
+      "Doctor pages converting \u2014 Chesner 9.72%, Eisdorfer 15.38%",
+    ],
+    impact: "The non-brand SEO template is compounding.",
+    action: "Publish 5+ procedure-question articles on that template.",
+    severity: "info",
+  });
 
-  const totalSaves = data.posts.reduce((s: number, p: any) => s + (p.saves || 0), 0);
-  if (totalSaves < 3) {
-    opportunities.push({ title: "Saves Are Still the Weak Lever", body: `${totalSaves} save across the week's owned content — the Modern Luxury press feature earned the only one, and shares fell to 4 with zero comments on any of the three posts. Saves are the highest-weighted action in Meta's ranking and reach was abundant (${reach.toLocaleString()}). A press feature earns admiration, not bookmarks; the Summer Sip Index carousel was the one genuinely save-worthy piece this week and it drew only 144 views on 60 reach — under-distributed for a reference format. Procedure explainers and before/after carousels with a "Save this before you book" CTA on the final frame remain the fix, and the Sip Index proves the format already exists in the pipeline.`, severity: "warning" });
-  }
-
-  if (data.viewerSplit.nonFollowers >= 45) {
-    opportunities.push({ title: "Convert a Non-Follower Wave Into Active Signals", body: `~${data.viewerSplit.nonFollowers}% of views (3,532 of 5,139) and ~97% of reach came from non-followers this week (1,022 non-follower vs 35 follower on the deduplicated reach card). Follower share of views actually improved to 31% from 28%, and net follower add rose to +${data.kpi.followers.change} — the best weekly rate in the file at 1.57/day against a 30-day average of 1.03/day. So the press feature did convert some attention. The gap is everything downstream of the follow: 1 save, 4 shares, 0 comments. With no Reel end-frames to carry a CTA this week, Story stickers and the bio link were the only active layer available — and ShortIO clicks fell to 33 from 85, which suggests they were not worked hard.`, severity: "warning" });
-  }
-
-  insights.push({ title: "Brand-Search Dependency on Google", body: `Fresh GSC this cycle (Jul 12–18, standard one-day lag): 90 clicks on 6,288 impressions at 1.43% CTR, pos ~30 — clicks up on last cycle's 86 and CTR up meaningfully from 1.25%, on 9% fewer impressions. That is a quality improvement, not a volume one. Brand terms still dominate the click side ("nyc dental smiles" 12 clicks at 46.2% CTR pos 1.5, "nyc dental smile team" 2 at 50%, "dr giraldo dentist" 2 at 33.3%), but the doctor pages are now genuinely productive: Dr. Michael Chesner drew 7 clicks at 9.72% CTR from just 72 impressions, and Dr. James Eisdorfer 6 clicks at 15.38%. The non-brand anchor held — the "nerve pain after onlay" page took 16 clicks at position 5.71, outranking every brand page, and the cluster keeps compounding ("onlay hurts when i bite down" and "pain after onlay procedure" both rank position 2). The generic head terms remain pure opportunity cost: "dentist new york" drew 95 impressions for zero clicks at position 44. That page template is still the blueprint — replicate it across 5–10 procedure questions.`, severity: "info" });
-
-  insights.push({ title: "Mobile Now Out-Clicks Desktop on Google", body: "GSC (30-day, Jun 19 – Jul 18): Mobile ranks at position 17.7 vs Desktop at 42.2 — a ~2.4× ranking gap on the same content, with mobile converting at 2.51% CTR against 0.58% on desktop. Mobile out-clicks desktop outright (184 vs 170) on roughly a fifth of the impressions, and the gap widened again this cycle. The 7-day picture is sharper still: 52 mobile clicks at position 15.7 versus 36 desktop clicks at 35.7. Note the tension with site analytics, where 72.8% of sessions are desktop — search demand is mobile, the site traffic is not. Mobile experience is the strongest SEO lever available: audit Core Web Vitals and keep booking CTAs thumb-reachable above the fold.", severity: "info" });
+  insights.push({
+    title: "Mobile outranks desktop 2.4\u00d7 on Google",
+    evidence: [
+      "Mobile position 17.7 vs desktop 42.2 (30d)",
+      "Mobile out-clicks desktop 184 vs 170",
+      "Mobile CTR 2.51% vs desktop 0.58%",
+      "Yet 72.8% of site sessions are desktop",
+    ],
+    impact: "Search demand is mobile. The site is not built for it.",
+    action: "Audit Core Web Vitals; keep booking CTAs above the fold.",
+    severity: "info",
+  });
 
   const topAge = data.audience.age.reduce((a, b) => (a.pct > b.pct ? a : b));
-  insights.push({ title: "Audience Alignment", body: `Primary audience is ${topAge.range} (${topAge.pct}%), with a ${data.audience.gender.male}/${data.audience.gender.female} male/female split (demographic table carried — not re-exported this cycle). The 25–44 range represents ${(data.audience.age[1]?.pct || 0) + (data.audience.age[2]?.pct || 0)}% — strong patient demographic for cosmetic and restorative work — and New York is the top follower market at 22.9%, a tightly local, high-intent base.`, severity: "success" });
+  insights.push({
+    title: "Core patient demographic holds",
+    evidence: [
+      `Largest cohort ${topAge.range} at ${topAge.pct}%`,
+      `25\u201344 band = ${((data.audience.age[1]?.pct || 0) + (data.audience.age[2]?.pct || 0)).toFixed(1)}% of followers`,
+      `Gender split ${data.audience.gender.male}/${data.audience.gender.female}`,
+      "New York = 22.9% of follower base",
+    ],
+    impact: "The high-value local segment is intact.",
+    action: "Keep geo-tagged, office-specific content running.",
+    severity: "success",
+  });
 
-  if (data.kpi.followers.change != null && data.kpi.followers.change < 12) {
-    opportunities.push({ title: "Follower Conversion Lag", body: `Net +${data.kpi.followers.change} this week (721→732) — the strongest weekly follower rate on file at 1.57/day, against a 30-day average of 1.03/day. With ~${data.viewerSplit.nonFollowers}% of views still from non-followers and reach at ${reach.toLocaleString()}, the press feature clearly pulled part of the discovery wave into follows. But the ceiling stays low while publishing volume is: three static posts and four Stories is not enough surface area to work a 5,538-view week. The end-frame CTA real estate that Reels provide simply did not exist this cycle. Restoring 2–3 Reels/week is the prerequisite; follow and save prompts are what you put on them.`, severity: "warning" });
-  }
+  // ---------- OPPORTUNITIES ----------
+  opportunities.push({
+    title: "The press feature was the week\u2019s biggest asset \u2014 and it was used once",
+    evidence: [
+      "733 views / 335 reach / 15 likes on Instagram",
+      "Best LinkedIn post of the window \u2014 78 impressions, 6 link clicks",
+      "45 views on Facebook",
+      "Published as a single static post, never repurposed",
+    ],
+    impact: "Earned press has a tail one post cannot capture.",
+    action: "Re-cut as a Reel, pin to profile, add the award badge to bio.",
+    severity: "success",
+  });
 
+  opportunities.push({
+    title: "Link clicks collapsed 61%",
+    evidence: [
+      "33 human clicks vs 85 the prior week",
+      "No Reel end-frames to carry a CTA",
+      "Only 4 Stories carried booking links",
+      "Those Stories averaged 147 accounts each",
+    ],
+    impact: "The audience showed up. The booking ask did not.",
+    action: "Put location links in Stories every posting day.",
+    severity: "danger",
+  });
+
+  const totalSaves = data.posts.reduce((s: number, p: any) => s + (p.saves || 0), 0);
+  opportunities.push({
+    title: "Saves remain the weakest signal",
+    evidence: [
+      `${totalSaves} save across all owned content`,
+      "4 shares, 0 comments",
+      "Summer Sip Index \u2014 the one save-worthy piece \u2014 drew just 144 views",
+    ],
+    impact: "Meta weights saves highest. The account generates almost none.",
+    action: "Add a \u201cSave this before you book\u201d CTA to explainer carousels.",
+    severity: "warning",
+  });
+
+  opportunities.push({
+    title: "Follower conversion hit its best weekly rate on file",
+    evidence: [
+      `Net +${data.kpi.followers.change} \u2014 1.57/day vs a 1.03/day monthly average`,
+      `Follower share of views rose to ${data.viewerSplit.followers}% from 28%`,
+      `${nf}% of views still come from non-followers`,
+    ],
+    impact: "Press converted attention. Publishing volume caps the ceiling.",
+    action: "Restore Reel cadence to widen the top of the funnel.",
+    severity: "success",
+  });
+
+  // ---------- RECOMMENDATIONS ----------
   recommendations.push(
-    { text: "Restore the Reel cadence immediately — zero Reels shipped this cycle and the engagement rate fell from 2.3% to 1.7% as a direct result. The two testimonial Reels from Jul 10/11 were still generating 66 interactions a week after posting, which is exactly how much residual value the format carries. Two to three patient-testimonial Reels per week is the single highest-leverage fix on this list", priority: "high" },
-    { text: "Merchandise the Modern Luxury Manhattan win properly — 733 IG views, 78 LinkedIn impressions with 6 link clicks, and 45 on Facebook off one static post. Cut it into a Reel with the doctors reacting to the feature, pin it to the profile, add it to Stories highlights, and put the award badge in the bio. Earned press has a long tail that a single post does not capture", priority: "high" },
-    { text: "Fix the link-in-bio collapse — ShortIO human clicks fell to 33 from 85 week-over-week (-61%), and the whole drop tracks the missing Reels and thinner Story volume. Four Stories carried 600 impressions at 147 avg reach each, so the audience was there; the booking links were not in front of them. Put location links back in Stories every posting day", priority: "high" },
-    { text: "Distribute the Summer Sip Index harder — it is the only save-worthy reference format published this cycle and it drew just 144 views on 60 reach. Re-cut it as a Reel, add a \u2018Save this before summer\u2019 CTA on the final frame, and Story-tease it. Saves stayed at 1 all week", priority: "medium" },
-    { text: "Replicate the \u2018nerve pain after onlay\u2019 SEO template — 16 clicks this week at position 5.71 and 55 over 30 days, still outranking every brand page, with the cluster compounding (\u2018onlay hurts when i bite down\u2019 and \u2018pain after onlay procedure\u2019 both at position 2). The doctor pages are now converting too (Chesner 9.72% CTR, Eisdorfer 15.38%). Build 5+ procedure-question articles; the head terms (\u2018dentist new york\u2019: 95 impressions, 0 clicks, pos 44) are unwinnable", priority: "medium" },
-    { text: "Lean into mobile SEO — mobile out-clicks desktop (184 vs 170 over 30 days) and ranks ~2.4\u00d7 better (17.7 vs 42.2), yet 72.8% of actual site sessions are desktop. That gap is the opportunity. Audit Core Web Vitals and keep booking CTAs thumb-reachable above the fold", priority: "low" },
+    { priority: "high", title: "Restore Reel publishing", why: "Engagement dropped immediately after Reel production stopped.", outcomes: ["Higher engagement rate", "Renewed reach", "Follower growth"] },
+    { priority: "high", title: "Rebuild link-in-bio distribution", why: "Clicks fell 61% with no end-frames and only four Stories carrying links.", outcomes: ["Recovered booking clicks", "Location-level attribution"] },
+    { priority: "high", title: "Merchandise the Modern Luxury award", why: "Best-performing content of the week, published once and left there.", outcomes: ["Additional organic reach", "Cross-platform lift"] },
+    { priority: "medium", title: "Distribute the Summer Sip Index", why: "The only save-worthy format published, and it was under-distributed.", outcomes: ["Higher saves", "Stronger ranking signal"] },
+    { priority: "medium", title: "Replicate the nerve-pain SEO template", why: "It outranks every brand page and the query cluster is compounding.", outcomes: ["Non-brand search growth"] },
+    { priority: "low", title: "Improve mobile SEO", why: "Strong opportunity, but not the constraint on growth today.", outcomes: ["Long-term traffic improvement"] },
   );
+
   return { insights, opportunities, recommendations, alerts };
 }
 
@@ -412,9 +508,46 @@ export default function Dashboard() {
     info: { bg: "rgba(166,150,141,0.12)", border: "rgba(166,150,141,0.35)", dot: "#A6968D" },
   };
 
-  function InsightCard({ title, body, severity }: { title: string; body: string; severity: string }) {
-    const s = sev[severity] || sev.info;
-    return (<div style={{ background: s.bg, border: `1px solid ${s.border}`, borderRadius: 14, padding: "18px 22px", marginBottom: 12 }}><div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 8 }}><div style={{ width: 8, height: 8, borderRadius: 99, background: s.dot, flexShrink: 0 }} /><span style={{ fontWeight: 700, fontSize: 13, color: "#6F5060" }}>{title}</span></div><div style={{ fontSize: 13, lineHeight: 1.7, color: "#5C4E54" }}>{body}</div></div>);
+  const sevMark: Record<string, string> = { success: "\u25B2", warning: "\u25BC", danger: "\u25CF", info: "\u25C6" };
+  const sevColor: Record<string, string> = { success: "#8FA1A6", warning: "#6F5060", danger: "#BE5A5A", info: "#A6968D" };
+
+  function InsightCard({ title, body, evidence, impact, action, severity }: { title: string; body?: string; evidence?: string[]; impact?: string; action?: string; severity: string }) {
+    const sv = severity || "info";
+    if (!evidence) {
+      const s2 = sev[sv] || sev.info;
+      return (<div style={{ background: s2.bg, border: `1px solid ${s2.border}`, borderRadius: 14, padding: "18px 22px", marginBottom: 12 }}><div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 8 }}><div style={{ width: 8, height: 8, borderRadius: 99, background: s2.dot, flexShrink: 0 }} /><span style={{ fontWeight: 700, fontSize: 13, color: "#6F5060" }}>{title}</span></div><div style={{ fontSize: 13, lineHeight: 1.7, color: "#5C4E54" }}>{body}</div></div>);
+    }
+    return (
+      <div className={`ins sev-${sv}`}>
+        <div className="ins-title"><span className="ins-mark" style={{ color: sevColor[sv] }}>{sevMark[sv]}</span><span>{title}</span></div>
+        <div className="ins-label">Evidence</div>
+        <ul className="ins-ev">{evidence.map((e, i) => <li key={i}>{e}</li>)}</ul>
+        {impact && <><div className="ins-label">Business Impact</div><div className="ins-impact">{impact}</div></>}
+        {action && <><div className="ins-label">Recommended Action</div><div className="ins-action">{action}</div></>}
+      </div>
+    );
+  }
+
+  function ExecCard({ eyebrow, tone, metrics, hero, noteLabel, notes }: { eyebrow: string; tone: string; metrics?: { val: string; label: string; delta?: string; dir?: string }[]; hero?: { label: string; title: string; stats: { val: string; label: string }[] }; noteLabel: string; notes: { text: string; tone?: string }[] }) {
+    return (
+      <div className={`exec-card tone-${tone}`}>
+        <div className="exec-eyebrow">{eyebrow}</div>
+        {metrics && (<div className="exec-metrics">{metrics.map((m, i) => (
+          <div key={i} className="exec-metric">
+            <div className="exec-metric-val">{m.val}</div>
+            <div className="exec-metric-label">{m.label}</div>
+            {m.delta && <div className={`exec-metric-delta ${m.dir || "flat"}`}>{m.dir === "up" ? "\u25B2" : m.dir === "down" ? "\u25BC" : "\u2014"} {m.delta}</div>}
+          </div>))}
+        </div>)}
+        {hero && (<div className="exec-hero">
+          <div className="exec-hero-label">{hero.label}</div>
+          <div className="exec-hero-title">{hero.title}</div>
+          <div className="exec-hero-stats">{hero.stats.map((h, i) => <div key={i} className="exec-hero-stat">{h.val} <span>{h.label}</span></div>)}</div>
+        </div>)}
+        <div className="exec-note-label">{noteLabel}</div>
+        <ul className="exec-list">{notes.map((n, i) => <li key={i} className={n.tone || ""}>{n.text}</li>)}</ul>
+      </div>
+    );
   }
 
   if (loading) {
@@ -438,11 +571,57 @@ export default function Dashboard() {
               <div key={i} className="kpi" style={{ animationDelay: `${k.delay}ms` }}><div className="kpi-label">{k.label}</div><div className="kpi-val">{typeof k.value === "number" ? <AnimatedNumber value={k.value} suffix={"suffix" in k ? (k as any).suffix : ""} /> : <span>{k.value}</span>}</div>{"change" in k && k.change != null && (<div className="kpi-delta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2L12 8H2L7 2Z" fill="#8FA1A6" /></svg>+{k.change} this week</div>)}</div>
             ))}
           </div>
-          <div className="exec"><div className="card-hd">Executive Summary</div><div className="exec-cols">
-            <div><div className="exec-col-title">Discovery</div><div className="exec-col-body">An estimated {d.viewerSplit.nonFollowers}% of views (3,532 of 5,139) and ~97% of reach came from non-followers. Account reach ran <em>~7,917</em> (Metricool avg. reach/day of 1,131 &times; 7; +12% WoW; paid-inflated, no daily-series outlier adjustment now that the Profile Growth CSV is retired) and account views climbed to 5,538 (+21%). But <em>zero Reels were published</em> — the Jul 10/11 testimonials from last cycle are still carrying 1,287 Reel views and 66 interactions on their own. Ads fell again to ~29% of content-type views (from 42%). Discovery held; new supply did not.</div></div>
-            <div><div className="exec-col-title">Engagement</div><div className="exec-col-body">133 account-level interactions, ~1.7% blended engagement rate (133 &divide; 7,917 reach; account-level counts per the locked rule — Reel 66 / Post 42 / Story 23 / Ad 2). Interactions fell 18% while reach grew 12%, which is what a reel-free week costs. Composition flipped: Post interactions rose to 42 on the press feature, Reel interactions fell to 66 with nothing new shipped. Organic per-content ER stayed healthy (Lenox Hill patient post 14.29%, Summer Sip 6.67%, press feature 5.67%). Shares fell to 4, comments to 0, saves held at 1. Followers 721&rarr;732 (+11 — best weekly rate on file). 25&ndash;44 demo = 59.6% (carried).</div></div>
-            <div><div className="exec-col-title">Content</div><div className="exec-col-body">Mix inverted: Posts led published-content views at {d.contentMix.posts}%, Reels {d.contentMix.reels}% (all carryover), Stories {d.contentMix.stories}%. The Modern Luxury Manhattan feature carried the week — 733 views, 335 reach, 15 likes, plus 78 LinkedIn impressions and 45 on Facebook. Four Stories over-delivered at 147 avg reach each vs a 60 monthly average. No watch-time or skip-rate data — no Reels published. Fresh GSC (Jul 12&ndash;18): 90 clicks at 1.43% CTR, pos ~30 — CTR up sharply on 9% fewer impressions, with the nerve-pain page (16 clicks, pos 5.7) still outranking every brand page. Mobile ranks ~2.4&times; better than desktop and out-clicks it (184 vs 170 over 30d).</div></div>
-          </div></div>
+          <div className="exec"><div className="card-hd">Executive Summary</div>
+            <div className="exec-grid">
+              <ExecCard
+                eyebrow="Discovery"
+                tone="pos"
+                metrics={[
+                  { val: d.kpi.reach.value.toLocaleString(), label: "Reach", delta: "12%", dir: "up" },
+                  { val: d.kpi.views.value.toLocaleString(), label: "Views", delta: "21%", dir: "up" },
+                  { val: `${d.viewerSplit.nonFollowers}%`, label: "Non-Follower", delta: "3pt", dir: "down" },
+                ]}
+                noteLabel="Takeaway"
+                notes={[
+                  { text: "Reach and views both grew week over week.", tone: "pos" },
+                  { text: "Discovery is still ~97% non-follower \u2014 paid and carryover Reels drive it.", tone: "" },
+                  { text: "Follower share of views improved to 31%, up from 28%.", tone: "pos" },
+                ]}
+              />
+              <ExecCard
+                eyebrow="Engagement"
+                tone="warn"
+                metrics={[
+                  { val: `${d.kpi.engagementRate.value}%`, label: "Eng. Rate", delta: "0.6pt", dir: "down" },
+                  { val: d.kpi.engagements.value.toLocaleString(), label: "Interactions", delta: "18%", dir: "down" },
+                  { val: `+${d.kpi.followers.change}`, label: "Followers", delta: "best on file", dir: "up" },
+                ]}
+                noteLabel="Why"
+                notes={[
+                  { text: "Zero Reels published \u2014 a first for this account.", tone: "neg" },
+                  { text: "Reel interactions fell to 66, all prior-week carryover.", tone: "neg" },
+                  { text: "Post interactions rose to 42 on the press feature.", tone: "pos" },
+                  { text: "Saves 1 \u00b7 Shares 4 \u00b7 Comments 0.", tone: "neg" },
+                ]}
+              />
+              <ExecCard
+                eyebrow="Content"
+                tone="neutral"
+                hero={{
+                  label: "Top Performer",
+                  title: "Modern Luxury Manhattan \u2014 Best of the City 2026",
+                  stats: [{ val: "733", label: "views" }, { val: "335", label: "reach" }, { val: "15", label: "likes" }],
+                }}
+                noteLabel="Key Notes"
+                notes={[
+                  { text: `Posts led the mix at ${d.contentMix.posts}%; Reels ${d.contentMix.reels}% is carryover.`, tone: "" },
+                  { text: "Stories over-delivered \u2014 147 avg reach vs 60 monthly.", tone: "pos" },
+                  { text: "Search quality up: 90 clicks at 1.43% CTR.", tone: "pos" },
+                  { text: "Link clicks fell 61% to 33.", tone: "neg" },
+                ]}
+              />
+            </div>
+          </div>
           <div className="cols2">
             <div className="card"><div className="card-hd">Content Mix</div><div style={{ display: "flex", alignItems: "center", gap: 28 }}><Donut data={[{ value: d.contentMix.reels }, { value: d.contentMix.posts }, { value: d.contentMix.stories }]} colors={["#6F5060", "#8FA1A6", "#A6968D"]} size={120} stroke={18} /><div style={{ flex: 1 }}>{[{ label: "Reels", value: d.contentMix.reels, color: "#6F5060" }, { label: "Posts", value: d.contentMix.posts, color: "#8FA1A6" }, { label: "Stories", value: d.contentMix.stories, color: "#A6968D" }].map((item) => (<div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num">{item.value}%</span></div>))}</div></div></div>
             <div className="card"><div className="card-hd">Viewer Composition</div><div style={{ display: "flex", alignItems: "center", gap: 28 }}><Donut data={[{ value: d.viewerSplit.nonFollowers }, { value: d.viewerSplit.followers }]} colors={["#6F5060", "#D9C5C1"]} size={120} stroke={18} /><div style={{ flex: 1 }}>{[{ label: "Non-Followers", value: d.viewerSplit.nonFollowers, color: "#6F5060" }, { label: "Followers", value: d.viewerSplit.followers, color: "#D9C5C1" }].map((item) => (<div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 0" }}><div style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} /><span style={{ flex: 1, fontSize: 14, fontWeight: 500 }}>{item.label}</span><span className="display-num">{item.value}%</span></div>))}<div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}><span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ Wide discovery — ~69% of views and ~97% of reach came from non-followers (1,022 vs 35 on the deduplicated reach card). Follower share of views improved to 31% from 28% as the press feature pulled in owned audience</span></div></div></div></div>
@@ -996,7 +1175,27 @@ export default function Dashboard() {
             <div><div className="section-label">Key Insights</div>{engine.insights.map((ins, i) => <InsightCard key={i} {...ins} />)}</div>
             <div><div className="section-label">Growth Opportunities</div>{engine.opportunities.map((o, i) => <InsightCard key={i} {...o} />)}{engine.alerts.map((a, i) => <InsightCard key={`a${i}`} {...a} />)}</div>
           </div>
-          <div className="card"><div className="card-hd">Strategic Recommendations</div>{engine.recommendations.map((r, i) => (<div key={i} className="rec"><span className={`rec-badge ${r.priority}`}>{r.priority}</span><span style={{ fontSize: 13, lineHeight: 1.6 }}>{r.text}</span></div>))}</div>
+          <div className="card"><div className="card-hd">Strategic Recommendations</div>
+            {["high", "medium", "low"].map((pri) => {
+              const items = engine.recommendations.filter((r) => r.priority === pri);
+              if (!items.length) return null;
+              return (
+                <div key={pri} className="rec-group">
+                  <div className="rec-group-hd">
+                    <span className={`rec-badge ${pri}`}>{pri} priority</span>
+                    <span className="rec-group-count">{items.length} action{items.length > 1 ? "s" : ""}</span>
+                  </div>
+                  {items.map((r, i) => (
+                    <div key={i} className="rec-item">
+                      <div className="rec-title">{r.title}</div>
+                      <div className="rec-why"><strong>Why</strong>{r.why}</div>
+                      <div className="rec-outcomes">{r.outcomes.map((o, j) => <span key={j} className="rec-chip">{o}</span>)}</div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
         </>)}
 
         <div className="footer"><span>NYC Dental Smiles · Powered by Figment Creative</span></div>
