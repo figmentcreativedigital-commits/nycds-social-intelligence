@@ -12,9 +12,9 @@ const FALLBACK_DATA = {
     watchTime: { value: "—", label: "Watch Time" },
   },
   posts: [
-    { id: 1, title: "Modern Luxury Manhattan — Best of the City 2026", type: "Post", views: 733, reach: 335, likes: 15, comments: 0, saves: 1, shares: 3, isTop: true, igPostUrl: "" },
-    { id: 2, title: "The Summer Sip Index (Carousel)", type: "Post", views: 144, reach: 60, likes: 3, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "" },
-    { id: 3, title: "Recent Words From a Lenox Hill Patient", type: "Post", views: 70, reach: 42, likes: 6, comments: 0, saves: 0, shares: 0, isTop: false, igPostUrl: "" },
+    { id: 1, title: "Modern Luxury Manhattan — Best of the City 2026", type: "Post", views: 733, reach: 335, likes: 15, comments: 0, saves: 1, shares: 3, isTop: true, igPostUrl: "https://www.instagram.com/p/Da3h0SUlly6/" },
+    { id: 2, title: "The Summer Sip Index (Carousel)", type: "Post", views: 144, reach: 60, likes: 3, comments: 0, saves: 0, shares: 1, isTop: false, igPostUrl: "https://www.instagram.com/p/Da6K1OVlu4x/" },
+    { id: 3, title: "Recent Words From a Lenox Hill Patient", type: "Post", views: 70, reach: 42, likes: 6, comments: 0, saves: 0, shares: 0, isTop: false, igPostUrl: "https://www.instagram.com/p/Da8D_hXnE0r/" },
   ] as any[],
   contentMix: { posts: 37, reels: 34, stories: 29 },
   audience: {
@@ -430,9 +430,9 @@ export default function Dashboard() {
       { date: "Jul 19", views: 308 },
     ],
     posts: [
-      { id: 1, title: "Modern Luxury Manhattan — Best of the City 2026", type: "Post", date: "Jul 16", views: 733, reach: 335, likes: 15, comments: 0, saves: 1, shares: 3, er: 5.67, skipRate: 0, avgWatch: "—", igUrl: "", isTop: true },
-      { id: 2, title: "The Summer Sip Index (Carousel)", type: "Post", date: "Jul 17", views: 144, reach: 60, likes: 3, comments: 0, saves: 0, shares: 1, er: 6.67, skipRate: 0, avgWatch: "—", igUrl: "", isTop: false },
-      { id: 3, title: "Recent Words From a Lenox Hill Patient", type: "Post", date: "Jul 18", views: 70, reach: 42, likes: 6, comments: 0, saves: 0, shares: 0, er: 14.29, skipRate: 0, avgWatch: "—", igUrl: "", isTop: false },
+      { id: 1, title: "Modern Luxury Manhattan — Best of the City 2026", type: "Post", date: "Jul 16", views: 733, reach: 335, likes: 15, comments: 0, saves: 1, shares: 3, er: 5.67, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/p/Da3h0SUlly6/", isTop: true },
+      { id: 2, title: "The Summer Sip Index (Carousel)", type: "Post", date: "Jul 17", views: 144, reach: 60, likes: 3, comments: 0, saves: 0, shares: 1, er: 6.67, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/p/Da6K1OVlu4x/", isTop: false },
+      { id: 3, title: "Recent Words From a Lenox Hill Patient", type: "Post", date: "Jul 18", views: 70, reach: 42, likes: 6, comments: 0, saves: 0, shares: 0, er: 14.29, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/p/Da8D_hXnE0r/", isTop: false },
     ],
   };
   const socialData30d = {
@@ -465,7 +465,7 @@ export default function Dashboard() {
     posts: [
       { id: 1, title: "When Patients No Longer Dread the Dentist", type: "Reel", date: "Jul 10", views: 1170, reach: 700, likes: 43, comments: 5, saves: 2, shares: 8, er: 8.29, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/reel/Dan-hMNxehU/", isTop: true },
       { id: 2, title: "What Keeps Patients Coming Back — Oleksandr", type: "Reel", date: "Jul 11", views: 1140, reach: 713, likes: 43, comments: 5, saves: 1, shares: 10, er: 8.28, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/reel/DaqGc-npEIe/", isTop: false },
-      { id: 3, title: "Modern Luxury Manhattan — Best of the City 2026", type: "Post", date: "Jul 16", views: 733, reach: 335, likes: 15, comments: 0, saves: 1, shares: 3, er: 5.67, skipRate: 0, avgWatch: "—", igUrl: "", isTop: false },
+      { id: 3, title: "Modern Luxury Manhattan — Best of the City 2026", type: "Post", date: "Jul 16", views: 733, reach: 335, likes: 15, comments: 0, saves: 1, shares: 3, er: 5.67, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/p/Da3h0SUlly6/", isTop: false },
       { id: 4, title: "Dental Care Should Feel Different", type: "Reel", date: "Jul 2", views: 374, reach: 253, likes: 16, comments: 2, saves: 1, shares: 2, er: 8.30, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/reel/DaTPVCpRq5W/", isTop: false },
       { id: 5, title: "Which Summer Treat Is Toughest? (Carousel)", type: "Post", date: "Jun 26", views: 362, reach: 146, likes: 6, comments: 1, saves: 0, shares: 2, er: 6.16, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/p/DaDpy0ElgCd/", isTop: false },
       { id: 6, title: "Every Detail Matters", type: "Reel", date: "Jun 25", views: 329, reach: 212, likes: 12, comments: 1, saves: 0, shares: 4, er: 8.02, skipRate: 0, avgWatch: "—", igUrl: "https://www.instagram.com/reel/DaBSbf6xDye/", isTop: false },
