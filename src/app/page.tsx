@@ -177,8 +177,8 @@ function generateInsights(data: ReportData) {
   opportunities.push({
     title: "Email opens are excellent, with clicks the next step",
     evidence: [
-      "48.0% open rate over the 30-day window \u2014 roughly double the dental norm",
-      "53 clicks from 2,281 opens (2.32% click-to-open)",
+      "48.7% open rate over the 30-day window \u2014 roughly double the dental norm",
+      "55 clicks from 2,313 opens (2.38% click-to-open)",
       "Lifetime click rate 0.91% across 19 campaigns",
       "The two best-ever opens were doctor-led: 73.7% and 72.6%",
     ],
@@ -192,7 +192,7 @@ function generateInsights(data: ReportData) {
     evidence: [
       "14.9% bounce on the Jul 15 NYC Smile Pass send",
       "Lifetime 8.6% across 20,641 sends, against a 2% healthy benchmark",
-      "Highest: 35th St. Podcast 27.5%, 5th Ave Returning 22.3%",
+      "Highest: 5th Ave Returning 22.3%, NYC Smile Pass 14.9%",
     ],
     impact: "Tightening the list protects inbox placement for every future send.",
     action: "Run a list clean before the next campaign and suppress hard bounces going forward.",
@@ -206,7 +206,7 @@ function generateInsights(data: ReportData) {
     { priority: "high", title: "Merchandise the Modern Luxury award", why: "Strongest press asset in the 30-day window, published once and left there.", outcomes: ["Additional organic reach", "Cross-platform lift"] },
     { priority: "high", title: "Fix the whitening landing page", why: "Paid delivers 515 landing-page views at $0.53, but conversion rate ranks bottom 35%.", outcomes: ["Better return on existing spend", "Measurable bookings"] },
     { priority: "high", title: "Clean the email list", why: "Bounce rates run 8.6% lifetime and hit 14.9% on the latest send, against a 2% safe ceiling.", outcomes: ["Protected sender reputation", "Better inbox placement"] },
-    { priority: "medium", title: "Put a booking CTA in every email", why: "48% of the list opens; only 2.3% of those openers click.", outcomes: ["More booked appointments", "Measurable email attribution"] },
+    { priority: "medium", title: "Put a booking CTA in every email", why: "~49% of the list opens; only ~2.4% of those openers click.", outcomes: ["More booked appointments", "Measurable email attribution"] },
     { priority: "medium", title: "Distribute the ice-cream-truck carousel", why: "The week's save-worthy format, under-distributed at 289 views.", outcomes: ["Higher saves", "Stronger ranking signal"] },
     { priority: "medium", title: "Replicate the nerve-pain SEO template", why: "It outranks every brand page and the query cluster is compounding.", outcomes: ["Non-brand search growth"] },
     { priority: "medium", title: "Fund or cut \u2018Let your smile sparkle\u2019", why: "It has spent $6.96 across a full month and is barely delivering.", outcomes: ["Cleaner account structure", "Budget redeployed"] },
@@ -526,25 +526,29 @@ export default function Dashboard() {
   };
 
   const emailData7d = {
-    period: "July 13 – July 19, 2026",
-    campaignCount: 1, sends: 857, opens: 325, openRate: 37.9,
-    clicks: 6, clickRate: 0.70, ctor: 1.85,
-    bounces: 128, bounceRate: 14.9, unsubs: 1, unsubRate: 0.12,
+    period: "June 27 \u2013 July 26, 2026",
+    campaignCount: 5, sends: 4754, opens: 2313, openRate: 48.7,
+    clicks: 55, clickRate: 1.16, ctor: 2.38,
+    bounces: 360, bounceRate: 7.6, unsubs: 19, unsubRate: 0.40,
     campaigns: [
-      { name: "NYC Smile Pass Announcement", date: "Jul 15", sends: 857, opens: 325, openRate: 44.6, clicks: 6, clickRate: 0.8, bounceRate: 14.9, mobile: 35.3 },
+      { name: "July Whitening Promo \u00b7 60th St.", date: "Jul 6", sends: 1990, opens: 1091, openRate: 56.9, clicks: 30, clickRate: 1.6, bounceRate: 3.6, mobile: 29.5 },
+      { name: "July Whitening Promo \u00b7 58th St.", date: "Jul 6", sends: 965, opens: 419, openRate: 46.0, clicks: 7, clickRate: 0.8, bounceRate: 5.6, mobile: 16.7 },
+      { name: "NYC Smile Pass Announcement", date: "Jul 15", sends: 857, opens: 326, openRate: 44.7, clicks: 7, clickRate: 1.0, bounceRate: 14.9, mobile: 35.3 },
+      { name: "July Whitening Promo \u00b7 5th Ave.", date: "Jul 6", sends: 784, opens: 414, openRate: 60.4, clicks: 8, clickRate: 1.2, bounceRate: 12.6, mobile: 32.0 },
+      { name: "July Whitening Promo \u00b7 35th St.", date: "Jul 6", sends: 158, opens: 63, openRate: 42.0, clicks: 3, clickRate: 2.0, bounceRate: 5.1, mobile: 14.3 },
     ],
   };
   const emailData30d = {
-    period: "June 20 – July 19, 2026",
-    campaignCount: 5, sends: 4754, opens: 2281, openRate: 48.0,
-    clicks: 53, clickRate: 1.11, ctor: 2.32,
-    bounces: 360, bounceRate: 7.6, unsubs: 18, unsubRate: 0.38,
+    period: "June 27 \u2013 July 26, 2026",
+    campaignCount: 5, sends: 4754, opens: 2313, openRate: 48.7,
+    clicks: 55, clickRate: 1.16, ctor: 2.38,
+    bounces: 360, bounceRate: 7.6, unsubs: 19, unsubRate: 0.40,
     campaigns: [
-      { name: "July Whitening Promo · 60th St.", date: "Jul 6", sends: 1990, opens: 1072, openRate: 55.9, clicks: 29, clickRate: 1.5, bounceRate: 3.6, mobile: 29.5 },
-      { name: "July Whitening Promo · 58th St.", date: "Jul 6", sends: 965, opens: 415, openRate: 45.6, clicks: 7, clickRate: 0.8, bounceRate: 5.6, mobile: 16.7 },
-      { name: "NYC Smile Pass Announcement", date: "Jul 15", sends: 857, opens: 325, openRate: 44.6, clicks: 6, clickRate: 0.8, bounceRate: 14.9, mobile: 35.3 },
-      { name: "July Whitening Promo · 5th Ave.", date: "Jul 6", sends: 784, opens: 407, openRate: 59.4, clicks: 8, clickRate: 1.2, bounceRate: 12.6, mobile: 32.0 },
-      { name: "July Whitening Promo · 35th St.", date: "Jul 6", sends: 158, opens: 62, openRate: 41.3, clicks: 3, clickRate: 2.0, bounceRate: 5.1, mobile: 14.3 },
+      { name: "July Whitening Promo \u00b7 60th St.", date: "Jul 6", sends: 1990, opens: 1091, openRate: 56.9, clicks: 30, clickRate: 1.6, bounceRate: 3.6, mobile: 29.5 },
+      { name: "July Whitening Promo \u00b7 58th St.", date: "Jul 6", sends: 965, opens: 419, openRate: 46.0, clicks: 7, clickRate: 0.8, bounceRate: 5.6, mobile: 16.7 },
+      { name: "NYC Smile Pass Announcement", date: "Jul 15", sends: 857, opens: 326, openRate: 44.7, clicks: 7, clickRate: 1.0, bounceRate: 14.9, mobile: 35.3 },
+      { name: "July Whitening Promo \u00b7 5th Ave.", date: "Jul 6", sends: 784, opens: 414, openRate: 60.4, clicks: 8, clickRate: 1.2, bounceRate: 12.6, mobile: 32.0 },
+      { name: "July Whitening Promo \u00b7 35th St.", date: "Jul 6", sends: 158, opens: 63, openRate: 42.0, clicks: 3, clickRate: 2.0, bounceRate: 5.1, mobile: 14.3 },
     ],
   };
   const emailData = timeRange === "7d" ? emailData7d : emailData30d;
@@ -554,12 +558,11 @@ export default function Dashboard() {
     bestOpens: [
       { name: "Dr. Eisdorfer's Retirement Letter", rate: 73.7 },
       { name: "Dr. Giraldo V3", rate: 72.6 },
-      { name: "July Whitening Promo · 5th Ave.", rate: 59.4 },
+      { name: "July Whitening Promo · 5th Ave.", rate: 60.4 },
       { name: "World Oral Health Day", rate: 57.6 },
-      { name: "July Whitening Promo · 60th St.", rate: 55.9 },
+      { name: "July Whitening Promo · 60th St.", rate: 56.9 },
     ],
     worstBounce: [
-      { name: "35th St. · Podcast Newsletter", rate: 27.5, sends: 160 },
       { name: "Returning Customers · 933 5th Ave", rate: 22.3, sends: 220 },
       { name: "NYC Smile Pass Announcement", rate: 14.9, sends: 857 },
       { name: "250th Birthday · 58th St.", rate: 14.5, sends: 871 },
