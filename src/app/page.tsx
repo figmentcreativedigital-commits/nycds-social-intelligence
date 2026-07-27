@@ -492,6 +492,24 @@ export default function Dashboard() {
     ],
   };
   const socialData = timeRange === "7d" ? socialData7d : socialData30d;
+  const linkedInData7d = {
+    period: "July 20 \u2013 July 26, 2026",
+    followers: 127, posts: 1, impressions: 71, reactions: 7, comments: 0, clicks: 7, shares: 1,
+    topPosts: [
+      { title: "Riding the Hampton Jitney \u2014 Spot a Smile", type: "Text post", date: "Jul 23", impressions: 71, reactions: 7, clicks: 7, er: 21.13, url: "https://www.linkedin.com/feed/update/urn:li:share:7486092628414062594" },
+    ],
+    note: "A single text post drove a 21.1% engagement rate on 71 impressions. LinkedIn stays a low-volume, high-engagement channel here (127 followers).",
+  };
+  const linkedInData30d = {
+    period: "June 27 \u2013 July 26, 2026",
+    followers: 127, posts: 2, impressions: 199, reactions: 13, comments: 0, clicks: 19, shares: 4,
+    topPosts: [
+      { title: "Modern Luxury Manhattan \u2014 Best of the City 2026", type: "Feature", date: "Jul 16", impressions: 128, reactions: 6, clicks: 12, er: 16.41, url: "" },
+      { title: "Riding the Hampton Jitney \u2014 Spot a Smile", type: "Text post", date: "Jul 23", impressions: 71, reactions: 7, clicks: 7, er: 21.13, url: "https://www.linkedin.com/feed/update/urn:li:share:7486092628414062594" },
+    ],
+    note: "Two posts, 199 impressions and 19 link clicks over 30 days. The Modern Luxury feature (128 impressions) and the Hampton Jitney post (21.1% ER) show earned recognition and light local content both land here.",
+  };
+  const linkedInData = timeRange === "7d" ? linkedInData7d : linkedInData30d;
   const overviewKpis = timeRange === "7d" ? [
     { label: "Followers", value: 735, change: "+3", delay: 0 },
     { label: "Views", value: 3471, delay: 80 },
@@ -1028,6 +1046,42 @@ export default function Dashboard() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          <div className="card"><div className="card-hd">LinkedIn · {linkedInData.period}</div>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" as const, marginBottom: 14 }}>
+              {[{ label: "Followers", value: linkedInData.followers }, { label: "Impressions", value: linkedInData.impressions }, { label: "Reactions", value: linkedInData.reactions }, { label: "Clicks", value: linkedInData.clicks }, { label: "Posts", value: linkedInData.posts }].map((m) => (
+                <div key={m.label} style={{ flex: "1 1 90px", textAlign: "center" as const, padding: "12px 8px", background: "#F3EDEA", borderRadius: 10 }}>
+                  <div className="display-num" style={{ fontSize: 20, color: "#6F5060" }}>{m.value.toLocaleString()}</div>
+                  <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{m.label}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {linkedInData.topPosts.map((p, i) => {
+                const maxImp = Math.max(...linkedInData.topPosts.map((x) => x.impressions), 1);
+                return (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ flex: "0 0 210px", minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" as const }}>{p.title}</div>
+                      <div style={{ fontSize: 11, color: "#9B9196", marginTop: 2 }}>{p.type} · {p.date}</div>
+                    </div>
+                    <div style={{ flex: 1, height: 10, background: "#D9CCC1", borderRadius: 99, overflow: "hidden" }}>
+                      <div style={{ width: `${(p.impressions / maxImp) * 100}%`, height: "100%", background: i === 0 ? "#6F5060" : "#8FA1A6", borderRadius: 99, transition: "width 1.2s ease" }} />
+                    </div>
+                    <div style={{ display: "flex", gap: 14, flexShrink: 0 }}>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.impressions}</div><div style={{ fontSize: 9, color: "#9B9196" }}>impr</div></div>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.reactions}</div><div style={{ fontSize: 9, color: "#9B9196" }}>react</div></div>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.clicks}</div><div style={{ fontSize: 9, color: "#9B9196" }}>clicks</div></div>
+                      <div style={{ textAlign: "center" as const }}><div className="display-num">{p.er}%</div><div style={{ fontSize: 9, color: "#9B9196" }}>eng</div></div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ marginTop: 12, padding: "10px 14px", background: "rgba(143,161,166,0.12)", borderRadius: 10, border: "1px solid rgba(143,161,166,0.25)" }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#728990" }}>✦ {linkedInData.note}</span>
             </div>
           </div>
 
