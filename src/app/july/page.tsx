@@ -83,6 +83,19 @@ function generateInsights(data: ReportData) {
   });
 
   insights.push({
+    title: "July\u2019s search growth came entirely from bios and locations",
+    evidence: [
+      "Month-over-month, Locations grew +15 clicks, Dr. Maria Tamay +12, Dr. Sherman Farahani +9",
+      "Every growing page is a bio or a location page \u2014 none is the homepage",
+      "Growing queries are all brand variants: \u2018nyc dental smile team\u2019 +8, \u2018nyc smiles\u2019 +5, \u2018nyc dental smiles\u2019 +4",
+      "No new pages earned first impressions in July",
+    ],
+    impact: "Growth is coming from people looking for specific doctors and offices, not from category demand.",
+    action: "Build out the bio and location pages further \u2014 they are the only surfaces currently gaining ground.",
+    severity: "success",
+  });
+
+  insights.push({
     title: "Mobile now out-clicks desktop in search \u2014 from 42% of the impressions",
     evidence: [
       "Mobile 185 clicks vs desktop 176 across July",
@@ -221,7 +234,7 @@ function generateInsights(data: ReportData) {
     { priority: "high", title: "Replicate the nerve-pain SEO template", why: "25,004 monthly impressions with a homepage ranked 41.1 \u2014 page-1 condition articles are how that converts.", outcomes: ["More search clicks", "Durable organic growth"] },
     { priority: "medium", title: "Investigate \u2018smile dental nyc\u2019", why: "Position 5.45 on 181 impressions with zero clicks suggests the SERP is absorbing the intent.", outcomes: ["Recovered page-1 traffic", "Competitive clarity"] },
     { priority: "medium", title: "Put a booking CTA in every email", why: "49% of the list opens; only 2.40% of those openers click.", outcomes: ["More booked appointments", "Higher click-to-open"] },
-    { priority: "medium", title: "Expand doctor-bio SEO", why: "Bio pages convert at 8.7\u201315.5% CTR from page-1 positions \u2014 Eisdorfer, Tamay and Farahani all clear 11%.", outcomes: ["More qualified clicks", "Provider-led discovery"] },
+    { priority: "medium", title: "Expand doctor-bio SEO", why: "Bio pages convert at 8.7\u201315.5% CTR and are where July\u2019s growth happened \u2014 Tamay +12 clicks and Farahani +9 month-over-month.", outcomes: ["More qualified clicks", "Provider-led discovery"] },
     { priority: "medium", title: "Promote the LinkedIn link and cadence", why: "67 link clicks and 31 post clicks from only 2 posts \u2014 the channel is over-delivering on minimal input.", outcomes: ["New referral channel", "Professional audience reach"] },
     { priority: "low", title: "Improve mobile SEO", why: "Mobile out-clicks desktop in search while site traffic runs 69.4% desktop.", outcomes: ["Long-term search gains"] },
   );
@@ -867,7 +880,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="card">
-            <InsightCard title={"Website + Search · " + websiteData.period} body={"924 new visitors across July (~30/day) on 1,093 sessions, peaking Jul 18 at 58. Direct leads at 56.2% (615) with Google at 26.6% (291); paid social contributed 131 sessions (Instagram 108, Facebook 23) before the campaign closed Jul 31. The long tail is worth noting: nycsmilepass.com sent 9 sessions — the Smile Pass property is now feeding the main site — and ChatGPT sent 3. Desktop 69.4% / Mobile 30.4% / Tablet 0.2%. Home (867 views) dominates, with Our Doctors (143) and Locations (92) the clear secondary surfaces. Search (GSC, Jul 1–31): 367 clicks on 25,004 impressions at 1.47% CTR, blended position 33.7 — totals summed from the daily chart, since Google withheld 264 clicks and 11,802 impressions as anonymized low-volume queries, roughly 72% of the month's search traffic. The blended position is held down by the homepage, which absorbs 15,311 impressions at position 41.1 and converts at 0.90%. Where the site ranks page 1 it performs: the nerve-pain article took 59 clicks at position 5.6, and the doctor bios convert at 8.7–15.5% (Eisdorfer 15.5%, Tamay 11.5%, Farahani 11.2%). Mobile now out-clicks desktop outright — 185 vs 176 — from 42% of the impressions, at 2.52% CTR against desktop's 1.01%. Brand terms own position ~1.4 and convert at 32–60%; the volume terms ('dentist new york' 408 impressions, 'dentist nyc' 292) sit at position 45–54 with almost no clicks. One anomaly to investigate: 'smile dental nyc' holds position 5.45 on 181 impressions and took zero clicks."} severity="info" />
+            <InsightCard title={"Website + Search · " + websiteData.period} body={"924 new visitors across July (~30/day) on 1,093 sessions, peaking Jul 18 at 58. Direct leads at 56.2% (615) with Google at 26.6% (291); paid social contributed 131 sessions (Instagram 108, Facebook 23) before the campaign closed Jul 31. The long tail is worth noting: nycsmilepass.com sent 9 sessions — the Smile Pass property is now feeding the main site — and ChatGPT sent 3. Desktop 69.4% / Mobile 30.4% / Tablet 0.2%. Home (867 views) dominates, with Our Doctors (143) and Locations (92) the clear secondary surfaces. Search (GSC, Jul 1–31): 367 clicks on 25,004 impressions at 1.47% CTR, blended position 33.7 — totals summed from the daily chart, since Google withheld 264 clicks and 11,802 impressions as anonymized low-volume queries, roughly 72% of the month's search traffic. The blended position is held down by the homepage, which absorbs 15,311 impressions at position 41.1 and converts at 0.90%. Where the site ranks page 1 it performs: the nerve-pain article took 59 clicks at position 5.6, and the doctor bios convert at 8.7–15.5% (Eisdorfer 15.5%, Tamay 11.5%, Farahani 11.2%). Mobile now out-clicks desktop outright — 185 vs 176 — from 42% of the impressions, at 2.52% CTR against desktop's 1.01%. Brand terms own position ~1.4 and convert at 32–60%; the volume terms ('dentist new york' 408 impressions, 'dentist nyc' 292) sit at position 45–54 with almost no clicks. One anomaly to investigate: 'smile dental nyc' holds position 5.45 on 181 impressions and took zero clicks. Google’s own July summary confirms the totals independently and adds the month-over-month picture: the only pages gaining clicks were Locations (+15), Dr. Maria Tamay (+12) and Dr. Sherman Farahani (+9), and the only growing queries were brand variants — ‘nyc dental smile team’ (+8), ‘nyc smiles’ (+5) and ‘nyc dental smiles’ (+4). No page earned first impressions in July. Growth is coming from people searching for specific doctors and offices, not from category demand."} severity="info" />
           </div>
         </>)}
 
