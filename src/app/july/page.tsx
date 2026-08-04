@@ -387,7 +387,6 @@ export default function Dashboard() {
     unfollows: 0,
     totalViews: 17350,
     totalReach: 28427,
-    reachChange: 0,
     totalInteractions: 394,
     accountsEngaged: 219,
     profileClicks: { email: 4, bookNow: 0, call: 0, direction: 0 },
@@ -402,7 +401,6 @@ export default function Dashboard() {
     totalShares: 36,
     storyViews: 1120, storyCompletion: "85.3%", storyCount: 17,
     reelAvgWatchTime: "12.1s", reelSkipRate: "41.2%",
-    dailyViews: [] as { date: string; views: number }[],
     posts: [
       { id: 1, title: "When Patients No Longer Dread the Dentist (Reel)", type: "Reel", date: "Jul 10", views: 1185, reach: 706, likes: 36, comments: 8, saves: 1, shares: 10, er: 7.79, skipRate: 42.6, avgWatch: "10.3s", igUrl: "https://www.instagram.com/reel/Dan-hMNxehU/", isTop: false },
       { id: 2, title: "What Keeps Patients Coming Back \u2014 Oleksandr (Reel)", type: "Reel", date: "Jul 11", views: 1162, reach: 720, likes: 50, comments: 5, saves: 2, shares: 11, er: 9.44, skipRate: 50.3, avgWatch: "16.6s", igUrl: "https://www.instagram.com/reel/DaqGc-npEIe/", isTop: true },
@@ -887,33 +885,6 @@ export default function Dashboard() {
                 <div className="kpi-val">{typeof k.value === "number" ? <AnimatedNumber value={k.value} /> : <span>{k.value}</span>}</div>
               </div>
             ))}
-          </div>
-
-          <div className="card"><div className="card-hd">Performance Over Time · {socialData.period}</div>
-            <div style={{ position: "relative", height: 180 }}>
-              <svg viewBox="0 0 700 160" style={{ width: "100%", height: "100%" }}>
-                <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6F5060" stopOpacity="0.18" /><stop offset="100%" stopColor="#6F5060" stopOpacity="0" /></linearGradient></defs>
-                {(() => {
-                  const pts = socialData.dailyViews;
-                  if (pts.length === 0) return <text x="350" y="80" textAnchor="middle" fontSize="11" fill="#9B9196">Daily view series not available in this export</text>;
-                  const maxV = Math.max(...pts.map(p => p.views));
-                  const coords = pts.map((p, i) => ({ x: 30 + (i / (pts.length - 1)) * 640, y: 145 - (p.views / maxV) * 130 }));
-                  const line = coords.map((c, i) => `${i === 0 ? "M" : "L"}${c.x},${c.y}`).join(" ");
-                  const area = `${line} L${coords[coords.length-1].x},150 L${coords[0].x},150 Z`;
-                  return (<>
-                    {[0, 0.25, 0.5, 0.75, 1].map(f => { const y = 145 - f * 130; return <line key={f} x1="30" x2="670" y1={y} y2={y} stroke="#D9CCC1" strokeWidth="0.5" strokeDasharray="4,4" />; })}
-                    <path d={area} fill="url(#sg)" />
-                    <path d={line} fill="none" stroke="#6F5060" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    {coords.map((c, i) => <circle key={i} cx={c.x} cy={c.y} r={pts[i].views >= 500 ? 5 : 3} fill={pts[i].views >= 500 ? "#6F5060" : "#8FA1A6"} stroke="#FAFAF8" strokeWidth="1.5" />)}
-                    {pts.map((p, i) => <text key={`l${i}`} x={coords[i].x} y="158" textAnchor="middle" fontSize="8" fill="#9B9196">{p.date.replace("Apr ", "4/").replace("Mar ", "3/")}</text>)}
-                    {pts.filter(p => p.views >= 500).map((p, idx) => { const i = pts.indexOf(p); return <text key={`v${idx}`} x={coords[i].x} y={coords[i].y - 10} textAnchor="middle" fontSize="9" fontWeight="700" fill="#6F5060">{p.views}</text>; })}
-                  </>);
-                })()}
-              </svg>
-            </div>
-            <div style={{ marginTop: 8, padding: "10px 14px", background: "rgba(111,80,96,0.10)", borderRadius: 10, border: "1px solid rgba(111,80,96,0.25)" }}>
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#6F5060" }}>⚡ Account reach reached ~28,427 across July (Metricool avg. reach/day of 917 &times; 31) on 17,350 views. Distribution peaked mid-month around the Jul 10–11 Reel pair and again at the Jul 16 Modern Luxury feature. Blended engagement came in at 1.39% (394 account-level interactions ÷ reach); per-content ER ran highest on Reels (Jul 11 at 9.44%, Jul 10 at 7.79%). Paid contributed 7,730 views — 46% of content distribution — before concluding Jul 31. (Reach is the Metricool avg-reach-per-day basis; the daily view series was not included in this export.)</span>
-            </div>
           </div>
 
           <div className="card"><div className="card-hd">Content Performance</div>
