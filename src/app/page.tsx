@@ -62,6 +62,12 @@ const REPORT = {
     comparedWith: "the 16 days before it (July 17 – August 1)",
     paidStatus:
       "No advertising ran during this period. The last paid flight ended August 1, which makes this the first clean read on organic performance since June.",
+    /* Client build leads with the result rather than the methodology. The paid
+       context stays in the sentence: without it, softer reach figures further
+       down look unexplained, which invites exactly the questions we would
+       rather pre-empt. */
+    paidStatusClient:
+      "The summer BBQ team carousel was the standout of this period, reaching more accounts than any post in the past month — and it did so entirely through organic reach, with no advertising running.",
   },
 
   /* ------------------------------------------------------------- THE BRIEF */
@@ -73,10 +79,18 @@ const REPORT = {
       {
         role: "The outcome",
         text: "Instagram delivered 7,962 views with nothing paid behind it, and the account added 15 followers — three quarters of the month's growth in half the month's time.",
+        client: {
+          role: "The standout",
+          text: "The summer BBQ team carousel drew 2,633 views and reached 849 accounts — a third of everything Instagram delivered this period, and more than any post in the past month. It achieved that with no paid support behind it.",
+        },
       },
       {
         role: "Strongest signal",
         text: "One post did a third of the work. The summer BBQ team carousel drew 2,633 views and reached 849 accounts, more than three times anything else published.",
+        client: {
+          role: "The wider picture",
+          text: "Instagram delivered 7,962 views across the period and the account grew to 750 followers. Engagement rose to 7.72%, meaning a greater share of the people who saw the content went on to respond to it.",
+        },
       },
       {
         role: "Primary concern",
@@ -91,6 +105,10 @@ const REPORT = {
       {
         role: "Next action",
         text: "Publish two more team and culture posts next cycle to find out whether the BBQ result repeats or was a one-off.",
+        client: {
+          role: "The opportunity",
+          text: "Two more posts featuring the team are planned for the next cycle, continuing to highlight the culture and personality behind the practice and showing us how much of this result the format can repeat.",
+        },
       },
     ] as { role: string; text: string; client?: { role: string; text: string } }[],
   },
@@ -1393,7 +1411,7 @@ export default function Report() {
             <span className="mast-period">{R.period.label}</span>
             <span className="mast-len">{R.period.length} · compared with {R.period.comparedWith}</span>
           </div>
-          <p className="mast-paid">{R.period.paidStatus}</p>
+          <p className="mast-paid">{IS_INTERNAL ? R.period.paidStatus : R.period.paidStatusClient}</p>
         </div>
       </header>
 
