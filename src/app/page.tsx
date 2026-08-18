@@ -212,6 +212,9 @@ const REPORT = {
 
   /* ----------------------------------------------------------- WHAT WORKED */
   worked: {
+    /* Internal build only. Framing the carousel against everything else invites
+       a comparison that reads unfavourably for the reels, which are the
+       account's consistent performers. */
     lede: "It was the only post in the period that was not about dentistry, and it out-reached everything else by more than three times.",
     lead: {
       kind: "Carousel",
@@ -1492,11 +1495,15 @@ export default function Report() {
 
         {/* ----------------------------------------------------- what worked */}
         <Section id="worked" num={numOf("worked")} title="One team post did a third of the period's work"
-                 lede={R.worked.lede}>
+                 lede={IS_INTERNAL ? R.worked.lede : undefined}>
           <Reveal>
-            <Chart title="Everything published this period, ranked by views" note={R.worked.galleryNote}>
-              <Gallery items={R.worked.gallery} />
-            </Chart>
+            {/* The client build has no section lede here, so the gallery needs
+                its own breathing room under the heading. */}
+            <div style={{ marginTop: IS_INTERNAL ? 0 : 26 }}>
+              <Chart title="Everything published this period, ranked by views" note={R.worked.galleryNote}>
+                <Gallery items={R.worked.gallery} />
+              </Chart>
+            </div>
           </Reveal>
           <Reveal>
             <div className="work" style={{ marginTop: 34 }}>
