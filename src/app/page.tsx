@@ -81,12 +81,18 @@ const REPORT = {
       {
         role: "Primary concern",
         text: "Google showed the site far less often — about 363 times a day, down from roughly 678. Click rate improved over the same stretch, so this needs a second period before we read it as a problem.",
+        /* Same facts, no alarm vocabulary, and it names what we are doing about
+           it rather than leaving an open worry sitting in the summary. */
+        client: {
+          role: "What we are monitoring",
+          text: "Google showed the site less often this period — about 363 times a day, compared with roughly 678 in the two weeks before. The share of people who clicked through improved over the same stretch. We track this weekly and will keep reporting on it.",
+        },
       },
       {
         role: "Next action",
         text: "Publish two more team and culture posts next cycle to find out whether the BBQ result repeats or was a one-off.",
       },
-    ],
+    ] as { role: string; text: string; client?: { role: string; text: string } }[],
   },
 
   /* ------------------------------------------------------------ SCOREBOARD */
@@ -469,7 +475,7 @@ const REPORT = {
         { q: "dentist manhattan", c: "0", i: "65", r: "0.00%", p: "84.8" },
       ],
       queryRead:
-        "The bottom four rows are the opportunity and the problem in one view: strong demand, deep ranking, no clicks.",
+        "The bottom four rows show where the opportunity sits: strong demand for these searches, but the site currently appears too far down the results for people to reach it.",
       note:
         "Totals come from Search Console's daily chart export, which is complete. The query table is a sample — Google withholds low-volume queries, so query rows will not add up to the totals. August 16 was still processing at export and is an incomplete day.",
     },
@@ -546,8 +552,8 @@ const REPORT = {
         { k: "Bounced", v: "2,060" },
       ],
       reads: [
-        "Open rate is down 5 points on the previous 90 days but remains 23 points above the industry benchmark. Opens are not the problem.",
-        "Click-to-open at 3% is the number to work on. People are opening and not finding a reason to act.",
+        "Open rate is down 5 points on the previous 90 days but remains 23 points above the industry benchmark. Getting the email opened is working well.",
+        "Click-to-open at 3% is the number with the most room to grow. People are opening the email; the next step is giving them a clearer reason to act.",
         "Unsubscribes rose from 25 to 80 while sending volume more than doubled. Some increase was expected; this is worth watching rather than acting on.",
         "Roughly one in ten sends did not reach an inbox, which suggests list hygiene is due.",
       ],
@@ -1399,12 +1405,15 @@ export default function Report() {
         <Section id="brief" num={numOf("brief")} title={R.brief.title} lede={R.brief.lede}>
           <Reveal>
             <p className="brief-head">{R.brief.head}</p>
-            {R.brief.items.map((b) => (
-              <div className="brief-item" key={b.role}>
-                <div className="brief-role">{b.role}</div>
-                <p className="brief-text">{b.text}</p>
-              </div>
-            ))}
+            {R.brief.items.map((item) => {
+              const b = IS_INTERNAL ? item : (item.client ?? item);
+              return (
+                <div className="brief-item" key={item.role}>
+                  <div className="brief-role">{b.role}</div>
+                  <p className="brief-text">{b.text}</p>
+                </div>
+              );
+            })}
           </Reveal>
         </Section>
 
