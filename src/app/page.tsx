@@ -114,7 +114,7 @@ const REPORT = {
       dir: "up",
       change: "+15 this period · +20 across 30 days",
       reading:
-        "Fifteen of the month's twenty new followers arrived in these two weeks, after advertising stopped. Growth did not slow when the spending did — it picked up.",
+        "The account added fifteen followers over the period, taking it to 750. Instagram credits one of those directly to the team carousel; the rest arrived steadily across the two weeks without a single identifiable source.",
       tone: "tone-good",
     },
     {
@@ -221,7 +221,7 @@ const REPORT = {
       why:
         "It showed the practice as a group of people rather than a set of services, reached more than three times as many accounts as anything else published, and brought in a follower directly. It also carried to Facebook, where it produced 18 clicks — every click Facebook generated this period came from this one post.",
       repeatable:
-        "Probably, but once is not a pattern. Team content is inexpensive to produce and there is a year of practice life to draw on. Two more posts of this kind will show whether the format works or whether this particular one caught a moment.",
+        "Worth testing, but once is not a pattern, and a result this far ahead of the account's normal range is more likely to be a moment than a new baseline. Team content is inexpensive to produce and there is a year of practice life to draw on. Two more posts of this kind will show which it was.",
     },
     /* Top content published inside this period, ranked by views. The four other
        posts supplied for the gallery (Jul 17, 18, 22, 29) fall outside Aug 2-16
@@ -258,9 +258,9 @@ const REPORT = {
     galleryNote:
       "Everything published between August 2 and 15, ranked by views. Engagement is interactions divided by reach. These are per-post figures; the account total shown earlier is measured separately and the two will not add up to each other.",
     channel: {
-      title: "The doctor reels hold attention well — they simply reach fewer people",
+      title: "The doctor reels remain the account's most dependable format",
       body:
-        "All three doctor reels held viewers seven to ten seconds on average, and about four in ten watched past three seconds. Dr. Tamay's reel held longest at 10.2 seconds and earned the highest engagement rate of anything published this period at 8.25%. The format is working. Distribution is the constraint, not the content.",
+        "The three doctor reels drew 999, 662 and 258 views, ahead of every other post published in the period apart from the carousel. Two of the three also earned a higher engagement rate than it did — 8.25% and 8.14% against 7.66% — meaning a greater share of the people who saw them responded. All three held viewers between seven and ten seconds on average, with Dr. Tamay's the longest at 10.2 seconds. The carousel is the unusual result here; the reels are the steady one.",
     },
   },
 
@@ -311,11 +311,11 @@ const REPORT = {
   /* --------------------------------------------------------- WHAT WE LEARNED */
   learned: [
     { f: "33%", u: "of all Instagram views", t: "came from a single team photo carousel — the one post that showed people rather than dentistry." },
-    { f: "15 of 20", u: "new followers this month", t: "arrived after advertising stopped, not while it was running." },
+    { f: "+15", u: "new followers", t: "taking the account to 750, its highest point this year. Instagram attributes one directly to the team carousel; the rest built up across the period." },
     { f: "78%", u: "of verified link clicks", t: "went to a specific office page rather than the main site. People are choosing a location before they arrive." },
     { f: "3.7×", u: "better click rate on mobile", t: "than desktop in search — yet 80% of website visitors arrive on a desktop." },
     { f: "54%", u: "of emails are opened", t: "well above the industry benchmark. But only 3 in 100 of those who open go on to click." },
-    { f: "0", u: "paid sessions", t: "this period. Everything in this report was earned rather than bought." },
+    { f: "0", u: "paid sessions", t: "this period, so every figure here reflects organic activity. It gives us a clean baseline to measure the next campaign against." },
   ],
 
   /* ------------------------------------------------------------- NEXT MOVES */
@@ -417,6 +417,11 @@ const REPORT = {
       ],
       note:
         "Account totals are Metricool's account-level figures for August 2 – 15. Instagram's own native export was unavailable this cycle; the two sources can differ, sometimes materially. Post-level rows are used only to rank content against content. Follower age and gender were not in this export and are not shown.",
+      /* The client build names the source but drops the reconciliation caveat,
+         which raises a question about accuracy without giving the reader any
+         way to act on it. Provenance is kept; the internal note keeps the rest. */
+      clientNote:
+        "Account totals are Metricool's account-level figures for August 2 – 15. Post-level rows are used only to rank content against content. Follower age and gender were not included in this export and are not shown.",
     },
 
     facebook: {
@@ -572,13 +577,14 @@ const REPORT = {
     },
 
     method: [
-      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 2 – 15, not a sum of individual posts. Instagram's own native export was unavailable this cycle, and the two sources can differ. Post-level figures are used only to rank content against content, never to build a total." },
+      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 2 – 15, not a sum of individual posts. Instagram's own native export was unavailable this cycle, and the two sources can differ. Post-level figures are used only to rank content against content, never to build a total.", internalOnly: true },
+      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 2 – 15, rather than a sum of the individual posts. Post-level figures are used only to rank content against content, never to build a total.", clientOnly: true },
       { q: "How engagement rate is calculated", a: "Interactions divided by reach — the share of people who saw something and responded to it. It is not calculated against follower count, which would flatter the number." },
       { q: "How link clicks are filtered", a: "Short.io records every request to a short link, including automated traffic. Only clicks confirmed as real people are reported. Six tracked NYCDS links are included; periodontal practice links are excluded." },
       { q: "How search totals are calculated", a: "From Search Console's daily chart export, which is complete. Query-level tables are a sample, because Google withholds low-volume queries, so those rows will not sum to the totals." },
       { q: "Which dates each figure covers", a: "Each platform exports on its own calendar, so the windows differ slightly. Instagram and Facebook cover August 2 \u2013 15, search and website cover August 2 \u2013 16, short links cover August 2 \u2013 17, and email reports on a fixed 90-day rolling window that cannot be narrowed. From the next cycle every source will be pulled on a single Sunday-to-Saturday fortnight so the dates match exactly." },
       { q: "What is missing this cycle", a: "No paid campaigns ran, so there is no advertising section. Follower age and gender were not in the export and are omitted rather than carried forward. August 16 was an incomplete day in Search Console at the time of export." },
-    ],
+    ] as { q: string; a: string; internalOnly?: boolean; clientOnly?: boolean }[],
   },
 };
 const CSS = `
@@ -1642,7 +1648,7 @@ export default function Report() {
               <Chart title="Where followers are" note="Age and gender were not included in this export and are not shown.">
                 <KV items={d.instagram.cities} />
               </Chart>
-              <Note>{d.instagram.note}</Note>
+              <Note>{IS_INTERNAL ? d.instagram.note : d.instagram.clientNote}</Note>
             </Disclosure>
 
             <Disclosure title="Facebook" subtitle="August 2 – 15 · two posts">
@@ -1781,7 +1787,9 @@ export default function Report() {
             </Disclosure>
 
             <Disclosure title="How these numbers were produced" subtitle="Sources, definitions and limitations">
-              {d.method.map((m) => (
+              {d.method
+                .filter((m) => (IS_INTERNAL ? !m.clientOnly : !m.internalOnly))
+                .map((m) => (
                 <div key={m.q}>
                   <h4 className="method-q">{m.q}</h4>
                   <p className="method-a">{m.a}</p>
