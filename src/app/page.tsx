@@ -62,12 +62,7 @@ const REPORT = {
     comparedWith: "the 16 days before it (July 17 – August 1)",
     paidStatus:
       "No advertising ran during this period. The last paid flight ended August 1, which makes this the first clean read on organic performance since June.",
-    /* Client build leads with the result rather than the methodology. The paid
-       context stays in the sentence: without it, softer reach figures further
-       down look unexplained, which invites exactly the questions we would
-       rather pre-empt. */
-    paidStatusClient:
-      "The summer BBQ team carousel was the standout of this period, reaching more accounts than any post in the past month — and it did so entirely through organic reach, with no advertising running.",
+
   },
 
   /* ------------------------------------------------------------- THE BRIEF */
@@ -75,6 +70,10 @@ const REPORT = {
     title: "The Brief",
     lede: "A concise summary of the period\u2019s performance, key findings, and recommended actions.",
     head: "This was the first reporting period without paid support. Reach declined as expected, while engagement remained steady.",
+    /* Client build. The internal line above leads on the absence of paid and on
+       reach declining, which is the framing the client version moves away from.
+       Same period, same facts, opening on what the work achieved. */
+    headClient: "Organic content carried the period. The team carousel reached more people than any post in the past month, and engagement across the account held steady.",
     items: [
       {
         role: "The outcome",
@@ -1411,7 +1410,9 @@ export default function Report() {
             <span className="mast-period">{R.period.label}</span>
             <span className="mast-len">{R.period.length} · compared with {R.period.comparedWith}</span>
           </div>
-          <p className="mast-paid">{IS_INTERNAL ? R.period.paidStatus : R.period.paidStatusClient}</p>
+          {/* Internal only. In the client build the Brief's opening item says the same
+              thing a few lines further down, so this repeats rather than adds. */}
+          {IS_INTERNAL ? <p className="mast-paid">{R.period.paidStatus}</p> : null}
         </div>
       </header>
 
@@ -1431,7 +1432,7 @@ export default function Report() {
         {/* ------------------------------------------------------- the brief */}
         <Section id="brief" num={numOf("brief")} title={R.brief.title} lede={R.brief.lede}>
           <Reveal>
-            <p className="brief-head">{R.brief.head}</p>
+            <p className="brief-head">{IS_INTERNAL ? R.brief.head : R.brief.headClient}</p>
             {R.brief.items.map((item) => {
               const b = IS_INTERNAL ? item : (item.client ?? item);
               return (
