@@ -105,10 +105,6 @@ export const REPORT = {
       title: "Recommended next moves",
       lede: "Five actions for the next cycle, each with the reason behind it and the number that will show whether it worked.",
     },
-    plan: {
-      title: "What we do next",
-      lede: "Five things we are carrying into the next reporting period.",
-    },
     detail: {
       title: "Supporting detail",
       lede: "Everything above, with the full figures behind it. Open only what you need.",
@@ -137,7 +133,7 @@ export const REPORT = {
         text: "Doctor pages convert search traffic at 22.3% against 1.71% site-wide. The homepage runs the other way: 4,912 impressions, 60 clicks, 1.2%. The visibility sits on the page that converts least.",
         client: {
           role: "The wider picture",
-          text: "Website visits held at about 25 a day, and Google showed the site 11% more often than in the period before. Instagram published 15 pieces against 10, and the share of people responding to what they saw rose from 7.72% to 10.66%.",
+          text: "Website visits held at about 25 a day, and Google showed the site 11% more often than in the period before. Instagram published 15 pieces against 10, and the share of people engaging with what they saw rose from 7.72% to 10.66%. The content is performing well with the audience it reaches.",
         },
       },
       {
@@ -145,7 +141,7 @@ export const REPORT = {
         text: "Instagram views fell 20% a day and link clicks 24%, with follower growth slowing from +15 to +4. Engagement rate rose over the same stretch, so this is reach narrowing, not content weakening.",
         client: {
           role: "What we are monitoring",
-          text: "Instagram reached fewer people this period, though a greater share of them responded. We track this weekly and will keep reporting on it.",
+          text: "Instagram reached fewer people this period, but a greater share of them engaged. The content is performing well with the audience it reaches, so the work now is widening that audience. We track this weekly and will keep reporting on it.",
         },
       },
       {
@@ -153,7 +149,7 @@ export const REPORT = {
         text: "Put a booking link at the top of every doctor page. They already rank on page one and convert better than anything else on the site.",
         client: {
           role: "The opportunity",
-          text: "The doctor pages already rank well and draw a high share of the people who see them. Making it easier to book from those pages is the next step, and it is first on the list for the coming cycle.",
+          text: "The doctor pages already rank well and draw a high share of the people who see them. Making it easier to book from those pages is the next step, and it is what we are taking on first.",
         },
       },
     ] as { role: string; text: string; client?: { role: string; text: string } }[],
@@ -218,7 +214,7 @@ export const REPORT = {
       dir: "down",
       change: "7,962 in the 15 days before \u00b7 \u221220% a day",
       reading:
-        "424 views a day against 531. Fewer views from more content, 15 pieces against 10, but a higher share of viewers responded.",
+        "424 views a day against 531. Fewer views from more content, 15 pieces against 10, but a higher share of viewers engaged. The content is performing well with the audience it reaches.",
       tone: "",
     },
     {
@@ -228,7 +224,7 @@ export const REPORT = {
       dir: "up",
       change: "7.72% in the period before",
       reading:
-        "218 interactions against reach of 2,044. A smaller audience, and more of it responded.",
+        "218 interactions against reach of 2,044. A smaller audience, and more of it engaged. The content is landing with the people who see it.",
       tone: "tone-good",
     },
     {
@@ -302,7 +298,7 @@ export const REPORT = {
       why:
         "It drew 1,102 views and reached 390 accounts, more than anything else published and about three times the next piece down. 27 interactions on that reach is 6.9%, below the account average for the period. It went further than it engaged. The subject is an All-on-6 case, the practice's highest-value service.",
       repeatable:
-        "The August 27 reel is the counterweight. Fewer views at 878, but 47 interactions on 430 reach is 10.9%, the best engagement of the period. Reach and response came from two different pieces, published a day apart on related subjects. Running a reel and a post on the same subject on purpose is the test worth setting up.",
+        "The August 27 reel is the counterweight. Fewer views at 878, but 47 interactions on 430 reach is 10.9%, the best engagement of the period. Reach and engagement came from two different pieces, published a day apart on related subjects. Running a reel and a post on the same subject on purpose is the test worth setting up.",
     },
     /* Top content published inside this period, ranked by views. Six of the
        fifteen pieces published. Engagement is interactions ÷ reach. */
@@ -355,7 +351,7 @@ export const REPORT = {
       body:
         "424 views a day against 531, from 15 pieces against 10. Average daily reach fell from 210 to 146. Engagement rate moved the other way, 7.72% to 10.66%, and follower growth slowed from +15 to +4.",
       so:
-        "Fewer people reached, more of them responding. That usually means distribution narrowed toward existing followers, but the split runs the other way: 3,421 views from non-followers against 2,318 from followers. One more period will show whether this is a distribution change or just a quiet two weeks.",
+        "Fewer people reached, more of them engaging. The content is performing with the audience it reaches, so this is a distribution question rather than a content one. Falling reach alongside rising engagement usually means distribution narrowed toward existing followers, but the split runs the other way: 3,421 views from non-followers against 2,318 from followers. One more period will show whether this is a distribution change or just a quiet two weeks.",
     },
     {
       tag: "issue",
@@ -396,7 +392,7 @@ export const REPORT = {
     { f: "22.3%", u: "click rate on doctor pages", t: "against 1.71% across the site. 27 clicks from 121 impressions in Google, and the strongest single finding in this report." },
     { f: "23", u: "Book now clicks", t: "on the Instagram profile, plus 73 clicks through to a location page. This is the account\u2019s booking-intent measure and the number to beat next cycle." },
     { f: "25.4", u: "website visits a day", t: "against 25.3 in the period before. Flat, in a month with no advertising in either half." },
-    { f: "10.66%", u: "Instagram engagement rate", t: "up from 7.72%. Reach fell, and the share of people responding to what they saw rose nearly three points." },
+    { f: "10.66%", u: "Instagram engagement rate", t: "up from 7.72%. Reach fell, and the share of people engaging with what they saw rose nearly three points. The content is performing well with the audience it reaches." },
     { f: "78%", u: "of named link clicks", t: "went to a specific office rather than the main site, unchanged from last period. People choose a location before they arrive." },
     { f: "+11%", u: "search impressions a day", t: "442 against 398. Google showed the site more often while clicks held near flat." },
   ],
@@ -432,34 +428,6 @@ export const REPORT = {
       why: "Facebook, Search Console device and query data, daily impressions, reel retention and Short.io cities were all missing this cycle. The brand / non-brand search split cannot be reported without the query export.",
       owner: "Reporting \u2014 Figment",
       measure: "A complete export set at the start of the next cycle.",
-    },
-  ],
-
-  /* --------------------------------------------------- WHAT WE DO NEXT (client)
-     The client-facing counterpart to `moves`. Same actions, written as a
-     forward plan rather than an operating instruction: no owners, no target
-     metrics, and no restatement of the problems that sit in the internal
-     Needs attention section. */
-  plan: [
-    {
-      action: "Add booking links to the doctor pages",
-      body: "The individual doctor pages are the strongest performers in search. They rank on the first page, and a high share of the people who see them click through. Making it easier to book from those pages is the next step.",
-    },
-    {
-      action: "Pair a video and a photo post on the same treatment",
-      body: "Two pieces published a day apart did well in different ways: one reached the most people, the other drew the most response. We will run that pairing on one treatment to see how far the combination carries.",
-    },
-    {
-      action: "Review the 5th Avenue patient list",
-      body: "Emails to the 5th Avenue list reached fewer inboxes than the other three locations on the same send. We will review that list before the next campaign so every office reaches its patients equally well.",
-    },
-    {
-      action: "Track booking clicks from Instagram each cycle",
-      body: "23 people tapped Book now on the Instagram profile this period. That is the clearest link between the social work and the appointment book, and we will report it every cycle from here.",
-    },
-    {
-      action: "Widen the weekly data pull",
-      body: "A few sources were not available for this cycle, so some sections are shorter than usual. We are restoring them to the weekly pull so the next report is complete.",
     },
   ],
 
@@ -524,7 +492,7 @@ export const REPORT = {
       ],
       storiesTitle: "Stories",
       stories:
-        "Nine stories drew 1,307 views and 35 interactions. Stories carry more volume than feed posts, but they still work as filler between posts rather than as a channel that drives response.",
+        "Nine stories drew 1,307 views and 35 interactions. Stories carry more volume than feed posts, but they still work as filler between posts rather than as a channel that drives engagement.",
       note:
         "Account totals are Metricool\u2019s account-level figures for August 17 \u2013 30, not a sum of individual posts. Post-level rows are used only to rank content against content. Reel retention, follower age, gender and city were not in this export and are not shown. Non-followers accounted for 3,421 of the views against 2,318 from followers, the reverse of what a narrowing reach would produce.",
       /* The client build names the source and drops the reconciliation caveat,
@@ -651,7 +619,7 @@ export const REPORT = {
     method: [
       { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 17 \u2013 30, not a sum of individual posts. Metricool\u2019s format breakdowns do not reconcile to the account total: 5,774 by content type and 5,741 by follower type, against 5,934. They show share and are never summed. Post-level figures rank content against content only.", internalOnly: true },
       { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 17 \u2013 30, rather than a sum of the individual posts. Post-level figures are used only to rank content against content, never to build a total.", clientOnly: true },
-      { q: "How engagement rate is calculated", a: "Interactions divided by reach, meaning the share of people who saw something and responded to it. It is not calculated against follower count, which would flatter the number." },
+      { q: "How engagement rate is calculated", a: "Interactions divided by reach, meaning the share of people who saw something and engaged with it. It is not calculated against follower count, which would flatter the number." },
       { q: "How link clicks are filtered", a: "Short.io filters automated traffic natively, and the figures reported are its human-click count. Six tracked NYCDS links are included. Periodontal practice links are excluded, and none appeared in this window." },
       { q: "How search totals are calculated", a: "From Search Console\u2019s daily chart export, which is complete. The page-level table is a sample, because Google withholds low-volume rows. It withheld 75% of clicks and 30% of impressions in this window, so those rows will not sum to the totals." },
       { q: "Why the search comparison covers sixteen days", a: "Search Console is compared against August 1 \u2013 16 while the website and Instagram are compared against August 2 \u2013 16. That earlier window has also been restated. The previous report was built while August 16 was still processing and recorded 117 clicks on 5,446 impressions, against 125 on 6,367 once complete. Per-day figures are used wherever the window lengths differ." },
@@ -661,7 +629,13 @@ export const REPORT = {
   },
 };
 
-export const ALL_SECTIONS = [
+/* Explicitly typed rather than inferred: if no section currently carries one of
+   the flags, an inferred union would drop that property and the NAV filter
+   below would stop compiling. The annotation keeps both flags available whether
+   or not any section is using them this cycle. */
+type SectionDef = { id: string; label: string; internalOnly?: boolean; clientOnly?: boolean };
+
+export const ALL_SECTIONS: SectionDef[] = [
   { id: "brief", label: "The brief" },
   { id: "period", label: "The period" },
   { id: "scoreboard", label: "Scoreboard" },
@@ -669,7 +643,6 @@ export const ALL_SECTIONS = [
   { id: "attention", label: "Needs attention", internalOnly: true },
   { id: "learned", label: "What we learned" },
   { id: "moves", label: "Next moves", internalOnly: true },
-  { id: "plan", label: "What we do next", clientOnly: true },
   { id: "detail", label: "Detail" },
 ];
 

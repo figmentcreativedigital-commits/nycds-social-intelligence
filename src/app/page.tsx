@@ -950,26 +950,6 @@ export default function Report() {
         </Section>
         )}
 
-        {/* ------------------------------------------------ what we do next */}
-        {has("plan") && (
-        <Section id="plan" num={numOf("plan")} title={R.copy.plan.title}
-                 lede={R.copy.plan.lede}>
-          <div className="plan">
-            {R.plan.map((p) => (
-              <Reveal key={p.action}>
-                <div className="plan-i">
-                  <div className="plan-m" aria-hidden="true" />
-                  <div>
-                    <h3 className="plan-t">{p.action}</h3>
-                    <p className="plan-b">{p.body}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </Section>
-        )}
-
         {/* ----------------------------------------------------------- detail */}
         <Section id="detail" num={numOf("detail")} title={R.copy.detail.title}
                  lede={R.copy.detail.lede}>
