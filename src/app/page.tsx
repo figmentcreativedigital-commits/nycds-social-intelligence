@@ -1,612 +1,14 @@
 "use client";
 import { useState, useEffect, useRef, ReactNode } from "react";
+import { REPORT, IS_INTERNAL, NAV, numOf, has, SOURCE_WINDOWS } from "./report-data";
 
-/* ============================================================================
-   NYC DENTAL SMILES — PERFORMANCE BRIEFING
-   ----------------------------------------------------------------------------
-   All figures live in REPORT below. The presentation layer reads from it and
-   holds no numbers of its own. To produce the next cycle, edit REPORT and the
-   narrative strings. The components below do not need to change.
+/* ==========================================================================
+   PRESENTATION  ·  NYC Dental Smiles
+   --------------------------------------------------------------------------
+   Structure and styling only. Does not change between cycles; every figure,
+   date and sentence lives in report-data.ts.
+   ========================================================================== */
 
-   Nothing here is estimated or inferred. Every value is carried from a source
-   export, or is plain arithmetic on two figures already present; those are
-   marked `derived` inline.
-
-   SOURCE WINDOWS — these are not identical, and the report says so on its face:
-     Instagram / Facebook (Metricool)   Aug 2 – Aug 15, 2026
-     Search Console                     Aug 2 – Aug 16, 2026  (Aug 16 partial)
-     Website (GA4)                      Aug 2 – Aug 16, 2026
-     Short links (Short.io)             Aug 2 – Aug 17, 2026
-     Email (Constant Contact)           Rolling 90 days ending Aug 16, 2026
-
-   NOT IN THIS CYCLE:
-     - No paid campaigns ran. There is no advertising section by design.
-     - Instagram's native account export was unavailable. Account-level figures
-       come from Metricool and are labelled as such throughout.
-     - Follower age and gender were not in the export. They are omitted rather
-       than carried forward from an earlier pull.
-============================================================================ */
-
-/* ---------------------------------------------------------------------------
-   VARIANT — the only line that differs between the two reports.
-
-     "client"    Brief · Period · Scoreboard · What worked · What we learned ·
-                 Supporting detail
-     "internal"  the above, plus Needs attention and Recommended next moves
-
-   Section numbering, the section nav and the reporting-window strip all follow
-   from this automatically. Nothing else needs editing to switch.
---------------------------------------------------------------------------- */
-type Variant = "client" | "internal";
-
-/* Set per Vercel project, not per file. Both deployments build from the same
-   commit; only this environment variable differs.
-
-     client project    NEXT_PUBLIC_REPORT_VARIANT unset, or "client"
-     internal project  NEXT_PUBLIC_REPORT_VARIANT = "internal"
-
-   The NEXT_PUBLIC_ prefix is required: this is a client component, so the value
-   has to be inlined at build time. Anything other than "internal" falls back to
-   the client report, so a missing or misspelt variable can never leak the
-   internal version. */
-const VARIANT: Variant =
-  process.env.NEXT_PUBLIC_REPORT_VARIANT === "internal" ? "internal" : "client";
-const IS_INTERNAL: boolean = VARIANT === "internal";
-
-const REPORT = {
-  client: { name: "NYC Dental Smiles", short: "NYCDS", agency: "Figment Creative" },
-
-  period: {
-    label: "August 2 – 16, 2026",
-    length: "15 days",
-    comparedWith: "the 16 days before it (July 17 – August 1)",
-    paidStatus:
-      "No advertising ran during this period. The last paid flight ended August 1, which makes this the first clean read on organic performance since June.",
-
-  },
-
-  /* ------------------------------------------------------------- THE BRIEF */
-  brief: {
-    title: "The Brief",
-    lede: "A concise summary of the period\u2019s performance, key findings, and recommended actions.",
-    head: "This was the first reporting period without paid support. Reach declined as expected, while engagement remained steady.",
-    /* Client build. The internal line above leads on the absence of paid and on
-       reach declining, which is the framing the client version moves away from.
-       Same period, same facts, opening on what the work achieved. */
-    headClient: "Organic content carried the period. The team carousel reached more people than any post in the past month, and engagement across the account held steady.",
-    items: [
-      {
-        role: "The outcome",
-        text: "Instagram delivered 7,962 views with nothing paid behind it, and the account added 15 followers — three quarters of the month's growth in half the month's time.",
-        client: {
-          role: "The standout",
-          text: "The summer BBQ team carousel drew 2,633 views and reached 849 accounts — a third of everything Instagram delivered this period, and more than any post in the past month. It achieved that with no paid support behind it.",
-        },
-      },
-      {
-        role: "Strongest signal",
-        text: "One post did a third of the work. The summer BBQ team carousel drew 2,633 views and reached 849 accounts, more than three times anything else published.",
-        client: {
-          role: "The wider picture",
-          text: "Instagram delivered 7,962 views across the period and the account grew to 750 followers. Engagement rose to 7.72%, meaning a greater share of the people who saw the content went on to respond to it.",
-        },
-      },
-      {
-        role: "Primary concern",
-        text: "Google showed the site far less often — about 363 times a day, down from roughly 678. Click rate improved over the same stretch, so this needs a second period before we read it as a problem.",
-        /* Same facts, no alarm vocabulary, and it names what we are doing about
-           it rather than leaving an open worry sitting in the summary. */
-        client: {
-          role: "What we are monitoring",
-          text: "Google showed the site less often this period — about 363 times a day, compared with roughly 678 in the two weeks before. The share of people who clicked through improved over the same stretch. We track this weekly and will keep reporting on it.",
-        },
-      },
-      {
-        role: "Next action",
-        text: "Publish two more team and culture posts next cycle to find out whether the BBQ result repeats or was a one-off.",
-        client: {
-          role: "The opportunity",
-          text: "Two more posts featuring the team are planned for the next cycle, continuing to highlight the culture and personality behind the practice and showing us how much of this result the format can repeat.",
-        },
-      },
-    ] as { role: string; text: string; client?: { role: string; text: string } }[],
-  },
-
-  /* ------------------------------------------------------------ SCOREBOARD */
-  scoreboard: [
-    {
-      metric: "Instagram views",
-      value: "7,962",
-      sub: "Account total, Metricool",
-      dir: "none",
-      change: "16,010 across the full 30 days",
-      reading:
-        "Half the month produced half the views. The 30-day figure includes the paid flight that ended August 1, so the two are not a like-for-like comparison and no percentage change is shown.",
-      tone: "",
-    },
-    {
-      metric: "Followers",
-      value: "750",
-      sub: "At period close",
-      dir: "up",
-      change: "+15 this period · +20 across 30 days",
-      reading:
-        "The account added fifteen followers over the period, taking it to 750. Instagram credits one of those directly to the team carousel; the rest arrived steadily across the two weeks without a single identifiable source.",
-      tone: "tone-good",
-    },
-    {
-      metric: "Accounts engaged",
-      value: "177",
-      sub: "People who interacted",
-      dir: "none",
-      change: "259 across the full 30 days",
-      reading:
-        "Just over two thirds of the month's engaged accounts came from this half of it. Engagement concentrated into the organic stretch rather than the paid one.",
-      tone: "",
-    },
-    {
-      metric: "Engagement rate",
-      value: "7.72%",
-      sub: "Interactions ÷ reach, posts",
-      dir: "up",
-      change: "7.17% across 30 days",
-      reading:
-        "The share of people who saw a post and responded to it. It rose after the ads stopped, which means the audience now seeing the content is more inclined to act on it.",
-      tone: "tone-good",
-    },
-    {
-      metric: "Search clicks",
-      value: "117",
-      sub: "From Google",
-      dir: "down",
-      change: "177 in the 16 days before",
-      reading:
-        "Clicks fell about a third. Impressions fell by nearly half over the same stretch, so a larger share of the people who saw the site chose to visit it.",
-      tone: "",
-    },
-    {
-      metric: "Search click rate",
-      value: "2.15%",
-      sub: "Clicks ÷ impressions",
-      dir: "up",
-      change: "1.63% in the 16 days before",
-      reading:
-        "Fewer people saw the listings and more of them clicked. Whatever visibility remains is better matched to what people are actually searching for.",
-      tone: "tone-good",
-    },
-    {
-      metric: "Website sessions",
-      value: "379",
-      sub: "All sources",
-      dir: "none",
-      change: "938 across the full 30 days",
-      reading:
-        "The 30-day figure includes 59 sessions that arrived directly from paid Instagram and Facebook placements. This period had none, so the gap is the advertising, not the site.",
-      tone: "",
-    },
-    {
-      metric: "Link clicks",
-      value: "143",
-      sub: "Confirmed as real people",
-      dir: "flat",
-      change: "Not separately reported last cycle",
-      reading:
-        "Short.io recorded 1,170 requests in total. 143 came from real people; the rest was automated traffic, which we filter out. Every link figure in this report uses the verified count.",
-      tone: "",
-    },
-  ],
-
-  /* -------------------------------------------- THE PERIOD LINE (signature) */
-  periodLine: {
-    title: "Website visits stepped down when advertising stopped, then held a steady band",
-    note:
-      "New website visitors per day across 31 days. The shaded stretch is the paid flight. After it ended the daily figure settled into a narrower range instead of continuing to fall — that range is the organic baseline.",
-    /* GA4 daily new users, Jul 17 – Aug 16. */
-    series: [
-      { d: "Jul 17", v: 41 }, { d: "Jul 18", v: 58 }, { d: "Jul 19", v: 36 },
-      { d: "Jul 20", v: 31 }, { d: "Jul 21", v: 33 }, { d: "Jul 22", v: 27 },
-      { d: "Jul 23", v: 33 }, { d: "Jul 24", v: 29 }, { d: "Jul 25", v: 24 },
-      { d: "Jul 26", v: 14 }, { d: "Jul 27", v: 34 }, { d: "Jul 28", v: 27 },
-      { d: "Jul 29", v: 30 }, { d: "Jul 30", v: 18 }, { d: "Jul 31", v: 18 },
-      { d: "Aug 1", v: 19 }, { d: "Aug 2", v: 10 }, { d: "Aug 3", v: 21 },
-      { d: "Aug 4", v: 19 }, { d: "Aug 5", v: 23 }, { d: "Aug 6", v: 35 },
-      { d: "Aug 7", v: 19 }, { d: "Aug 8", v: 12 }, { d: "Aug 9", v: 7 },
-      { d: "Aug 10", v: 34 }, { d: "Aug 11", v: 26 }, { d: "Aug 12", v: 30 },
-      { d: "Aug 13", v: 20 }, { d: "Aug 14", v: 14 }, { d: "Aug 15", v: 7 },
-      { d: "Aug 16", v: 8 },
-    ],
-    paidThrough: 15,          // index of Aug 1 — last day with advertising
-    markers: [
-      { i: 15, label: "Advertising ends" },
-      { i: 20, label: "Team post" },
-    ],
-    /* derived: 472 visitors ÷ 16 days = 29.5; 285 ÷ 15 = 19.0 */
-    bands: [
-      { label: "With advertising", value: "30 a day", detail: "Jul 17 – Aug 1" },
-      { label: "Organic only", value: "19 a day", detail: "Aug 2 – 16" },
-    ],
-  },
-
-  /* ----------------------------------------------------------- WHAT WORKED */
-  worked: {
-    /* Internal build only. Framing the carousel against everything else invites
-       a comparison that reads unfavourably for the reels, which are the
-       account's consistent performers. */
-    lede: "It was the only post in the period that was not about dentistry, and it out-reached everything else by more than three times.",
-    lead: {
-      kind: "Carousel",
-      title: "Summer BBQ team carousel",
-      date: "August 6",
-      url: "https://www.instagram.com/p/DbtibXmFvC9/",
-      why:
-        "It showed the practice as a group of people rather than a set of services, reached more than three times as many accounts as anything else published, and brought in a follower directly. It also carried to Facebook, where it produced 18 clicks — every click Facebook generated this period came from this one post.",
-      repeatable:
-        "Worth testing, but once is not a pattern, and a result this far ahead of the account's normal range is more likely to be a moment than a new baseline. Team content is inexpensive to produce and there is a year of practice life to draw on. Two more posts of this kind will show which it was.",
-    },
-    /* Top content published inside this period, ranked by views. The four other
-       posts supplied for the gallery (Jul 17, 18, 22, 29) fall outside Aug 2-16
-       and are not shown here. Images are pulled by scripts/fetch-instagram.mjs
-       and matched to each post by the shortcode in its permalink; until a file
-       exists the card shows a labelled placeholder. */
-    gallery: [
-      {
-        title: "Summer BBQ team carousel", format: "Carousel", date: "Aug 6",
-        url: "https://www.instagram.com/p/DbtibXmFvC9/",
-        views: "2,633", reach: "849", er: "7.66%", lead: true,
-      },
-      {
-        title: "Dr. Laura on second opinions", format: "Reel", date: "Aug 14",
-        url: "https://www.instagram.com/reel/DcBsX-ApCpW/",
-        views: "999", reach: "674", er: "6.82%", lead: false,
-      },
-      {
-        title: "Dr. Tamay on aesthetic dentistry", format: "Reel", date: "Aug 12",
-        url: "https://www.instagram.com/reel/Db8wf3PJ2uP/",
-        views: "662", reach: "497", er: "8.25%", lead: false,
-      },
-      {
-        title: "Dr. Ben on general practice", format: "Reel", date: "Aug 8",
-        url: "https://www.instagram.com/reel/DbyMIBUp4Zp/",
-        views: "258", reach: "172", er: "8.14%", lead: false,
-      },
-      {
-        title: "Patient testimonial", format: "Image", date: "Aug 7",
-        url: "https://www.instagram.com/p/DbwCl47xLpb/",
-        views: "169", reach: "84", er: "8.33%", lead: false,
-      },
-    ],
-    galleryNote:
-      "Everything published between August 2 and 15, ranked by views. Engagement is interactions divided by reach. These are per-post figures; the account total shown earlier is measured separately and the two will not add up to each other.",
-    channel: {
-      title: "The doctor reels remain the account's most dependable format",
-      body:
-        "The three doctor reels drew 999, 662 and 258 views, ahead of every other post published in the period apart from the carousel. Two of the three also earned a higher engagement rate than it did — 8.25% and 8.14% against 7.66% — meaning a greater share of the people who saw them responded. All three held viewers between seven and ten seconds on average, with Dr. Tamay's the longest at 10.2 seconds. The carousel is the unusual result here; the reels are the steady one.",
-    },
-  },
-
-  /* -------------------------------------------------------- WHAT NEEDS WORK */
-  attention: [
-    {
-      tag: "early",
-      title: "Google showed the site far less often, and position slipped",
-      body:
-        "Search impressions averaged about 363 a day, down from roughly 678 in the two weeks before. Average position on desktop moved from 52.6 to 63.9 — further down the page. Click rate rose from 1.63% to 2.15% over the same stretch.",
-      so:
-        "Two explanations fit equally well: ordinary mid-August seasonality in a city that empties out, or a ranking change. The improved click rate argues against anything serious. One more period will separate them. We are not changing anything on the site until it does.",
-    },
-    {
-      tag: "issue",
-      title: "The 35th Street email list opens well below the other locations",
-      body:
-        "Across two separate campaigns sent to every location, 35th Street opened at 42% and 43%. The same emails to 5th Avenue and 60th Street opened between 57% and 61%. The content was identical. Only the list differed.",
-      so:
-        "A 15-point gap repeated across two campaigns is not random variation. It points to something about that list — how old it is, how it was collected, or how the sender name appears to those contacts. Worth reviewing before the next send.",
-    },
-    {
-      tag: "issue",
-      title: "The homepage attracts the most search interest and converts the least",
-      body:
-        "The homepage collected 4,071 of the period's 5,446 search impressions, sits at average position 62, and converts 1.74% of them. The doctor pages sit on page one and convert between 6% and 23% — Dr. Farahani's at 22.7%, Dr. Tamay's at 21.7%.",
-      so:
-        "High-intent searches like \u201cdentist nyc\u201d and \u201cdentist new york\u201d produce hundreds of impressions at positions 70 to 85 and no clicks at all. The visibility exists; the ranking does not support it. The doctor and condition pages already rank and convert, and are the surer place to put effort.",
-    },
-    {
-      tag: "expected",
-      title: "Reach and website visits are down against the 30-day figure",
-      body:
-        "New website visitors averaged 19 a day against about 30 a day while advertising ran. Instagram's average daily reach was 210 against 559 across the full 30 days.",
-      so:
-        "Paid social ended August 1. The 30-day comparison contains 59 sessions that came straight from paid placements; this period contains none. This is the advertising stopping, not the content weakening — and it gives us a clean baseline to plan the next flight against.",
-    },
-    {
-      tag: "limitation",
-      title: "Follower age and gender were not in this export",
-      body:
-        "Instagram's demographic breakdown was not included in the data available for this period. The previous report carried these figures forward from an earlier pull.",
-      so:
-        "Rather than repeat numbers we cannot confirm, they are left out this cycle. Location data was included and is reported: New York City accounts for 22.5% of followers. The demographic export will be pulled directly from Instagram next cycle.",
-    },
-  ],
-
-  /* --------------------------------------------------------- WHAT WE LEARNED */
-  learned: [
-    { f: "33%", u: "of all Instagram views", t: "came from a single team photo carousel — the one post that showed people rather than dentistry." },
-    { f: "+15", u: "new followers", t: "taking the account to 750, its highest point this year. Instagram attributes one directly to the team carousel; the rest built up across the period." },
-    { f: "78%", u: "of verified link clicks", t: "went to a specific office page rather than the main site. People are choosing a location before they arrive." },
-    { f: "3.7×", u: "better click rate on mobile", t: "than desktop in search — yet 80% of website visitors arrive on a desktop." },
-    { f: "54%", u: "of emails are opened", t: "well above the industry benchmark. But only 3 in 100 of those who open go on to click." },
-    { f: "0", u: "paid sessions", t: "this period, so every figure here reflects organic activity. It gives us a clean baseline to measure the next campaign against." },
-  ],
-
-  /* ------------------------------------------------------------- NEXT MOVES */
-  moves: [
-    {
-      action: "Publish two more team and culture posts next cycle",
-      why: "The BBQ carousel out-reached every other post by more than three times. One result is not a pattern, and this is the cheapest way to find out whether it is one.",
-      owner: "Social — Figment",
-      measure: "Reach per post, against the 849 the BBQ carousel achieved.",
-    },
-    {
-      action: "Review the 35th Street email list before the next send",
-      why: "It has opened 15 points below the other locations across two consecutive campaigns with identical content. That gap costs roughly one in six potential opens at that location.",
-      owner: "Email — Figment, with practice input on list origin",
-      measure: "Open rate on the next all-location send, against 5th Avenue and 60th Street.",
-    },
-    {
-      action: "Put a booking link at the top of every doctor page",
-      why: "Doctor pages convert search traffic between 6% and 23% and already sit on page one. They are the strongest pages the site has, and the ones most likely to be opened on a phone.",
-      owner: "Web — Figment",
-      measure: "Clicks from doctor pages through to the booking system next cycle.",
-    },
-    {
-      action: "Send one email with a single call to action",
-      why: "Opens are strong at 54% but only 3% of those openers click. Competing links are the most common cause, and one clear action per email is the standard first test.",
-      owner: "Email — Figment",
-      measure: "Click-to-open rate, against the current 3%.",
-    },
-    {
-      action: "Hold all search changes for one more period",
-      why: "Impressions fell but click rate improved. Acting on two weeks of mixed signal risks undoing something that is working. One more cycle will show whether the drop was seasonal.",
-      owner: "Search — Figment",
-      measure: "Daily impressions and average position through the next cycle.",
-    },
-  ],
-
-  /* --------------------------------------------------- WHAT WE DO NEXT (client)
-     The client-facing counterpart to `moves`. Same five actions, written as a
-     forward plan rather than an operating instruction: no owners, no target
-     metrics, and no restatement of the problems that sit in the internal
-     Needs attention section. Nothing here overstates what the data supports. */
-  plan: [
-    {
-      action: "Publish more team content",
-      body: "The summer BBQ post reached more people than anything else this period. We would like to see whether that holds, so the next cycle includes two more posts featuring the team.",
-    },
-    {
-      action: "Add booking links to the doctor pages",
-      body: "The individual doctor pages are the strongest performers in search \u2014 they rank on the first page and a high share of people who see them click through. Making it easier to book directly from those pages is the natural next step.",
-    },
-    {
-      action: "Test a simpler email",
-      body: "More than half of the emails sent are being opened, which is well above the benchmark for healthcare. We will test a send built around one clear action to see whether more of those opens turn into clicks.",
-    },
-    {
-      action: "Review the location email lists",
-      body: "Open rates vary between locations. Before the next send we will check that each location list is current, so every office is reaching its patients equally well.",
-    },
-    {
-      action: "Leave search settings as they are for one more cycle",
-      body: "Search results moved around this period, and the underlying click rate improved. We would rather read one more period cleanly than change something that appears to be working.",
-    },
-  ],
-
-  /* ---------------------------------------------------------------- DETAIL */
-  detail: {
-    instagram: {
-      kv: [
-        { k: "Views", v: "7,962" },
-        { k: "Accounts engaged", v: "177" },
-        { k: "Avg reach / day", v: "210" },
-        { k: "Followers", v: "750" },
-        { k: "Content published", v: "10" },
-      ],
-      published: [
-        { label: "Stories", value: 5 },
-        { label: "Reels", value: 3 },
-        { label: "Feed posts", value: 2 },
-      ],
-      posts: [
-        { t: "Summer BBQ team carousel", f: "Carousel", d: "Aug 6", v: "2,633", r: "849", i: "65", e: "7.66%" },
-        { t: "Dr. Laura on second opinions", f: "Reel", d: "Aug 14", v: "999", r: "674", i: "46", e: "6.82%" },
-        { t: "Dr. Tamay on aesthetic dentistry", f: "Reel", d: "Aug 12", v: "662", r: "497", i: "41", e: "8.25%" },
-        { t: "Dr. Ben on general practice", f: "Reel", d: "Aug 8", v: "258", r: "172", i: "14", e: "8.14%" },
-        { t: "Patient testimonial", f: "Image", d: "Aug 7", v: "169", r: "84", i: "7", e: "8.33%" },
-      ],
-      reels: [
-        { t: "Dr. Tamay on aesthetic dentistry", w: "10.2s", p: "40.2%", s: "3" },
-        { t: "Dr. Laura on second opinions", w: "9.2s", p: "40.7%", s: "0" },
-        { t: "Dr. Ben on general practice", w: "7.0s", p: "32.4%", s: "1" },
-      ],
-      stories: "Five stories reached 179 accounts and drew 94 taps forward with no replies. Stories are working as filler between posts rather than as a channel in their own right.",
-      cities: [
-        { k: "New York, New York", v: "22.5%" },
-        { k: "Sialkot, Punjab", v: "3.6%" },
-        { k: "Los Angeles", v: "0.7%" },
-        { k: "Toronto", v: "0.7%" },
-        { k: "Philadelphia", v: "0.7%" },
-      ],
-      note:
-        "Account totals are Metricool's account-level figures for August 2 – 15. Instagram's own native export was unavailable this cycle; the two sources can differ, sometimes materially. Post-level rows are used only to rank content against content. Follower age and gender were not in this export and are not shown.",
-      /* The client build names the source but drops the reconciliation caveat,
-         which raises a question about accuracy without giving the reader any
-         way to act on it. Provenance is kept; the internal note keeps the rest. */
-      clientNote:
-        "Account totals are Metricool's account-level figures for August 2 – 15. Post-level rows are used only to rank content against content. Follower age and gender were not included in this export and are not shown.",
-    },
-
-    facebook: {
-      rows: [
-        { p: "Summer BBQ team carousel", i: "142", r: "71", x: "3", c: "1", s: "2", k: "18" },
-        { p: "Patient testimonial", i: "29", r: "23", x: "0", c: "0", s: "1", k: "0" },
-      ],
-      note: "Facebook remains small in absolute terms. Every click it produced this period came from the team carousel.",
-    },
-
-    search: {
-      kv: [
-        { k: "Clicks", v: "117" },
-        { k: "Impressions", v: "5,446" },
-        { k: "Click rate", v: "2.15%" },
-      ],
-      devices: [
-        { d: "Mobile", c: "60", i: "1,233", r: "4.87%", p: "36.2" },
-        { d: "Desktop", c: "56", i: "4,207", r: "1.33%", p: "63.9" },
-        { d: "Tablet", c: "1", i: "6", r: "16.67%", p: "42.0" },
-      ],
-      /* GSC daily impressions, Aug 2 – 16. Aug 16 is an incomplete day. */
-      daily: [
-        { date: "Aug 2", v: 513 }, { date: "Aug 3", v: 415 }, { date: "Aug 4", v: 310 },
-        { date: "Aug 5", v: 338 }, { date: "Aug 6", v: 392 }, { date: "Aug 7", v: 240 },
-        { date: "Aug 8", v: 442 }, { date: "Aug 9", v: 523 }, { date: "Aug 10", v: 493 },
-        { date: "Aug 11", v: 350 }, { date: "Aug 12", v: 331 }, { date: "Aug 13", v: 367 },
-        { date: "Aug 14", v: 372 }, { date: "Aug 15", v: 240 }, { date: "Aug 16", v: 120 },
-      ],
-      dailyNote:
-        "Impressions per day. The final day was still processing when the data was exported, so the drop at the right edge is incomplete data rather than a real fall.",
-      deviceRead:
-        "Mobile produced more clicks than desktop from a fifth of the impressions. People searching on a phone are closer to booking — but four in five website visitors still arrive on a desktop.",
-      pages: [
-        { p: "Homepage", c: "71", i: "4,071", r: "1.74%", pos: "62.3" },
-        { p: "Dr. James Eisdorfer", c: "8", i: "39", r: "20.51%", pos: "7.8" },
-        { p: "Meet Our Dentists", c: "6", i: "487", r: "1.23%", pos: "51.0" },
-        { p: "Dr. Michael Chesner", c: "6", i: "92", r: "6.52%", pos: "9.4" },
-        { p: "Dr. Maria Tamay", c: "5", i: "23", r: "21.74%", pos: "5.3" },
-        { p: "Dr. Sherman Farahani", c: "5", i: "22", r: "22.73%", pos: "3.9" },
-        { p: "Locations", c: "3", i: "257", r: "1.17%", pos: "28.7" },
-        { p: "Services", c: "3", i: "187", r: "1.60%", pos: "6.5" },
-        { p: "Nerve pain after onlay (article)", c: "3", i: "82", r: "3.66%", pos: "12.4" },
-        { p: "Dr. Ben Elchami", c: "3", i: "45", r: "6.67%", pos: "8.0" },
-      ],
-      queries: [
-        { q: "nyc dental smiles", c: "27", i: "51", r: "52.94%", p: "1.4" },
-        { q: "michael chesner", c: "3", i: "10", r: "30.00%", p: "5.2" },
-        { q: "nyc dental smile team", c: "3", i: "7", r: "42.86%", p: "7.3" },
-        { q: "dentist in new york", c: "2", i: "123", r: "1.63%", p: "66.8" },
-        { q: "nerve pain after onlay", c: "2", i: "15", r: "13.33%", p: "6.3" },
-        { q: "doris giraldo", c: "2", i: "11", r: "18.18%", p: "4.1" },
-        { q: "dentist new york", c: "0", i: "160", r: "0.00%", p: "74.4" },
-        { q: "dentist nyc", c: "0", i: "116", r: "0.00%", p: "79.2" },
-        { q: "new york dentist", c: "0", i: "103", r: "0.00%", p: "71.1" },
-        { q: "dentist manhattan", c: "0", i: "65", r: "0.00%", p: "84.8" },
-      ],
-      queryRead:
-        "The bottom four rows show where the opportunity sits: strong demand for these searches, but the site currently appears too far down the results for people to reach it.",
-      note:
-        "Totals come from Search Console's daily chart export, which is complete. The query table is a sample — Google withholds low-volume queries, so query rows will not add up to the totals. August 16 was still processing at export and is an incomplete day.",
-    },
-
-    website: {
-      kv: [
-        { k: "Sessions", v: "379" },
-        { k: "Users", v: "304" },
-        { k: "Desktop", v: "80%" },
-        { k: "Mobile", v: "20%" },
-      ],
-      sources: [
-        { label: "Direct", value: 206 },
-        { label: "Google — organic", value: 113 },
-        { label: "Bing — organic", value: 23 },
-        { label: "Other referrals", value: 15 },
-        { label: "nycsmilepass.com", value: 9 },
-        { label: "Instagram", value: 7 },
-        { label: "Yahoo — organic", value: 3 },
-        { label: "Facebook", value: 2 },
-        { label: "ChatGPT", value: 1 },
-      ],
-      landing: [
-        { label: "Homepage", value: 354 },
-        { label: "Meet Our Dentists", value: 71 },
-        { label: "Services", value: 35 },
-        { label: "Locations", value: 32 },
-        { label: "About", value: 21 },
-        { label: "Dr. Sherman Farahani", value: 18 },
-        { label: "Terms of Service", value: 15 },
-        { label: "Why NYCDS", value: 14 },
-      ],
-      note:
-        "No paid sessions were recorded this period. Across the full 30 days there were 59, all from Instagram and Facebook placements that ended August 1. Direct traffic at 54% is typical for a practice people already know by name.",
-    },
-
-    links: {
-      kv: [
-        { k: "Requests recorded", v: "1,170" },
-        { k: "Real people", v: "143" },
-        { k: "To a location page", v: "103" },
-      ],
-      dests: [
-        { label: "58th Street", value: 32 },
-        { label: "60th Street", value: 29 },
-        { label: "35th Street", value: 24 },
-        { label: "5th Avenue", value: 18 },
-        { label: "Main website", value: 16 },
-        { label: "Homepage", value: 13 },
-      ],
-      cities: [
-        { label: "New York City", value: 16 },
-        { label: "Queens", value: 6 },
-        { label: "Brooklyn", value: 5 },
-        { label: "Island Park", value: 5 },
-      ],
-      note:
-        "Short.io records every request to a short link, including automated traffic no person initiated. Only clicks confirmed as coming from real people are reported, and every figure above uses that verified count. Six tracked links are included; links belonging to the periodontal practice are excluded from this report. The four location links account for 103 of the 132 clicks across those six.",
-    },
-
-    email: {
-      window: "Rolling 90 days ending August 16, 2026",
-      funnel: [
-        { label: "Sent", value: 20657 },
-        { label: "Delivered", value: 18597 },
-        { label: "Opened", value: 9963 },
-        { label: "Clicked", value: 274 },
-      ],
-      metrics: [
-        { k: "Open rate", v: "54%" },
-        { k: "Click rate", v: "1%" },
-        { k: "Click-to-open", v: "3%" },
-        { k: "Unsubscribed", v: "80" },
-        { k: "Bounced", v: "2,060" },
-      ],
-      reads: [
-        "Open rate is down 5 points on the previous 90 days but remains 23 points above the industry benchmark. Getting the email opened is working well.",
-        "Click-to-open at 3% is the number with the most room to grow. People are opening the email; the next step is giving them a clearer reason to act.",
-        "Unsubscribes rose from 25 to 80 while sending volume more than doubled. Some increase was expected; this is worth watching rather than acting on.",
-        "Roughly one in ten sends did not reach an inbox, which suggests list hygiene is due.",
-      ],
-      campaigns: [
-        { n: "July Whitening Promo — 5th Avenue", d: "Jul 6", r: 61 },
-        { n: "Summer Promo Extensions — 60th Street", d: "Aug 1", r: 57 },
-        { n: "Summer Promo Extensions — 5th Avenue", d: "Aug 1", r: 57 },
-        { n: "July Whitening Promo — 60th Street", d: "Jul 6", r: 57 },
-        { n: "Summer Promo Extensions — 35th Street", d: "Aug 1", r: 43 },
-        { n: "Returning Customers — 933 5th Avenue", d: "Jun 15", r: 43 },
-        { n: "250th Birthday — 58th Street", d: "Jun 5", r: 43 },
-        { n: "July Whitening Promo — 35th Street", d: "Jul 6", r: 42 },
-      ],
-      note:
-        "Constant Contact reports on a fixed 90-day rolling window that cannot be narrowed to match this report's period, so these figures are not comparable with the sections above and no period-on-period change is shown against them. Account totals cover every campaign sent from the account, including those belonging to the periodontal practice; the campaign list shows NYCDS campaigns only.",
-    },
-
-    method: [
-      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 2 – 15, not a sum of individual posts. Instagram's own native export was unavailable this cycle, and the two sources can differ. Post-level figures are used only to rank content against content, never to build a total.", internalOnly: true },
-      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 2 – 15, rather than a sum of the individual posts. Post-level figures are used only to rank content against content, never to build a total.", clientOnly: true },
-      { q: "How engagement rate is calculated", a: "Interactions divided by reach — the share of people who saw something and responded to it. It is not calculated against follower count, which would flatter the number." },
-      { q: "How link clicks are filtered", a: "Short.io records every request to a short link, including automated traffic. Only clicks confirmed as real people are reported. Six tracked NYCDS links are included; periodontal practice links are excluded." },
-      { q: "How search totals are calculated", a: "From Search Console's daily chart export, which is complete. Query-level tables are a sample, because Google withholds low-volume queries, so those rows will not sum to the totals." },
-      { q: "Which dates each figure covers", a: "Each platform exports on its own calendar, so the windows differ slightly. Instagram and Facebook cover August 2 \u2013 15, search and website cover August 2 \u2013 16, short links cover August 2 \u2013 17, and email reports on a fixed 90-day rolling window that cannot be narrowed. From the next cycle every source will be pulled on a single Sunday-to-Saturday fortnight so the dates match exactly." },
-      { q: "What is missing this cycle", a: "No paid campaigns ran, so there is no advertising section. Follower age and gender were not in the export and are omitted rather than carried forward. August 16 was an incomplete day in Search Console at the time of export." },
-    ] as { q: string; a: string; internalOnly?: boolean; clientOnly?: boolean }[],
-  },
-};
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -1049,38 +451,6 @@ function Delta({ dir, text }: { dir: string; text: string }) {
   );
 }
 
-/** Line chart for a value over time. Endpoints are labelled directly. */
-function Sparkline({ points, label }: { points: { date: string; v: number }[]; label: string }) {
-  const W = 660, H = 130, PAD = 8, TOP = 26, BOT = 12;
-  const vals = points.map((p) => p.v);
-  const max = Math.max(...vals), min = Math.min(...vals);
-  const span = max - min || 1;
-  const x = (i: number) => PAD + (i / Math.max(points.length - 1, 1)) * (W - PAD * 2);
-  const y = (v: number) => H - BOT - ((v - min) / span) * (H - TOP - BOT);
-  const line = points.map((p, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
-  const area = `${line} L${x(points.length - 1).toFixed(1)},${H} L${x(0).toFixed(1)},${H} Z`;
-  const peakIdx = vals.indexOf(max);
-  return (
-    <div>
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="130" role="img"
-           aria-label={`${label}. Ranges from ${min.toLocaleString()} to ${max.toLocaleString()}.`}>
-        <path d={area} fill="rgba(111,80,96,0.09)" />
-        <path d={line} fill="none" stroke="#6F5060" strokeWidth="1.75" strokeLinejoin="round" strokeLinecap="round" />
-        {points.map((p, i) => (
-          <circle key={i} cx={x(i)} cy={y(p.v)} r={i === peakIdx ? 3.5 : 2} fill={i === peakIdx ? "#6F5060" : "#FAFAF8"} stroke="#6F5060" strokeWidth="1.25" />
-        ))}
-        <text x={x(peakIdx)} y={y(max) - 9} textAnchor="middle" fontSize="11" fontWeight="700" fill="#4E3846">
-          {max.toLocaleString()}
-        </text>
-      </svg>
-      <div className="spark-lbl">
-        <span>{points[0]?.date}</span>
-        <span>{points[points.length - 1]?.date}</span>
-      </div>
-    </div>
-  );
-}
-
 /** Ranked horizontal bars with the value printed on every row. */
 function BarList({
   items, unit, alt = false, max: forcedMax,
@@ -1168,6 +538,34 @@ function Disclosure({
   );
 }
 
+/** Plain table driven entirely by data, so the column set can differ between
+ *  the internal and client builds without touching this file. First column is
+ *  the label; the rest are numeric and right-aligned. */
+function SimpleTable({ table }: { table: { head: string[]; rows: string[][] } }) {
+  return (
+    <div className="t-wrap">
+      <table className="t">
+        <thead>
+          <tr>
+            {table.head.map((h, i) => (
+              <th key={h} className={i === 0 ? undefined : "n"}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {table.rows.map((row) => (
+            <tr key={row[0]}>
+              {row.map((cell, i) => (
+                <td key={i} className={i === 0 ? undefined : "n"}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function KV({ items }: { items: { k: string; v: string }[] }) {
   return (
     <dl className="kv">
@@ -1189,14 +587,19 @@ const TAG_LABEL: Record<string, string> = {
 };
 
 /** The signature chart. One continuous daily line across both halves of the
- *  month, with the paid stretch shaded and each half's average drawn directly
- *  on top of it, so the step down is visible rather than asserted. */
+ *  month, with each half's average drawn directly on top of it so any step
+ *  between them is visible rather than asserted.
+ *
+ *  `splitAt` is the index of the last day of the earlier half — whatever that
+ *  half represents. It was a paid flight; this cycle it is simply the previous
+ *  reporting period. Pass `shade` to tint the earlier half and label it. */
 function PeriodChart({
-  series, paidThrough, markers,
+  series, splitAt, markers, shade,
 }: {
   series: { d: string; v: number }[];
-  paidThrough: number;
+  splitAt: number;
   markers: { i: number; label: string }[];
+  shade?: { through: number; label: string } | null;
 }) {
   const W = 720, H = 230, L = 34, R = 14, T = 30, B = 34;
   const max = 60;
@@ -1206,19 +609,26 @@ function PeriodChart({
   const line = series.map((p, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
   const area = `${line} L${x(series.length - 1).toFixed(1)},${H - B} L${x(0).toFixed(1)},${H - B} Z`;
 
-  const paidVals = series.slice(0, paidThrough + 1).map((p) => p.v);
-  const orgVals = series.slice(paidThrough + 1).map((p) => p.v);
+  /* Clamp so a split at either edge can never produce an empty half, a NaN
+     average or a negative-index label lookup. */
+  const cut = Math.min(Math.max(splitAt, 0), series.length - 2);
+  const firstVals = series.slice(0, cut + 1).map((p) => p.v);
+  const secondVals = series.slice(cut + 1).map((p) => p.v);
   const avg = (a: number[]) => a.reduce((s, n) => s + n, 0) / a.length;
-  const paidAvg = avg(paidVals), orgAvg = avg(orgVals);
+  const firstAvg = avg(firstVals), secondAvg = avg(secondVals);
 
   return (
     <svg
       className="pl-svg" viewBox={`0 0 ${W} ${H}`} role="img"
-      aria-label={`New website visitors per day from ${series[0].d} to ${series[series.length - 1].d}. Averaged ${paidAvg.toFixed(0)} a day while advertising ran, and ${orgAvg.toFixed(0)} a day after it ended.`}
+      aria-label={`New website visitors per day from ${series[0].d} to ${series[series.length - 1].d}. Averaged ${firstAvg.toFixed(0)} a day through ${series[cut].d}, and ${secondAvg.toFixed(0)} a day after it.`}
     >
-      {/* shaded paid stretch */}
-      <rect x={x(0)} y={T - 12} width={x(paidThrough) - x(0)} height={H - B - T + 12} fill="#6F5060" opacity="0.055" />
-      <text x={x(0) + 6} y={T - 16} fontSize="10.5" fontWeight="700" fill="#6F5060" letterSpacing="0.08em">ADVERTISING RUNNING</text>
+      {/* shaded earlier stretch, only when there is something to shade */}
+      {shade ? (
+        <>
+          <rect x={x(0)} y={T - 12} width={x(shade.through) - x(0)} height={H - B - T + 12} fill="#6F5060" opacity="0.055" />
+          <text x={x(0) + 6} y={T - 16} fontSize="10.5" fontWeight="700" fill="#6F5060" letterSpacing="0.08em">{shade.label}</text>
+        </>
+      ) : null}
 
       {/* gridlines */}
       {[0, 20, 40, 60].map((g) => (
@@ -1232,10 +642,10 @@ function PeriodChart({
       <path d={line} fill="none" stroke="#6F5060" strokeWidth="1.9" strokeLinejoin="round" strokeLinecap="round" />
 
       {/* per-half averages, drawn directly on the data */}
-      <line x1={x(0)} x2={x(paidThrough)} y1={y(paidAvg)} y2={y(paidAvg)} stroke="#4E3846" strokeWidth="1.5" strokeDasharray="5 4" />
-      <text x={x(paidThrough) - 4} y={y(paidAvg) - 7} fontSize="11" fontWeight="700" fill="#4E3846" textAnchor="end">{paidAvg.toFixed(0)} a day</text>
-      <line x1={x(paidThrough)} x2={x(series.length - 1)} y1={y(orgAvg)} y2={y(orgAvg)} stroke="#4F6169" strokeWidth="1.5" strokeDasharray="5 4" />
-      <text x={x(series.length - 1) - 2} y={y(orgAvg) - 7} fontSize="11" fontWeight="700" fill="#4F6169" textAnchor="end">{orgAvg.toFixed(0)} a day</text>
+      <line x1={x(0)} x2={x(cut)} y1={y(firstAvg)} y2={y(firstAvg)} stroke="#4E3846" strokeWidth="1.5" strokeDasharray="5 4" />
+      <text x={x(cut) - 4} y={y(firstAvg) - 7} fontSize="11" fontWeight="700" fill="#4E3846" textAnchor="end">{firstAvg.toFixed(0)} a day</text>
+      <line x1={x(cut)} x2={x(series.length - 1)} y1={y(secondAvg)} y2={y(secondAvg)} stroke="#4F6169" strokeWidth="1.5" strokeDasharray="5 4" />
+      <text x={x(series.length - 1) - 2} y={y(secondAvg) - 7} fontSize="11" fontWeight="700" fill="#4F6169" textAnchor="end">{secondAvg.toFixed(0)} a day</text>
 
       {/* event markers */}
       {markers.map((m) => (
@@ -1247,7 +657,7 @@ function PeriodChart({
       ))}
 
       {/* x labels */}
-      {[0, paidThrough, series.length - 1].map((i) => (
+      {[0, cut, series.length - 1].map((i) => (
         <text key={i} x={x(i)} y={H - 12} fontSize="10.5" fill="#6E6268"
               textAnchor={i === 0 ? "start" : i === series.length - 1 ? "end" : "middle"}>
           {series[i].d}
@@ -1311,65 +721,6 @@ function Gallery({ items }: { items: { title: string; format: string; date: stri
     </div>
   );
 }
-
-/** Email funnel. A stepped bar, because the question is how many survive each
- *  stage — a shape a donut cannot answer. */
-function Funnel({ steps }: { steps: { label: string; value: number }[] }) {
-  const top = steps[0]?.value || 1;
-  return (
-    <div>
-      {steps.map((s) => {
-        const pct = (s.value / top) * 100;
-        const thin = pct < 18;
-        return (
-          <div className="fun-row" key={s.label}>
-            <div className="fun-top">
-              <span className="fun-l">{s.label}</span>
-              <span className="fun-v">{s.value.toLocaleString()}</span>
-            </div>
-            <div className="fun-track">
-              <div className={`fun-fill${thin ? " thin" : ""}`} style={{ width: `${Math.max(pct, 0.6)}%` }}>
-                {!thin ? `${Math.round(pct)}% of sent` : ""}
-              </div>
-              {thin ? <span className="fun-out">{Math.round(pct)}% of sent</span> : null}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-/* ==========================================================================
-   PAGE
-   ========================================================================== */
-
-const ALL_SECTIONS = [
-  { id: "brief", label: "The brief" },
-  { id: "period", label: "The period" },
-  { id: "scoreboard", label: "Scoreboard" },
-  { id: "worked", label: "What worked" },
-  { id: "attention", label: "Needs attention", internalOnly: true },
-  { id: "learned", label: "What we learned" },
-  { id: "moves", label: "Next moves", internalOnly: true },
-  { id: "plan", label: "What we do next", clientOnly: true },
-  { id: "detail", label: "Detail" },
-];
-
-/* Sections present in this build, in order. Numbering and nav both derive from
-   this, so removing a section never leaves a gap in the sequence. */
-const NAV = ALL_SECTIONS.filter((x) => (IS_INTERNAL ? !x.clientOnly : !x.internalOnly));
-const ORDINALS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"];
-const numOf = (id: string) => ORDINALS[NAV.findIndex((n) => n.id === id)] ?? "";
-const has = (id: string) => NAV.some((n) => n.id === id);
-
-const SOURCE_WINDOWS = [
-  { k: "Instagram, Facebook", v: "Aug 2 – 15", p: "Metricool reports in 14-day blocks, so social ends a day earlier." },
-  { k: "Search", v: "Aug 2 – 16", p: "August 16 was still processing at export and is an incomplete day." },
-  { k: "Website", v: "Aug 2 – 16", p: "Full days." },
-  { k: "Short links", v: "Aug 2 – 17", p: "Short.io exported one extra day on its own calendar." },
-  { k: "Email", v: "Rolling 90 days", p: "Cannot be narrowed to match. Reported separately and not compared." },
-];
 
 export default function Report() {
   const [active, setActive] = useState("brief");
@@ -1452,8 +803,9 @@ export default function Report() {
             <div className="pl">
               <PeriodChart
                 series={R.periodLine.series}
-                paidThrough={R.periodLine.paidThrough}
+                splitAt={R.periodLine.splitAt}
                 markers={R.periodLine.markers}
+                shade={R.periodLine.shade}
               />
             </div>
             <dl className="pl-bands">
@@ -1466,9 +818,7 @@ export default function Report() {
               ))}
             </dl>
             <Note>
-              <b>Reading this fairly:</b> the two halves are not the same kind of period. The first was
-              supported by advertising and the second was not, so this is a step down to a baseline
-              rather than a decline in performance. Everything after this point is the organic half.
+              <b>{R.periodLine.read.title}</b> {R.periodLine.read.body}
             </Note>
 
             {IS_INTERNAL && <div style={{ marginTop: 34 }}>
@@ -1491,8 +841,8 @@ export default function Report() {
         </Section>
 
         {/* ------------------------------------------------------ scoreboard */}
-        <Section id="scoreboard" num={numOf("scoreboard")} title="The numbers that matter, and what each one means"
-                 lede="Eight measures. Where a comparison would mislead, the figure is given context instead of a percentage change.">
+        <Section id="scoreboard" num={numOf("scoreboard")} title={R.copy.scoreboard.title}
+                 lede={R.copy.scoreboard.lede}>
           <div className="score">
             {R.scoreboard.map((s) => (
               <Reveal key={s.metric}>
@@ -1513,13 +863,13 @@ export default function Report() {
         </Section>
 
         {/* ----------------------------------------------------- what worked */}
-        <Section id="worked" num={numOf("worked")} title="One team post did a third of the period's work"
+        <Section id="worked" num={numOf("worked")} title={R.copy.worked.title}
                  lede={IS_INTERNAL ? R.worked.lede : undefined}>
           <Reveal>
             {/* The client build has no section lede here, so the gallery needs
                 its own breathing room under the heading. */}
             <div style={{ marginTop: IS_INTERNAL ? 0 : 26 }}>
-              <Chart title="Everything published this period, ranked by views" note={R.worked.galleryNote}>
+              <Chart title={R.copy.worked.galleryTitle} note={R.worked.galleryNote}>
                 <Gallery items={R.worked.gallery} />
               </Chart>
             </div>
@@ -1547,8 +897,8 @@ export default function Report() {
 
         {/* -------------------------------------------------- needs attention */}
 {has("attention") && (
-        <Section id="attention" num={numOf("attention")} title="What needs attention"
-                 lede="Four of these are worth acting on and one is simply what happens when advertising stops. Each is labelled so the difference is clear.">
+        <Section id="attention" num={numOf("attention")} title={R.copy.attention.title}
+                 lede={R.copy.attention.lede}>
           {R.attention.map((a) => (
             <Reveal key={a.title}>
               <div className="att">
@@ -1563,8 +913,8 @@ export default function Report() {
         )}
 
         {/* ---------------------------------------------------- what we learned */}
-        <Section id="learned" num={numOf("learned")} title="What we learned"
-                 lede="Six things worth carrying into the next cycle.">
+        <Section id="learned" num={numOf("learned")} title={R.copy.learned.title}
+                 lede={R.copy.learned.lede}>
           <Reveal>
             <div className="learn">
               {R.learned.map((l) => (
@@ -1580,8 +930,8 @@ export default function Report() {
 
         {/* ------------------------------------------------------- next moves */}
 {has("moves") && (
-        <Section id="moves" num={numOf("moves")} title="Recommended next moves"
-                 lede="Five actions for the next cycle, each with the reason behind it and the number that will show whether it worked.">
+        <Section id="moves" num={numOf("moves")} title={R.copy.moves.title}
+                 lede={R.copy.moves.lede}>
           {R.moves.map((m, i) => (
             <Reveal key={m.action}>
               <div className="move">
@@ -1602,8 +952,8 @@ export default function Report() {
 
         {/* ------------------------------------------------ what we do next */}
         {has("plan") && (
-        <Section id="plan" num={numOf("plan")} title="What we do next"
-                 lede="Five things we are carrying into the next reporting period.">
+        <Section id="plan" num={numOf("plan")} title={R.copy.plan.title}
+                 lede={R.copy.plan.lede}>
           <div className="plan">
             {R.plan.map((p) => (
               <Reveal key={p.action}>
@@ -1621,16 +971,16 @@ export default function Report() {
         )}
 
         {/* ----------------------------------------------------------- detail */}
-        <Section id="detail" num={numOf("detail")} title="Supporting detail"
-                 lede="Everything above, with the full figures behind it. Open only what you need.">
+        <Section id="detail" num={numOf("detail")} title={R.copy.detail.title}
+                 lede={R.copy.detail.lede}>
           <div style={{ marginTop: 26 }}>
 
-            <Disclosure title="Instagram" subtitle="August 2 – 15 · account totals from Metricool">
+            <Disclosure title="Instagram" subtitle={REPORT.detail.subtitles.instagram}>
               <KV items={d.instagram.kv} />
-              <Chart title="What was published" note="Ten pieces of content across three formats.">
+              <Chart title={d.instagram.publishedChart.title} note={d.instagram.publishedChart.note}>
                 <BarList items={d.instagram.published} alt />
               </Chart>
-              <Chart title="Every post this period" note="Ranked by views. Engagement is interactions divided by reach.">
+              <Chart title={d.instagram.postsChart.title} note={d.instagram.postsChart.note}>
                 <div className="t-wrap">
                   <table className="t">
                     <thead>
@@ -1652,105 +1002,31 @@ export default function Report() {
                   </table>
                 </div>
               </Chart>
-              <Chart title="How long the reels held attention" note="Average watch time, and the share of viewers who stayed past three seconds.">
-                <div className="t-wrap">
-                  <table className="t">
-                    <thead>
-                      <tr><th>Reel</th><th className="n">Avg watch</th><th className="n">Past 3s</th><th className="n">Saves</th></tr>
-                    </thead>
-                    <tbody>
-                      {d.instagram.reels.map((r) => (
-                        <tr key={r.t}>
-                          <td>{r.t}</td><td className="n">{r.w}</td><td className="n">{r.p}</td><td className="n">{r.s}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+              <Chart title={d.instagram.interactionsChart.title} note={d.instagram.interactionsChart.note}>
+                <BarList items={d.instagram.interactions} />
               </Chart>
-              <Chart title="Stories">
+              <Chart title={d.instagram.viewsChart.title} note={d.instagram.viewsChart.note}>
+                <BarList items={d.instagram.viewsByFormat} alt />
+              </Chart>
+              <Chart title={d.instagram.storiesTitle}>
                 <p className="score-reading">{d.instagram.stories}</p>
-              </Chart>
-              <Chart title="Where followers are" note="Age and gender were not included in this export and are not shown.">
-                <KV items={d.instagram.cities} />
               </Chart>
               <Note>{IS_INTERNAL ? d.instagram.note : d.instagram.clientNote}</Note>
             </Disclosure>
 
-            <Disclosure title="Facebook" subtitle="August 2 – 15 · two posts">
-              <div className="t-wrap">
-                <table className="t">
-                  <thead>
-                    <tr>
-                      <th>Post</th><th className="n">Impressions</th><th className="n">Reach</th>
-                      <th className="n">Reactions</th><th className="n">Comments</th>
-                      <th className="n">Shares</th><th className="n">Clicks</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {d.facebook.rows.map((f) => (
-                      <tr key={f.p}>
-                        <td>{f.p}</td><td className="n">{f.i}</td><td className="n">{f.r}</td>
-                        <td className="n">{f.x}</td><td className="n">{f.c}</td>
-                        <td className="n">{f.s}</td><td className="n">{f.k}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <Note>{d.facebook.note}</Note>
-            </Disclosure>
-
-            <Disclosure title="Search" subtitle="August 2 – 16 · Google Search Console">
+            <Disclosure title="Search" subtitle={REPORT.detail.subtitles.search}>
               <KV items={d.search.kv} />
-              <Chart title="Impressions per day" note={d.search.dailyNote}>
-                <Sparkline points={d.search.daily} label="Search impressions per day" />
-              </Chart>
-              <Chart title="Mobile out-clicks desktop on a fifth of the impressions" note={d.search.deviceRead}>
+              <Chart title={d.search.pagesChart.title} note={d.search.pagesChart.note}>
                 <div className="t-wrap">
                   <table className="t">
                     <thead>
-                      <tr><th>Device</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th><th className="n">Avg position</th></tr>
-                    </thead>
-                    <tbody>
-                      {d.search.devices.map((x) => (
-                        <tr key={x.d}>
-                          <td>{x.d}</td><td className="n">{x.c}</td><td className="n">{x.i}</td>
-                          <td className="n">{x.r}</td><td className="n">{x.p}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Chart>
-              <Chart title="Doctor pages rank on page one and convert; the homepage does neither" note="Position is where the page sits in Google's results on average. Lower is better.">
-                <div className="t-wrap">
-                  <table className="t">
-                    <thead>
-                      <tr><th>Page</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th><th className="n">Position</th></tr>
+                      <tr><th>Page</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th></tr>
                     </thead>
                     <tbody>
                       {d.search.pages.map((p) => (
                         <tr key={p.p}>
                           <td>{p.p}</td><td className="n">{p.c}</td><td className="n">{p.i}</td>
-                          <td className="n">{p.r}</td><td className="n">{p.pos}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Chart>
-              <Chart title="What people searched" note={d.search.queryRead}>
-                <div className="t-wrap">
-                  <table className="t">
-                    <thead>
-                      <tr><th>Query</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th><th className="n">Position</th></tr>
-                    </thead>
-                    <tbody>
-                      {d.search.queries.map((q) => (
-                        <tr key={q.q}>
-                          <td>{q.q}</td><td className="n">{q.c}</td><td className="n">{q.i}</td>
-                          <td className="n">{q.r}</td><td className="n">{q.p}</td>
+                          <td className="n">{p.r}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1760,27 +1036,24 @@ export default function Report() {
               <Note>{d.search.note}</Note>
             </Disclosure>
 
-            <Disclosure title="Website" subtitle="August 2 – 16 · Google Analytics">
+            <Disclosure title="Website" subtitle={REPORT.detail.subtitles.website}>
               <KV items={d.website.kv} />
-              <Chart title="Where visitors came from" note="Sessions by source. Direct means someone typed the address or used a saved link.">
+              <Chart title={d.website.sourcesChart.title} note={d.website.sourcesChart.note}>
                 <BarList items={d.website.sources} />
               </Chart>
-              <Chart title="Desktop still dominates the site" note="Share of users by device. Search demand runs the other way — mobile clicks better than desktop.">
-                <Stack parts={[{ label: "Desktop", pct: 80 }, { label: "Mobile", pct: 20 }]} />
+              <Chart title={d.website.deviceChart.title} note={d.website.deviceChart.note}>
+                <Stack parts={d.website.deviceSplit} />
               </Chart>
-              <Chart title="Where visitors landed" note="Views by landing page.">
+              <Chart title={d.website.landingChart.title} note={d.website.landingChart.note}>
                 <BarList items={d.website.landing} alt />
               </Chart>
               <Note>{d.website.note}</Note>
             </Disclosure>
 
-            <Disclosure title="Links" subtitle="August 2 – 17 · Short.io">
+            <Disclosure title="Links" subtitle={REPORT.detail.subtitles.links}>
               <KV items={d.links.kv} />
-              <Chart title="Most link activity goes to a specific office, not the main site" note="Verified clicks by destination.">
+              <Chart title={d.links.destsChart.title} note={d.links.destsChart.note}>
                 <BarList items={d.links.dests} />
-              </Chart>
-              <Chart title="Where the clicks came from" note="Verified clicks by city. Only locations with meaningful volume are shown.">
-                <BarList items={d.links.cities} alt />
               </Chart>
               <Note>{d.links.note}</Note>
             </Disclosure>
@@ -1788,26 +1061,8 @@ export default function Report() {
             <Disclosure title="Email" subtitle={d.email.window}>
               <Note>{d.email.note}</Note>
               <div style={{ marginTop: 22 }}>
-                <Chart title="Opens are strong; clicks are where the drop-off happens" note="Each stage as a share of everything sent.">
-                  <Funnel steps={d.email.funnel} />
-                </Chart>
-              </div>
-              <KV items={d.email.metrics} />
-              <ul className="reads">
-                {d.email.reads.map((r) => <li key={r}>{r}</li>)}
-              </ul>
-              <div style={{ marginTop: 30 }}>
-                <Chart title="35th Street opens well below the other locations"
-                       note="Open rate by campaign. The three lowest all sit 14 to 19 points under the top performers, and two of them are the same campaigns that did well elsewhere.">
-                  <div>
-                    {d.email.campaigns.map((c) => (
-                      <div className={`camp${c.r <= 43 ? " low" : ""}`} key={c.n}>
-                        <span className="camp-n">{c.n}</span>
-                        <span className="camp-d">{c.d}</span>
-                        <span className="camp-r">{c.r}%</span>
-                      </div>
-                    ))}
-                  </div>
+                <Chart title={d.email.tableChart.title} note={d.email.tableChart.note}>
+                  <SimpleTable table={IS_INTERNAL ? d.email.tableInternal : d.email.table} />
                 </Chart>
               </div>
             </Disclosure>
