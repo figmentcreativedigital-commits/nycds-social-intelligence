@@ -266,9 +266,9 @@ export const REPORT = {
       value: "16",
       sub: "2 campaigns, Constant Contact",
       dir: "none",
-      change: "First campaign inside a reporting window in three cycles",
+      change: "First campaigns inside a reporting window in three cycles",
       reading:
-        "2,900 sends, 1,357 opens at 50% of delivered, 16 clicks. Open rate is well above the healthcare benchmark and click rate is not. The mail is being opened and not acted on.",
+        "2,900 sends, 2,706 delivered, 254 confirmed opens at 9%, 16 clicks. The 52% headline open rate is mostly mail privacy services loading images rather than people reading. Among the 254 who genuinely opened, 6% clicked, which is a healthy rate.",
       tone: "",
     },
   ],
@@ -389,11 +389,11 @@ export const REPORT = {
     },
     {
       tag: "issue",
-      title: "Email opened well and was not acted on",
+      title: "The email open rate is 9%, not 52%",
       body:
-        "2 campaigns went to NYCDS lists inside the window. 2,900 sends, 1,357 opens at 50% of delivered, 16 clicks at 0.6%. RH NYCDS did not reach 182 of 2,856 contacts, 6%, which is in line with the account. White Party Email 2 did not reach 11 of 44, 25%, on a list small enough that the rate moves on single addresses. The 5th Avenue list flagged at 13% in the last report was recommended for cleaning and that has not been confirmed.",
+        "2 campaigns went to NYCDS lists inside the window: RH NYCDS on September 12 and White Party Email 2 on September 9. 2,900 sends, 2,706 delivered. Constant Contact reports 1,415 all opens at 52% of delivered, but 1,161 of those are proxy opens, meaning mail privacy services fetched the images before anyone read the message. Confirmed opens are 254, 9% of delivered. 16 clicks followed, which is 6% of confirmed opens. RH NYCDS did not reach 182 of 2,856 contacts, 6%. White Party Email 2 did not reach 12 of 44, 27%, on a list small enough that the rate moves on single addresses.",
       so:
-        "A 50% open rate against a 0.6% click rate is a content and call-to-action question rather than a list one. The audience is reading the mail and not moving from it. That is the first thing to fix, and there is finally a comparable send to measure the fix against. The 5th Avenue cleaning is still open from last cycle.",
+        "This inverts the obvious reading. A 52% open rate against a 0.6% click rate looks like a call-to-action failure. A 9% confirmed open rate against a 6% click-to-open rate is close to the opposite: the people who actually read the mail respond well, and the work is getting more of them to open it at all. Subject lines, send timing and list quality move that number. The button does not. The 5th Avenue cleaning is still open from last cycle.",
     },
     {
       tag: "issue",
@@ -417,7 +417,7 @@ export const REPORT = {
       body:
         "324 views a day against 424, from 14 pieces against 15. Average daily reach fell from 147 to 118. Engagement rate moved the other way, 10.66% to 11.62%, and follower growth rose from +4 to +6. Non-followers took 2,419 of 4,318 categorized views, 56%, against 60% last period.",
       so:
-        "Second consecutive period of falling reach alongside rising engagement. The pattern from last cycle holds: the content is performing with the audience it reaches, so this is a distribution question rather than a content one. Two periods makes it a trend rather than a quiet fortnight, and the non-follower share slipping 4 points is the first sign that distribution is narrowing toward existing followers.",
+        "Second consecutive period of falling reach alongside rising engagement. The pattern from last cycle holds: the content is performing with the audience it reaches, so this is a distribution question rather than a content one. Two periods makes it a trend rather than a quiet stretch, and the non-follower share slipping 4 points is the first sign that distribution is narrowing toward existing followers.",
     },
   ],
 
@@ -429,16 +429,16 @@ export const REPORT = {
     { f: "5.08%", u: "click rate on mobile", t: "against 1.45% on desktop. Mobile is a fifth of the impressions and nearly half of the clicks, and ranks 22 places higher." },
     { f: "11.62%", u: "Instagram engagement rate", t: "up from 10.66%. Reach fell and the share of people engaging with what they saw rose. The content is performing well with the audience it reaches." },
     { f: "607", u: "accounts reached by the White Party pairing", t: "a carousel and a reel on the same subject a day apart, against 221 for the strongest single post. The pairing test from last cycle was run and it worked." },
-    { f: "50%", u: "email open rate", t: "across 2 campaigns and 2,900 sends, well above the healthcare benchmark. 16 clicks followed, which is where the next piece of work sits." },
+    { f: "9%", u: "confirmed email open rate", t: "not the 52% headline, which is mostly mail privacy services fetching images rather than people reading. Of the 254 who genuinely opened, 16 clicked." },
   ],
 
   /* ------------------------------------------------------------- NEXT MOVES */
   moves: [
     {
-      action: "Rebuild the email call to action before the next send",
-      why: "50% of delivered mail was opened and 0.6% was clicked. The audience is reading it. The click path is what is not working, and this is the first send inside a reporting window in three cycles, so there is finally something to measure against.",
+      action: "Work the subject line and send timing rather than the call to action",
+      why: "The click path is working. 16 clicks on 254 confirmed opens is 6%, which is a normal rate. What is low is the confirmed open rate at 9%. The 52% headline is mail privacy services loading images, and building work around it would mean fixing something that is not broken.",
       owner: "Email \u2014 Figment",
-      measure: "Click rate on the next send, against 0.6%.",
+      measure: "Confirmed open rate on the next send, against 9%.",
     },
     {
       action: "Confirm the 5th Avenue list cleaning from last cycle",
@@ -682,26 +682,26 @@ export const REPORT = {
     email: {
       window: "August 31 \u2013 September 13, 2026 \u00b7 inside the reporting period",
       note:
-        "2 campaigns went to NYCDS lists inside the window, the first to fall inside a reporting period in three cycles. A third campaign in the same Constant Contact account, RH 2.0, went to the periodontal practice\u2019s list of 3,412 and is excluded here, in the same way its short links are. Mixing it in would move every rate in the table. The August 1 location sends shown in the last report are not repeated. Percentages are calculated on delivered mail, matching Constant Contact\u2019s own reporting.",
+        "2 campaigns went to NYCDS lists inside the window, the first to fall inside a reporting period in three cycles: RH NYCDS on September 12 and White Party Email 2 on September 9. A third campaign in the same Constant Contact account, RH 2.0, went to the periodontal practice\u2019s list of 3,412 and is excluded here, in the same way its short links are. Mixing it in would move every rate in the table. The August 1 location sends shown in the last report are not repeated. Percentages are calculated on delivered mail, matching Constant Contact\u2019s own reporting. Opens are shown two ways. All opens counts every recorded open, including mail privacy services fetching images automatically. Confirmed opens counts only those Constant Contact can verify as a person. 1,161 of the 1,415 all opens this period were automated, so confirmed opens is the figure to read.",
       table: {
-        head: ["Campaign", "Sends", "Opens", "Clicks"],
+        head: ["Campaign", "Sends", "All opens", "Confirmed opens", "Clicks"],
         rows: [
-          ["RH NYCDS", "2,856", "1,344 (50%)", "15 (1%)"],
-          ["White Party Email 2", "44", "13 (39%)", "1 (3%)"],
-          ["Total", "2,900", "1,357 (50%)", "16 (0.6%)"],
+          ["RH NYCDS", "2,856", "1,401 (52%)", "247 (9%)", "15 (0.6%)"],
+          ["White Party Email 2", "44", "14 (44%)", "7 (22%)", "1 (3%)"],
+          ["Total", "2,900", "1,415 (52%)", "254 (9%)", "16 (0.6%)"],
         ],
       },
       tableInternal: {
-        head: ["Campaign", "Sends", "Opens", "Clicks", "Bounces", "Unsub"],
+        head: ["Campaign", "Sends", "Delivered", "All opens", "Confirmed", "Clicks", "Bounces"],
         rows: [
-          ["RH NYCDS", "2,856", "1,344 (50%)", "15 (1%)", "182 (6%)", "0"],
-          ["White Party Email 2", "44", "13 (39%)", "1 (3%)", "11 (25%)", "0"],
-          ["Total", "2,900", "1,357 (50%)", "16 (0.6%)", "193 (7%)", "0"],
+          ["RH NYCDS", "2,856", "2,674", "1,401 (52%)", "247 (9%)", "15 (0.6%)", "182 (6%)"],
+          ["White Party Email 2", "44", "32", "14 (44%)", "7 (22%)", "1 (3%)", "12 (27%)"],
+          ["Total", "2,900", "2,706", "1,415 (52%)", "254 (9%)", "16 (0.6%)", "194 (7%)"],
         ],
       },
       tableChart: {
         title: "The two campaigns sent this period",
-        note: "Open rates are 50% and 39% of delivered mail, both above the healthcare benchmark. Click rate is 0.6% across the two. Nobody unsubscribed.",
+        note: "Confirmed open rates are 9% and 22% of delivered mail. The higher all-opens figures count automated image loading rather than readers. Nobody unsubscribed and there were no spam reports.",
       },
     },
 
@@ -726,6 +726,7 @@ export const REPORT = {
       { q: "How search totals are calculated", a: "From Search Console\u2019s daily chart export, which is complete. The page and query tables are samples, because Google withholds low-volume rows. The query export holds 32% of the clicks and 78% of the impressions in this window, so those rows will not sum to the totals and the brand split is a share within the sample rather than a count of all searches." },
       { q: "Why the search comparison has changed since the last report", a: "Search Console restates recent windows as processing completes. The last report recorded 106 clicks on 6,195 impressions for August 17 \u2013 30. Re-pulled on September 14, that window holds 108 clicks on 6,576 impressions. Every search comparison here uses the restated figures. The window was re-pulled specifically to check for this." },
       { q: "Why short links carry no total this cycle", a: "Short.io\u2019s own filtering left a large share of automated traffic in the counts. Across the 30 days to September 13, more than a third of the clicks the tool recorded as human came from data center locations rather than from people. The exports do not break clicks down by link and location together, so the automated share cannot be separated per link without estimating. Per-link counts are shown as raw source figures and no total or comparison is reported." },
+      { q: "How email opens are counted", a: "Constant Contact reports two open figures. All opens counts every recorded open, including mail privacy services that fetch images automatically before anyone reads the message. Confirmed opens counts only those it can verify as a person. Across the two campaigns this period, 1,161 of 1,415 all opens were automated, so the confirmed figure of 254 is the one that describes readership. Click rate against confirmed opens is 6%, against delivered mail 0.6%. Both are shown because they answer different questions. Figures were re-pulled on September 14 and run slightly above the send-day numbers, because opens keep accruing." },
       { q: "Which dates each figure covers", a: "Instagram, Facebook, search, website, email and short links all cover August 31 \u2013 September 13. Email and short links are filtered to NYCDS only; the periodontal practice shares both accounts and its campaign and links are excluded. Both this window and the comparison window are 14 days running Monday to Sunday, so totals compare directly with no length adjustment anywhere in this report." },
       { q: "How NYCDS figures are separated from the periodontal practice", a: "Constant Contact is a shared account covering both practices. It returned RH 2.0, a 3,412-send campaign to the periodontal list, alongside the two NYCDS sends. It is not counted here, because a list of 3,412 with different contacts and a different subject moves every percentage in the email table. Short links are attributed by placement rather than by address. The four booking links added during the period are the booking buttons on the NYCDS locations page and carry that page\u2019s tracking parameters. Address would not work here: the two practices share 130 East 35th Street and 933 Fifth Avenue, so two of the four locations appear on both sites under different neighborhood names. One link named for the periodontal practice drew fewer than 7 clicks and is excluded. Google Search Console, Analytics and Metricool are separate properties and need no filtering." },
       { q: "What is missing this cycle", a: "No paid campaigns ran, so there is no advertising section. Metricool\u2019s Ad column is empty in both the views and interactions views, which is the confirmation. Instagram reel retention and follower age and gender were not pulled and are absent rather than estimated. Instagram profile button activity is not reported: the figure carried in the last report does not reproduce, and the account shows no profile button activity across the last 30 days." },
@@ -762,6 +763,6 @@ export const SOURCE_WINDOWS = [
   { k: "Facebook", v: "Aug 31 – Sep 13", p: "Account-level figures from Metricool. Restored this cycle after being absent from the last report." },
   { k: "Search", v: "Aug 31 – Sep 13", p: "Compared against Aug 17 – 30, re-pulled and restated to 108 clicks on 6,576 impressions." },
   { k: "Website", v: "Aug 31 – Sep 13", p: "Full days." },
-  { k: "Email", v: "Aug 31 – Sep 13", p: "2 NYCDS campaigns sent inside the window, the first in three cycles. A periodontal-practice campaign in the same account is excluded." },
+  { k: "Email", v: "Aug 31 – Sep 13", p: "2 NYCDS campaigns, September 9 and 12, the first inside a window in three cycles. A periodontal-practice campaign in the same account is excluded." },
   { k: "Short links", v: "Aug 31 – Sep 13", p: "Per-link counts only. Four booking links went live inside the period, so they carry a part-period figure. No domain total this cycle." },
 ];
