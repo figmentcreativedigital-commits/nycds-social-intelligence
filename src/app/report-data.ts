@@ -17,31 +17,45 @@
    Nothing here is estimated or inferred. Every value is carried from a source
    export, or is plain arithmetic on two figures already present.
 
-   SOURCE WINDOWS — all four aligned this cycle for the first time:
-     Instagram (Metricool)              Aug 17 – Aug 30, 2026
-     Search Console                     Aug 17 – Aug 30, 2026
-     Website (GA4)                      Aug 17 – Aug 30, 2026
-     Short links (Short.io)             Aug 17 – Aug 30, 2026
-     Email (Constant Contact)           Aug 1 only — outside the window
+   SOURCE WINDOWS — all five aligned this cycle, including email for the first
+   time in three cycles:
+     Instagram (Metricool)              Aug 31 – Sep 13, 2026
+     Facebook (Metricool)               Aug 31 – Sep 13, 2026
+     Search Console                     Aug 31 – Sep 13, 2026
+     Website (GA4)                      Aug 31 – Sep 13, 2026
+     Email (Constant Contact)           Aug 31 – Sep 13, 2026
+     Short links (Short.io)             Aug 31 – Sep 13, 2026
+
+   BOTH WINDOWS ARE 14 DAYS, Monday to Sunday. Totals are directly comparable
+   for the first time. Per-day figures are still shown where they aid reading,
+   but no length adjustment is applied anywhere in this report.
 
    NOT IN THIS CYCLE — absent rather than empty. No section is rendered as a
    frame with nothing in it:
-     - No paid campaigns ran, in this period or the one before it.
-     - Facebook was not pulled.
-     - Search Console device and query breakdowns were not pulled, so the
-       brand / non-brand split is not reported this cycle.
-     - Search Console daily impressions were not pulled, so there is no
-       impressions-per-day chart.
-     - Instagram reel retention, follower age, gender and city were not pulled.
-     - Short.io city-level data was not pulled.
-     - No email campaign was sent inside the window. The August 1 sends are
-       shown for reference and compared with nothing.
+     - No paid campaigns ran, in this period or the two before it. Metricool's
+       Ad column is empty across both views and interactions.
+     - Short.io totals and period-over-period change are not reported. See the
+       method note: the domain's click data carries automated traffic that
+       cannot be separated per link with the current export.
+     - Instagram reel retention and follower age and gender were not pulled.
 
-   RESTATEMENT — last period's search figures have moved. That report was built
-   while August 16 was still processing in Search Console and recorded 117
-   clicks on 5,446 impressions. Complete, the comparison window (Aug 1 – 16)
-   holds 125 clicks on 6,367 impressions. All comparisons here use the
-   restated figures.
+   RESTATEMENT — the comparison window has moved again. The deployed report
+   recorded 106 search clicks on 6,195 impressions for Aug 17 – 30. Re-pulled
+   on Sep 14, that window holds 108 clicks on 6,576 impressions. All search
+   comparisons here use the restated figures.
+
+   BASIS CHANGE — doctor-page click rate. The deployed report reported 22.3%
+   from three doctor pages. That was the three strongest, not a rule, and the
+   strongest three change every cycle. This report counts all seven individual
+   doctor pages, every cycle. On that basis Aug 17 – 30 is 11.3% and this
+   period is 8.6%. The comparison shown is 11.3% to 8.6%, like for like. The
+   22.3% figure does not appear in this report.
+
+   REMOVED — Instagram Book now clicks. The deployed report carried 23 for
+   Aug 17 – 30. Re-pulled, that window shows no Book now clicks and 2 Call
+   clicks, and the 30-day window holds the same 2. The 23 is not reproducible
+   and the metric is not reported. Email clicks take its place on the
+   scoreboard.
 ============================================================================ */
 
 /* ---------------------------------------------------------------------------
@@ -74,11 +88,11 @@ export const REPORT = {
   client: { name: "NYC Dental Smiles", short: "NYCDS", agency: "Figment Creative" },
 
   period: {
-    label: "August 17 – 30, 2026",
+    label: "August 31 – September 13, 2026",
     length: "14 days",
-    comparedWith: "the 15 days before it (August 2 – 16)",
+    comparedWith: "the 14 days before it (August 17 – 30)",
     paidStatus:
-      "No advertising ran in this period or the one before it. Both halves of August were organic, which makes this the first straight like-for-like comparison of the year.",
+      "No advertising ran in this period or the one before it. Both windows are 14 days, Monday to Sunday, so totals compare directly with no adjustment. This is the cleanest read of the year so far.",
   },
 
   /* ---------------------------------------------------------- SECTION COPY
@@ -87,15 +101,15 @@ export const REPORT = {
   copy: {
     scoreboard: {
       title: "The numbers that matter, and what each one means",
-      lede: "Nine measures. Where a comparison would mislead, the figure gets context instead of a percentage change.",
+      lede: "Nine measures. Both windows are the same length this cycle, so every comparison below is a direct one.",
     },
     worked: {
-      title: "Two doctor pages and two clinical posts carried the period",
-      galleryTitle: "The six strongest pieces this period, ranked by views",
+      title: "Search got smaller and sharper, and the White Party ran as a pair",
+      galleryTitle: "The six pieces published this period, ranked by views",
     },
     attention: {
       title: "What needs attention",
-      lede: "Five things worth a second look, each labeled so it is clear which ones to act on and which ones to just note.",
+      lede: "Six things worth a second look, each labeled so it is clear which ones to act on and which ones to just note.",
     },
     learned: {
       title: "What we learned",
@@ -103,7 +117,7 @@ export const REPORT = {
     },
     moves: {
       title: "Recommended next moves",
-      lede: "Five actions for the next cycle, each with the reason behind it and the number that will show whether it worked.",
+      lede: "Six actions for the next cycle, each with the reason behind it and the number that will show whether it worked.",
     },
     detail: {
       title: "Supporting detail",
@@ -115,41 +129,41 @@ export const REPORT = {
   brief: {
     title: "The Brief",
     lede: "A concise summary of the period\u2019s performance, key findings, and recommended actions.",
-    head: "The site held flat with no advertising behind it, and the doctor pages are now the strongest thing we have in search.",
-    /* Client build. Same period, same facts, opening on what the work achieved
-       rather than on what held steady. */
-    headClient: "The website held steady, and the individual doctor pages are the strongest thing it has in search. They convert at thirteen times the rate of the site as a whole.",
+    head: "Google showed the site 45% less often and the site converted that visibility 31% better. The impressions that went were mostly ones that never converted.",
+    /* Client build. Same period, same facts, opening on what improved rather
+       than on what narrowed. */
+    headClient: "The site is being found by fewer people and converting more of them. Google showed it less often than last period, and the share of people who clicked through rose by nearly a third.",
     items: [
       {
         role: "The outcome",
-        text: "Website visits per day were flat: 25.4 against 25.3. Search clicks were near flat at \u22123.1% a day, with impressions up 11%. No advertising ran in either period, so this is a clean read.",
+        text: "Search impressions fell 45%, from 6,576 to 3,621, while click rate rose from 1.64% to 2.15% and average position improved from 62.8 to 56.6. Clicks fell 28%, less than impressions. No advertising ran in either window and both are 14 days, so this is a clean read.",
         client: {
           role: "The standout",
-          text: "Three doctor pages drew 27 clicks from 121 appearances in Google. That is a 22.3% click rate, against 1.71% across the site. Two of them are also among the five most visited pages on the website.",
+          text: "The click rate from Google rose from 1.64% to 2.15%, and the site\u2019s average position improved by 6 places. More of the people who saw the site chose it.",
         },
       },
       {
         role: "Strongest signal",
-        text: "Doctor pages convert search traffic at 22.3% against 1.71% site-wide. The homepage runs the other way: 4,912 impressions, 60 clicks, 1.2%. The visibility sits on the page that converts least.",
+        text: "Mobile converts at 5.08% from position 38.7; desktop converts at 1.45% from position 60.95. Mobile is a fifth of impressions and nearly half of clicks. The seven doctor pages hold 8.6% against 2.15% site-wide, at positions between 8.8 and 12.5 while the site averages 56.6.",
         client: {
           role: "The wider picture",
-          text: "Website visits held at about 25 a day, and Google showed the site 11% more often than in the period before. Instagram published 15 pieces against 10, and the share of people engaging with what they saw rose from 7.72% to 10.66%. The content is performing well with the audience it reaches.",
+          text: "The doctor pages are still the strongest part of the site in search. They draw 8.6% of the people who see them against 2.15% across the site, and they rank between 9th and 13th while the site as a whole sits near 57th.",
         },
       },
       {
         role: "What softened",
-        text: "Instagram views fell 20% a day and link clicks 24%, with follower growth slowing from +15 to +4. Engagement rate rose over the same stretch, so this is reach narrowing, not content weakening.",
+        text: "Website sessions fell 8.7% to 325 and new visitors 24.5% to 194. Instagram views fell 24% to 4,532 with reach at 118 a day against 147. Engagement rate rose over the same stretch, 10.66% to 11.62%.",
         client: {
           role: "What we are monitoring",
-          text: "Instagram reached fewer people this period, but a greater share of them engaged. The content is performing well with the audience it reaches, so the work now is widening that audience. We track this weekly and will keep reporting on it.",
+          text: "Instagram reached fewer people this period and a greater share of them engaged, moving from 10.66% to 11.62%. The content is performing well with the audience it reaches, so the work now is widening that audience.",
         },
       },
       {
         role: "Next action",
-        text: "Put a booking link at the top of every doctor page. They already rank on page one and convert better than anything else on the site.",
+        text: "The non-brand queries carry the lost impressions and convert at 0.34%. Brand queries convert at 9.09%. The work is to grow the queries that already convert rather than chase the ones that never did.",
         client: {
           role: "The opportunity",
-          text: "The doctor pages already rank well and draw a high share of the people who see them. Making it easier to book from those pages is the next step, and it is what we are taking on first.",
+          text: "Searches that name the practice or a doctor convert far better than general ones. Building on the pages that already rank for those names is the next step, and it is what we are taking on first.",
         },
       },
     ] as { role: string; text: string; client?: { role: string; text: string } }[],
@@ -158,276 +172,292 @@ export const REPORT = {
   /* ------------------------------------------------------------ SCOREBOARD */
   scoreboard: [
     {
-      metric: "Book now clicks",
-      value: "23",
-      sub: "Instagram profile",
-      dir: "none",
-      change: "First cycle this has been reported",
-      reading:
-        "People who tapped Book now on the Instagram profile. It is the closest thing the account has to a direct measure of booking intent, and it is the number to beat next cycle.",
-      tone: "",
-    },
-    {
-      metric: "Website visits per day",
-      value: "25.4",
-      sub: "Sessions, daily average",
-      dir: "flat",
-      change: "25.3 a day in the 15 days before",
-      reading:
-        "Flat to within a rounding error. The totals differ, 356 against 379, because the earlier window was a day longer. That is why this is reported per day.",
-      tone: "tone-good",
-    },
-    {
-      metric: "Search clicks",
-      value: "106",
-      sub: "From Google",
-      dir: "down",
-      change: "125 in the 16 days before \u00b7 \u22123.1% a day",
-      reading:
-        "7.6 clicks a day against 7.8. Near flat once the different window lengths are accounted for.",
-      tone: "",
-    },
-    {
-      metric: "Search impressions per day",
-      value: "442",
-      sub: "Times the site appeared",
+      metric: "Search click rate",
+      value: "2.15%",
+      sub: "Clicks \u00f7 impressions, Google",
       dir: "up",
-      change: "398 a day in the 16 days before",
+      change: "1.64% in the 14 days before",
       reading:
-        "Up 11%. Google showed the site more often, not less. That reverses what the last report recorded, and that report treated the drop as its main open question.",
+        "78 clicks from 3,621 impressions. Up 31%. The site appeared less often and a greater share of the people who saw it chose it.",
       tone: "tone-good",
     },
     {
       metric: "Doctor page click rate",
-      value: "22.3%",
-      sub: "Search, three doctor pages",
-      dir: "up",
-      change: "1.71% across the whole site",
+      value: "8.6%",
+      sub: "Search, all seven doctor pages",
+      dir: "down",
+      change: "11.3% in the 14 days before \u00b7 2.15% site-wide",
       reading:
-        "27 clicks from 121 impressions. Where these pages appear in Google, people choose them, at thirteen times the rate of the site as a whole.",
+        "29 clicks from 336 impressions. Four times the site-wide rate, from positions between 8.8 and 12.5. Both figures count all seven doctor pages, which is a change of basis from the last report.",
       tone: "tone-good",
     },
     {
+      metric: "Website visits per day",
+      value: "23.2",
+      sub: "Sessions, daily average",
+      dir: "down",
+      change: "25.4 a day in the 14 days before \u00b7 325 against 356",
+      reading:
+        "Down 8.7%. Both windows are 14 days, so the totals compare directly. Google organic held at 103 sessions against 125.",
+      tone: "",
+    },
+    {
+      metric: "Search clicks",
+      value: "78",
+      sub: "From Google",
+      dir: "down",
+      change: "108 in the 14 days before \u00b7 \u221228%",
+      reading:
+        "5.6 clicks a day against 7.7. Clicks fell less than impressions, which is what a rising click rate looks like.",
+      tone: "",
+    },
+    {
+      metric: "Search impressions per day",
+      value: "259",
+      sub: "Times the site appeared",
+      dir: "down",
+      change: "470 a day in the 14 days before \u00b7 \u221245%",
+      reading:
+        "3,621 against 6,576. In the query sample, general searches account for most of what went, and those convert at 0.34%. Searches naming the practice or a doctor convert at 9.09%.",
+      tone: "",
+    },
+    {
       metric: "Instagram views",
-      value: "5,934",
+      value: "4,532",
       sub: "Account total, Metricool",
       dir: "down",
-      change: "7,962 in the 15 days before \u00b7 \u221220% a day",
+      change: "5,938 in the 14 days before \u00b7 \u221224%",
       reading:
-        "424 views a day against 531. Fewer views from more content, 15 pieces against 10, but a higher share of viewers engaged. The content is performing well with the audience it reaches.",
+        "324 views a day against 424, from 14 pieces against 15. Reach fell to 118 a day from 147, and a higher share of viewers engaged. The content is performing well with the audience it reaches.",
       tone: "",
     },
     {
       metric: "Engagement rate",
-      value: "10.66%",
+      value: "11.62%",
       sub: "Interactions \u00f7 reach",
       dir: "up",
-      change: "7.72% in the period before",
+      change: "10.66% in the period before",
       reading:
-        "218 interactions against reach of 2,044. A smaller audience, and more of it engaged. The content is landing with the people who see it.",
+        "192 interactions against reach of 1,652. A smaller audience, and more of it engaged. Feed posts drew 83 interactions against 46 last period, overtaking reels for the first time.",
       tone: "tone-good",
     },
     {
       metric: "Followers",
-      value: "754",
+      value: "760",
       sub: "At period close",
       dir: "up",
-      change: "+4 this period \u00b7 +15 the period before",
+      change: "+6 this period \u00b7 +4 the period before",
       reading:
-        "Growth slowed to +4 from +15, in a period that published 50% more content. Followers track reach, not volume.",
-      tone: "",
+        "11 acquired against 3 lost, on 14 pieces published. Growth is small and steady rather than moving with content volume.",
+      tone: "tone-good",
     },
     {
-      metric: "Link clicks",
-      value: "101",
-      sub: "Short.io, all tracked links",
-      dir: "down",
-      change: "143 in the period before \u00b7 \u221224% a day",
+      metric: "Email clicks",
+      value: "16",
+      sub: "2 campaigns, Constant Contact",
+      dir: "none",
+      change: "First campaign inside a reporting window in three cycles",
       reading:
-        "7.2 a day against 9.5. 94 came from the six named links. The other seven arrived on untracked paths and are not attributed.",
+        "2,900 sends, 1,357 opens at 50% of delivered, 16 clicks. Open rate is well above the healthcare benchmark and click rate is not. The mail is being opened and not acted on.",
       tone: "",
     },
   ],
 
   /* -------------------------------------------- THE PERIOD LINE (signature) */
   periodLine: {
-    title: "Website visits held flat across both halves of the month",
+    title: "New visitors stepped down to a lower level and held there",
     note:
-      "New website visitors per day across the 30 days of August. No advertising ran in either half, so this compares one organic period against another rather than showing a step down to a baseline.",
-    /* GA4 daily new users, Aug 1 – 30. Aug 1–16 carried from the previous
-       report's series; Aug 17–30 from this cycle's export. */
+      "New website visitors per day across the 28 days from August 17 to September 13. No advertising ran in either half, so this compares one organic period against another rather than showing a step down to a baseline.",
+    /* GA4 daily new users, Aug 17 – Sep 13. Aug 17–30 carried from the
+       deployed report and re-verified against this cycle's export; Aug 31 –
+       Sep 13 from this cycle's export. */
     series: [
-      { d: "Aug 1", v: 19 }, { d: "Aug 2", v: 10 }, { d: "Aug 3", v: 21 },
-      { d: "Aug 4", v: 19 }, { d: "Aug 5", v: 23 }, { d: "Aug 6", v: 35 },
-      { d: "Aug 7", v: 19 }, { d: "Aug 8", v: 12 }, { d: "Aug 9", v: 7 },
-      { d: "Aug 10", v: 34 }, { d: "Aug 11", v: 26 }, { d: "Aug 12", v: 30 },
-      { d: "Aug 13", v: 20 }, { d: "Aug 14", v: 14 }, { d: "Aug 15", v: 7 },
-      { d: "Aug 16", v: 8 }, { d: "Aug 17", v: 15 }, { d: "Aug 18", v: 30 },
-      { d: "Aug 19", v: 21 }, { d: "Aug 20", v: 23 }, { d: "Aug 21", v: 9 },
-      { d: "Aug 22", v: 7 }, { d: "Aug 23", v: 13 }, { d: "Aug 24", v: 24 },
-      { d: "Aug 25", v: 20 }, { d: "Aug 26", v: 26 }, { d: "Aug 27", v: 29 },
-      { d: "Aug 28", v: 16 }, { d: "Aug 29", v: 12 }, { d: "Aug 30", v: 12 },
+      { d: "Aug 17", v: 15 }, { d: "Aug 18", v: 30 }, { d: "Aug 19", v: 21 },
+      { d: "Aug 20", v: 23 }, { d: "Aug 21", v: 9 }, { d: "Aug 22", v: 7 },
+      { d: "Aug 23", v: 13 }, { d: "Aug 24", v: 24 }, { d: "Aug 25", v: 20 },
+      { d: "Aug 26", v: 26 }, { d: "Aug 27", v: 29 }, { d: "Aug 28", v: 16 },
+      { d: "Aug 29", v: 12 }, { d: "Aug 30", v: 12 }, { d: "Aug 31", v: 10 },
+      { d: "Sep 1", v: 19 }, { d: "Sep 2", v: 23 }, { d: "Sep 3", v: 25 },
+      { d: "Sep 4", v: 11 }, { d: "Sep 5", v: 7 }, { d: "Sep 6", v: 7 },
+      { d: "Sep 7", v: 14 }, { d: "Sep 8", v: 16 }, { d: "Sep 9", v: 18 },
+      { d: "Sep 10", v: 16 }, { d: "Sep 11", v: 12 }, { d: "Sep 12", v: 7 },
+      { d: "Sep 13", v: 9 },
     ],
-    /* Index of the last day of the previous reporting period (Aug 16). The
+    /* Index of the last day of the previous reporting period (Aug 30). The
        chart draws each half's average either side of it. */
-    splitAt: 15,
+    splitAt: 13,
     /* No shaded stretch this cycle — there was no advertising in either half.
        Set to a { through, label } object to shade a paid flight again. */
     shade: null as { through: number; label: string } | null,
     markers: [] as { i: number; label: string }[],
-    /* derived: 304 visitors ÷ 16 days = 19.0; 257 ÷ 14 = 18.4 */
+    /* derived: 257 visitors ÷ 14 days = 18.4; 194 ÷ 14 = 13.9 */
     bands: [
-      { label: "August 1 – 16", value: "19 a day", detail: "Previous reporting period" },
-      { label: "August 17 – 30", value: "18 a day", detail: "This period" },
+      { label: "August 17 – 30", value: "18 a day", detail: "Previous reporting period" },
+      { label: "August 31 – September 13", value: "14 a day", detail: "This period" },
     ],
     read: {
       title: "Reading this fairly:",
-      body: "Both halves are the same kind of period, with no advertising in either. New visitors moved from 19 a day to 18, inside normal week-to-week variation. Sessions were flatter still, 25.3 against 25.4. The line is noisy day to day and level across the month.",
+      body: "Both halves are the same kind of period, the same length, with no advertising in either. New visitors moved from 18 a day to 14. The first half of the new window ran lower and the second half recovered to around 15, so the line is a step rather than a slide. Sessions moved less than new visitors, 25.4 a day to 23.2, meaning returning visitors held up better than first-time ones.",
     },
   },
 
   /* ----------------------------------------------------------- WHAT WORKED */
   worked: {
     /* Internal build only. */
-    lede: "Two findings this period. The doctor pages convert search traffic at thirteen times the site-wide rate, and the two strongest Instagram pieces were both clinical rather than team content. That is the opposite of what last period found.",
+    lede: "Two findings this period. Search traded volume for quality, losing 45% of impressions while improving click rate 31% and average position by 6 places. And the reel-and-post pairing recommended last cycle was actually run, on the White Party, a day apart.",
     lead: {
       kind: "Post",
-      title: "The final smile is only part of the story",
-      date: "August 28",
-      url: "https://www.instagram.com/p/Dcl2RKFFgKc/",
+      title: "A transformation like this starts long before procedure day",
+      date: "September 10",
+      url: "https://www.instagram.com/p/DdHiZHUlq4W/",
       why:
-        "It drew 1,102 views and reached 390 accounts, more than anything else published and about three times the next piece down. 27 interactions on that reach is 6.9%, below the account average for the period. It went further than it engaged. The subject is an All-on-6 case, the practice's highest-value service.",
+        "It drew 640 views and reached 221 accounts, the most of anything published this period. 18 interactions on that reach is 8.1%, below the account average of 11.62%. It went further than it engaged. The subject is a full-arch All-on-6 case built with the internal lab, the practice's highest-value service, and it is the second cycle running that an All-on-6 case has led on views.",
       repeatable:
-        "The August 27 reel is the counterweight. Fewer views at 878, but 47 interactions on 430 reach is 10.9%, the best engagement of the period. Reach and engagement came from two different pieces, published a day apart on related subjects. Running a reel and a post on the same subject on purpose is the test worth setting up.",
+        "The White Party pairing is the other half of the story. A carousel on September 2 drew 629 views and 13.5% engagement, the strongest engagement of the period. A reel on the same subject the next day drew 590 views and reached 384 accounts, the widest reach of anything published. Together they reached 607 accounts on one subject across two formats, against 221 for the single strongest clinical post. This is the pairing test from last cycle, and it worked.",
     },
-    /* Top content published inside this period, ranked by views. Six of the
-       fifteen pieces published. Engagement is interactions ÷ reach. */
+    /* All content published inside this period, ranked by views. Six of the
+       fourteen pieces; the other eight are stories. Engagement is
+       interactions ÷ reach. */
     gallery: [
       {
-        title: "The final smile is only part of the story", format: "Post", date: "Aug 28",
-        url: "https://www.instagram.com/p/Dcl2RKFFgKc/",
-        views: "1,102", reach: "390", er: "6.9%", lead: true,
+        title: "A transformation like this starts long before procedure day", format: "Post", date: "Sep 10",
+        url: "https://www.instagram.com/p/DdHiZHUlq4W/",
+        views: "640", reach: "221", er: "8.1%", lead: true,
       },
       {
-        title: "The doctor. The process. The final result.", format: "Reel", date: "Aug 27",
-        url: "https://www.instagram.com/reel/DcjkaPlxmaH/",
-        views: "878", reach: "430", er: "10.9%", lead: false,
+        title: "We had such a great time joining Dan\u2019s Papers White Party", format: "Post", date: "Sep 2",
+        url: "https://www.instagram.com/p/DczEIlNFnQV/",
+        views: "629", reach: "223", er: "13.5%", lead: false,
       },
       {
-        title: "The best technology doesn\u2019t make care feel complicated", format: "Reel", date: "Aug 21",
-        url: "https://www.instagram.com/reel/DcTt74bB-qy/",
-        views: "339", reach: "178", er: "11.8%", lead: false,
+        title: "A little glimpse of NYCDS after hours", format: "Reel", date: "Sep 3",
+        url: "https://www.instagram.com/reel/Dc1ketSxosl/",
+        views: "590", reach: "384", er: "7.8%", lead: false,
       },
       {
-        title: "What makes you trust someone with your smile?", format: "Reel", date: "Aug 20",
-        url: "https://www.instagram.com/reel/DcRJEtzBRTw/",
-        views: "336", reach: "221", er: "6.3%", lead: false,
+        title: "Wondering which is right for you: veneers or bonding?", format: "Reel", date: "Sep 9",
+        url: "https://www.instagram.com/reel/DdEv48bJh7z/",
+        views: "251", reach: "145", er: "11.7%", lead: false,
       },
       {
-        title: "There\u2019s a shift happening in cosmetic dentistry", format: "Post", date: "Aug 19",
-        url: "https://www.instagram.com/p/DcOrKPQiLi1/",
-        views: "289", reach: "117", er: "6.8%", lead: false,
+        title: "Dental anxiety? Not here.", format: "Reel", date: "Sep 5",
+        url: "https://www.instagram.com/reel/Dc6cspGJv5v/",
+        views: "197", reach: "121", er: "7.4%", lead: false,
       },
       {
-        title: "What it feels like to finally feel good", format: "Reel", date: "Aug 24",
-        url: "https://www.instagram.com/reel/Dcbde6LB9vg/",
-        views: "188", reach: "100", er: "9.0%", lead: false,
+        title: "Great care is about more than the treatment itself", format: "Post", date: "Sep 8",
+        url: "https://www.instagram.com/p/Dc1l4Xix2hs/",
+        views: "168", reach: "93", er: "5.4%", lead: false,
       },
     ],
     galleryNote:
-      "The six strongest of the 15 pieces published between August 17 and 30, ranked by views. Engagement is interactions divided by reach. These are per-post figures. The account total shown earlier is measured separately, and the two will not add up.",
+      "All six feed pieces published between August 31 and September 13, ranked by views. The other eight pieces were stories. Engagement is interactions divided by reach. These are per-post figures. The account total shown earlier is measured separately, and the two will not add up.",
     channel: {
-      title: "The doctor pages convert search traffic at thirteen times the site-wide rate",
+      title: "Search lost volume it was not converting and kept the visibility that works",
       body:
-        "Three doctor pages drew 27 clicks from 121 impressions in Google, a 22.3% click rate against 1.71% across the site. Dr. Farahani\u2019s page converts at 29.6% and Dr. Eisdorfer\u2019s at 25.5%. Two of them are also among the five most visited pages on the website, at 73 and 21 views. The homepage runs the other way: 4,912 impressions, 60 clicks, 1.2%. The visibility sits on the page that converts least. The pages that convert are the ones people rarely see.",
+        "Impressions fell from 6,576 to 3,621 while click rate rose from 1.64% to 2.15% and average position improved from 62.8 to 56.6. In the query sample, searches naming the practice or a doctor drew 16 clicks from 176 appearances, a 9.09% rate. General searches drew 9 clicks from 2,631 appearances, 0.34%. General searches also carry most of what was lost, falling from 4,318 appearances to 2,631. Mobile is where the site performs: 5.08% from position 38.7 against 1.45% from position 60.95 on desktop. Mobile is a fifth of impressions and nearly half of clicks.",
     },
   },
 
   /* -------------------------------------------------------- WHAT NEEDS WORK */
   attention: [
     {
-      tag: "early",
-      title: "Instagram views fell 20% a day, on more content rather than less",
+      tag: "issue",
+      title: "The Book now figure from last cycle does not reproduce",
       body:
-        "424 views a day against 531, from 15 pieces against 10. Average daily reach fell from 210 to 146. Engagement rate moved the other way, 7.72% to 10.66%, and follower growth slowed from +15 to +4.",
+        "The deployed report recorded 23 Book now clicks on the Instagram profile for August 17 – 30 and put the metric at the top of the scoreboard. Re-pulled on September 14, that same window shows no Book now clicks and 2 Call clicks. The 30-day window covering August 15 to September 13 holds the same 2 Call clicks and no Book now clicks, which means this period recorded no profile button activity of any kind.",
       so:
-        "Fewer people reached, more of them engaging. The content is performing with the audience it reaches, so this is a distribution question rather than a content one. Falling reach alongside rising engagement usually means distribution narrowed toward existing followers, but the split runs the other way: 3,421 views from non-followers against 2,318 from followers. One more period will show whether this is a distribution change or just a quiet two weeks.",
+        "The 23 was not a restatement, it was a misread. Every caption published this period directs to the link in bio rather than to a profile button, so the native buttons were probably never the path. The metric is removed from this report rather than reported as zero against a benchmark that does not exist. Before it returns, confirm whether the Instagram profile action buttons are configured at all, and whether the link in bio is the tracked Short.io link.",
     },
     {
       tag: "issue",
-      title: "The 5th Avenue email list bounced at 13%",
+      title: "Short.io click data carries automated traffic that the native filter is not catching",
       body:
-        "99 of 774 sends on August 1 did not reach an inbox. The other three location lists bounced between 4% and 6% on the same day with the same content. 35th Street, the smallest list at 154 contacts, opened lowest at 43%, as it did last period.",
+        "Short.io reports human clicks rising from 109 to 420 across the two windows, a 285% increase. The country split is United States 209 and the Netherlands 153 this period, against 68 and 27 last. The 30-day city breakdown puts Groningen at 115, Ashburn at 54, The Dalles at 12 and Amsterdam at 6, which is 36% of all 519 human clicks in that window. The catch-all path went from 4 clicks to 113.",
       so:
-        "A 13% bounce rate is a list problem, not a content one. Sustained at that level it affects deliverability for every campaign sent from the account, not just this list. Worth cleaning before the next send. It sits outside the reporting window and is here because it is actionable, not because it is comparable.",
+        "No total and no period-over-period change is reported for short links this cycle. The named-link counts are shown as raw source figures with the limitation stated. The exports do not contain a path-by-country cross-tab, so the automated share cannot be removed per link without estimating, and nothing in this report is estimated. The fix is a filtered export: Short.io's statistics pages carry a Filters control, and a country filter applied at export would make these figures reportable again.",
     },
     {
-      tag: "expected",
-      title: "Link clicks fell 24% a day alongside Instagram reach",
+      tag: "issue",
+      title: "Email opened well and was not acted on",
       body:
-        "101 clicks against 143, or 7.2 a day against 9.5. 94 came from the six named links, and the four location links took 73 of those. That is 78% of named clicks, unchanged from last period.",
+        "2 campaigns went to NYCDS lists inside the window. 2,900 sends, 1,357 opens at 50% of delivered, 16 clicks at 0.6%. RH NYCDS did not reach 182 of 2,856 contacts, 6%, which is in line with the account. White Party Email 2 did not reach 11 of 44, 25%, on a list small enough that the rate moves on single addresses. The 5th Avenue list flagged at 13% in the last report was recommended for cleaning and that has not been confirmed.",
       so:
-        "Instagram drives most of these links, and Instagram views fell by a similar 20%. The two move together, which points at reach rather than the links themselves. The location share holding steady says the behavior is unchanged even as the volume dropped.",
+        "A 50% open rate against a 0.6% click rate is a content and call-to-action question rather than a list one. The audience is reading the mail and not moving from it. That is the first thing to fix, and there is finally a comparable send to measure the fix against. The 5th Avenue cleaning is still open from last cycle.",
     },
     {
-      tag: "early",
-      title: "Last cycle\u2019s team-content recommendation appears not to have been actioned",
+      tag: "issue",
+      title: "The periodontal account is showing up in three NYCDS sources, and a test page is live",
       body:
-        "The previous report recommended two more team and culture posts, to test whether the August 6 BBQ carousel result repeated or was a one-off. No team content appears in the 15 pieces published this period, and the two strongest pieces are both clinical.",
+        "Short.io returned six links belonging to the periodontal practice inside the NYCDS domain, together drawing 86 clicks. Constant Contact returned RH 2.0, a 3,412-send campaign to that practice\u2019s list, alongside the two NYCDS sends. And the landing page report shows /murray-hill-booking at 8 views with a page titled Murray Hill Booking at 13 views, on the NYCDS site. Separately, /doctors/test-doctor drew 15 views, the fifth most visited landing page this period.",
       so:
-        "The test has not been run, so the question that recommendation opened is still open. Worth confirming with the practice whether it was scheduled and slipped or declined, before the recommendation is repeated for a third cycle.",
+        "All three are stripped from the figures in this report, but the pull itself does not filter by client, so the stripping happens by hand every cycle and depends on someone recognizing the names. That is how RH 2.0 nearly entered this report as an NYCDS campaign. Worth filtering at the source in Short.io and Constant Contact rather than at the desk. The Murray Hill page is a separate matter: it is live on the NYCDS site and should not be. So is the test page.",
     },
     {
       tag: "limitation",
-      title: "Several sources were not pulled this cycle, and last period\u2019s search figures have been restated",
+      title: "Doctor pages exist at two URL patterns and the search and website reports disagree",
       body:
-        "Facebook, Search Console device and query breakdowns, Search Console daily impressions, Instagram reel retention, follower demographics and Short.io city data are absent from this report. The brand / non-brand search split depends on the query export and is not reported. Separately, the previous report recorded 117 search clicks on 5,446 impressions; complete, that window holds 125 clicks on 6,367 impressions.",
+        "Search Console reports doctor pages at /dr-sherman-farahani and the website report shows the same doctor at /doctors/dr-sherman-farahani, with 28 views against 9 on the shorter path. Six doctors appear at the short pattern in search; at least two appear at both patterns in the website report.",
       so:
-        "Nothing has been estimated to fill the gaps. Those sections are absent rather than shown as empty frames. The restatement matters because the previous report treated falling impressions as its main open question. On the corrected figures, impressions rose 11% a day into this period. Restoring the missing exports to the weekly pull is on the next-moves list.",
+        "Two live URLs for the same content split the ranking signal between them and make the two reports hard to reconcile. Worth confirming which pattern is canonical and redirecting the other. It has no effect on the figures in this report, because search and website totals are each taken from their own complete export.",
+    },
+    {
+      tag: "expected",
+      title: "Instagram views fell 24%, on the same volume of content",
+      body:
+        "324 views a day against 424, from 14 pieces against 15. Average daily reach fell from 147 to 118. Engagement rate moved the other way, 10.66% to 11.62%, and follower growth rose from +4 to +6. Non-followers took 2,419 of 4,318 categorized views, 56%, against 60% last period.",
+      so:
+        "Second consecutive period of falling reach alongside rising engagement. The pattern from last cycle holds: the content is performing with the audience it reaches, so this is a distribution question rather than a content one. Two periods makes it a trend rather than a quiet fortnight, and the non-follower share slipping 4 points is the first sign that distribution is narrowing toward existing followers.",
     },
   ],
 
   /* --------------------------------------------------------- WHAT WE LEARNED */
   learned: [
-    { f: "22.3%", u: "click rate on doctor pages", t: "against 1.71% across the site. 27 clicks from 121 impressions in Google, and the strongest single finding in this report." },
-    { f: "23", u: "Book now clicks", t: "on the Instagram profile, plus 73 clicks through to a location page. This is the account\u2019s booking-intent measure and the number to beat next cycle." },
-    { f: "25.4", u: "website visits a day", t: "against 25.3 in the period before. Flat, in a month with no advertising in either half." },
-    { f: "10.66%", u: "Instagram engagement rate", t: "up from 7.72%. Reach fell, and the share of people engaging with what they saw rose nearly three points. The content is performing well with the audience it reaches." },
-    { f: "78%", u: "of named link clicks", t: "went to a specific office rather than the main site, unchanged from last period. People choose a location before they arrive." },
-    { f: "+11%", u: "search impressions a day", t: "442 against 398. Google showed the site more often while clicks held near flat." },
+    { f: "2.15%", u: "search click rate", t: "up from 1.64%. The site appeared 45% less often and converted a greater share of what it did get. Average position improved from 62.8 to 56.6." },
+    { f: "8.6%", u: "click rate on doctor pages", t: "against 2.15% across the site, from positions between 9th and 13th. Counted across all seven doctor pages, the same way it will be counted every cycle." },
+    { f: "5.08%", u: "click rate on mobile", t: "against 1.45% on desktop. Mobile is a fifth of the impressions and nearly half of the clicks, and ranks 22 places higher." },
+    { f: "11.62%", u: "Instagram engagement rate", t: "up from 10.66%. Reach fell and the share of people engaging with what they saw rose. The content is performing well with the audience it reaches." },
+    { f: "607", u: "accounts reached by the White Party pairing", t: "a carousel and a reel on the same subject a day apart, against 221 for the strongest single post. The pairing test from last cycle was run and it worked." },
+    { f: "50%", u: "email open rate", t: "across 2 campaigns and 2,900 sends, well above the healthcare benchmark. 16 clicks followed, which is where the next piece of work sits." },
   ],
 
   /* ------------------------------------------------------------- NEXT MOVES */
   moves: [
     {
-      action: "Put a booking link at the top of every doctor page",
-      why: "Doctor pages convert search traffic at 22.3% against 1.71% site-wide, and they already rank on page one. They are the strongest pages the site has, and the shortest path from a search result to a booking.",
-      owner: "Web \u2014 Figment",
-      measure: "Clicks from doctor pages through to the booking system next cycle.",
+      action: "Rebuild the email call to action before the next send",
+      why: "50% of delivered mail was opened and 0.6% was clicked. The audience is reading it. The click path is what is not working, and this is the first send inside a reporting window in three cycles, so there is finally something to measure against.",
+      owner: "Email \u2014 Figment",
+      measure: "Click rate on the next send, against 0.6%.",
     },
     {
-      action: "Clean the 5th Avenue list before the next send",
-      why: "99 of 774 sends did not reach an inbox, against 4\u20136% on the other three lists with identical content. Sustained at that level it affects deliverability for every campaign sent from the account.",
+      action: "Confirm the 5th Avenue list cleaning from last cycle",
+      why: "It was recommended at 13% undelivered on the August 1 send and there has been no confirmation it happened. RH NYCDS came in at 6% this period, which is where the account should sit, so the question is only about that one list.",
       owner: "Email \u2014 Figment, with practice input on list origin",
-      measure: "Bounce rate on the next all-location send, against the other three lists.",
+      measure: "Undelivered share on the next 5th Avenue send, against 6% on RH NYCDS this period.",
     },
     {
-      action: "Pair a reel and a post on one clinical subject",
-      why: "The August 28 post led on views and the August 27 reel led on engagement, a day apart on related subjects. Running the pairing on purpose shows whether the two formats reach different people or the same ones twice.",
-      owner: "Social \u2014 Figment",
-      measure: "Combined reach against the 390 and 430 those two pieces reached separately.",
-    },
-    {
-      action: "Confirm the team-content test with the practice",
-      why: "We recommended it last cycle and no team content was published. Repeating a recommendation nobody acted on wastes a cycle. Knowing whether it slipped or was declined settles it either way.",
-      owner: "Account \u2014 Figment, with Adriana",
-      measure: "A yes or no before the next content calendar is set.",
-    },
-    {
-      action: "Restore the missing exports to the weekly pull",
-      why: "Facebook, Search Console device and query data, daily impressions, reel retention and Short.io cities were all missing this cycle. The brand / non-brand search split cannot be reported without the query export.",
+      action: "Re-export Short.io with a country filter applied",
+      why: "The named-link figures cannot carry a total or a comparison while 36% of the domain's clicks come from Groningen, Ashburn, The Dalles and Amsterdam. Short.io's statistics pages have a Filters control, and applying it at export makes the section reportable again.",
       owner: "Reporting \u2014 Figment",
-      measure: "A complete export set at the start of the next cycle.",
+      measure: "A filtered export for both windows at the start of the next cycle.",
+    },
+    {
+      action: "Take down the test doctor page and resolve the Murray Hill path",
+      why: "/doctors/test-doctor is the fifth most visited landing page on the site. /murray-hill-booking belongs to the periodontal account and is live here with a titled page behind it. Both are drawing real traffic on the wrong property.",
+      owner: "Web \u2014 Figment",
+      measure: "Neither path appearing in the landing page report next cycle.",
+    },
+    {
+      action: "Confirm Instagram profile buttons and the tracked link in bio",
+      why: "The Book now metric reported last cycle does not reproduce and the account shows no profile button activity at all in 30 days. Every caption directs to the link in bio, so the measure may belong on the short link rather than the button.",
+      owner: "Social \u2014 Figment, with practice access",
+      measure: "A configured and confirmed booking path, tracked, before it returns to the scoreboard.",
+    },
+    {
+      action: "Run the format pairing again on a clinical subject",
+      why: "The White Party carousel and reel reached 607 accounts across two formats a day apart, against 221 for the strongest single clinical post. The test worked on an event subject. Whether it carries to a treatment subject is the open question.",
+      owner: "Social \u2014 Figment",
+      measure: "Combined reach on the next pairing, against 607.",
     },
   ],
 
@@ -435,98 +465,145 @@ export const REPORT = {
   detail: {
     /* Panel subtitles. Dates live here, never in page.tsx. */
     subtitles: {
-      instagram: "August 17 \u2013 30 \u00b7 account totals from Metricool",
-      search: "August 17 \u2013 30 \u00b7 Google Search Console",
-      website: "August 17 \u2013 30 \u00b7 Google Analytics",
-      links: "August 17 \u2013 30 \u00b7 Short.io",
+      instagram: "August 31 \u2013 September 13 \u00b7 account totals from Metricool",
+      search: "August 31 \u2013 September 13 \u00b7 Google Search Console",
+      website: "August 31 \u2013 September 13 \u00b7 Google Analytics",
+      links: "August 31 \u2013 September 13 \u00b7 Short.io",
     },
 
     instagram: {
       kv: [
-        { k: "Views", v: "5,934" },
-        { k: "Accounts engaged", v: "133" },
-        { k: "Avg reach / day", v: "146" },
-        { k: "Followers", v: "754" },
-        { k: "Content published", v: "15" },
-        { k: "Book now clicks", v: "23" },
+        { k: "Views", v: "4,532" },
+        { k: "Accounts engaged", v: "127" },
+        { k: "Avg reach / day", v: "118" },
+        { k: "Followers", v: "760" },
+        { k: "Content published", v: "14" },
+        { k: "Interactions", v: "192" },
       ],
       publishedChart: {
         title: "What was published",
-        note: "15 pieces across three formats, up from 10 in the period before.",
+        note: "14 pieces across three formats, against 15 in the period before.",
       },
       published: [
-        { label: "Stories", value: 9 },
-        { label: "Reels", value: 4 },
-        { label: "Feed posts", value: 2 },
+        { label: "Stories", value: 8 },
+        { label: "Reels", value: 3 },
+        { label: "Feed posts", value: 3 },
       ],
       postsChart: {
-        title: "The six strongest pieces this period",
+        title: "The six feed pieces published this period",
         note: "Ranked by views. Engagement is interactions divided by reach.",
       },
       posts: [
-        { t: "The final smile is only part of the story", f: "Post", d: "Aug 28", v: "1,102", r: "390", i: "27", e: "6.9%" },
-        { t: "The doctor. The process. The final result.", f: "Reel", d: "Aug 27", v: "878", r: "430", i: "47", e: "10.9%" },
-        { t: "The best technology doesn\u2019t make care feel complicated", f: "Reel", d: "Aug 21", v: "339", r: "178", i: "21", e: "11.8%" },
-        { t: "What makes you trust someone with your smile?", f: "Reel", d: "Aug 20", v: "336", r: "221", i: "14", e: "6.3%" },
-        { t: "There\u2019s a shift happening in cosmetic dentistry", f: "Post", d: "Aug 19", v: "289", r: "117", i: "8", e: "6.8%" },
-        { t: "What it feels like to finally feel good", f: "Reel", d: "Aug 24", v: "188", r: "100", i: "9", e: "9.0%" },
+        { t: "A transformation like this starts long before procedure day", f: "Post", d: "Sep 10", v: "640", r: "221", i: "18", e: "8.1%" },
+        { t: "We had such a great time joining Dan\u2019s Papers White Party", f: "Post", d: "Sep 2", v: "629", r: "223", i: "30", e: "13.5%" },
+        { t: "A little glimpse of NYCDS after hours", f: "Reel", d: "Sep 3", v: "590", r: "384", i: "30", e: "7.8%" },
+        { t: "Wondering which is right for you: veneers or bonding?", f: "Reel", d: "Sep 9", v: "251", r: "145", i: "17", e: "11.7%" },
+        { t: "Dental anxiety? Not here.", f: "Reel", d: "Sep 5", v: "197", r: "121", i: "9", e: "7.4%" },
+        { t: "Great care is about more than the treatment itself", f: "Post", d: "Sep 8", v: "168", r: "93", i: "5", e: "5.4%" },
       ],
       interactionsChart: {
-        title: "Where the interactions came from",
-        note: "218 interactions across the period, by format. Four reels drew nearly two thirds of them.",
+        title: "Feed posts overtook reels for the first time",
+        note: "192 interactions across the period, by format. Feed posts drew 83 against 46 last period, while reels fell from 137 to 76.",
       },
       interactions: [
-        { label: "Reels", value: 137 },
-        { label: "Feed posts", value: 46 },
-        { label: "Stories", value: 35 },
+        { label: "Feed posts", value: 83 },
+        { label: "Reels", value: 76 },
+        { label: "Stories", value: 33 },
       ],
       viewsChart: {
         title: "Views by format",
-        note: "Metricool\u2019s format breakdown totals 5,774 against the account figure of 5,934. The two are measured differently, so this shows share and is never summed into a total.",
+        note: "Metricool\u2019s format breakdown totals 4,384 against the account figure of 4,532. The two are measured differently, so this shows share and is never summed into a total.",
       },
       viewsByFormat: [
-        { label: "Reels", value: 2369 },
-        { label: "Carousels", value: 1765 },
-        { label: "Stories", value: 1307 },
-        { label: "Feed posts", value: 333 },
+        { label: "Carousels", value: 1759 },
+        { label: "Reels", value: 1592 },
+        { label: "Stories", value: 704 },
+        { label: "Feed posts", value: 329 },
       ],
       storiesTitle: "Stories",
       stories:
-        "Nine stories drew 1,307 views and 35 interactions. Stories carry more volume than feed posts, but they still work as filler between posts rather than as a channel that drives engagement.",
+        "8 stories drew 246 impressions across 244 accounts and 1 reply, and 33 interactions in Metricool\u2019s account view. Stories carry far less volume than the feed this period, reversing the pattern from the last report.",
       note:
-        "Account totals are Metricool\u2019s account-level figures for August 17 \u2013 30, not a sum of individual posts. Post-level rows are used only to rank content against content. Reel retention, follower age, gender and city were not in this export and are not shown. Non-followers accounted for 3,421 of the views against 2,318 from followers, the reverse of what a narrowing reach would produce.",
+        "Account totals are Metricool\u2019s account-level figures for August 31 \u2013 September 13, not a sum of individual posts. Metricool\u2019s breakdowns do not reconcile to the account total: 4,384 by content type and 4,318 by follower type, against 4,532. They show share and are never summed. Non-followers accounted for 2,419 of the categorized views against 1,893 from followers, a 56% share against 60% last period. Reel retention and follower age and gender were not in this export and are not shown. The Ad column is empty in both the views and interactions views, which is the confirmation that no paid ran.",
       /* The client build names the source and drops the reconciliation caveat,
          which raises a question about accuracy without giving the reader any
          way to act on it. Provenance is kept; the internal note keeps the rest. */
       clientNote:
-        "Account totals are Metricool\u2019s account-level figures for August 17 \u2013 30, rather than a sum of the individual posts. Post-level rows are used only to rank content against content. Reel retention and follower demographics were not included in this export and are not shown.",
+        "Account totals are Metricool\u2019s account-level figures for August 31 \u2013 September 13, rather than a sum of the individual posts. Post-level rows are used only to rank content against content. Non-followers accounted for 2,419 of the categorized views against 1,893 from followers. Reel retention and follower demographics were not included in this export and are not shown.",
     },
 
     search: {
       kv: [
-        { k: "Clicks", v: "106" },
-        { k: "Impressions", v: "6,195" },
-        { k: "Click rate", v: "1.71%" },
+        { k: "Clicks", v: "78" },
+        { k: "Impressions", v: "3,621" },
+        { k: "Click rate", v: "2.15%" },
+      ],
+      /* RESTORED this cycle: daily impressions series, device table, query
+         table, and the Position column on the pages table. */
+      impressionsChart: {
+        title: "Impressions per day",
+        note: "Daily impressions across the 14 days. The window opened at 394 and closed at 169, with no single day carrying the fall.",
+      },
+      impressionsSeries: [
+        { d: "Aug 31", v: 394 }, { d: "Sep 1", v: 275 }, { d: "Sep 2", v: 220 },
+        { d: "Sep 3", v: 419 }, { d: "Sep 4", v: 202 }, { d: "Sep 5", v: 171 },
+        { d: "Sep 6", v: 235 }, { d: "Sep 7", v: 325 }, { d: "Sep 8", v: 379 },
+        { d: "Sep 9", v: 236 }, { d: "Sep 10", v: 151 }, { d: "Sep 11", v: 306 },
+        { d: "Sep 12", v: 139 }, { d: "Sep 13", v: 169 },
       ],
       pagesChart: {
         title: "The homepage collects the impressions; the doctor pages collect the clicks",
-        note: "Clicks and impressions by page in Google Search. The three doctor pages together drew 27 clicks from 121 impressions.",
+        note: "Clicks, impressions, click rate and average position by page. The seven doctor pages together drew 29 clicks from 336 impressions.",
       },
       pages: [
-        { p: "Homepage", c: "60", i: "4,912", r: "1.2%" },
-        { p: "Dr. James Eisdorfer", c: "12", i: "47", r: "25.5%" },
-        { p: "Dr. Sherman Farahani", c: "8", i: "27", r: "29.6%" },
-        { p: "Dr. Maria Tamay", c: "7", i: "47", r: "14.9%" },
-        { p: "Locations", c: "5", i: "267", r: "1.9%" },
+        { p: "Homepage", c: "38", i: "2,873", r: "1.32%", pos: "58.6" },
+        { p: "Dr. Maria Tamay", c: "9", i: "44", r: "20.45%", pos: "9.7" },
+        { p: "Meet Our Dentists", c: "5", i: "275", r: "1.82%", pos: "36.9" },
+        { p: "Dr. Michael Chesner", c: "4", i: "80", r: "5.00%", pos: "8.8" },
+        { p: "Dr. Ben Elchami", c: "4", i: "62", r: "6.45%", pos: "12.3" },
+        { p: "Dr. Sherman Farahani", c: "4", i: "35", r: "11.43%", pos: "9.7" },
+        { p: "Dr. James Eisdorfer", c: "4", i: "33", r: "12.12%", pos: "12.5" },
+        { p: "Dr. Doris Giraldo", c: "3", i: "37", r: "8.11%", pos: "11.4" },
+        { p: "Dr. Dana Kapparova", c: "1", i: "45", r: "2.22%", pos: "9.1" },
       ],
+      devicesChart: {
+        title: "Mobile ranks 22 places higher and converts three times better",
+        note: "Clicks, impressions, click rate and average position by device. Mobile is a fifth of the impressions and nearly half of the clicks.",
+      },
+      devices: [
+        { d: "Desktop", c: "42", i: "2,905", r: "1.45%", pos: "60.9" },
+        { d: "Mobile", c: "36", i: "709", r: "5.08%", pos: "38.7" },
+        { d: "Tablet", c: "0", i: "7", r: "0%", pos: "52.4" },
+      ],
+      queriesChart: {
+        title: "Searches that name the practice convert; general searches do not",
+        note: "From the query export, which holds 25 of the 78 clicks and 2,807 of the 3,621 impressions. Shares are reliable; totals are not, and are taken from the daily chart export instead.",
+      },
+      queries: [
+        { q: "nyc dental smiles", c: "12", i: "33", r: "36.36%", pos: "1.5" },
+        { q: "nyc dental smile team", c: "4", i: "8", r: "50.00%", pos: "11.9" },
+        { q: "nyc dental smile", c: "2", i: "7", r: "28.57%", pos: "1.3" },
+        { q: "new dimension dentistry", c: "2", i: "6", r: "33.33%", pos: "1.0" },
+        { q: "dr giraldo dentist", c: "2", i: "3", r: "66.67%", pos: "3.7" },
+        { q: "dentist new york", c: "0", i: "120", r: "0%", pos: "75.0" },
+        { q: "dentist in new york", c: "0", i: "109", r: "0%", pos: "62.7" },
+      ],
+      brandSplit: {
+        title: "Brand and non-brand",
+        note: "Matched on the practice names and the nine doctor surnames. From the query export, so these are shares within the sample rather than totals.",
+        rows: [
+          { k: "Names the practice or a doctor", c: "16", i: "176", r: "9.09%" },
+          { k: "General searches", c: "9", i: "2,631", r: "0.34%" },
+        ],
+      },
       note:
-        "Totals come from Search Console\u2019s daily chart export, which is complete. Average position across the site is 59.9, weighted by impressions. The homepage\u2019s 4,912 low-ranking impressions dominate that number, so it is not a useful summary of how the site performs. The page table is a sample. Google withheld 75% of clicks and 30% of impressions, so the rows will not sum to the totals. Device and query breakdowns were not pulled this cycle. The comparison figures for August 1 \u2013 16 have been restated to 125 clicks on 6,367 impressions now that August 16 has finished processing.",
+        "Totals come from Search Console\u2019s daily chart export, which is complete. Average position across the site is 56.6, weighted by impressions, improved from 62.8. The homepage\u2019s 2,873 low-ranking impressions dominate that number, so it is not a useful summary of how the site performs. The page and query tables are samples. The query export holds 32% of the clicks and 78% of the impressions, so those rows will not sum to the totals, and the brand split is a share within the sample rather than a count of all searches. The comparison figures for August 17 \u2013 30 have been restated to 108 clicks on 6,576 impressions, from 106 on 6,195 in the last report. Doctor-page click rate counts all seven individual doctor pages in both windows; the last report counted three.",
     },
 
     website: {
       kv: [
-        { k: "Sessions", v: "356" },
-        { k: "New visitors", v: "257" },
+        { k: "Sessions", v: "325" },
+        { k: "New visitors", v: "194" },
         { k: "Desktop", v: "73%" },
         { k: "Mobile", v: "27%" },
       ],
@@ -535,15 +612,16 @@ export const REPORT = {
         note: "Sessions by source. Direct means someone typed the address or used a saved link.",
       },
       sources: [
-        { label: "Direct", value: 180 },
-        { label: "Google — organic", value: 125 },
-        { label: "Bing — organic", value: 16 },
-        { label: "Instagram", value: 9 },
-        { label: "nycsmilepass.com", value: 5 },
+        { label: "Direct", value: 169 },
+        { label: "Google — organic", value: 103 },
+        { label: "nycsmilepass.com", value: 14 },
+        { label: "Bing — organic", value: 8 },
+        { label: "Constant Contact", value: 8 },
+        { label: "Instagram", value: 8 },
       ],
       deviceChart: {
         title: "Desktop still dominates the site",
-        note: "Share of sessions by device. Mobile gained seven points on the period before.",
+        note: "Share of sessions by device. Unchanged from the period before at 73% and 27%.",
       },
       deviceSplit: [
         { label: "Desktop", pct: 73 },
@@ -554,77 +632,88 @@ export const REPORT = {
         note: "Views by landing page. Two doctor pages sit in the top five.",
       },
       landing: [
-        { label: "Homepage", value: 327 },
-        { label: "Meet Our Dentists", value: 73 },
-        { label: "Locations", value: 32 },
-        { label: "Dr. James Eisdorfer", value: 21 },
-        { label: "Dr. Ben Elchami", value: 20 },
+        { label: "Homepage", value: 273 },
+        { label: "Meet Our Dentists", value: 59 },
+        { label: "Locations", value: 38 },
+        { label: "Dr. Sherman Farahani", value: 28 },
+        { label: "Dr. Ben Elchami", value: 13 },
       ],
       note:
-        "No paid sessions were recorded in this period or the one before it. Direct traffic at 51% is typical for a practice people already know by name. Landing page views total 624 against 356 sessions, because one visit can land on more than one page. The five pages above account for 473 of those views.",
+        "No paid sessions were recorded in this period or the one before it. Direct traffic at 52% is typical for a practice people already know by name. Constant Contact referrals appear for the first time, at 8 sessions, which follows the campaigns sent inside the window. Landing page views total 521 against 325 sessions, because one visit can land on more than one page. The five pages above account for 411 of those views. Two paths are excluded from the chart and carried in the internal build instead: a test page and a booking path belonging to the periodontal practice.",
     },
 
     links: {
       kv: [
-        { k: "Clicks", v: "101" },
-        { k: "From named links", v: "94" },
-        { k: "To a location page", v: "73" },
+        { k: "60th Street", v: "38" },
+        { k: "58th Street", v: "26" },
+        { k: "5th Avenue", v: "24" },
+        { k: "35th Street", v: "23" },
       ],
       destsChart: {
-        title: "Most link activity goes to a specific office, not the main site",
-        note: "Clicks by destination across the six tracked links.",
+        title: "Clicks by named link",
+        note: "The six tracked NYCDS links. No total and no comparison with the period before is reported this cycle. See the note below.",
       },
       dests: [
-        { label: "58th Street", value: 21 },
-        { label: "Main website", value: 20 },
-        { label: "60th Street", value: 20 },
-        { label: "5th Avenue", value: 17 },
-        { label: "35th Street", value: 15 },
-        { label: "LinkedIn", value: 1 },
+        { label: "60th Street", value: 38 },
+        { label: "58th Street", value: 26 },
+        { label: "5th Avenue", value: 24 },
+        { label: "35th Street", value: 23 },
+        { label: "Main website", value: 7 },
       ],
       note:
-        "Short.io filters automated traffic natively, and the figures above are its human-click count. Six tracked NYCDS links are included. Links belonging to the periodontal practice are excluded from this report, and none appeared in this window. Seven more clicks arrived on untracked paths and are not attributed to a destination. City-level data was not pulled this cycle.",
+        "These are raw per-link counts from Short.io for August 31 \u2013 September 13. No total, no per-day figure and no comparison with the period before is reported this cycle. Short.io\u2019s own filtering left a large share of automated traffic in the data: across the 30 days to September 13, more than a third of the clicks the tool counted as human came from data center locations rather than from people, and the catch-all path rose from 4 clicks to 113. The exports do not break clicks down by link and location together, so the automated share cannot be separated per link without estimating, and nothing in this report is estimated. A filtered export will restore the full section next cycle. Links belonging to the periodontal practice are excluded, and several appeared in this window.",
     },
 
     email: {
-      window: "August 1, 2026 \u00b7 outside this reporting period",
+      window: "August 31 \u2013 September 13, 2026 \u00b7 inside the reporting period",
       note:
-        "No campaign was sent between August 17 and 30. The four location campaigns below went out on August 1 and are shown for reference only. They are not compared with anything else in this report.",
+        "2 campaigns went to NYCDS lists inside the window, the first to fall inside a reporting period in three cycles. A third campaign in the same Constant Contact account, RH 2.0, went to the periodontal practice\u2019s list of 3,412 and is excluded here, in the same way its short links are. Mixing it in would move every rate in the table. The August 1 location sends shown in the last report are not repeated. Percentages are calculated on delivered mail, matching Constant Contact\u2019s own reporting.",
       table: {
         head: ["Campaign", "Sends", "Opens", "Clicks"],
         rows: [
-          ["58th Street", "954", "450 (50%)", "11 (1%)"],
-          ["60th Street", "1,971", "1,090 (58%)", "25 (1%)"],
-          ["5th Avenue", "774", "390 (58%)", "12 (2%)"],
-          ["35th Street", "154", "62 (43%)", "4 (3%)"],
-          ["Total", "3,853", "1,992 (52%)", "52 (1%)"],
+          ["RH NYCDS", "2,856", "1,344 (50%)", "15 (1%)"],
+          ["White Party Email 2", "44", "13 (39%)", "1 (3%)"],
+          ["Total", "2,900", "1,357 (50%)", "16 (0.6%)"],
         ],
       },
       tableInternal: {
         head: ["Campaign", "Sends", "Opens", "Clicks", "Bounces", "Unsub"],
         rows: [
-          ["58th Street", "954", "450 (50%)", "11 (1%)", "51 (5%)", "3"],
-          ["60th Street", "1,971", "1,090 (58%)", "25 (1%)", "76 (4%)", "6"],
-          ["5th Avenue", "774", "390 (58%)", "12 (2%)", "99 (13%)", "4"],
-          ["35th Street", "154", "62 (43%)", "4 (3%)", "9 (6%)", "0"],
-          ["Total", "3,853", "1,992 (52%)", "52 (1%)", "235 (6%)", "13"],
+          ["RH NYCDS", "2,856", "1,344 (50%)", "15 (1%)", "182 (6%)", "0"],
+          ["White Party Email 2", "44", "13 (39%)", "1 (3%)", "11 (25%)", "0"],
+          ["Total", "2,900", "1,357 (50%)", "16 (0.6%)", "193 (7%)", "0"],
         ],
       },
       tableChart: {
-        title: "The August 1 location sends",
-        note: "Open rates run between 43% and 58%, all above the healthcare benchmark. 35th Street is the smallest list at 154 contacts and opens lowest, as it did last period.",
+        title: "The two campaigns sent this period",
+        note: "Open rates are 50% and 39% of delivered mail, both above the healthcare benchmark. Click rate is 0.6% across the two. Nobody unsubscribed.",
       },
     },
 
+    facebook: {
+      /* RESTORED this cycle. Absent from the last report. */
+      subtitle: "August 31 \u2013 September 13 \u00b7 account totals from Metricool",
+      kv: [
+        { k: "Followers", v: "980" },
+        { k: "Views", v: "321" },
+        { k: "Page visits", v: "33" },
+        { k: "Content published", v: "4" },
+      ],
+      note:
+        "Facebook returns to this report after being absent last cycle. Views fell from 632 to 321 on 4 pieces against 5, and page visits rose from 21 to 33. Followers moved from 979 to 980, with 1 acquired and none lost. The page drew 4 reactions across the period. At this scale the figures move on single pieces of content and are reported for completeness rather than as a trend.",
+    },
+
     method: [
-      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 17 \u2013 30, not a sum of individual posts. Metricool\u2019s format breakdowns do not reconcile to the account total: 5,774 by content type and 5,741 by follower type, against 5,934. They show share and are never summed. Post-level figures rank content against content only.", internalOnly: true },
-      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 17 \u2013 30, rather than a sum of the individual posts. Post-level figures are used only to rank content against content, never to build a total.", clientOnly: true },
-      { q: "How engagement rate is calculated", a: "Interactions divided by reach, meaning the share of people who saw something and engaged with it. It is not calculated against follower count, which would flatter the number." },
-      { q: "How link clicks are filtered", a: "Short.io filters automated traffic natively, and the figures reported are its human-click count. Six tracked NYCDS links are included. Periodontal practice links are excluded, and none appeared in this window." },
-      { q: "How search totals are calculated", a: "From Search Console\u2019s daily chart export, which is complete. The page-level table is a sample, because Google withholds low-volume rows. It withheld 75% of clicks and 30% of impressions in this window, so those rows will not sum to the totals." },
-      { q: "Why the search comparison covers sixteen days", a: "Search Console is compared against August 1 \u2013 16 while the website and Instagram are compared against August 2 \u2013 16. That earlier window has also been restated. The previous report was built while August 16 was still processing and recorded 117 clicks on 5,446 impressions, against 125 on 6,367 once complete. Per-day figures are used wherever the window lengths differ." },
-      { q: "Which dates each figure covers", a: "Instagram, search, website and short links all cover August 17 \u2013 30, aligned for the first time this cycle. Email is the exception. No campaign was sent inside the window, so the August 1 sends are shown for reference and compared with nothing." },
-      { q: "What is missing this cycle", a: "No paid campaigns ran, so there is no advertising section. Facebook, Search Console device and query breakdowns, daily search impressions, Instagram reel retention, follower demographics and Short.io city data were not pulled and are absent rather than estimated. The brand / non-brand search split depends on the query export and is not reported." },
+      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 31 \u2013 September 13, not a sum of individual posts. Metricool\u2019s breakdowns do not reconcile to the account total: 4,384 by content type and 4,318 by follower type, against 4,532. They show share and are never summed. Post-level figures rank content against content only.", internalOnly: true },
+      { q: "Where the Instagram totals come from", a: "Account-level figures reported by Metricool for August 31 \u2013 September 13, rather than a sum of the individual posts. Post-level figures are used only to rank content against content, never to build a total.", clientOnly: true },
+      { q: "How engagement rate is calculated", a: "Interactions divided by reach, meaning the share of people who saw something and engaged with it. It is not calculated against follower count, which would flatter the number. This period: 192 interactions against reach of 1,652." },
+      { q: "How the doctor page click rate is calculated", a: "All seven individual doctor pages in Search Console, counted the same way in both windows: 29 clicks from 336 impressions this period, 37 from 326 in the period before. The last report counted the three strongest pages rather than all seven, which reported a higher figure on a basis that changes every cycle. Both windows here are shown on the all-seven basis." },
+      { q: "How search totals are calculated", a: "From Search Console\u2019s daily chart export, which is complete. The page and query tables are samples, because Google withholds low-volume rows. The query export holds 32% of the clicks and 78% of the impressions in this window, so those rows will not sum to the totals and the brand split is a share within the sample rather than a count of all searches." },
+      { q: "Why the search comparison has changed since the last report", a: "Search Console restates recent windows as processing completes. The last report recorded 106 clicks on 6,195 impressions for August 17 \u2013 30. Re-pulled on September 14, that window holds 108 clicks on 6,576 impressions. Every search comparison here uses the restated figures. The window was re-pulled specifically to check for this." },
+      { q: "Why short links carry no total this cycle", a: "Short.io\u2019s own filtering left a large share of automated traffic in the counts. Across the 30 days to September 13, more than a third of the clicks the tool recorded as human came from data center locations rather than from people. The exports do not break clicks down by link and location together, so the automated share cannot be separated per link without estimating. Per-link counts are shown as raw source figures and no total or comparison is reported." },
+      { q: "Which dates each figure covers", a: "Instagram, Facebook, search, website, email and short links all cover August 31 \u2013 September 13. Email and short links are filtered to NYCDS only; the periodontal practice shares both accounts and its campaign and links are excluded. Both this window and the comparison window are 14 days running Monday to Sunday, so totals compare directly with no length adjustment anywhere in this report." },
+      { q: "How NYCDS figures are separated from the periodontal practice", a: "Short.io and Constant Contact are shared accounts covering both practices. Short.io returned six periodontal links inside the NYCDS domain drawing 86 clicks, and Constant Contact returned RH 2.0, a 3,412-send campaign to that practice\u2019s list, alongside the two NYCDS sends. Neither is counted here. Short links are filtered to the six named NYCDS links; email to campaigns sent to NYCDS lists. This is about keeping the rates accurate: a list of 3,412 with different contacts and a different subject moves every percentage in the email table. Google Search Console, Analytics and Metricool are separate properties and need no filtering." },
+      { q: "What is missing this cycle", a: "No paid campaigns ran, so there is no advertising section. Metricool\u2019s Ad column is empty in both the views and interactions views, which is the confirmation. Instagram reel retention and follower age and gender were not pulled and are absent rather than estimated. Instagram profile button activity is not reported: the figure carried in the last report does not reproduce, and the account shows no profile button activity across the last 30 days." },
     ] as { q: string; a: string; internalOnly?: boolean; clientOnly?: boolean }[],
   },
 };
@@ -654,9 +743,10 @@ export const numOf = (id: string) => ORDINALS[NAV.findIndex((n) => n.id === id)]
 export const has = (id: string) => NAV.some((n) => n.id === id);
 
 export const SOURCE_WINDOWS = [
-  { k: "Instagram", v: "Aug 17 – 30", p: "Account-level figures from Metricool. Facebook was not pulled this cycle." },
-  { k: "Search", v: "Aug 17 – 30", p: "Compared against Aug 1 – 16, a day wider than the other comparisons, and restated since the last report." },
-  { k: "Website", v: "Aug 17 – 30", p: "Full days." },
-  { k: "Short links", v: "Aug 17 – 30", p: "Aligned to the reporting window for the first time." },
-  { k: "Email", v: "Aug 1 only", p: "No campaign was sent inside the window. Shown for reference and compared with nothing." },
+  { k: "Instagram", v: "Aug 31 – Sep 13", p: "Account-level figures from Metricool." },
+  { k: "Facebook", v: "Aug 31 – Sep 13", p: "Account-level figures from Metricool. Restored this cycle after being absent from the last report." },
+  { k: "Search", v: "Aug 31 – Sep 13", p: "Compared against Aug 17 – 30, re-pulled and restated to 108 clicks on 6,576 impressions." },
+  { k: "Website", v: "Aug 31 – Sep 13", p: "Full days." },
+  { k: "Email", v: "Aug 31 – Sep 13", p: "2 NYCDS campaigns sent inside the window, the first in three cycles. A periodontal-practice campaign in the same account is excluded." },
+  { k: "Short links", v: "Aug 31 – Sep 13", p: "Per-link counts only. No total or comparison this cycle." },
 ];

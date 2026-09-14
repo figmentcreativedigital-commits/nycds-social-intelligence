@@ -667,6 +667,54 @@ function PeriodChart({
   );
 }
 
+/** Compact daily line for a single series. Restored this cycle to carry the
+ *  Search Console impressions-per-day view.
+ *
+ *  Unlike PeriodChart this scales to its own maximum rather than a fixed
+ *  ceiling. PeriodChart holds 60 so the shape stays comparable between reports;
+ *  impressions move by thousands between cycles, so a shared ceiling would
+ *  flatten the line to nothing. The ceiling rounds up to a clean step so the
+ *  gridline labels stay readable. */
+function Sparkline({ series, label }: { series: { d: string; v: number }[]; label: string }) {
+  const W = 720, H = 158, L = 44, R = 14, T = 20, B = 30;
+  const peak = series.reduce((m, p) => Math.max(m, p.v), 0);
+  const step = peak <= 50 ? 10 : peak <= 250 ? 50 : peak <= 1000 ? 100 : 500;
+  const max = Math.max(step, Math.ceil(peak / step) * step);
+  const x = (i: number) => L + (i / Math.max(series.length - 1, 1)) * (W - L - R);
+  const y = (v: number) => H - B - (v / max) * (H - T - B);
+
+  const line = series.map((p, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
+  const area = `${line} L${x(series.length - 1).toFixed(1)},${H - B} L${x(0).toFixed(1)},${H - B} Z`;
+  const avg = series.reduce((s, p) => s + p.v, 0) / series.length;
+
+  return (
+    <svg
+      className="pl-svg" viewBox={`0 0 ${W} ${H}`} role="img"
+      aria-label={`${label} from ${series[0].d} to ${series[series.length - 1].d}. Averaged ${avg.toFixed(0)} a day, peaking at ${peak}.`}
+    >
+      {[0, max / 2, max].map((g) => (
+        <g key={g}>
+          <line x1={L} x2={W - R} y1={y(g)} y2={y(g)} stroke="#DED3C9" strokeWidth="1" />
+          <text x={L - 7} y={y(g) + 3.5} fontSize="10" fill="#6E6268" textAnchor="end">{g}</text>
+        </g>
+      ))}
+
+      <path d={area} fill="rgba(111,80,96,0.10)" />
+      <path d={line} fill="none" stroke="#6F5060" strokeWidth="1.9" strokeLinejoin="round" strokeLinecap="round" />
+
+      <line x1={x(0)} x2={x(series.length - 1)} y1={y(avg)} y2={y(avg)} stroke="#4E3846" strokeWidth="1.5" strokeDasharray="5 4" />
+      <text x={x(series.length - 1) - 2} y={y(avg) - 7} fontSize="11" fontWeight="700" fill="#4E3846" textAnchor="end">{avg.toFixed(0)} a day</text>
+
+      {[0, series.length - 1].map((i) => (
+        <text key={i} x={x(i)} y={H - 10} fontSize="10.5" fill="#6E6268"
+              textAnchor={i === 0 ? "start" : "end"}>
+          {series[i].d}
+        </text>
+      ))}
+    </svg>
+  );
+}
+
 /** Post gallery. Images live in /public/posts/. If a file is not there yet the
  *  card falls back to a labelled placeholder rather than a broken image, so the
  *  report is publishable before the assets are dropped in. */
@@ -994,19 +1042,78 @@ export default function Report() {
               <Note>{IS_INTERNAL ? d.instagram.note : d.instagram.clientNote}</Note>
             </Disclosure>
 
+            <Disclosure title="Facebook" subtitle={d.facebook.subtitle}>
+              <KV items={d.facebook.kv} />
+              <Note>{d.facebook.note}</Note>
+            </Disclosure>
+
             <Disclosure title="Search" subtitle={REPORT.detail.subtitles.search}>
               <KV items={d.search.kv} />
+              <Chart title={d.search.impressionsChart.title} note={d.search.impressionsChart.note}>
+                <Sparkline series={d.search.impressionsSeries} label="Search impressions per day" />
+              </Chart>
               <Chart title={d.search.pagesChart.title} note={d.search.pagesChart.note}>
                 <div className="t-wrap">
                   <table className="t">
                     <thead>
-                      <tr><th>Page</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th></tr>
+                      <tr><th>Page</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th><th className="n">Avg position</th></tr>
                     </thead>
                     <tbody>
                       {d.search.pages.map((p) => (
                         <tr key={p.p}>
                           <td>{p.p}</td><td className="n">{p.c}</td><td className="n">{p.i}</td>
-                          <td className="n">{p.r}</td>
+                          <td className="n">{p.r}</td><td className="n">{p.pos}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Chart>
+              <Chart title={d.search.devicesChart.title} note={d.search.devicesChart.note}>
+                <div className="t-wrap">
+                  <table className="t">
+                    <thead>
+                      <tr><th>Device</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th><th className="n">Avg position</th></tr>
+                    </thead>
+                    <tbody>
+                      {d.search.devices.map((v) => (
+                        <tr key={v.d}>
+                          <td>{v.d}</td><td className="n">{v.c}</td><td className="n">{v.i}</td>
+                          <td className="n">{v.r}</td><td className="n">{v.pos}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Chart>
+              <Chart title={d.search.brandSplit.title} note={d.search.brandSplit.note}>
+                <div className="t-wrap">
+                  <table className="t">
+                    <thead>
+                      <tr><th>Search type</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th></tr>
+                    </thead>
+                    <tbody>
+                      {d.search.brandSplit.rows.map((v) => (
+                        <tr key={v.k}>
+                          <td>{v.k}</td><td className="n">{v.c}</td><td className="n">{v.i}</td>
+                          <td className="n">{v.r}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Chart>
+              <Chart title={d.search.queriesChart.title} note={d.search.queriesChart.note}>
+                <div className="t-wrap">
+                  <table className="t">
+                    <thead>
+                      <tr><th>Query</th><th className="n">Clicks</th><th className="n">Impressions</th><th className="n">Click rate</th><th className="n">Avg position</th></tr>
+                    </thead>
+                    <tbody>
+                      {d.search.queries.map((v) => (
+                        <tr key={v.q}>
+                          <td>{v.q}</td><td className="n">{v.c}</td><td className="n">{v.i}</td>
+                          <td className="n">{v.r}</td><td className="n">{v.pos}</td>
                         </tr>
                       ))}
                     </tbody>
