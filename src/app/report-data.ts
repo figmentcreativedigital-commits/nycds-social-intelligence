@@ -101,7 +101,7 @@ export const REPORT = {
   copy: {
     scoreboard: {
       title: "The numbers that matter, and what each one means",
-      lede: "Nine measures. Both windows are the same length this cycle, so every comparison below is a direct one.",
+      lede: "Ten measures. Both windows are the same length this cycle, so every comparison below is a direct one, apart from the booking links, which are new.",
     },
     worked: {
       title: "Search got smaller and sharper, and the White Party ran as a pair",
@@ -113,7 +113,7 @@ export const REPORT = {
     },
     learned: {
       title: "What we learned",
-      lede: "Six things worth carrying into the next cycle.",
+      lede: "Seven things worth carrying into the next cycle.",
     },
     moves: {
       title: "Recommended next moves",
@@ -171,6 +171,16 @@ export const REPORT = {
 
   /* ------------------------------------------------------------ SCOREBOARD */
   scoreboard: [
+    {
+      metric: "Booking link clicks",
+      value: "86",
+      sub: "Four locations, Short.io",
+      dir: "none",
+      change: "First cycle reported \u00b7 links went live inside the period",
+      reading:
+        "Clicks that reached a booking calendar or booking page. Lenox Hill 26, Murray Hill 21, Plaza District 20, Upper East Side 19. The links went live partway through the window, so this is a part-period baseline rather than a full 14 days.",
+      tone: "tone-good",
+    },
     {
       metric: "Search click rate",
       value: "2.15%",
@@ -375,7 +385,7 @@ export const REPORT = {
       body:
         "Short.io reports human clicks rising from 109 to 420 across the two windows, a 285% increase. The country split is United States 209 and the Netherlands 153 this period, against 68 and 27 last. The 30-day city breakdown puts Groningen at 115, Ashburn at 54, The Dalles at 12 and Amsterdam at 6, which is 36% of all 519 human clicks in that window. The catch-all path went from 4 clicks to 113.",
       so:
-        "No total and no period-over-period change is reported for short links this cycle. The named-link counts are shown as raw source figures with the limitation stated. The exports do not contain a path-by-country cross-tab, so the automated share cannot be removed per link without estimating, and nothing in this report is estimated. The fix is a filtered export: Short.io's statistics pages carry a Filters control, and a country filter applied at export would make these figures reportable again.",
+        "No domain total and no period-over-period change is reported for short links this cycle. Per-link counts are shown as raw source figures with the limitation stated. The exports do not contain a path-by-country cross-tab, so the automated share cannot be removed per link without estimating, and nothing in this report is estimated. Two routes out, both one export away: Short.io's statistics pages carry a Filters control, so a country filter at export removes most of it. Better still, the four new booking links are tagged from the locations page, and 98 clicks over the 30 days arrived carrying those parameters. Automated traffic does not append tracking parameters, so a UTM-filtered export isolates site-originated human clicks directly.",
     },
     {
       tag: "issue",
@@ -387,11 +397,11 @@ export const REPORT = {
     },
     {
       tag: "issue",
-      title: "The periodontal account is showing up in three NYCDS sources, and a test page is live",
+      title: "Two booking links resolve to the same calendar, and it is not clear which is wrong",
       body:
-        "Short.io returned six links belonging to the periodontal practice inside the NYCDS domain, together drawing 86 clicks. Constant Contact returned RH 2.0, a 3,412-send campaign to that practice\u2019s list, alongside the two NYCDS sends. And the landing page report shows /murray-hill-booking at 8 views with a page titled Murray Hill Booking at 13 views, on the NYCDS site. Separately, /doctors/test-doctor drew 15 views, the fifth most visited landing page this period.",
+        "/all-locations-booking-weave and /ues-booking-weave both resolve to Weave calendar 646d6584. Either the all-locations link is sending every location to the Upper East Side book, or 646d6584 is the group-wide calendar and the Upper East Side link is the one pointing somewhere too broad. From outside the account the two readings look identical. Murray Hill is also the only one of the four that points at a page on the NYCDS site rather than at a Weave calendar. Separately and unrelated, /doctors/test-doctor is live and drew 15 views, the fifth most visited landing page this period.",
       so:
-        "All three are stripped from the figures in this report, but the pull itself does not filter by client, so the stripping happens by hand every cycle and depends on someone recognizing the names. That is how RH 2.0 nearly entered this report as an NYCDS campaign. Worth filtering at the source in Short.io and Constant Contact rather than at the desk. The Murray Hill page is a separate matter: it is live on the NYCDS site and should not be. So is the test page.",
+        "Both links are taking appointments now, so this is worth settling before either reading gets built on. The Murray Hill difference may be deliberate if that page carries the booking embed. The test page should come down regardless.",
     },
     {
       tag: "limitation",
@@ -413,6 +423,7 @@ export const REPORT = {
 
   /* --------------------------------------------------------- WHAT WE LEARNED */
   learned: [
+    { f: "86", u: "clicks on the new booking links", t: "across the four locations, in a part-period. These went live inside the window and give the practice its first direct measure of booking intent." },
     { f: "2.15%", u: "search click rate", t: "up from 1.64%. The site appeared 45% less often and converted a greater share of what it did get. Average position improved from 62.8 to 56.6." },
     { f: "8.6%", u: "click rate on doctor pages", t: "against 2.15% across the site, from positions between 9th and 13th. Counted across all seven doctor pages, the same way it will be counted every cycle." },
     { f: "5.08%", u: "click rate on mobile", t: "against 1.45% on desktop. Mobile is a fifth of the impressions and nearly half of the clicks, and ranks 22 places higher." },
@@ -436,16 +447,16 @@ export const REPORT = {
       measure: "Undelivered share on the next 5th Avenue send, against 6% on RH NYCDS this period.",
     },
     {
-      action: "Re-export Short.io with a country filter applied",
-      why: "The named-link figures cannot carry a total or a comparison while 36% of the domain's clicks come from Groningen, Ashburn, The Dalles and Amsterdam. Short.io's statistics pages have a Filters control, and applying it at export makes the section reportable again.",
+      action: "Re-export Short.io filtered on the locations-page tag",
+      why: "The link figures cannot carry a total while 36% of the domain's clicks come from Groningen, Ashburn, The Dalles and Amsterdam. The booking links are tagged from the locations page and 98 clicks arrived carrying those parameters over 30 days. Automated traffic does not append tracking parameters, so filtering on the tag isolates real site-driven clicks in one export.",
       owner: "Reporting \u2014 Figment",
-      measure: "A filtered export for both windows at the start of the next cycle.",
+      measure: "A tag-filtered export for both windows at the start of the next cycle, and the links section carrying a total again.",
     },
     {
-      action: "Take down the test doctor page and resolve the Murray Hill path",
-      why: "/doctors/test-doctor is the fifth most visited landing page on the site. /murray-hill-booking belongs to the periodontal account and is live here with a titled page behind it. Both are drawing real traffic on the wrong property.",
-      owner: "Web \u2014 Figment",
-      measure: "Neither path appearing in the landing page report next cycle.",
+      action: "Settle which calendar the all-locations and Upper East Side links should each use",
+      why: "Both currently resolve to Weave calendar 646d6584. One of the two is pointing at the wrong book and there is no way to tell which from outside the account. Both are live and taking appointments. The test doctor page should come down in the same pass.",
+      owner: "Web \u2014 Figment, with practice confirmation on calendar ownership",
+      measure: "The two links resolving to different calendars, and the test page gone from the landing report.",
     },
     {
       action: "Confirm Instagram profile buttons and the tracked link in bio",
@@ -644,24 +655,28 @@ export const REPORT = {
 
     links: {
       kv: [
-        { k: "60th Street", v: "38" },
-        { k: "58th Street", v: "26" },
-        { k: "5th Avenue", v: "24" },
-        { k: "35th Street", v: "23" },
+        { k: "Lenox Hill", v: "64" },
+        { k: "Plaza District", v: "46" },
+        { k: "Murray Hill", v: "44" },
+        { k: "Upper East Side", v: "43" },
       ],
       destsChart: {
-        title: "Clicks by named link",
-        note: "The six tracked NYCDS links. No total and no comparison with the period before is reported this cycle. See the note below.",
+        title: "Every location drew clicks to both its information link and its new booking link",
+        note: "Clicks by destination across the eight tracked NYCDS links. Booking links went live inside this period, so they carry a part-period figure and nothing to compare against.",
       },
       dests: [
-        { label: "60th Street", value: 38 },
-        { label: "58th Street", value: 26 },
-        { label: "5th Avenue", value: 24 },
-        { label: "35th Street", value: 23 },
+        { label: "Lenox Hill \u2014 information", value: 38 },
+        { label: "Lenox Hill \u2014 booking", value: 26 },
+        { label: "Plaza District \u2014 information", value: 26 },
+        { label: "Murray Hill \u2014 information", value: 23 },
+        { label: "Murray Hill \u2014 booking", value: 21 },
+        { label: "Plaza District \u2014 booking", value: 20 },
+        { label: "Upper East Side \u2014 information", value: 24 },
+        { label: "Upper East Side \u2014 booking", value: 19 },
         { label: "Main website", value: 7 },
       ],
       note:
-        "These are raw per-link counts from Short.io for August 31 \u2013 September 13. No total, no per-day figure and no comparison with the period before is reported this cycle. Short.io\u2019s own filtering left a large share of automated traffic in the data: across the 30 days to September 13, more than a third of the clicks the tool counted as human came from data center locations rather than from people, and the catch-all path rose from 4 clicks to 113. The exports do not break clicks down by link and location together, so the automated share cannot be separated per link without estimating, and nothing in this report is estimated. A filtered export will restore the full section next cycle. Links belonging to the periodontal practice are excluded, and several appeared in this window.",
+        "Eight tracked NYCDS links this cycle: an information link and a booking link for each of the four locations. The booking links went live inside the period, so they carry a part-period figure and there is nothing to compare them with. 86 clicks reached a booking calendar or booking page, against 118 to the information links. What attributes these to NYCDS is placement: all four are the booking buttons on the NYCDS locations page, and the clicks carry that page\u2019s tracking parameters. Address would not separate them, because the practice shares two of its four addresses with the periodontal practice. Placement does. No domain total and no comparison with the period before is reported. Short.io\u2019s own filtering left a large share of automated traffic in the counts: across the 30 days to September 13, more than a third of the clicks the tool recorded as human came from data center locations rather than from people, and the catch-all path rose from 4 clicks to 113. The booking links are the cleaner half of the data because they are tagged from the locations page and carry those parameters through the click, and 98 clicks over the 30 days arrived tagged that way. A filtered export restores the full section next cycle.",
     },
 
     email: {
@@ -712,7 +727,7 @@ export const REPORT = {
       { q: "Why the search comparison has changed since the last report", a: "Search Console restates recent windows as processing completes. The last report recorded 106 clicks on 6,195 impressions for August 17 \u2013 30. Re-pulled on September 14, that window holds 108 clicks on 6,576 impressions. Every search comparison here uses the restated figures. The window was re-pulled specifically to check for this." },
       { q: "Why short links carry no total this cycle", a: "Short.io\u2019s own filtering left a large share of automated traffic in the counts. Across the 30 days to September 13, more than a third of the clicks the tool recorded as human came from data center locations rather than from people. The exports do not break clicks down by link and location together, so the automated share cannot be separated per link without estimating. Per-link counts are shown as raw source figures and no total or comparison is reported." },
       { q: "Which dates each figure covers", a: "Instagram, Facebook, search, website, email and short links all cover August 31 \u2013 September 13. Email and short links are filtered to NYCDS only; the periodontal practice shares both accounts and its campaign and links are excluded. Both this window and the comparison window are 14 days running Monday to Sunday, so totals compare directly with no length adjustment anywhere in this report." },
-      { q: "How NYCDS figures are separated from the periodontal practice", a: "Short.io and Constant Contact are shared accounts covering both practices. Short.io returned six periodontal links inside the NYCDS domain drawing 86 clicks, and Constant Contact returned RH 2.0, a 3,412-send campaign to that practice\u2019s list, alongside the two NYCDS sends. Neither is counted here. Short links are filtered to the six named NYCDS links; email to campaigns sent to NYCDS lists. This is about keeping the rates accurate: a list of 3,412 with different contacts and a different subject moves every percentage in the email table. Google Search Console, Analytics and Metricool are separate properties and need no filtering." },
+      { q: "How NYCDS figures are separated from the periodontal practice", a: "Constant Contact is a shared account covering both practices. It returned RH 2.0, a 3,412-send campaign to the periodontal list, alongside the two NYCDS sends. It is not counted here, because a list of 3,412 with different contacts and a different subject moves every percentage in the email table. Short links are attributed by placement rather than by address. The four booking links added during the period are the booking buttons on the NYCDS locations page and carry that page\u2019s tracking parameters. Address would not work here: the two practices share 130 East 35th Street and 933 Fifth Avenue, so two of the four locations appear on both sites under different neighborhood names. One link named for the periodontal practice drew fewer than 7 clicks and is excluded. Google Search Console, Analytics and Metricool are separate properties and need no filtering." },
       { q: "What is missing this cycle", a: "No paid campaigns ran, so there is no advertising section. Metricool\u2019s Ad column is empty in both the views and interactions views, which is the confirmation. Instagram reel retention and follower age and gender were not pulled and are absent rather than estimated. Instagram profile button activity is not reported: the figure carried in the last report does not reproduce, and the account shows no profile button activity across the last 30 days." },
     ] as { q: string; a: string; internalOnly?: boolean; clientOnly?: boolean }[],
   },
@@ -748,5 +763,5 @@ export const SOURCE_WINDOWS = [
   { k: "Search", v: "Aug 31 – Sep 13", p: "Compared against Aug 17 – 30, re-pulled and restated to 108 clicks on 6,576 impressions." },
   { k: "Website", v: "Aug 31 – Sep 13", p: "Full days." },
   { k: "Email", v: "Aug 31 – Sep 13", p: "2 NYCDS campaigns sent inside the window, the first in three cycles. A periodontal-practice campaign in the same account is excluded." },
-  { k: "Short links", v: "Aug 31 – Sep 13", p: "Per-link counts only. No total or comparison this cycle." },
+  { k: "Short links", v: "Aug 31 – Sep 13", p: "Per-link counts only. Four booking links went live inside the period, so they carry a part-period figure. No domain total this cycle." },
 ];
