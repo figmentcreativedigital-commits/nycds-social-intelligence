@@ -648,18 +648,18 @@ export const REPORT = {
      sign-up records. See `method` for how each window was handled. */
   smilepass: {
     title: "NYC Smile Pass",
-    dateLine: "August 1 – September 20, 2026 · activity to date",
+    dateLine: "August 1 – September 20, 2026 · the program’s first weeks",
     lede:
-      "An overview of Smile Pass since August 1. One paid campaign ran in August and brought 97% of the site’s visitors. One sign-up came in over the period. Most visitors left from the homepage: Instagram ad visitors averaged under a second on the site, and at most 57 of 2,203 visits went past the first page. GA4 has no sign-up tracking, so it cannot yet connect any visit to the sign-up.",
+      "An overview of Smile Pass in its first weeks, August 1 – September 20. The August campaign brought 97% of the site’s visitors, and one sign-up came in. Most visits ended on the homepage: Instagram ad visitors averaged under a second, and at most 57 of 2,203 visits went past the first page. GA4 has no sign-up tracking yet, so it cannot connect visits to sign-ups. These are launch figures and a useful baseline for the next campaign.",
     ledeClient:
-      "An overview of NYC Smile Pass from August 1 to September 20. A paid campaign in August brought more than 2,000 people to the site, and one sign-up came in over the period. The campaign was set up to bring visitors, and it did. The next step is turning those visits into members.",
+      "An overview of NYC Smile Pass in its first weeks, from August 1 to September 20. The August launch campaign introduced Smile Pass to 62,053 people and brought more than 2,000 visitors to the site, and one sign-up has come in. With a baseline now in place, the next steps focus on turning visits into members.",
     kv: [
-      { k: "Ad spend", v: "$749.85" },
       { k: "People reached by ads", v: "62,053" },
-      { k: "Ad landing page views", v: "1,604" },
+      { k: "Landing page views from ads", v: "1,604" },
+      { k: "Cost per landing page view", v: "$0.47" },
       { k: "New website visitors", v: "2,120" },
-      { k: "Sign-ups", v: "1" },
       { k: "Instagram followers", v: "27" },
+      { k: "Sign-ups", v: "1" },
     ],
     daily: [
       { d: "Aug 1", v: 0 }, { d: "Aug 2", v: 0 }, { d: "Aug 3", v: 5 }, { d: "Aug 4", v: 10 }, { d: "Aug 5", v: 3 }, { d: "Aug 6", v: 0 },
@@ -673,13 +673,13 @@ export const REPORT = {
       { d: "Sep 18", v: 1 }, { d: "Sep 19", v: 2 }, { d: "Sep 20", v: 0 },
     ],
     dailyChart: {
-      title: "Visitors arrived with the ads and stopped when they ended",
+      title: "Visits peaked during the August campaign",
       /* indices into `daily`: 10 = Aug 11, 29 = Aug 30 */
       band: { from: 10, to: 29, label: "Aug 11 – 30" },
       note:
         "New website visitors each day. 2,067 of the 2,120 arrived between August 11 and 30, 97%. The campaign ended on August 30. The peak was 204 on August 13. From September 1 to 20 the site drew 17.",
       noteClient:
-        "New website visitors each day. Almost all of them arrived between August 11 and 30, while the campaign ran. From September 1 to 20 the site drew 17 new visitors.",
+        "New website visitors each day. Most arrived between August 11 and 30, during the launch campaign. September has been quieter without ads running, as expected for a new site still building its search and social presence.",
     },
     ads: {
       title: "The August campaign",
@@ -692,9 +692,9 @@ export const REPORT = {
         ],
       },
       note:
-        "One campaign, August 2026 First Month Free, with a $750 lifetime budget, ending August 30. It was set to optimize for landing page views, not sign-ups, and delivered those cheaply. Meta ranks both ads’ conversion rate in the bottom 35% of ads; quality is average. The No Insurance ad had the higher click rate and cheaper views but received 18% of the budget. People reached counts each person once, so the two ad rows add up to more than the campaign total.",
+        "One campaign, August 2026 First Month Free, with a $750 lifetime budget, ending August 30. It was set to optimize for landing page views, not sign-ups, and delivered those cheaply. Meta ranks both ads’ conversion rate in the bottom 35% of ads; quality is average. The No Insurance ad had the higher click rate and cheaper views but received 18% of the budget. People reached counts each person once, so the two ad rows add up to more than the campaign total. Meta counts 1,604 landing page views; Google Analytics recorded 2,068 visits from the ads, because the two measure a visit differently.",
       noteClient:
-        "One campaign ran, with a $750 budget, and ended on August 30. It was set up to bring people to the site, and it did so at 47 cents a visit. The No Insurance message drew a higher click rate than the general one. People reached counts each person once, so the two ads add up to more than the campaign total.",
+        "One campaign ran, with a $750 budget, and ended on August 30. It was set up to bring people to the site, and it did so at 47 cents a visit. The No Insurance message drew a higher click rate than the general one. People reached counts each person once, so the two ads add up to more than the campaign total. Meta counts 1,604 landing page views, while Google Analytics recorded 2,068 visits from the ads; the two tools measure a visit slightly differently.",
     },
     sources: {
       title: "How visitors engaged, by source",
@@ -709,9 +709,9 @@ export const REPORT = {
         ],
       },
       note:
-        "Instagram ad visitors, 1,638 of the 2,199 visits, engaged 3.7% of the time and averaged 0.7 seconds, which is too short for most of them to have seen the page. Facebook ad visitors engaged three times as often. Across the site, 2,203 visits produced 2,260 page views, so at most 57 visits went past the first page. 9 visits landed directly on /join, and GA4 recorded 4 clicks in total. Bing (2) and unassigned (3) are not shown. These totals run to September 21, a partial day that adds 4 visitors.",
+        "Instagram ad visitors, 1,638 of the 2,199 visits, engaged 3.7% of the time and averaged 0.7 seconds. Facebook ad visitors engaged three times as often. Across the site, 2,203 visits produced 2,260 page views, so at most 57 visits went past the first page. 9 visits landed directly on /join, and GA4 recorded 4 clicks in total. Bing (2) and unassigned (3) are not shown. These totals run to September 21, a partial day that adds 4 visitors.",
       noteClient:
-        "A visit counts as engaged if it lasted at least 10 seconds or included a second page. Most visitors from Instagram ads left almost immediately. Visitors from Facebook ads, direct visits and Google stayed longer. Sources with fewer than 5 visits are not shown.",
+        "A visit counts as engaged if it lasted at least 10 seconds or included a second page. Visitors from Google, direct visits and Facebook ads spent the most time on the site; Instagram ad visits were typically brief. Sources with fewer than 5 visits are not shown.",
     },
     social: {
       title: "Smile Pass on social",
@@ -728,7 +728,7 @@ export const REPORT = {
       note:
         "Unpaid content only. Metricool’s account-level reach and view totals include delivery from the ad campaign, so they are not used: Facebook reports 22,740 views on an account with 3 followers. The strongest organic piece was the September 17 reel, “Be honest: when was your last dentist appointment?”, with 336 views and 275 reach.",
       noteClient:
-        "Unpaid posts only. Both accounts are new: Instagram has 27 followers and Facebook 3. The strongest post was the September 17 reel asking when you last saw a dentist, with 336 views.",
+        "Unpaid posts only. Both accounts are in their first weeks, and Instagram has grown to 27 followers, up 11. The strongest post was the September 17 reel asking when you last saw a dentist, with 336 views.",
     },
     search: {
       title: "Search",
@@ -740,20 +740,20 @@ export const REPORT = {
       note:
         "Seven weeks of Search Console data. Of the searches Google reports, 52 appearances were for “nyc dental smiles” and none mentioned Smile Pass. Google withholds low-volume searches, so the list covers 56 of the 126 appearances.",
       noteClient:
-        "Few people are finding Smile Pass through Google yet. Most of the searches that showed the site were for the NYC Dental Smiles name.",
+        "Search presence is still early for a new site. Most of the searches that showed Smile Pass were for the NYC Dental Smiles name.",
     },
     findings: {
-      title: "What this tells us",
+      title: "What we learned from the launch",
       items: [
         {
           t: "The ads brought people in cheaply",
           b: "1,604 landing page views at 47 cents each, and 62,053 people reached. The campaign was set to find people likely to open the page, and that is what it delivered.",
-          client: { t: "The ads brought people to the site", b: "62,053 people saw the ads and 1,604 visited the site from them, at 47 cents a visit." },
+          client: { t: "The launch campaign reached a wide audience", b: "62,053 people saw the ads and 1,604 visited the site from them, at 47 cents a visit." },
         },
         {
-          t: "Visits did not turn into sign-ups",
+          t: "Visits have not yet turned into sign-ups",
           b: "One sign-up across 2,120 new visitors and $749.85 in ad spend. At most 57 of 2,203 visits went past the first page, and Meta rates both ads’ conversion in the bottom 35%.",
-          client: { t: "Visits have not yet turned into sign-ups", b: "One sign-up came in over the period, from more than 2,000 visitors. Almost everyone who arrived saw only the homepage." },
+          client: { t: "Turning visits into sign-ups is the next focus", b: "One sign-up came in over the period. Most visitors viewed the homepage without continuing to the sign-up page, which shows where to focus next." },
         },
         {
           t: "Facebook ad visitors were more engaged than Instagram’s",
@@ -761,14 +761,14 @@ export const REPORT = {
           client: { t: "Facebook ad visitors stayed longer", b: "Visitors from Facebook ads were three times as likely to engage as visitors from Instagram ads, and stayed longer on the site." },
         },
         {
-          t: "Traffic stops when the ads stop",
+          t: "Traffic follows the ads for now",
           b: "17 new visitors from September 1 to 20. Search drew 3 clicks in seven weeks and the social accounts have 27 and 3 followers, so there is no steady source of visitors yet.",
-          client: { t: "Traffic depends on the ads for now", b: "When the campaign ended, visits fell to a handful a week. Search and social are still new, so the site does not yet have a steady flow of its own." },
+          client: { t: "Search and social are still building", b: "As a new program, Smile Pass is still building its own search and social presence, so most visits so far have come from the campaign." },
         },
         {
           t: "GA4 cannot see sign-ups",
-          b: "No sign-up event is set up, so GA4 shows zero regardless of what happens. The one sign-up is from the website’s own records. Until this is fixed, no campaign can be judged on the result that matters, and Meta cannot optimize for it.",
-          client: { t: "Sign-ups are not yet tracked in Google Analytics", b: "The sign-up count comes from the website’s own records. Google Analytics is not yet set up to record sign-ups, so it cannot show which visits led to one. We are fixing that." },
+          b: "No sign-up event is set up, so GA4 shows zero regardless of what happens. The one sign-up is from the website’s own records. Setting this up is the first step for the next campaign, and it lets Meta optimize for sign-ups.",
+          client: { t: "Sign-ups are not yet tracked in Google Analytics", b: "The sign-up count comes from the website’s own records. Google Analytics is not yet set up to record sign-ups, so it cannot show which visits led to one. We are setting that up." },
         },
       ],
     },
@@ -777,7 +777,7 @@ export const REPORT = {
       items: [
         { t: "Track sign-ups in Google Analytics and Meta", b: "Record each completed sign-up as a key event, so every future report and campaign is measured on sign-ups rather than visits." },
         { t: "Set the next campaign to optimize for sign-ups", b: "The August campaign was set to find people likely to open the page. Once sign-ups are tracked, Meta can look for people likely to join instead." },
-        { t: "Walk through the sign-up path on a phone", b: "At most 57 of 2,203 visits went past the homepage. Testing each step from the ad to a completed sign-up will show whether the page or the traffic needs the most work." },
+        { t: "Review the path from homepage to sign-up", b: "Most visitors viewed only the homepage. Walking through each step from the ad to a completed sign-up on a phone will show where to make joining easier." },
         { t: "Lead with the No Insurance message", b: "It drew a higher click rate, 3.12% against 2.49%, at a lower cost per visit, on 18% of the budget." },
         { t: "Introduce Smile Pass to NYC Dental Smiles’ audience", b: "NYC Dental Smiles has 764 Instagram followers and about 160 website visits a week. Smile Pass has 27 followers. Shared posts and links from the main practice reach people who already know it." },
       ],
