@@ -171,6 +171,19 @@ const CSS = `
 /* ---------- learned ---------- */
 .learn { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--sand); border: 1px solid var(--sand); margin-top: 28px; }
 .learn-c { background: var(--paper); padding: 28px 24px; }
+.soc { margin-top: 28px; }
+.sp-date { display: inline-block; margin-top: 18px; padding: 6px 12px; border: 1px solid var(--sand); border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--plum); }
+.sp-find { margin-top: 32px; }
+.sp-find-h { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.sp-i { padding: 20px 0; border-top: 1px solid var(--sand); max-width: var(--measure); }
+.sp-t { font-family: var(--serif); font-size: 21px; line-height: 1.35; color: var(--plum); }
+.sp-b { font-size: 15.5px; line-height: 1.65; color: var(--ink); margin-top: 8px; }
+.soc-i { display: grid; grid-template-columns: 8px 1fr; gap: 20px; padding: 20px 0; border-top: 1px solid var(--sand); }
+.soc-m { width: 8px; height: 8px; border-radius: 999px; background: var(--plum); margin-top: 10px; }
+.soc-b { font-size: 16px; line-height: 1.65; color: var(--ink); max-width: var(--measure); }
+.soc-take { margin-top: 12px; padding: 24px 28px; border-left: 3px solid var(--plum); background: var(--paper-2); }
+.soc-take-k { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--plum); margin-bottom: 8px; }
+.soc-take-b { font-size: 16px; line-height: 1.65; color: var(--ink); max-width: var(--measure); }
 .learn-f { font-family: var(--serif); font-size: 38px; line-height: 1.05; color: var(--plum); font-variant-numeric: tabular-nums; }
 .learn-u { font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-top: 8px; }
 .learn-t { font-size: 15px; color: var(--ink-2); margin: 14px 0 0; }
@@ -675,7 +688,10 @@ function PeriodChart({
  *  impressions move by thousands between cycles, so a shared ceiling would
  *  flatten the line to nothing. The ceiling rounds up to a clean step so the
  *  gridline labels stay readable. */
-function Sparkline({ series, label }: { series: { d: string; v: number }[]; label: string }) {
+function Sparkline({ series, label, band, showAvg = true }: {
+  series: { d: string; v: number }[]; label: string;
+  band?: { from: number; to: number; label: string }; showAvg?: boolean;
+}) {
   const W = 720, H = 158, L = 44, R = 14, T = 20, B = 30;
   const peak = series.reduce((m, p) => Math.max(m, p.v), 0);
   const step = peak <= 50 ? 10 : peak <= 250 ? 50 : peak <= 1000 ? 100 : 500;
@@ -699,11 +715,22 @@ function Sparkline({ series, label }: { series: { d: string; v: number }[]; labe
         </g>
       ))}
 
+      {band && (
+        <g>
+          <rect x={x(band.from)} y={T} width={x(band.to) - x(band.from)} height={H - T - B} fill="rgba(111,80,96,0.07)" />
+          <text x={x(band.from) + 6} y={T + 12} fontSize="10.5" fontWeight="700" fill="#6F5060">{band.label}</text>
+        </g>
+      )}
+
       <path d={area} fill="rgba(111,80,96,0.10)" />
       <path d={line} fill="none" stroke="#6F5060" strokeWidth="1.9" strokeLinejoin="round" strokeLinecap="round" />
 
-      <line x1={x(0)} x2={x(series.length - 1)} y1={y(avg)} y2={y(avg)} stroke="#4E3846" strokeWidth="1.5" strokeDasharray="5 4" />
-      <text x={x(series.length - 1) - 2} y={y(avg) - 7} fontSize="11" fontWeight="700" fill="#4E3846" textAnchor="end">{avg.toFixed(0)} a day</text>
+      {showAvg && (
+        <g>
+          <line x1={x(0)} x2={x(series.length - 1)} y1={y(avg)} y2={y(avg)} stroke="#4E3846" strokeWidth="1.5" strokeDasharray="5 4" />
+          <text x={x(series.length - 1) - 2} y={y(avg) - 7} fontSize="11" fontWeight="700" fill="#4E3846" textAnchor="end">{avg.toFixed(0)} a day</text>
+        </g>
+      )}
 
       {[0, series.length - 1].map((i) => (
         <text key={i} x={x(i)} y={H - 10} fontSize="10.5" fill="#6E6268"
@@ -943,6 +970,26 @@ export default function Report() {
           </Reveal>
         </Section>
 
+        {/* ------------------------------------------------------------ social */}
+{has("social") && (
+        <Section id="social" num={numOf("social")} title={R.social.title} lede={R.social.lede}>
+          <Reveal>
+            <div className="soc">
+              {R.social.items.map((t) => (
+                <div className="soc-i" key={t}>
+                  <div className="soc-m" />
+                  <p className="soc-b">{t}</p>
+                </div>
+              ))}
+              <div className="soc-take">
+                <div className="soc-take-k">Takeaway</div>
+                <p className="soc-take-b">{R.social.takeaway}</p>
+              </div>
+            </div>
+          </Reveal>
+        </Section>
+)}
+
         {/* -------------------------------------------------- needs attention */}
 {has("attention") && (
         <Section id="attention" num={numOf("attention")} title={R.copy.attention.title}
@@ -1167,6 +1214,71 @@ export default function Report() {
 
           </div>
         </Section>
+
+        {/* ------------------------------------------------------- smile pass */}
+{has("smilepass") && (() => {
+  const sp = REPORT.smilepass;
+  const v = <T,>(internal: T, client: T) => (IS_INTERNAL ? internal : client);
+  return (
+        <Section id="smilepass" num={numOf("smilepass")} title={sp.title} lede={v(sp.lede, sp.ledeClient)}>
+          <Reveal>
+            <div className="sp-date">{sp.dateLine}</div>
+            <KV items={sp.kv} />
+          </Reveal>
+          <Reveal>
+            <Chart title={sp.dailyChart.title} note={v(sp.dailyChart.note, sp.dailyChart.noteClient)}>
+              <Sparkline series={sp.daily} label="New website visitors per day" band={sp.dailyChart.band} showAvg={false} />
+            </Chart>
+          </Reveal>
+          <Reveal>
+            <Chart title={sp.ads.title} note={v(sp.ads.note, sp.ads.noteClient)}>
+              <SimpleTable table={sp.ads.table} />
+            </Chart>
+          </Reveal>
+          <Reveal>
+            <Chart title={sp.sources.title} note={v(sp.sources.note, sp.sources.noteClient)}>
+              <SimpleTable table={sp.sources.table} />
+            </Chart>
+          </Reveal>
+          <Reveal>
+            <Chart title={sp.social.title} note={v(sp.social.note, sp.social.noteClient)}>
+              <SimpleTable table={sp.social.table} />
+            </Chart>
+          </Reveal>
+          <Reveal>
+            <Chart title={sp.search.title} note={v(sp.search.note, sp.search.noteClient)}>
+              <KV items={sp.search.kv} />
+            </Chart>
+          </Reveal>
+          <Reveal>
+            <div className="sp-find">
+              <div className="sp-find-h">{sp.findings.title}</div>
+              {sp.findings.items.map((f) => {
+                const x = IS_INTERNAL ? f : (f.client ?? f);
+                return (
+                  <div className="sp-i" key={f.t}>
+                    <div className="sp-t">{x.t}</div>
+                    <p className="sp-b">{x.b}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </Reveal>
+          <Reveal>
+            <div className="sp-find">
+              <div className="sp-find-h">{sp.next.title}</div>
+              {sp.next.items.map((f) => (
+                <div className="sp-i" key={f.t}>
+                  <div className="sp-t">{f.t}</div>
+                  <p className="sp-b">{f.b}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+          <Note>{v(sp.method, sp.methodClient)}</Note>
+        </Section>
+  );
+})()}
 
         <footer className="foot">
           <span>{R.client.name} · {R.period.label}</span>
