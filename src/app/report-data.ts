@@ -2,21 +2,29 @@
    REPORT DATA  ·  NYC Dental Smiles
    --------------------------------------------------------------------------
    The only file that changes between reporting cycles. Edit the figures and
-   narrative strings here; never edit page.tsx.
+   narrative strings here. page.tsx changed this cycle only to hide the Email
+   panel when `detail.email` is null.
 
    THIS CYCLE — a single week.
-     September 14 – 20 against September 7 – 13: two 7-day windows, Monday to
-     Sunday, directly comparable.
+     September 21 – 27 against September 14 – 20: two 7-day windows, Monday to
+     Sunday, directly comparable. All exports read September 28.
 
-   NEW SECTION — Smile Pass. An overview of NYC Smile Pass from August 1 to
-     September 20, shown last in both builds. It has its own date range and is
-     not part of the weekly comparison.
+   READ-DATE RULE (new this cycle).
+     Metricool per-piece figures for posts and reels are lifetime totals and
+     keep growing after a week closes. Last week's per-piece figures are the
+     September 21 reading, taken 1 day after close, the same lag as this
+     week's. Account-level figures (views, reach, engaged, followers) and GA4
+     are taken from the September 28 reading for both weeks.
 
-   NEW SECTION — Social. A written summary of Instagram from the social team,
-     shown in both builds after What worked. Seven of its nine figures did not
-     match the Metricool export and were corrected to it. The two content
-     claims (Dr. Tamay's reel figures, the office manager post ranking second)
-     matched exactly and are unchanged.
+   SOCIAL — hidden until the social lead's write-up arrives after first
+     review. Removed from ALL_SECTIONS; the data object is kept empty so
+     page.tsx still compiles.
+
+   EMAIL — no campaigns this cycle. `detail.email` is null and the panel does
+     not render.
+
+   SMILE PASS — lifetime view, August 1 – September 27. No ads since
+     August 30 and no new sign-ups, both confirmed September 28.
 
    ENCODING — literal characters for apostrophes, dashes and the minus sign.
      No backslash-u escapes anywhere in the strings.
@@ -25,16 +33,11 @@
    export, or is plain arithmetic on two figures already present.
 
    SOURCE WINDOWS:
-     Instagram, Facebook (Metricool)  Sep 14 – 20 and Sep 7 – 13, 2026
-     Search Console                   Sep 14 – 20 and Sep 7 – 13, 2026
-     Website (GA4)                    Sep 14 – 20 and Sep 7 – 13, 2026
-     Short links (Short.io)           Sep 14 – 20 and Sep 7 – 13, 2026
-     Email (Constant Contact)         one campaign sent Sep 15
-
-   OPEN BEFORE THIS GOES TO THE PRACTICE:
-     - Re-pull Search Console Chart.csv on Wednesday, September 23. Saturday
-       and Sunday read 0 and 2 clicks, and September 7 – 13 rose from 41 to 45
-       clicks between its first and second readings.
+     Instagram, Facebook (Metricool)  Sep 21 – 27 and Sep 14 – 20, 2026
+     Search Console                   Sep 21 – 27 and Sep 14 – 20, 2026
+     Website (GA4)                    Sep 21 – 27 and Sep 14 – 20, 2026
+     Short links (Short.io)           Sep 21 – 27 and Sep 14 – 20, 2026
+     Smile Pass                       Aug 1 – Sep 27, 2026
    ========================================================================== */
 
 type Variant = "client" | "internal";
@@ -47,9 +50,9 @@ export const REPORT = {
   client: { name: "NYC Dental Smiles", short: "NYCDS", agency: "Figment Creative" },
 
   period: {
-    label: "September 14 – 20, 2026",
+    label: "September 21 – 27, 2026",
     length: "7 days",
-    comparedWith: "the 7 days before it (September 7 – 13)",
+    comparedWith: "the 7 days before it (September 14 – 20)",
     paidStatus:
       "No advertising ran in either week. Both are 7 days, Monday to Sunday, so every comparison is direct.",
   },
@@ -57,23 +60,23 @@ export const REPORT = {
   copy: {
     scoreboard: {
       title: "The numbers that matter, and what each one means",
-      lede: "Ten measures, this week against the week before.",
+      lede: "10 measures, this week against the week before.",
     },
     worked: {
-      title: "Dr. Tamay’s reel carried the week",
-      galleryTitle: "The three feed pieces published this week, ranked by views",
+      title: "A reel about knowing each patient led the week",
+      galleryTitle: "The 3 feed pieces published this week, ranked by views",
     },
     attention: {
       title: "What needs attention",
-      lede: "Six things worth a second look, each labeled so it is clear which to act on and which to note.",
+      lede: "6 things worth a second look, each labeled so it is clear which to act on and which to note.",
     },
     learned: {
       title: "What we learned",
-      lede: "Six things worth carrying into the next report.",
+      lede: "6 things worth carrying into the next report.",
     },
     moves: {
       title: "Recommended next moves",
-      lede: "Six actions, each with the reason behind it and the number that shows whether it worked.",
+      lede: "6 actions, each with the reason behind it and the number that shows whether it worked.",
     },
     detail: {
       title: "Supporting detail",
@@ -84,40 +87,40 @@ export const REPORT = {
   /* ------------------------------------------------------------- THE BRIEF */
   brief: {
     title: "The Brief",
-    lede: "The week in four points.",
-    head: "Instagram views more than doubled, and one reel accounts for most of it. Dr. Tamay’s reel drew 2,464 of the week’s 4,380 views and 163 of its 198 interactions. Without it, views were level.",
-    headClient: "A strong week on Instagram. Dr. Tamay’s reel reached 1,102 accounts and drew 2,464 views, more than half of everything the account earned this week.",
+    lede: "The week in 4 points.",
+    head: "Instagram held most of last week’s level without a standout reel. Views were 3,949 against 4,382, and last week’s figure included 2,464 from Dr. Tamay’s reel alone. Set that reel aside and last week was 1,916.",
+    headClient: "A steady week on Instagram. 3,949 views, 10 new followers and 12 pieces published, with the week’s views spread across several posts rather than one.",
     items: [
       {
         role: "The outcome",
-        text: "Views 1,978 to 4,380, daily reach 100 to 239, interactions 42 to 198. The Tamay reel is 56% of views and 82% of interactions. Excluding it, views were 1,916 against 1,978. Next week compares against this reel, so it will read as a sharp fall unless another piece performs the same way.",
+        text: "Views 4,382 to 3,949, down 10%. Daily reach 239 to 228. Interactions 198 to 127 and engagement rate 11.84% to 7.96%; last week the Tamay reel alone drew 163 interactions. The top piece this week drew 1,040 views, 26% of the total. Followers rose by 10 against 4.",
         client: {
           role: "The standout",
-          text: "Dr. Tamay’s reel about making patients feel comfortable reached 1,102 accounts. That is about five times the reach of anything else published this week.",
+          text: "The reel about getting to know each patient was the week’s strongest piece: 1,040 views and 640 accounts reached. Instagram added 10 followers, against 4 the week before.",
         },
       },
       {
         role: "Strongest signal",
-        text: "Dr. Tamay’s page rose in the same week: 12 website visits, and 5 clicks from Google search, up from 2. The exports are weekly, so they show the two together, not which came first. Doctor pages as a group rose from 10.1% to 13.3% click rate.",
+        text: "Doctor pages drew 22 search clicks from 151 appearances, 14.6%, against 13.3%. Dr. Chesner’s page led with 7 clicks and 10 website landings, up from 1, with no Chesner post or reel published. The exports show both together, not what drove them.",
         client: {
           role: "The wider picture",
-          text: "Dr. Tamay’s page also drew more attention this week: 12 website visits, and 5 clicks from Google, up from 2 the week before.",
+          text: "People searching for the doctors keep finding them. The doctor pages turned 14.6% of their Google appearances into clicks, against 4.8% across the site. Dr. Chesner’s page drew the most.",
         },
       },
       {
         role: "What softened",
-        text: "Search impressions fell from 1,738 to 1,055, 86% of it on the homepage. In the query sample, general searches fell from 1,209 appearances to 691 and drew one click across both weeks. Click rate doubled, 2.59% to 5.21%. Saturday and Sunday read 0 and 2 clicks and have not settled. Google visits in GA4 fell 60 to 51 while Search Console clicks rose 45 to 55; the two disagree this week.",
+        text: "Website sessions 163 to 131, new visitors 111 to 96. Google visits in GA4 51 to 43, Search Console clicks 55 to 53. Desktop search click rate fell from 5.23% to 3.18% while mobile rose from 5.18% to 8.75%. Saturday and Sunday read 1 and 4 clicks and may rise.",
         client: {
           role: "What we are monitoring",
-          text: "Google showed the site less often, 1,055 times against 1,738, but more of the people who saw it clicked: 5.2% against 2.6%. Google is still processing the last days of this week, so these figures may rise.",
+          text: "The website drew 96 new visitors, against 111 the week before, with the largest gap on Monday. Google is still processing the last days of the week, so search figures may rise.",
         },
       },
       {
         role: "Next action",
-        text: "Make another doctor-led reel on the same subject. Re-pull search on Wednesday. Test the Murray Hill and Plaza District booking buttons, which have drawn no clicks in two weeks.",
+        text: "Fix the Short.io path filter: it has been missing 3 allowlist paths, and last cycle’s filter left out 2 booking links that were reported as drawing none. Make the next doctor-led reel. Read Metricool the day after each week closes and share that rule with the social lead.",
         client: {
           role: "What we are doing next",
-          text: "We will keep producing doctor-led content like Dr. Tamay’s reel. Because one piece lifted the whole week, next week’s comparison will look lower unless another performs the same way.",
+          text: "We will keep producing doctor-led content, and we have tightened how the booking link figures are collected so every location is counted the same way.",
         },
       },
     ] as { role: string; text: string; client?: { role: string; text: string } }[],
@@ -127,537 +130,522 @@ export const REPORT = {
   scoreboard: [
     {
       metric: "Instagram views",
-      value: "4,380",
+      value: "3,949",
       sub: "Account total, Metricool",
-      dir: "up",
-      change: "1,978 the week before · +121%",
-      reading: "Dr. Tamay’s reel accounts for 2,464 of these, more than half. Without it, views were level with the week before.",
-      tone: "tone-good",
+      dir: "down",
+      change: "4,382 the week before · −10%",
+      reading: "Last week included 2,464 views from a single reel. This week’s top piece drew 1,040, and the rest were spread across posts, reels and Stories.",
+      tone: "",
     },
     {
       metric: "Instagram reach per day",
-      value: "239",
+      value: "228",
       sub: "Average accounts reached each day",
-      dir: "up",
-      change: "100 the week before · +139%",
-      reading: "More than doubled. The Tamay reel alone reached 1,102 accounts.",
-      tone: "tone-good",
+      dir: "down",
+      change: "239 the week before · −5%",
+      reading: "Close to last week’s level, which had more than doubled in the week of the Tamay reel.",
+      tone: "",
     },
     {
       metric: "Instagram interactions",
-      value: "198",
+      value: "127",
       sub: "Likes, comments, saves and shares on posts and reels",
-      dir: "up",
-      change: "42 the week before",
-      reading: "163 came from one reel. The office manager post drew 22.",
-      tone: "tone-good",
+      dir: "down",
+      change: "198 the week before",
+      reading: "Last week 163 came from a single reel. This week the top reel drew 81.",
+      tone: "",
     },
     {
       metric: "Engagement rate",
-      value: "11.84%",
+      value: "7.96%",
       sub: "Interactions divided by reach",
-      dir: "up",
-      change: "6.00% the week before",
-      reading: "Nearly double. More people saw the content and a larger share of them responded.",
-      tone: "tone-good",
+      dir: "down",
+      change: "11.84% the week before",
+      reading: "Last week’s rate was lifted by a single reel at 14.8%. This week’s top reel engaged 12.7% of the people it reached.",
+      tone: "",
     },
     {
       metric: "Followers",
-      value: "764",
+      value: "774",
       sub: "At the end of the week",
       dir: "up",
-      change: "+4 this week · +3 the week before",
-      reading: "6 new and 2 lost. Steady growth.",
+      change: "+10 this week · +4 the week before",
+      reading: "More than double the week before’s gain.",
       tone: "tone-good",
     },
     {
       metric: "Booking link clicks",
-      value: "93",
-      sub: "All four locations",
-      dir: "up",
-      change: "80 the week before · +16%",
-      reading: "Upper East Side 49 and Lenox Hill 44, against 38 and 42. Murray Hill and Plaza District drew none in either week.",
-      tone: "tone-good",
+      value: "107",
+      sub: "All 4 locations",
+      dir: "down",
+      change: "145 the week before · −26%",
+      reading: "Lenox Hill 32, Plaza District 31, Upper East Side 30, Murray Hill 14. Most link clicks this week were automated, so treat this as a rough guide.",
+      tone: "",
     },
     {
       metric: "Search click rate",
-      value: "5.21%",
+      value: "4.76%",
       sub: "Share of people who saw the site in Google and clicked",
-      dir: "up",
-      change: "2.59% the week before",
-      reading: "Doubled. Google showed the site less often, 1,055 times against 1,738, and more of the people who saw it clicked.",
-      tone: "tone-good",
+      dir: "down",
+      change: "5.21% the week before",
+      reading: "Google showed the site more often, 1,113 times against 1,055, and clicks held close to last week.",
+      tone: "",
     },
     {
       metric: "Search clicks",
-      value: "55",
+      value: "53",
       sub: "From Google",
-      dir: "up",
-      change: "45 the week before · +22%",
+      dir: "flat",
+      change: "55 the week before",
       reading: "Google is still processing the last days of this week, so this figure may rise.",
       tone: "",
     },
     {
       metric: "Doctor page click rate",
-      value: "13.3%",
-      sub: "All seven doctor pages, Google search",
+      value: "14.6%",
+      sub: "All 7 doctor pages, Google search",
       dir: "up",
-      change: "10.1% the week before",
-      reading: "19 clicks from 143 appearances. Dr. Tamay’s page drew 5 clicks, up from 2.",
+      change: "13.3% the week before",
+      reading: "22 clicks from 151 appearances. Dr. Chesner’s page drew 7, the most of any page after the homepage.",
       tone: "tone-good",
     },
     {
       metric: "Website new visitors",
-      value: "109",
+      value: "96",
       sub: "Google Analytics",
-      dir: "up",
-      change: "94 the week before · +16%",
-      reading: "15.6 a day against 13.4. Dr. Tamay’s page drew 12 visits in the week her reel ran.",
+      dir: "down",
+      change: "111 the week before · −14%",
+      reading: "14 a day against 16. The largest daily gap was Monday: 10 against 17.",
       tone: "",
     },
   ],
 
   /* -------------------------------------------- THE PERIOD LINE (signature) */
   periodLine: {
-    title: "New website visitors edged up this week",
+    title: "New website visitors eased this week",
     note:
-      "New website visitors each day across the two weeks. No advertising ran in either week.",
-    /* GA4 daily new visitors, Sep 7 – 20. Sep 7 – 13 restated from 92 to 94
-       between the September 14 and September 21 pulls. */
+      "New website visitors each day across both weeks. No advertising ran in either week.",
+    /* GA4 daily new visitors, Sep 14 – 27, read September 28. Sep 14 – 20
+       restated from 109 to 111 since the September 21 pull (Sep 20: 9 to 11). */
     series: [
-      { d: "Sep 7", v: 14 }, { d: "Sep 8", v: 16 }, { d: "Sep 9", v: 18 },
-      { d: "Sep 10", v: 16 }, { d: "Sep 11", v: 12 }, { d: "Sep 12", v: 7 },
-      { d: "Sep 13", v: 11 }, { d: "Sep 14", v: 17 }, { d: "Sep 15", v: 14 },
-      { d: "Sep 16", v: 19 }, { d: "Sep 17", v: 22 }, { d: "Sep 18", v: 19 },
-      { d: "Sep 19", v: 9 }, { d: "Sep 20", v: 9 },
+      { d: "Sep 14", v: 17 }, { d: "Sep 15", v: 14 }, { d: "Sep 16", v: 19 },
+      { d: "Sep 17", v: 22 }, { d: "Sep 18", v: 19 }, { d: "Sep 19", v: 9 },
+      { d: "Sep 20", v: 11 }, { d: "Sep 21", v: 10 }, { d: "Sep 22", v: 15 },
+      { d: "Sep 23", v: 16 }, { d: "Sep 24", v: 20 }, { d: "Sep 25", v: 16 },
+      { d: "Sep 26", v: 9 }, { d: "Sep 27", v: 10 },
     ],
-    /* Index of the last day of the previous week (Sep 13). */
+    /* Index of the last day of the previous week (Sep 20). */
     splitAt: 6,
     shade: null as { through: number; label: string } | null,
     markers: [] as { i: number; label: string }[],
-    /* derived: 94 ÷ 7 = 13.4; 109 ÷ 7 = 15.6 */
+    /* derived: 111 ÷ 7 = 15.9; 96 ÷ 7 = 13.7 */
     bands: [
-      { label: "September 7 – 13", value: "13 a day", detail: "Previous week" },
-      { label: "September 14 – 20", value: "16 a day", detail: "This week" },
+      { label: "September 14 – 20", value: "16 a day", detail: "Previous week" },
+      { label: "September 21 – 27", value: "14 a day", detail: "This week" },
     ],
     read: {
       title: "Reading this fairly:",
-      body: "Both weeks are 7 days with no advertising. New visitors rose from 13 a day to 16. Wednesday through Friday ran highest, 19 to 22 a day. Dr. Tamay’s reel went out on Friday, and her page drew 12 visits across the week. The weekend was quieter than the week before.",
+      body: "Both weeks are 7 days with no advertising. New visitors went from 16 a day to 14. The largest daily gap is Monday, 10 against 17. Tuesday through Friday ran 15 to 20 a day, and both weekends were quiet.",
     },
   },
 
   /* ----------------------------------------------------------- WHAT WORKED */
   worked: {
     /* Internal build only. */
-    lede: "One reel carried the week. Dr. Tamay’s reel on patient comfort drew 2,464 views, reached 1,102 accounts and took 163 of the week’s 198 interactions. Her page drew 12 visits and 5 search clicks in the same week.",
+    lede: "No single piece carried the week. The reel on getting to know each patient led with 1,040 views, 640 accounts reached and 81 interactions, 26% of the week’s views. Doctor pages drew more search clicks, led by Dr. Chesner’s.",
     lead: {
       kind: "Reel",
-      title: "Dr. Tamay believes great dental care starts with making patients feel comfortable, heard, and confident in every decision",
-      date: "September 18",
-      url: "https://www.instagram.com/reel/DdbtWpZJZUm/",
+      title: "Great dental care starts with knowing the person behind the smile",
+      date: "September 23",
+      url: "https://www.instagram.com/reel/DdpAub1p424/",
       why:
-        "2,464 views and 1,102 accounts reached, about five times the reach of anything else published this week. 163 interactions on that reach is 14.8%. It is a doctor speaking directly about how patients should feel, not about a procedure. The previous lead, the All-on-6 carousel on September 10, now shows 742 views.",
+        "1,040 views and 640 accounts reached, with 81 interactions, 12.7% of the people it reached. Like Dr. Tamay’s reel last week, it is about how patients are treated rather than a procedure.",
       repeatable:
-        "The office manager post was next, with 669 views and 22 interactions, shared with DDS PC for Office Manager Appreciation Month. Both of this week’s strongest pieces were about people at the practice. The comprehensive care reel, about specialists working together, drew 311.",
+        "Dr. Farahani’s reel on restoring function and confidence followed with 598 views and 33 interactions. The Hudson Yards event post drew 561 views and 13 interactions.",
     },
     gallery: [
       {
-        title: "Dr. Tamay believes great dental care starts with making patients feel comfortable, heard, and confident in every decision", format: "Reel", date: "Sep 18",
-        url: "https://www.instagram.com/reel/DdbtWpZJZUm/",
-        views: "2,464", reach: "1,102", er: "14.8%", lead: true,
+        title: "Great dental care starts with knowing the person behind the smile", format: "Reel", date: "Sep 23",
+        url: "https://www.instagram.com/reel/DdpAub1p424/",
+        views: "1,040", reach: "640", er: "12.7%", lead: true,
       },
       {
-        title: "Behind every great dental practice is an office manager keeping countless moving pieces on track", format: "Post", date: "Sep 17",
-        url: "https://www.instagram.com/p/DdZPXJTlrXy/",
-        views: "669", reach: "218", er: "10.1%", lead: false,
+        title: "A stable, healthy smile can change more than the way you look", format: "Reel", date: "Sep 24",
+        url: "https://www.instagram.com/reel/Ddrpof5x8y2/",
+        views: "598", reach: "389", er: "8.5%", lead: false,
       },
       {
-        title: "At NYC Dental Smiles, comprehensive care starts with a team that works together", format: "Reel", date: "Sep 16",
-        url: "https://www.instagram.com/reel/DdXGDHcJlsS/",
-        views: "311", reach: "205", er: "6.3%", lead: false,
+        title: "We’re heading to Hudson Yards", format: "Post", date: "Sep 25",
+        url: "https://www.instagram.com/p/DduFG7WFgDs/",
+        views: "561", reach: "200", er: "6.5%", lead: false,
       },
     ],
     galleryNote:
-      "All three feed pieces published September 14 – 20, ranked by views. Four Stories complete the seven. Engagement is interactions divided by reach. These are per-piece figures and will not add up to the account totals, which Metricool measures separately.",
+      "All 3 feed pieces published September 21 – 27, ranked by views. 9 Stories complete the 12. Engagement is interactions divided by reach. These are per-piece figures and will not add up to the account totals, which Metricool measures separately.",
     channel: {
-      title: "Search: fewer appearances, more clicks",
+      title: "Search: doctor pages drew more clicks",
       body:
-        "Google showed the site 1,055 times against 1,738, and 590 of that fall was on the homepage. Click rate doubled, from 2.59% to 5.21%. Searches that name the practice or a doctor drew 15 clicks at 18.3%; general searches drew none from 691 appearances. Doctor pages rose from 10.1% to 13.3%, and Dr. Tamay’s page from 2 clicks to 5.",
+        "Doctor pages drew 22 clicks from 151 appearances, 14.6%, against 13.3% the week before. Dr. Chesner’s page led with 7. Across the site, clicks were 53 against 55 and appearances 1,113 against 1,055. On mobile, click rate rose from 5.18% to 8.75%; on desktop it fell from 5.23% to 3.18%.",
     },
   },
 
   /* ---------------------------------------------------------------- SOCIAL */
+  /* Hidden this cycle: the social lead's write-up arrives after first review.
+     Not in ALL_SECTIONS, so it does not render. When it arrives, check every
+     figure against the Metricool export before adding it back. */
   social: {
     title: "Social",
-    lede: "How Instagram performed this week, and what we will keep doing.",
-    items: [
-      "Instagram followers are up 0.53%, while views increased 121% and overall interactions increased 371% compared with the previous period. Average daily reach also more than doubled, up 139%.",
-      "Reels drove much of this growth, with Reel engagement up 23%, average reach per Reel up 296% and Reel interactions up 878%.",
-      "Doctor-led, patient-focused content was the clear standout. Dr. Tamay’s patient comfort Reel generated 2,464 views and reached 1,102 accounts, significantly outperforming the rest of the content this period. Office Manager Appreciation content was the next strongest performer.",
-    ],
-    takeaway:
-      "This was a strong week for both visibility and engagement, with doctor-led content driving the biggest response. We’ll continue leaning into patient-focused doctor content while building on the topics and formats that can help sustain this momentum.",
+    lede: "",
+    items: [] as string[],
+    takeaway: "",
   },
 
   /* -------------------------------------------------------- NEEDS ATTENTION */
   attention: [
     {
       tag: "issue",
-      title: "One reel carried the week, and next week compares against it",
+      title: "The short link filter has not matched the allowlist",
       body:
-        "The Tamay reel drew 2,464 of 4,380 views, 56%, and 163 of 198 interactions, 82%. Excluding it, views were 1,916 against 1,978 the week before, effectively level. Reach per reel rose from 165 to 654, but the other reel this week reached 205.",
+        "This week’s filter held 9 paths: 8 of the 11 on the allowlist plus the LinkedIn link. It was missing /NYCDS-35thStreet, /nycds-website and /all-locations-booking-weave, which Short.io’s path menu does not list. Last cycle’s filter was missing /58th-booking-weave and /murray-hill-booking, and the report said those 2 drew no clicks in either week. On the all-clicks basis they drew 39 and 13 in September 14 – 20.",
       so:
-        "The growth is real but it is one piece. Next week compares against a 2,464-view reel, so it will read as a steep fall unless something performs the same way. Worth telling the practice now, and worth a second doctor-led reel in the next week rather than waiting.",
-    },
-    {
-      tag: "issue",
-      title: "Two of the four booking links drew no clicks in either week",
-      body:
-        "/murray-hill-booking and /58th-booking-weave were in the filter and drew no clicks in either week, while Upper East Side and Lenox Hill drew 93 between them this week. In the August 31 – September 13 figures they drew 21 and 20. The 9 GA4 landing views on the Murray Hill booking page were likely testing. Separately, Sep 7 – 13 now shows Lenox Hill booking at 42 and Upper East Side at 38, more than the full August 31 – September 13 window showed when pulled on September 14 (26 and 19). Both exports carried a filter; the settings likely differed.",
-      so:
-        "Two weeks at zero while the other two draw 40 or more each is worth a quick test: tap both buttons on the locations page on a phone and confirm they reach a booking calendar. Record the exact filter settings with each export from now on.",
+        "The Plaza District and Murray Hill booking buttons were never broken; the filter left them out. All 4 booking links are in this week’s filter, so the booking comparison is complete. The 3 missing paths are 1 information link, the main website link and the all-locations link. Short.io’s unfiltered view is not usable for this: it reports 364 total clicks for September 14 – 20, but its path list sums to 144 and its daily series to 157, its human-click figure, and it shows /ues-booking-weave at 14 against 49 filtered.",
     },
     {
       tag: "limitation",
-      title: "Search has not settled, and the two sources disagree",
+      title: "Metricool’s per-piece figures keep growing after a week closes",
       body:
-        "Daily clicks: 17, 10, 7, 13, 6, then 0 on Saturday and 2 on Sunday. September 7 – 13 rose from 41 to 45 clicks between its first and second readings. Search Console shows clicks up from 45 to 55 while GA4 shows visits from Google down from 60 to 51.",
+        "Read September 21, last week’s reels showed 176 interactions and the Tamay reel 2,464 views. Read September 28, the same week shows 180 and 2,680. Account-level views moved only from 4,380 to 4,382. This report compares per-piece figures at the same lag: each week read the day after it closed.",
       so:
-        "Re-pull Chart.csv on Wednesday. If the disagreement holds after that, it is worth checking whether GA4 is losing some Google visits to direct.",
+        "A reader who pulls Metricool on a different day will get different per-piece figures from the same view. That is the likeliest reason the social update has not matched the export. Share the read-day rule with the social lead.",
     },
     {
-      tag: "issue",
-      title: "The White Party list was sent to again without cleaning",
+      tag: "expected",
+      title: "Instagram eased back after the Tamay week, less than expected",
       body:
-        "White Party Email Set 2 went to the same 44 contacts on September 15. 12 did not receive it, 27%, the same 12 as the September 9 send. 11 opens, no clicks.",
+        "Views 4,382 to 3,949, down 10%. Last week’s total included 2,464 from a single reel; without it, last week was 1,916. This week’s top piece drew 1,040, 26% of the total. Interactions fell from 198 to 127 and engagement rate from 11.84% to 7.96%, because the Tamay reel alone drew 163.",
       so:
-        "Cleaning this list was recommended after the first send. At 27% undelivered on repeat sends, it affects the account’s sending reputation. Remove the 12 before anything else goes to it.",
+        "The drop the last report warned about was smaller than it suggested. Views spread across more pieces this week, 12 against 7, most of them Stories.",
     },
     {
-      tag: "note",
-      title: "The social update’s figures did not match the export",
+      tag: "early",
+      title: "Search clicks moved from desktop to mobile",
       body:
-        "Seven of nine figures differed, and not in one direction: views, reach and interactions were understated, while Reel engagement and reach per Reel were overstated. The two content claims matched exactly. All seven were corrected to the Metricool export so the Social section agrees with the scoreboard.",
+        "Desktop click rate fell from 5.23% to 3.18%, 38 clicks to 25, on more appearances, 785 against 726. Mobile rose from 5.18% to 8.75%, 17 clicks to 28. Total clicks held at 53 against 55.",
       so:
-        "The pattern suggests a different comparison window or source rather than a later pull. Worth confirming with the social team which Metricool view they use, so next week’s update matches without correction.",
+        "1 week of movement in each direction. Worth watching for a second week before reading anything into it.",
     },
     {
-      tag: "note",
-      title: "The test doctor page is gone; a sitemap is registering as a landing page",
+      tag: "limitation",
+      title: "The last days of search have not settled",
       body:
-        "/doctors/test-doctor drew 15 landing views last week and none this week. /index.php/sitemap.xml registered 7 landing views, which is automated traffic.",
+        "Daily clicks: 11, 9, 10, 14, 4, then 1 on Saturday and 4 on Sunday. September 14 – 20 did not change between its September 21 and September 28 readings, so last cycle’s re-pull would not have moved anything. September 7 – 13 did rise, from 41 to 45.",
       so:
-        "The test page looks resolved. The sitemap is excluded from the landing page chart and from nothing else, since its 7 views are too small to move any total.",
+        "Next cycle’s pull re-reads this week as its comparison column, which settles it without a separate midweek re-pull.",
+    },
+    {
+      tag: "limitation",
+      title: "Most short link clicks this week were automated",
+      body:
+        "Identified crawlers and bots account for at least 82 of this week’s 161 clicks: a Chinese search crawler 53, a generic crawler 11, Slack link previews 7, other bots 11. China accounts for 60 clicks. Short.io’s own label counts 30 as human, against 114 of 273 the week before; the report does not rely on that label, which has misclassified scanner traffic before. No country filter applied to either export.",
+      so:
+        "The automated share rose this week, so the week-to-week change in link clicks is approximate in either direction. The client build calls the figure a rough guide. A United States country filter, tested next cycle, would take most of it out.",
     },
   ],
 
   /* --------------------------------------------------------- WHAT WE LEARNED */
   learned: [
-    { f: "2,464", u: "views on Dr. Tamay’s reel", t: "more than three times the 742 of the previous lead. A doctor talking about how patients should feel drew the strongest response of anything published this month." },
-    { f: "12", u: "visits to Dr. Tamay’s page", t: "in the same week her reel ran, and 5 clicks from Google, up from 2." },
-    { f: "5.21%", u: "search click rate", t: "double the 2.59% the week before. Google showed the site less often, and more of the people who saw it clicked." },
-    { f: "13.3%", u: "click rate on doctor pages", t: "up from 10.1%, against 5.2% across the site. Doctor pages are still the part of the site that converts best in search." },
-    { f: "11.84%", u: "Instagram engagement rate", t: "up from 6.00%. More people saw the content, and a larger share of them responded." },
-    { f: "93", u: "booking link clicks", t: "across the four locations, against 80 the week before. Upper East Side and Lenox Hill drew all of them." },
+    { f: "1,040", u: "views on the week’s top reel", t: "about getting to know each patient. No single piece carried the week: it was 26% of views, against 56% for Dr. Tamay’s reel the week before." },
+    { f: "3,949", u: "Instagram views", t: "against 4,382 the week before. Without last week’s standout reel, that week drew 1,916." },
+    { f: "+10", u: "Instagram followers", t: "to 774, against +4 the week before." },
+    { f: "14.6%", u: "click rate on doctor pages", t: "up from 13.3%, against 4.8% across the site. Doctor pages are still the part of the site that converts best in search." },
+    { f: "7", u: "search clicks to Dr. Chesner’s page", t: "the most of any doctor page, and 10 website visits began there, up from 1." },
+    { f: "107", u: "booking link clicks", t: "across all 4 locations, against 145 the week before. Every location drew clicks in both weeks, including Murray Hill and Plaza District." },
   ],
 
   /* ------------------------------------------------------------- NEXT MOVES */
   moves: [
     {
-      action: "Make another doctor-led reel on patient comfort",
-      why: "The Tamay reel reached 1,102 accounts, and her page drew more visits the same week. It is the strongest piece published this month, and it was a doctor talking about how patients should feel.",
-      owner: "Social — Figment",
-      measure: "Reach on the next doctor-led reel, against 1,102.",
+      action: "Fix the short link filter to the full allowlist",
+      why: "3 allowlist paths are missing from this week’s filter, and last cycle’s filter left out 2 booking links that were then reported as drawing none. Short.io’s path menu does not list every path, so the missing ones have to be typed in.",
+      owner: "Reporting — Figment",
+      measure: "All 11 paths present in the filter screenshot filed with each export.",
     },
     {
-      action: "Set expectations for next week’s comparison",
-      why: "Next week compares against a reel that carried 56% of this week’s views. Without another piece like it, the headline will read as a steep fall.",
+      action: "Make the next doctor-led reel",
+      why: "The 2 strongest reels in 2 weeks were about how patients are treated: Dr. Tamay’s reached 1,102 accounts and this week’s reached 640.",
+      owner: "Social — Figment",
+      measure: "Reach on the next doctor-led reel, against 640 and 1,102.",
+    },
+    {
+      action: "Feature Dr. Chesner",
+      why: "His page drew 7 search clicks and 10 website visits began there this week, the most of any doctor, with no Chesner post or reel published. A reel would show whether content adds to a page already drawing search.",
+      owner: "Social — Figment",
+      measure: "Visits to Dr. Chesner’s page in the week the reel runs, against 10.",
+    },
+    {
+      action: "Share the Metricool read-day rule with the social lead",
+      why: "Per-piece figures keep growing after a week closes. Reading on different days gives different numbers from the same view.",
+      owner: "Social — Figment",
+      measure: "Next week’s social update matching the export without changes.",
+    },
+    {
+      action: "Give the Hudson Yards event its own tracked link",
+      why: "The October 4 event post drew 561 views. A dedicated link would show how many people act on it.",
+      owner: "Social — Figment",
+      measure: "Clicks on the event link in the next report.",
+    },
+    {
+      action: "Confirm what /raffle is",
+      why: "A new short link, /raffle, drew 11 clicks this week, the most of any path on an unfiltered view. It is not on the allowlist and is not counted.",
       owner: "Account — Figment",
-      measure: "Next week’s views excluding the Tamay reel, against 1,916.",
-    },
-    {
-      action: "Test the Murray Hill and Plaza District booking buttons",
-      why: "Neither drew a click in either week, while Upper East Side and Lenox Hill drew 93 between them this week. In the August 31 – September 13 figures they drew 21 and 20.",
-      owner: "Reporting — Figment",
-      measure: "Clicks on both in the next report, or a confirmed reason for zero.",
-    },
-    {
-      action: "Clean the White Party list before any further send",
-      why: "The same 12 of 44 contacts did not receive either of the last two sends. Repeat failures at 27% affect delivery for every campaign from the account.",
-      owner: "Email — Figment",
-      measure: "Undelivered on the next send to this list, against 27%.",
-    },
-    {
-      action: "Re-pull search on Wednesday, September 23",
-      why: "Saturday and Sunday read 0 and 2 clicks. The week before rose from 41 to 45 clicks after its first reading.",
-      owner: "Reporting — Figment",
-      measure: "Final search clicks and impressions for September 14 – 20.",
-    },
-    {
-      action: "Align the social update’s source with the export",
-      why: "Seven of nine figures in this week’s update differed from Metricool’s export, in both directions. They were corrected, but the correction should not be needed.",
-      owner: "Social — Figment",
-      measure: "Next week’s update matching the export without changes.",
+      measure: "A decision on whether it belongs in the NYCDS count.",
     },
   ],
 
   /* ---------------------------------------------------------------- DETAIL */
   detail: {
     subtitles: {
-      instagram: "September 14 – 20 · account totals from Metricool",
-      search: "September 14 – 20 · Google Search Console",
-      website: "September 14 – 20 · Google Analytics",
-      links: "September 14 – 20 · Short.io",
+      instagram: "September 21 – 27 · account totals from Metricool",
+      search: "September 21 – 27 · Google Search Console",
+      website: "September 21 – 27 · Google Analytics",
+      links: "September 21 – 27 · Short.io",
     },
 
     instagram: {
       kv: [
-        { k: "Views", v: "4,380" },
-        { k: "Reach per day", v: "239" },
-        { k: "Accounts engaged", v: "188" },
-        { k: "Followers", v: "764" },
-        { k: "Content published", v: "7" },
-        { k: "Interactions", v: "198" },
+        { k: "Views", v: "3,949" },
+        { k: "Reach per day", v: "228" },
+        { k: "Accounts engaged", v: "133" },
+        { k: "Followers", v: "774" },
+        { k: "Content published", v: "12" },
+        { k: "Interactions", v: "127" },
       ],
       publishedChart: {
         title: "What was published",
-        note: "7 pieces, the same number as the week before, with one more reel and one fewer post.",
+        note: "12 pieces against 7 the week before: 9 Stories against 4, with the same 2 reels and 1 post.",
       },
       published: [
-        { label: "Stories", value: 4 },
+        { label: "Stories", value: 9 },
         { label: "Reels", value: 2 },
         { label: "Feed posts", value: 1 },
       ],
       postsChart: {
-        title: "The three feed pieces published this week",
+        title: "The 3 feed pieces published this week",
         note: "Ranked by views. Engagement is interactions divided by reach.",
       },
       posts: [
-        { t: "Dr. Tamay believes great dental care starts with making patients feel comfortable", f: "Reel", d: "Sep 18", v: "2,464", r: "1,102", i: "163", e: "14.8%" },
-        { t: "Behind every great dental practice is an office manager", f: "Post", d: "Sep 17", v: "669", r: "218", i: "22", e: "10.1%" },
-        { t: "At NYC Dental Smiles, comprehensive care starts with a team that works together", f: "Reel", d: "Sep 16", v: "311", r: "205", i: "13", e: "6.3%" },
+        { t: "Great dental care starts with knowing the person behind the smile", f: "Reel", d: "Sep 23", v: "1,040", r: "640", i: "81", e: "12.7%" },
+        { t: "A stable, healthy smile can change more than the way you look", f: "Reel", d: "Sep 24", v: "598", r: "389", i: "33", e: "8.5%" },
+        { t: "We’re heading to Hudson Yards", f: "Post", d: "Sep 25", v: "561", r: "200", i: "13", e: "6.5%" },
       ],
       interactionsChart: {
-        title: "Reels drew almost all the interactions",
-        note: "198 interactions on posts and reels. 163 of the 176 reel interactions came from the Tamay reel.",
+        title: "Reels drew most of the interactions",
+        note: "127 interactions on posts and reels. The top reel drew 81 of the 114 reel interactions.",
       },
       interactions: [
-        { label: "Reels", value: 176 },
-        { label: "Feed posts", value: 22 },
+        { label: "Reels", value: 114 },
+        { label: "Feed posts", value: 13 },
       ],
       viewsChart: {
         title: "Views by format",
-        note: "From Metricool’s format summaries. Stories are shown as impressions. These are not summed; the account total of 4,380 is measured separately.",
+        note: "From Metricool’s format summaries. Stories are shown as impressions. These are not summed; the account total of 3,949 is measured separately.",
       },
       viewsByFormat: [
-        { label: "Reels", value: 2775 },
-        { label: "Feed posts", value: 669 },
-        { label: "Stories", value: 239 },
+        { label: "Reels", value: 1638 },
+        { label: "Stories", value: 626 },
+        { label: "Feed posts", value: 561 },
       ],
       storiesTitle: "Stories",
       stories:
-        "4 Stories drew 239 impressions, against 111 from 4 the week before. Average reach per Story rose from 28 to 54.",
+        "9 Stories drew 626 impressions, against 239 from 4 the week before. Average reach per Story rose from 54 to 62.",
       note:
-        "Account totals are Metricool’s account-level figures, not a sum of individual pieces. Engagement rate is interactions on posts and reels divided by reach: 198 against 1,673 this week and 42 against 700 the week before. Story interactions are not in this week’s export and are not included, so this rate is not comparable with earlier reports that included them. Excluding the Tamay reel, views were 1,916 against 1,978. No advertising ran in either week.",
+        "Account totals are Metricool’s account-level figures, read September 28 for both weeks. Last week’s views are restated from 4,380 to 4,382. Per-piece figures for posts and reels are lifetime totals that keep growing after a week closes, so last week’s are the September 21 reading, taken 1 day after close like this week’s. Read September 28, last week’s reels show 180 interactions and the Tamay reel 2,680 views. Engagement rate is interactions on posts and reels divided by reach: 127 against 1,596 this week and 198 against 1,673 the week before. Story interactions are not in the export. Metricool shows 10 followers acquired and 1 lost, which nets to 9, while the count rose by 10, from 764 to 774; the report uses the count. No advertising ran in either week.",
       clientNote:
-        "Account totals come from Metricool’s account-level figures rather than a sum of individual posts. Engagement rate is interactions divided by reach. No advertising ran in either week.",
+        "Account totals come from Metricool’s account-level figures rather than a sum of individual posts. Figures for individual posts keep growing after a week ends, so each week is read the day after it closes. Engagement rate is interactions divided by reach. No advertising ran in either week.",
     },
 
     search: {
       kv: [
-        { k: "Clicks", v: "55" },
-        { k: "Impressions", v: "1,055" },
-        { k: "Click rate", v: "5.21%" },
+        { k: "Clicks", v: "53" },
+        { k: "Impressions", v: "1,113" },
+        { k: "Click rate", v: "4.76%" },
       ],
       impressionsChart: {
         title: "Impressions per day",
         note: "Daily appearances in Google results across the week.",
       },
       impressionsSeries: [
-        { d: "Sep 14", v: 232 }, { d: "Sep 15", v: 148 }, { d: "Sep 16", v: 124 },
-        { d: "Sep 17", v: 167 }, { d: "Sep 18", v: 143 }, { d: "Sep 19", v: 90 },
-        { d: "Sep 20", v: 151 },
+        { d: "Sep 21", v: 274 }, { d: "Sep 22", v: 169 }, { d: "Sep 23", v: 170 },
+        { d: "Sep 24", v: 128 }, { d: "Sep 25", v: 119 }, { d: "Sep 26", v: 121 },
+        { d: "Sep 27", v: 132 },
       ],
       pagesChart: {
         title: "The homepage collects the appearances; the doctor pages collect the clicks",
-        note: "Clicks, appearances, click rate and average position by page. The seven doctor pages together drew 19 clicks from 143 appearances.",
+        note: "Clicks, appearances, click rate and average position by page. The 7 doctor pages together drew 22 clicks from 151 appearances.",
       },
       pages: [
-        { p: "Homepage", c: "27", i: "819", r: "3.30%", pos: "49.2" },
-        { p: "Dr. Michael Chesner", c: "5", i: "54", r: "9.26%", pos: "5.2" },
-        { p: "Dr. Maria Tamay", c: "5", i: "25", r: "20.00%", pos: "5.1" },
-        { p: "Dr. James Eisdorfer", c: "4", i: "11", r: "36.36%", pos: "8.0" },
-        { p: "Dr. Sherman Farahani", c: "3", i: "15", r: "20.00%", pos: "6.1" },
-        { p: "Locations", c: "6", i: "92", r: "6.52%", pos: "25.1" },
-        { p: "Meet Our Dentists", c: "1", i: "116", r: "0.86%", pos: "33.5" },
-        { p: "Dr. Dana Kapparova", c: "1", i: "14", r: "7.14%", pos: "8.7" },
-        { p: "Dr. Ben Elchami", c: "1", i: "12", r: "8.33%", pos: "13.5" },
+        { p: "Homepage", c: "29", i: "859", r: "3.38%", pos: "46.8" },
+        { p: "Dr. Michael Chesner", c: "7", i: "44", r: "15.91%", pos: "4.8" },
+        { p: "Dr. James Eisdorfer", c: "5", i: "21", r: "23.81%", pos: "6.4" },
+        { p: "Dr. Maria Tamay", c: "3", i: "18", r: "16.67%", pos: "4.2" },
+        { p: "Dr. Ben Elchami", c: "2", i: "21", r: "9.52%", pos: "10.3" },
+        { p: "Dr. Doris Giraldo", c: "2", i: "16", r: "12.50%", pos: "8.7" },
+        { p: "Dr. Sherman Farahani", c: "2", i: "11", r: "18.18%", pos: "5.1" },
+        { p: "Dr. Dana Kapparova", c: "1", i: "20", r: "5.00%", pos: "5.4" },
+        { p: "Meet Our Dentists", c: "1", i: "172", r: "0.58%", pos: "42.2" },
+        { p: "Locations", c: "1", i: "77", r: "1.30%", pos: "12.1" },
       ],
       devicesChart: {
-        title: "Desktop click rate tripled",
-        note: "Clicks, appearances, click rate and average position by device. Desktop went from 1.76% to 5.23%.",
+        title: "Mobile click rate rose as desktop fell",
+        note: "Clicks, appearances, click rate and average position by device. Mobile went from 5.18% to 8.75%, desktop from 5.23% to 3.18%.",
       },
       devices: [
-        { d: "Desktop", c: "38", i: "726", r: "5.23%", pos: "50.0" },
-        { d: "Mobile", c: "17", i: "328", r: "5.18%", pos: "37.3" },
-        { d: "Tablet", c: "0", i: "1", r: "0%", pos: "11.0" },
+        { d: "Mobile", c: "28", i: "320", r: "8.75%", pos: "30.5" },
+        { d: "Desktop", c: "25", i: "785", r: "3.18%", pos: "49.9" },
+        { d: "Tablet", c: "0", i: "8", r: "0%", pos: "3.8" },
       ],
       queriesChart: {
         title: "Searches that name the practice or a doctor bring the clicks",
-        note: "From the query export, which holds 15 of the 55 clicks and 773 of the 1,055 appearances. Useful for share, not for totals.",
+        note: "From the query export, which holds 14 of the 53 clicks and 781 of the 1,113 appearances. Useful for share, not for totals.",
       },
       queries: [
-        { q: "nyc dental smiles", c: "8", i: "16", r: "50.00%", pos: "1.3" },
-        { q: "nyc dental smile", c: "3", i: "3", r: "100.00%", pos: "1.3" },
-        { q: "nyc smiles", c: "1", i: "7", r: "14.29%", pos: "2.9" },
-        { q: "michael chesner", c: "1", i: "7", r: "14.29%", pos: "5.6" },
-        { q: "dr chesner nyc", c: "1", i: "4", r: "25.00%", pos: "5.3" },
-        { q: "dana kapparova", c: "1", i: "3", r: "33.33%", pos: "6.3" },
+        { q: "nyc dental smiles", c: "10", i: "18", r: "55.56%", pos: "1.3" },
+        { q: "nyc smiles", c: "2", i: "5", r: "40.00%", pos: "3.8" },
+        { q: "doris giraldo", c: "1", i: "1", r: "100.00%", pos: "1.0" },
+        { q: "next dimension dentistry", c: "1", i: "1", r: "100.00%", pos: "13.0" },
       ],
       brandSplit: {
         title: "Named and general searches",
         note: "Matched on the practice names and doctor surnames. Shares within the query sample, not totals.",
         rows: [
-          { k: "Names the practice or a doctor", c: "15", i: "82", r: "18.29%" },
-          { k: "General searches", c: "0", i: "691", r: "0%" },
+          { k: "Names the practice or a doctor", c: "13", i: "73", r: "17.81%" },
+          { k: "General searches", c: "1", i: "708", r: "0.14%" },
         ],
       },
       note:
-        "Totals come from Search Console’s daily export. Saturday and Sunday read 0 and 2 clicks and are likely to rise; re-pull on Wednesday. September 7 – 13 has been restated from 41 clicks and 1,705 appearances to 45 and 1,738. Average position is weighted by appearances across all traffic, 46.0 this week against 55.8. The homepage’s low-ranking appearances pull that average down. Doctor-page click rate counts all seven individual doctor pages in both weeks.",
+        "Totals come from Search Console’s daily export, read September 28. Saturday and Sunday read 1 and 4 clicks and may rise. September 14 – 20 was re-read on September 28 and had not changed from its September 21 reading: 55 clicks on 1,055 appearances. Average position is weighted by appearances across all traffic, 44.0 this week against 46.0. Doctor-page click rate counts all 7 individual doctor pages in both weeks.",
     },
 
     website: {
       kv: [
-        { k: "Sessions", v: "162" },
-        { k: "New visitors", v: "109" },
-        { k: "Desktop", v: "79%" },
-        { k: "Mobile", v: "21%" },
+        { k: "Sessions", v: "131" },
+        { k: "New visitors", v: "96" },
+        { k: "Desktop", v: "76%" },
+        { k: "Mobile", v: "24%" },
       ],
       sourcesChart: {
         title: "Where visitors came from",
         note: "Sessions by source. Direct means someone typed the address or used a saved link.",
       },
       sources: [
-        { label: "Direct", value: 80 },
-        { label: "Google — organic", value: 51 },
-        { label: "Constant Contact", value: 7 },
-        { label: "Bing — organic", value: 5 },
-        { label: "nycsmilepass.com", value: 5 },
-        { label: "Instagram", value: 4 },
+        { label: "Direct", value: 63 },
+        { label: "Google — organic", value: 43 },
+        { label: "Instagram", value: 6 },
+        { label: "Constant Contact", value: 3 },
+        { label: "Yahoo — organic", value: 3 },
+        { label: "Bing — organic", value: 2 },
       ],
       deviceChart: {
         title: "Desktop still leads",
-        note: "Share of visitors by device, against 77% and 23% the week before.",
+        note: "Share of visitors by device, against 79% and 21% the week before.",
       },
       deviceSplit: [
-        { label: "Desktop", pct: 79 },
-        { label: "Mobile", pct: 21 },
+        { label: "Desktop", pct: 76 },
+        { label: "Mobile", pct: 24 },
       ],
       landingChart: {
         title: "Where visitors landed",
-        note: "Views by landing page. Dr. Tamay’s page and the comprehensive care page both appear in the week their reels ran.",
+        note: "Views by landing page. Dr. Chesner’s page drew 10, up from 1.",
       },
       landing: [
-        { label: "Homepage", value: 132 },
-        { label: "Meet Our Dentists", value: 28 },
-        { label: "Locations", value: 16 },
-        { label: "Dr. Maria Tamay", value: 12 },
-        { label: "Comprehensive Care", value: 9 },
+        { label: "Homepage", value: 117 },
+        { label: "Meet Our Dentists", value: 25 },
+        { label: "Locations", value: 13 },
+        { label: "Dr. Michael Chesner", value: 10 },
+        { label: "Why NYC Dental Smiles", value: 10 },
+        { label: "Cosmetic Dentistry", value: 8 },
       ],
       note:
-        "No advertising ran in either week. Visits from Google fell from 60 to 51 while Search Console clicks rose, so the two sources disagree this week.",
+        "No advertising ran in either week. Last week is restated from 162 sessions and 109 new visitors to 163 and 111. Visits from Google went from 51 to 43, and Search Console clicks from 55 to 53.",
     },
 
     links: {
       kv: [
-        { k: "Booking · Upper East Side", v: "49" },
-        { k: "Booking · Lenox Hill", v: "44" },
-        { k: "Location pages", v: "91" },
-        { k: "Homepage link", v: "52" },
+        { k: "Booking · all 4 locations", v: "107" },
+        { k: "Location pages", v: "40" },
+        { k: "Homepage link", v: "14" },
+        { k: "Total", v: "161" },
       ],
       destsChart: {
         title: "Clicks by link",
-        note: "The named NYCDS links with clicks this week. The Murray Hill and Plaza District booking links drew none.",
+        note: "The practice’s short links with clicks this week. Every booking link drew clicks.",
       },
       dests: [
-        { label: "Homepage", value: 52 },
-        { label: "Upper East Side — booking", value: 49 },
-        { label: "Lenox Hill — booking", value: 44 },
-        { label: "Plaza District — information", value: 25 },
-        { label: "Upper East Side — information", value: 25 },
-        { label: "Lenox Hill — information", value: 23 },
-        { label: "Murray Hill — information", value: 18 },
-        { label: "Main website", value: 14 },
-        { label: "LinkedIn", value: 3 },
+        { label: "Lenox Hill — booking", value: 32 },
+        { label: "Plaza District — booking", value: 31 },
+        { label: "Upper East Side — booking", value: 30 },
+        { label: "Plaza District — information", value: 15 },
+        { label: "Murray Hill — booking", value: 14 },
+        { label: "Homepage", value: 14 },
+        { label: "Lenox Hill — information", value: 13 },
+        { label: "Upper East Side — information", value: 12 },
       ],
       note:
-        "Named links only. 253 clicks this week against 232. The booking links for Upper East Side and Lenox Hill drew 93 against 80, and the four location information links 91 against 97. The Murray Hill and Plaza District booking links drew no clicks in either week. More than a third of clicks in both weeks come from automated sources, a similar share each week, so the comparison holds but the totals run higher than real visits.",
+        "161 clicks this week against 270. Booking links drew 107 against 145, and location information links 40 against 73. Last week’s report showed no clicks on the Murray Hill and Plaza District booking links; they were missing from the collection filter, and the corrected figures for that week are 13 and 39. At least half of this week’s clicks came from automated sources, a larger share than last week, so the totals run well above real visits.",
     },
 
-    email: {
-      window: "September 14 – 20, 2026 · one campaign",
-      note:
-        "One campaign went out this week: White Party Email Set 2 on September 15, to the same 44 contacts as the September 9 send. RH NYCDS and White Party Email 2 were covered in the previous report. Percentages are calculated on delivered mail.",
-      table: {
-        head: ["Campaign", "Sends", "All opens", "Confirmed opens", "Clicks"],
-        rows: [
-          ["White Party Email Set 2", "44", "11 (34%)", "—", "0"],
-        ],
-      },
-      tableInternal: {
-        head: ["Campaign", "Sends", "Delivered", "All opens", "Confirmed", "Clicks", "Bounces"],
-        rows: [
-          ["White Party Email Set 2", "44", "32", "11 (34%)", "—", "0", "12 (27%)"],
-        ],
-      },
-      tableChart: {
-        title: "The one campaign sent this week",
-        note: "A second send to the White Party list. Confirmed opens were not pulled for this campaign.",
-      },
+    /* No campaigns this cycle. page.tsx renders the Email panel only when
+       this is not null. */
+    email: null as null | {
+      window: string;
+      note: string;
+      table: { head: string[]; rows: string[][] };
+      tableInternal: { head: string[]; rows: string[][] };
+      tableChart: { title: string; note: string };
     },
 
     facebook: {
-      subtitle: "September 14 – 20 · account totals from Metricool",
+      subtitle: "September 21 – 27 · account totals from Metricool",
       kv: [
-        { k: "Followers", v: "981" },
-        { k: "Views", v: "108" },
-        { k: "Page visits", v: "0" },
-        { k: "Content published", v: "2" },
+        { k: "Followers", v: "982" },
+        { k: "Views", v: "207" },
+        { k: "Page visits", v: "15" },
+        { k: "Content published", v: "3" },
       ],
       note:
-        "Views 108 against 103, on 2 pieces against 1. Followers 981 against 980. At this scale the figures move on single pieces of content and are reported for completeness.",
+        "Views 207 against 111, on 3 pieces against 2. Followers 982 against 981. Last week’s views are restated from 108 to 111. At this scale the figures move on single pieces of content and are reported for completeness.",
     },
 
     method: [
-      { q: "What the report covers", a: "September 14 to 20, 2026, seven full days, Monday to Sunday, compared with September 7 to 13. Both weeks are the same length, so every comparison is direct." },
+      { q: "What the report covers", a: "September 21 to 27, 2026, 7 full days, Monday to Sunday, compared with September 14 to 20. Both weeks are the same length, so every comparison is direct." },
       { q: "Where the Instagram totals come from", a: "Metricool’s account-level figures, not a sum of individual posts. Per-piece figures are used only to rank content against content." },
-      { q: "How engagement rate is calculated", a: "Interactions on posts and reels divided by reach, meaning the share of people who saw something and responded to it. It is not calculated against follower count, which would make the figure look higher than it is." },
-      { q: "Why one reel is shown separately", a: "Dr. Tamay’s reel drew 2,464 of the week’s 4,380 views. Reporting the total alone would suggest the whole account doubled. Excluding the reel, views were 1,916 against 1,978." },
-      { q: "Why the search figures may change", a: "Google keeps processing search data for several days. Figures for September 7 to 13 rose from 41 to 45 clicks between our first and second readings, so the most recent days of any week are the least settled." },
-      { q: "How the doctor page click rate is calculated", a: "All seven individual doctor pages, counted the same way in both weeks: 19 clicks from 143 appearances this week, 15 from 148 the week before." },
-      { q: "How short link clicks are counted", a: "Clicks on the practice’s named short links, with automated requests to unrecognized paths removed. The Murray Hill and Plaza District booking links drew no clicks in either week." },
-      { q: "How the Social section was checked", a: "Every figure in it was compared with the Metricool export. Seven were corrected to match, so the Social section and the scoreboard agree.", internalOnly: true },
-      { q: "What is not in this report", a: "No advertising ran in either week. Confirmed email opens were not pulled for this week’s campaign. Story interactions are not in this week’s Instagram export." },
+      { q: "How engagement rate is calculated", a: "Interactions on posts and reels divided by reach, meaning the share of people who saw something and engaged with it. It is not calculated against follower count, which would make the figure look higher than it is." },
+      { q: "Why each week is read the day after it closes", a: "Figures for individual posts keep growing after a week ends. Reading each week the day after it closes means both weeks have had the same time to collect views." },
+      { q: "Why the search figures may change", a: "Google keeps processing search data for several days, so the most recent days of any week are the least settled. September 14 to 20 did not change between readings a week apart; September 7 to 13 rose from 41 to 45 clicks." },
+      { q: "How the doctor page click rate is calculated", a: "All 7 individual doctor pages, counted the same way in both weeks: 22 clicks from 151 appearances this week, 19 from 143 the week before." },
+      { q: "How short link clicks are counted", a: "All clicks on the practice’s named short links, counted the same way in both weeks, including automated clicks. Last week’s figures were re-collected so that all 4 booking links are included." },
+      { q: "Where the Social section is", a: "The social lead’s write-up arrives after first review. It is checked figure by figure against the Metricool export before it is added.", internalOnly: true },
+      { q: "What is not in this report", a: "No advertising ran in either week. No email campaigns were sent this week. Story interactions are not in the Instagram export." },
     ] as { q: string; a: string; internalOnly?: boolean; clientOnly?: boolean }[],
   },
 
   /* ------------------------------------------------------------ SMILE PASS
-     A separate overview, not part of the weekly comparison. Covers August 1 –
-     September 20, 2026. Sources: GA4 property "NYC Dental Smiles Membership",
-     Meta Ads, Metricool (organic only), Search Console, and the website's own
-     sign-up records. See `method` for how each window was handled. */
+     A separate overview, not part of the weekly comparison. Lifetime view,
+     August 1 – September 27, 2026. Sources: GA4 property "NYC Dental Smiles
+     Membership", Meta Ads, Metricool (organic only), Search Console, and the
+     website's own sign-up records. See `method`. */
   smilepass: {
     title: "NYC Smile Pass",
-    dateLine: "August 1 – September 20, 2026 · the program’s first weeks",
+    dateLine: "August 1 – September 27, 2026 · since launch",
     lede:
-      "An overview of Smile Pass in its first weeks, August 1 – September 20. The August campaign brought 97% of the site’s visitors, and one sign-up came in. Most visits ended on the homepage: Instagram ad visitors averaged under a second, and at most 57 of 2,203 visits went past the first page. GA4 has no sign-up tracking yet, so it cannot connect visits to sign-ups. These are launch figures and a useful baseline for the next campaign.",
+      "An overview of Smile Pass since launch, August 1 – September 27. The August campaign brought 97% of the site’s new visitors, and 1 sign-up has come in. No ads have run since August 30, and the site drew 8 new visitors from September 21 to 27. Instagram ad visitors averaged under a second on the site. GA4 has no sign-up tracking yet, so it cannot connect visits to sign-ups.",
     ledeClient:
-      "An overview of NYC Smile Pass in its first weeks, from August 1 to September 20. The August launch campaign introduced Smile Pass to 62,053 people and brought more than 2,000 visitors to the site, and one sign-up has come in. With a baseline now in place, the next steps focus on turning visits into members.",
+      "An overview of NYC Smile Pass since launch, from August 1 to September 27. The August launch campaign introduced Smile Pass to 62,053 people and brought more than 2,000 visitors to the site, and 1 sign-up has come in. With a baseline now in place, the next steps focus on turning visits into members.",
     kv: [
       { k: "People reached by ads", v: "62,053" },
       { k: "Landing page views from ads", v: "1,604" },
       { k: "Cost per landing page view", v: "$0.47" },
-      { k: "New website visitors", v: "2,120" },
+      { k: "New website visitors", v: "2,128" },
       { k: "Instagram followers", v: "27" },
       { k: "Sign-ups", v: "1" },
     ],
@@ -670,14 +658,15 @@ export const REPORT = {
       { d: "Aug 31", v: 2 }, { d: "Sep 1", v: 2 }, { d: "Sep 2", v: 0 }, { d: "Sep 3", v: 0 }, { d: "Sep 4", v: 0 }, { d: "Sep 5", v: 0 },
       { d: "Sep 6", v: 0 }, { d: "Sep 7", v: 2 }, { d: "Sep 8", v: 1 }, { d: "Sep 9", v: 0 }, { d: "Sep 10", v: 0 }, { d: "Sep 11", v: 1 },
       { d: "Sep 12", v: 2 }, { d: "Sep 13", v: 0 }, { d: "Sep 14", v: 6 }, { d: "Sep 15", v: 0 }, { d: "Sep 16", v: 0 }, { d: "Sep 17", v: 0 },
-      { d: "Sep 18", v: 1 }, { d: "Sep 19", v: 2 }, { d: "Sep 20", v: 0 },
+      { d: "Sep 18", v: 1 }, { d: "Sep 19", v: 2 }, { d: "Sep 20", v: 0 }, { d: "Sep 21", v: 5 }, { d: "Sep 22", v: 0 }, { d: "Sep 23", v: 1 },
+      { d: "Sep 24", v: 1 }, { d: "Sep 25", v: 0 }, { d: "Sep 26", v: 0 }, { d: "Sep 27", v: 1 },
     ],
     dailyChart: {
       title: "Visits peaked during the August campaign",
       /* indices into `daily`: 10 = Aug 11, 29 = Aug 30 */
       band: { from: 10, to: 29, label: "Aug 11 – 30" },
       note:
-        "New website visitors each day. 2,067 of the 2,120 arrived between August 11 and 30, 97%. The campaign ended on August 30. The peak was 204 on August 13. From September 1 to 20 the site drew 17.",
+        "New website visitors each day. 2,067 of the 2,128 arrived between August 11 and 30, 97%. The campaign ended on August 30. The peak was 204 on August 13. From September 1 to 27 the site drew 25.",
       noteClient:
         "New website visitors each day. Most arrived between August 11 and 30, during the launch campaign. September has been quieter without ads running, as expected for a new site still building its search and social presence.",
     },
@@ -692,9 +681,9 @@ export const REPORT = {
         ],
       },
       note:
-        "One campaign, August 2026 First Month Free, with a $750 lifetime budget, ending August 30. It was set to optimize for landing page views, not sign-ups, and delivered those cheaply. Meta ranks both ads’ conversion rate in the bottom 35% of ads; quality is average. The No Insurance ad had the higher click rate and cheaper views but received 18% of the budget. People reached counts each person once, so the two ad rows add up to more than the campaign total. Meta counts 1,604 landing page views; Google Analytics recorded 2,068 visits from the ads, because the two measure a visit differently.",
+        "1 campaign, August 2026 First Month Free, with a $750 lifetime budget, ending August 30. No ads have run since. It was set to optimize for landing page views, not sign-ups, and delivered those cheaply. Meta ranks both ads’ conversion rate in the bottom 35% of ads; quality is average. The No Insurance ad had the higher click rate and cheaper views but received 18% of the budget. People reached counts each person once, so the 2 ad rows add up to more than the campaign total. Meta counts 1,604 landing page views; Google Analytics recorded 2,068 visits from the ads, because the 2 measure a visit differently.",
       noteClient:
-        "One campaign ran, with a $750 budget, and ended on August 30. It was set up to bring people to the site, and it did so at 47 cents a visit. The No Insurance message drew a higher click rate than the general one. People reached counts each person once, so the two ads add up to more than the campaign total. Meta counts 1,604 landing page views, while Google Analytics recorded 2,068 visits from the ads; the two tools measure a visit slightly differently.",
+        "1 campaign ran, with a $750 budget, and ended on August 30. It was set up to bring people to the site, and it did so at 47 cents a visit. The No Insurance message drew a higher click rate than the general one. People reached counts each person once, so the 2 ads add up to more than the campaign total. Meta counts 1,604 landing page views, while Google Analytics recorded 2,068 visits from the ads; the 2 tools measure a visit slightly differently.",
     },
     sources: {
       title: "How visitors engaged, by source",
@@ -703,13 +692,13 @@ export const REPORT = {
         rows: [
           ["Instagram ads", "1,638", "3.7%", "0.7 seconds"],
           ["Facebook ads", "430", "10.9%", "4.7 seconds"],
-          ["Direct", "78", "23.1%", "8.4 seconds"],
-          ["Instagram and Facebook, unpaid", "28", "42.9%", "9.3 seconds"],
-          ["Google search", "19", "42.1%", "11.3 seconds"],
+          ["Direct", "79", "22.8%", "8.3 seconds"],
+          ["Instagram and Facebook, unpaid", "29", "41.4%", "9.0 seconds"],
+          ["Google search", "20", "40.0%", "10.7 seconds"],
         ],
       },
       note:
-        "Instagram ad visitors, 1,638 of the 2,199 visits, engaged 3.7% of the time and averaged 0.7 seconds. Facebook ad visitors engaged three times as often. Across the site, 2,203 visits produced 2,260 page views, so at most 57 visits went past the first page. 9 visits landed directly on /join, and GA4 recorded 4 clicks in total. Bing (2) and unassigned (3) are not shown. These totals run to September 21, a partial day that adds 4 visitors.",
+        "Instagram ad visitors, 1,638 of the 2,202 visits, engaged 3.7% of the time and averaged 0.7 seconds. Facebook ad visitors engaged 3 times as often. Paid visits have not changed since September 20, which fits no ads running. Bing (3) and unassigned (3) are not shown.",
       noteClient:
         "A visit counts as engaged if it lasted at least 10 seconds or included a second page. Visitors from Google, direct visits and Facebook ads spent the most time on the site; Instagram ad visits were typically brief. Sources with fewer than 5 visits are not shown.",
     },
@@ -718,27 +707,27 @@ export const REPORT = {
       table: {
         head: ["", "Instagram", "Facebook"],
         rows: [
-          ["Followers", "27 · up 11", "3 · up 3"],
-          ["Pieces published", "28 · 15 posts, 4 reels, 9 Stories", "9 · 5 posts, 4 reels"],
-          ["Average reach per post", "44", "6"],
-          ["Reels", "574 views · 116 average reach", "727 video views"],
-          ["Strongest piece", "Sep 17 reel · 336 views · 275 reach", "—"],
+          ["Followers", "27 · up 11", "4 · up 4"],
+          ["Pieces published", "31 · 16 posts, 6 reels, 9 Stories", "11 · 5 posts, 6 reels"],
+          ["Average reach per post", "42", "6"],
+          ["Reels", "788 views · 104 average reach", "876 video views"],
+          ["Strongest piece", "Sep 17 reel · 339 views · 276 reach", "—"],
         ],
       },
       note:
-        "Unpaid content only. Metricool’s account-level reach and view totals include delivery from the ad campaign, so they are not used: Facebook reports 22,740 views on an account with 3 followers. The strongest organic piece was the September 17 reel, “Be honest: when was your last dentist appointment?”, with 336 views and 275 reach.",
+        "Unpaid content only. Metricool’s account-level reach and view totals include delivery from the ad campaign, so they are not used: Facebook reports 22.89K views on an account with 4 followers. The strongest organic piece is still the September 17 reel, “Be honest: when was your last dentist appointment?”, with 339 views and 276 reach. 2 reels went out this week: September 22 with 74 views and September 24 with 137.",
       noteClient:
-        "Unpaid posts only. Both accounts are in their first weeks, and Instagram has grown to 27 followers, up 11. The strongest post was the September 17 reel asking when you last saw a dentist, with 336 views.",
+        "Unpaid posts only. Both accounts are in their first weeks, and Instagram has grown to 27 followers, up 11. The strongest post was the September 17 reel asking when you last saw a dentist, with 339 views.",
     },
     search: {
       title: "Search",
       kv: [
-        { k: "Clicks from Google", v: "3" },
-        { k: "Appearances in Google", v: "126" },
+        { k: "Clicks from Google", v: "4" },
+        { k: "Appearances in Google", v: "152" },
         { k: "Most common search", v: "“nyc dental smiles”" },
       ],
       note:
-        "Seven weeks of Search Console data. Of the searches Google reports, 52 appearances were for “nyc dental smiles” and none mentioned Smile Pass. Google withholds low-volume searches, so the list covers 56 of the 126 appearances.",
+        "8 weeks of Search Console data. Of the searches Google reports, 66 appearances were for “nyc dental smiles” and none mentioned Smile Pass by name. “dental membership plan nyc” appeared 4 times. Google withholds low-volume searches, so the list covers 72 of the 152 appearances.",
       noteClient:
         "Search presence is still early for a new site. Most of the searches that showed Smile Pass were for the NYC Dental Smiles name.",
     },
@@ -752,22 +741,22 @@ export const REPORT = {
         },
         {
           t: "Visits have not yet turned into sign-ups",
-          b: "One sign-up across 2,120 new visitors and $749.85 in ad spend. At most 57 of 2,203 visits went past the first page, and Meta rates both ads’ conversion in the bottom 35%.",
-          client: { t: "Turning visits into sign-ups is the next focus", b: "One sign-up came in over the period. Most visitors viewed the homepage without continuing to the sign-up page, which shows where to focus next." },
+          b: "1 sign-up across 2,128 new visitors and $749.85 in ad spend. Instagram ad visits averaged 0.7 seconds and 3.7% engaged, and Meta rates both ads’ conversion in the bottom 35%.",
+          client: { t: "Turning visits into sign-ups is the next focus", b: "1 sign-up has come in so far. Most ad visitors left quickly without continuing to the sign-up page, which shows where to focus next." },
         },
         {
           t: "Facebook ad visitors were more engaged than Instagram’s",
           b: "10.9% of Facebook ad visits engaged against 3.7% from Instagram, averaging 4.7 seconds against 0.7. Instagram took 79% of the ad visits.",
-          client: { t: "Facebook ad visitors stayed longer", b: "Visitors from Facebook ads were three times as likely to engage as visitors from Instagram ads, and stayed longer on the site." },
+          client: { t: "Facebook ad visitors stayed longer", b: "Visitors from Facebook ads were 3 times as likely to engage as visitors from Instagram ads, and stayed longer on the site." },
         },
         {
           t: "Traffic follows the ads for now",
-          b: "17 new visitors from September 1 to 20. Search drew 3 clicks in seven weeks and the social accounts have 27 and 3 followers, so there is no steady source of visitors yet.",
+          b: "25 new visitors from September 1 to 27. Search drew 4 clicks in 8 weeks and the social accounts have 27 and 4 followers, so there is no steady source of visitors yet.",
           client: { t: "Search and social are still building", b: "As a new program, Smile Pass is still building its own search and social presence, so most visits so far have come from the campaign." },
         },
         {
           t: "GA4 cannot see sign-ups",
-          b: "No sign-up event is set up, so GA4 shows zero regardless of what happens. The one sign-up is from the website’s own records. Setting this up is the first step for the next campaign, and it lets Meta optimize for sign-ups.",
+          b: "No sign-up event is set up, so GA4 shows zero regardless of what happens. The 1 sign-up is from the website’s own records. Setting this up is the first step for the next campaign, and it lets Meta optimize for sign-ups.",
           client: { t: "Sign-ups are not yet tracked in Google Analytics", b: "The sign-up count comes from the website’s own records. Google Analytics is not yet set up to record sign-ups, so it cannot show which visits led to one. We are setting that up." },
         },
       ],
@@ -777,15 +766,15 @@ export const REPORT = {
       items: [
         { t: "Track sign-ups in Google Analytics and Meta", b: "Record each completed sign-up as a key event, so every future report and campaign is measured on sign-ups rather than visits." },
         { t: "Set the next campaign to optimize for sign-ups", b: "The August campaign was set to find people likely to open the page. Once sign-ups are tracked, Meta can look for people likely to join instead." },
-        { t: "Review the path from homepage to sign-up", b: "Most visitors viewed only the homepage. Walking through each step from the ad to a completed sign-up on a phone will show where to make joining easier." },
+        { t: "Review the path from ad to sign-up", b: "Most ad visits were brief. Walking through each step from the ad to a completed sign-up on a phone will show where to make joining easier." },
         { t: "Lead with the No Insurance message", b: "It drew a higher click rate, 3.12% against 2.49%, at a lower cost per visit, on 18% of the budget." },
-        { t: "Introduce Smile Pass to NYC Dental Smiles’ audience", b: "NYC Dental Smiles has 764 Instagram followers and about 160 website visits a week. Smile Pass has 27 followers. Shared posts and links from the main practice reach people who already know it." },
+        { t: "Introduce Smile Pass to NYC Dental Smiles’ audience", b: "NYC Dental Smiles has 774 Instagram followers and 130 to 160 website visits a week. Smile Pass has 27 followers. Shared posts and links from the main practice reach people who already know it." },
       ],
     },
     method:
-      "New visitor totals come from GA4’s daily series, trimmed to August 1 – September 20. Other GA4 totals run to September 21, a partial day that adds 4 visitors to a base of more than 2,100. Ad figures are Meta’s August export; the campaign spent its full $750 lifetime budget inside August and ended August 30, so nothing ran in September. Social figures are organic only, because Metricool’s account totals include ad delivery. Search covers August 1 – September 21; September 21 recorded nothing. The sign-up count is from the website’s own records, not GA4. Four weekly traffic files in the export belonged to the EEC and NYC Dental Smiles properties and were excluded.",
+      "New visitor totals come from GA4’s daily series, August 1 – September 27. Visits by source cover the same dates. Ad figures are Meta’s August export; the campaign spent its full $750 lifetime budget and ended August 30, and no ads have run since, confirmed September 28. Social figures are organic only, because Metricool’s account totals include ad delivery. Search covers August 1 – September 27. The sign-up count is from the website’s own records, not GA4, and had not changed as of September 28. 4 files in this cycle’s export named for Smile Pass belonged to the NYC Dental Smiles property and were used for the weekly report instead.",
     methodClient:
-      "Figures cover August 1 to September 20, 2026. Website figures are from Google Analytics, ad figures from Meta, social figures from Metricool and search figures from Google Search Console. The sign-up count is from the website’s own records. Social figures cover unpaid posts only.",
+      "Figures cover August 1 to September 27, 2026. Website figures are from Google Analytics, ad figures from Meta, social figures from Metricool and search figures from Google Search Console. The sign-up count is from the website’s own records. Social figures cover unpaid posts only.",
   },
 };
 
@@ -796,7 +785,6 @@ export const ALL_SECTIONS: SectionDef[] = [
   { id: "period", label: "The period" },
   { id: "scoreboard", label: "Scoreboard" },
   { id: "worked", label: "What worked" },
-  { id: "social", label: "Social" },
   { id: "attention", label: "Needs attention", internalOnly: true },
   { id: "learned", label: "What we learned" },
   { id: "moves", label: "Next moves", internalOnly: true },
@@ -810,11 +798,10 @@ export const numOf = (id: string) => ORDINALS[NAV.findIndex((n) => n.id === id)]
 export const has = (id: string) => NAV.some((n) => n.id === id);
 
 export const SOURCE_WINDOWS = [
-  { k: "Instagram", v: "Sep 14 – 20", p: "Account-level figures from Metricool, against Sep 7 – 13." },
-  { k: "Facebook", v: "Sep 14 – 20", p: "Account-level figures from Metricool." },
-  { k: "Search", v: "Sep 14 – 20", p: "Against Sep 7 – 13, restated to 45 clicks on 1,738 appearances. The last days of this week may still rise." },
-  { k: "Website", v: "Sep 14 – 20", p: "Full days." },
-  { k: "Email", v: "Sep 14 – 20", p: "One campaign, sent September 15." },
-  { k: "Short links", v: "Sep 14 – 20", p: "Named links. Two of the four booking links drew no clicks." },
-  { k: "Smile Pass", v: "Aug 1 – Sep 20", p: "An overview of activity to date, separate from the weekly figures." },
+  { k: "Instagram", v: "Sep 21 – 27", p: "Account-level figures from Metricool, against Sep 14 – 20." },
+  { k: "Facebook", v: "Sep 21 – 27", p: "Account-level figures from Metricool." },
+  { k: "Search", v: "Sep 21 – 27", p: "Against Sep 14 – 20, unchanged at 55 clicks on 1,055 appearances. The last days of this week may still rise." },
+  { k: "Website", v: "Sep 21 – 27", p: "Full days." },
+  { k: "Short links", v: "Sep 21 – 27", p: "Named links, re-collected for both weeks with all 4 booking links." },
+  { k: "Smile Pass", v: "Aug 1 – Sep 27", p: "An overview of activity since launch, separate from the weekly figures." },
 ];

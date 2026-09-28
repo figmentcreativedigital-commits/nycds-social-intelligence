@@ -1192,6 +1192,7 @@ export default function Report() {
               <Note>{d.links.note}</Note>
             </Disclosure>
 
+            {d.email && (
             <Disclosure title="Email" subtitle={d.email.window}>
               <Note>{d.email.note}</Note>
               <div style={{ marginTop: 22 }}>
@@ -1200,6 +1201,7 @@ export default function Report() {
                 </Chart>
               </div>
             </Disclosure>
+            )}
 
             <Disclosure title="How these numbers were produced" subtitle="Sources, definitions and limitations">
               {d.method
