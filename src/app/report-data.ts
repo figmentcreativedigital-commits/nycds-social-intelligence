@@ -54,7 +54,7 @@ export const REPORT = {
     length: "7 days",
     comparedWith: "the 7 days before it (September 14 – 20)",
     paidStatus:
-      "No advertising ran in either week. Both are 7 days, Monday to Sunday, so every comparison is direct.",
+      "No paid advertising ran in either week. Both are 7 days, Monday to Sunday, so every comparison is direct.",
   },
 
   copy: {
@@ -224,7 +224,7 @@ export const REPORT = {
   periodLine: {
     title: "New website visitors eased this week",
     note:
-      "New website visitors each day across both weeks. No advertising ran in either week.",
+      "New website visitors each day across both weeks. No paid advertising ran in either week.",
     /* GA4 daily new visitors, Sep 14 – 27, read September 28. Sep 14 – 20
        restated from 109 to 111 since the September 21 pull (Sep 20: 9 to 11). */
     series: [
@@ -245,7 +245,7 @@ export const REPORT = {
     ],
     read: {
       title: "Reading this fairly:",
-      body: "Both weeks are 7 days with no advertising. New visitors went from 16 a day to 14. The largest daily gap is Monday, 10 against 17. Tuesday through Friday ran 15 to 20 a day, and both weekends were quiet.",
+      body: "Both weeks are 7 days with no paid advertising. New visitors went from 16 a day to 14. The largest daily gap is Monday, 10 against 17. Tuesday through Friday ran 15 to 20 a day, and both weekends were quiet.",
     },
   },
 
@@ -459,9 +459,9 @@ export const REPORT = {
       stories:
         "9 Stories drew 626 impressions, against 239 from 4 the week before. Average reach per Story rose from 54 to 62.",
       note:
-        "Account totals are Metricool’s account-level figures, read September 28 for both weeks. Last week’s views are restated from 4,380 to 4,382. Per-piece figures for posts and reels are lifetime totals that keep growing after a week closes, so last week’s are the September 21 reading, taken 1 day after close like this week’s. Read September 28, last week’s reels show 180 interactions and the Tamay reel 2,680 views. Engagement rate is interactions on posts and reels divided by reach: 127 against 1,596 this week and 198 against 1,673 the week before. Story interactions are not in the export. Metricool shows 10 followers acquired and 1 lost, which nets to 9, while the count rose by 10, from 764 to 774; the report uses the count. No advertising ran in either week.",
+        "Account totals are Metricool’s account-level figures, read September 28 for both weeks. Last week’s views are restated from 4,380 to 4,382. Per-piece figures for posts and reels are lifetime totals that keep growing after a week closes, so last week’s are the September 21 reading, taken 1 day after close like this week’s. Read September 28, last week’s reels show 180 interactions and the Tamay reel 2,680 views. Engagement rate is interactions on posts and reels divided by reach: 127 against 1,596 this week and 198 against 1,673 the week before. Story interactions are not in the export. Metricool shows 10 followers acquired and 1 lost, which nets to 9, while the count rose by 10, from 764 to 774; the report uses the count. No paid advertising ran in either week.",
       clientNote:
-        "Account totals come from Metricool’s account-level figures rather than a sum of individual posts. Figures for individual posts keep growing after a week ends, so each week is read the day after it closes. Engagement rate is interactions divided by reach. No advertising ran in either week.",
+        "Account totals come from Metricool’s account-level figures rather than a sum of individual posts. Figures for individual posts keep growing after a week ends, so each week is read the day after it closes. Engagement rate is interactions divided by reach. No paid advertising ran in either week.",
     },
 
     search: {
@@ -566,7 +566,7 @@ export const REPORT = {
         { label: "Cosmetic Dentistry", value: 8 },
       ],
       note:
-        "No advertising ran in either week. Last week is restated from 162 sessions and 109 new visitors to 163 and 111. Visits from Google went from 51 to 43, and Search Console clicks from 55 to 53.",
+        "No paid advertising ran in either week. Last week is restated from 162 sessions and 109 new visitors to 163 and 111. Visits from Google went from 51 to 43, and Search Console clicks from 55 to 53.",
     },
 
     links: {
@@ -625,7 +625,7 @@ export const REPORT = {
       { q: "How the doctor page click rate is calculated", a: "All 7 individual doctor pages, counted the same way in both weeks: 22 clicks from 151 appearances this week, 19 from 143 the week before." },
       { q: "How short link clicks are counted", a: "All clicks on the practice’s named short links, counted the same way in both weeks, including automated clicks. Last week’s figures were re-collected so that all 4 booking links are included." },
       { q: "Where the Social section is", a: "The social lead’s write-up arrives after first review. It is checked figure by figure against the Metricool export before it is added.", internalOnly: true },
-      { q: "What is not in this report", a: "No advertising ran in either week. No email campaigns were sent this week. Story interactions are not in the Instagram export." },
+      { q: "What is not in this report", a: "No paid advertising ran in either week. No email campaigns were sent this week. Story interactions are not in the Instagram export." },
     ] as { q: string; a: string; internalOnly?: boolean; clientOnly?: boolean }[],
   },
 
@@ -638,7 +638,7 @@ export const REPORT = {
     title: "NYC Smile Pass",
     dateLine: "August 1 – September 27, 2026 · since launch",
     lede:
-      "An overview of Smile Pass since launch, August 1 – September 27. The August campaign brought 97% of the site’s new visitors, and 1 sign-up has come in. No ads have run since August 30, and the site drew 8 new visitors from September 21 to 27. Instagram ad visitors averaged under a second on the site. GA4 has no sign-up tracking yet, so it cannot connect visits to sign-ups.",
+      "An overview of Smile Pass since launch, August 1 – September 27. The August campaign brought 97% of the site’s new visitors, and 1 sign-up has come in. No paid ads have run since August 30, and the site drew 8 new visitors from September 21 to 27. Instagram ad visitors averaged under a second on the site. GA4 has no sign-up tracking yet, so it cannot connect visits to sign-ups.",
     ledeClient:
       "An overview of NYC Smile Pass since launch, from August 1 to September 27. The August launch campaign introduced Smile Pass to 62,053 people and brought more than 2,000 visitors to the site, and 1 sign-up has come in. With a baseline now in place, the next steps focus on turning visits into members.",
     kv: [
@@ -668,7 +668,7 @@ export const REPORT = {
       note:
         "New website visitors each day. 2,067 of the 2,128 arrived between August 11 and 30, 97%. The campaign ended on August 30. The peak was 204 on August 13. From September 1 to 27 the site drew 25.",
       noteClient:
-        "New website visitors each day. Most arrived between August 11 and 30, during the launch campaign. September has been quieter without ads running, as expected for a new site still building its search and social presence.",
+        "New website visitors each day. Most arrived between August 11 and 30, during the launch campaign. September has been quieter without paid ads running, as expected for a new site still building its search and social presence.",
     },
     ads: {
       title: "The August campaign",
@@ -681,7 +681,7 @@ export const REPORT = {
         ],
       },
       note:
-        "1 campaign, August 2026 First Month Free, with a $750 lifetime budget, ending August 30. No ads have run since. It was set to optimize for landing page views, not sign-ups, and delivered those cheaply. Meta ranks both ads’ conversion rate in the bottom 35% of ads; quality is average. The No Insurance ad had the higher click rate and cheaper views but received 18% of the budget. People reached counts each person once, so the 2 ad rows add up to more than the campaign total. Meta counts 1,604 landing page views; Google Analytics recorded 2,068 visits from the ads, because the 2 measure a visit differently.",
+        "1 campaign, August 2026 First Month Free, with a $750 lifetime budget, ending August 30. No paid ads have run since. It was set to optimize for landing page views, not sign-ups, and delivered those cheaply. Meta ranks both ads’ conversion rate in the bottom 35% of ads; quality is average. The No Insurance ad had the higher click rate and cheaper views but received 18% of the budget. People reached counts each person once, so the 2 ad rows add up to more than the campaign total. Meta counts 1,604 landing page views; Google Analytics recorded 2,068 visits from the ads, because the 2 measure a visit differently.",
       noteClient:
         "1 campaign ran, with a $750 budget, and ended on August 30. It was set up to bring people to the site, and it did so at 47 cents a visit. The No Insurance message drew a higher click rate than the general one. People reached counts each person once, so the 2 ads add up to more than the campaign total. Meta counts 1,604 landing page views, while Google Analytics recorded 2,068 visits from the ads; the 2 tools measure a visit slightly differently.",
     },
@@ -698,7 +698,7 @@ export const REPORT = {
         ],
       },
       note:
-        "Instagram ad visitors, 1,638 of the 2,202 visits, engaged 3.7% of the time and averaged 0.7 seconds. Facebook ad visitors engaged 3 times as often. Paid visits have not changed since September 20, which fits no ads running. Bing (3) and unassigned (3) are not shown.",
+        "Instagram ad visitors, 1,638 of the 2,202 visits, engaged 3.7% of the time and averaged 0.7 seconds. Facebook ad visitors engaged 3 times as often. Paid visits have not changed since September 20, which fits no paid ads running. Bing (3) and unassigned (3) are not shown.",
       noteClient:
         "A visit counts as engaged if it lasted at least 10 seconds or included a second page. Visitors from Google, direct visits and Facebook ads spent the most time on the site; Instagram ad visits were typically brief. Sources with fewer than 5 visits are not shown.",
     },
@@ -757,7 +757,7 @@ export const REPORT = {
         {
           t: "GA4 cannot see sign-ups",
           b: "No sign-up event is set up, so GA4 shows zero regardless of what happens. The 1 sign-up is from the website’s own records. Setting this up is the first step for the next campaign, and it lets Meta optimize for sign-ups.",
-          client: { t: "Sign-ups are not yet tracked in Google Analytics", b: "The sign-up count comes from the website’s own records. Google Analytics is not yet set up to record sign-ups, so it cannot show which visits led to one. We are setting that up." },
+          client: { t: "Every sign-up is counted", b: "The website records each sign-up, and that is the count shown here. We are now connecting sign-ups to Google Analytics and Meta as well, so future reports can show which visits and ads led to each one." },
         },
       ],
     },
@@ -772,7 +772,7 @@ export const REPORT = {
       ],
     },
     method:
-      "New visitor totals come from GA4’s daily series, August 1 – September 27. Visits by source cover the same dates. Ad figures are Meta’s August export; the campaign spent its full $750 lifetime budget and ended August 30, and no ads have run since, confirmed September 28. Social figures are organic only, because Metricool’s account totals include ad delivery. Search covers August 1 – September 27. The sign-up count is from the website’s own records, not GA4, and had not changed as of September 28. 4 files in this cycle’s export named for Smile Pass belonged to the NYC Dental Smiles property and were used for the weekly report instead.",
+      "New visitor totals come from GA4’s daily series, August 1 – September 27. Visits by source cover the same dates. Ad figures are Meta’s August export; the campaign spent its full $750 lifetime budget and ended August 30, and no paid ads have run since, confirmed September 28. Social figures are organic only, because Metricool’s account totals include ad delivery. Search covers August 1 – September 27. The sign-up count is from the website’s own records, not GA4, and had not changed as of September 28. 4 files in this cycle’s export named for Smile Pass belonged to the NYC Dental Smiles property and were used for the weekly report instead.",
     methodClient:
       "Figures cover August 1 to September 27, 2026. Website figures are from Google Analytics, ad figures from Meta, social figures from Metricool and search figures from Google Search Console. The sign-up count is from the website’s own records. Social figures cover unpaid posts only.",
   },
