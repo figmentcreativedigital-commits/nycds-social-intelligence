@@ -100,7 +100,7 @@ export const REPORT = {
   brief: {
     title: "The Brief",
     lede: "The week in 4 points.",
-    head: "A quieter week on Instagram and in search, and a strong one for the raffle. The raffle form has gained 24 new contacts for the mailing list since it went live September 22, from 46 visits, 52%. The raffle link drew 43 clicks and booking links 35, against 11 and 14. Views were 3,378 against 3,949 and search clicks 44 against 53. GA4 stopped counting new visitors correctly from September 29, the same week the site’s plugins were updated, so website figures are held back.",
+    head: "A quieter week on Instagram and in search, and a strong one for the raffle. The raffle form has gained 24 new contacts for the mailing list since it went live September 22, from 46 visits, 52%. The raffle link drew 43 clicks and booking links 35, against 11 and 14. Views were 3,378 against 3,949 and search clicks 44 against 53.",
     headClient: "The raffle brought 24 new contacts to the practice’s mailing list, more than half of everyone who opened the entry form. Dr. Kapparova’s work led Instagram, followers kept growing, and the booking links drew 35 clicks, up from 14.",
     items: [
       {
@@ -113,7 +113,7 @@ export const REPORT = {
       },
       {
         role: "Strongest signal",
-        text: "The raffle form has 24 submissions from 46 unique visits since September 22, 52%, all new contacts, 85% on mobile. Constant Contact does not split this by week. The raffle link drew 43 clicks against 11, and booking links 35 against 14, on the same unfiltered basis. October 4, the day of the Hudson Yards event, carried 55 of the week’s 107 human clicks. The export does not split clicks by link and day, so it cannot show how many of the 43 fell on October 4.",
+        text: "The raffle form has 24 submissions from 46 unique visits since September 22, 52%, all new contacts, 85% on mobile. Constant Contact does not split this by week. The raffle link drew 43 clicks against 11, and booking links 35 against 14, on the same unfiltered basis. October 4, the day of the Hudson Yards event, carried 55 of the week’s 107 human clicks.",
         client: {
           role: "The wider picture",
           text: "24 people have entered the raffle and joined the practice’s mailing list since the entry form went live on September 22. The raffle link drew 43 clicks this week, up from 11, and the booking links drew 35, up from 14. The busiest day for the practice’s links was October 4, the day of the Hudson Yards event.",
