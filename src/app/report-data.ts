@@ -26,6 +26,12 @@
      Sep 21 – 27 on this basis: 46 (booking 14). Earlier reports stand as
      published on the filtered basis.
 
+   RAFFLE — Constant Contact sign-up landing page "New York City Dental Smiles
+     Raffle Entry Form", live since September 22, read October 5: 46 unique
+     visits, 24 submissions, 52% conversion, 24 new contacts on list "NYCDS
+     Raffle Sept-Oct 2026", 84.8% mobile. Cumulative since launch; Constant
+     Contact does not split it by week. /raffle in Short.io points to it.
+
    SOCIAL — hidden until the social lead's write-up arrives after first
      review. EMAIL — no campaigns; `detail.email` is null.
 
@@ -94,8 +100,8 @@ export const REPORT = {
   brief: {
     title: "The Brief",
     lede: "The week in 4 points.",
-    head: "A quieter week on Instagram and in search, and a busier one on the short links. Views were 3,378 against 3,949 and search clicks 44 against 53. The raffle link drew 43 clicks and booking links 35, against 11 and 14. GA4 stopped counting new visitors correctly from September 29, the same week the site’s plugins were updated, so website figures are held back.",
-    headClient: "Dr. Kapparova’s work led Instagram this week, followers kept growing, and more people used the practice’s links: the raffle link drew 43 clicks and the booking links 35, up from 11 and 14.",
+    head: "A quieter week on Instagram and in search, and a strong one for the raffle. The raffle form has gained 24 new contacts for the mailing list since it went live September 22, from 46 visits, 52%. The raffle link drew 43 clicks and booking links 35, against 11 and 14. Views were 3,378 against 3,949 and search clicks 44 against 53. GA4 stopped counting new visitors correctly from September 29, the same week the site’s plugins were updated, so website figures are held back.",
+    headClient: "The raffle brought 24 new contacts to the practice’s mailing list, more than half of everyone who opened the entry form. Dr. Kapparova’s work led Instagram, followers kept growing, and the booking links drew 35 clicks, up from 14.",
     items: [
       {
         role: "The outcome",
@@ -107,10 +113,10 @@ export const REPORT = {
       },
       {
         role: "Strongest signal",
-        text: "The raffle link drew 43 clicks against 11, and booking links 35 against 14, on the same unfiltered basis. October 4, the day of the Hudson Yards event, carried 55 of the week’s 107 human clicks. The export does not split clicks by link and day, so it cannot show how many of the 43 fell on October 4.",
+        text: "The raffle form has 24 submissions from 46 unique visits since September 22, 52%, all new contacts, 85% on mobile. Constant Contact does not split this by week. The raffle link drew 43 clicks against 11, and booking links 35 against 14, on the same unfiltered basis. October 4, the day of the Hudson Yards event, carried 55 of the week’s 107 human clicks. The export does not split clicks by link and day, so it cannot show how many of the 43 fell on October 4.",
         client: {
           role: "The wider picture",
-          text: "The raffle link drew 43 clicks, up from 11, and the booking links drew 35, up from 14. The busiest day for the practice’s links was October 4, the day of the Hudson Yards event.",
+          text: "24 people have entered the raffle and joined the practice’s mailing list since the entry form went live on September 22. The raffle link drew 43 clicks this week, up from 11, and the booking links drew 35, up from 14. The busiest day for the practice’s links was October 4, the day of the Hudson Yards event.",
         },
       },
       {
@@ -135,21 +141,21 @@ export const REPORT = {
   /* ------------------------------------------------------------ SCOREBOARD */
   scoreboard: [
     {
+      metric: "Raffle entries",
+      value: "24",
+      sub: "New contacts for the practice’s mailing list",
+      dir: "",
+      change: "Since the entry form went live September 22",
+      reading: "46 people opened the entry form and 24 entered, 52%. The raffle link drew 43 clicks this week, up from 11.",
+      tone: "tone-good",
+    },
+    {
       metric: "Booking link clicks",
       value: "35",
       sub: "All locations",
       dir: "up",
       change: "14 the week before, counted the same way",
       reading: "Plaza District 12, Lenox Hill 11, Upper East Side 10, all locations 2. Link clicks are counted a new way from this week, so these do not compare with earlier reports.",
-      tone: "tone-good",
-    },
-    {
-      metric: "Raffle link clicks",
-      value: "43",
-      sub: "The practice’s most-used link this week",
-      dir: "up",
-      change: "11 the week before",
-      reading: "The busiest day for the practice’s links was October 4, the day of the Hudson Yards event.",
       tone: "tone-good",
     },
     {
@@ -347,7 +353,7 @@ export const REPORT = {
       body:
         "4 Stories posted on October 4 from the Hudson Yards event show 0 impressions in the export. Metricool’s Story count of 12 includes them, which pulls average reach per Story down to 28. On the 8 measured Stories it is 42.",
       so:
-        "Re-read them next week and report them then. The raffle link’s 43 clicks are the only event figure in this week’s exports.",
+        "Re-read them next week and report them then. The raffle form’s 24 entries and the raffle link’s 43 clicks are the event figures available now; the form total is cumulative from September 22 and cannot be split by day.",
     },
     {
       tag: "limitation",
@@ -362,7 +368,7 @@ export const REPORT = {
   /* --------------------------------------------------------- WHAT WE LEARNED */
   learned: [
     { f: "346", u: "views on Dr. Kapparova’s reel", t: "the week’s top piece. 14.5% of the people it reached engaged with it, the highest rate of the week." },
-    { f: "43", u: "clicks on the raffle link", t: "against 11 the week before. The busiest day for the practice’s links was October 4, the day of the Hudson Yards event." },
+    { f: "24", u: "raffle entries", t: "all new contacts for the mailing list, from 46 people who opened the form. The raffle link drew 43 clicks this week, and the busiest day for the practice’s links was October 4, the day of the Hudson Yards event." },
     { f: "35", u: "booking link clicks", t: "against 14 the week before, counted the same way. Plaza District, Lenox Hill and Upper East Side each drew 10 to 12." },
     { f: "42%", u: "click rate on searches for the practice’s name", t: "8 clicks from 19 searches for “nyc dental smiles”. People looking for the practice find it." },
     { f: "+5", u: "Instagram followers", t: "to 779, growing for another week." },
@@ -402,10 +408,10 @@ export const REPORT = {
       measure: "Impressions and reach for the 4 Stories.",
     },
     {
-      action: "Count raffle entries against link clicks",
-      why: "The raffle link drew 43 clicks. The entry count from the event would show how many clicks became entries.",
-      owner: "Account — Figment",
-      measure: "Entries against 43 clicks.",
+      action: "Send the 24 raffle contacts a welcome email",
+      why: "They are new to the list and entered within the last 2 weeks. A welcome with booking links reaches them while the event is recent.",
+      owner: "Email — Figment",
+      measure: "Confirmed opens and booking link clicks from the welcome email.",
     },
   ],
 
@@ -601,7 +607,7 @@ export const REPORT = {
         { label: "All locations — booking", value: 2 },
       ],
       note:
-        "104 clicks this week against 46, both weeks counted the same way. Booking links drew 35 against 14, the raffle link 43 against 11, and location information links 20 against 12. The Murray Hill booking link and the homepage link drew no clicks this week. From this week, link clicks are counted on a view that includes every link the practice uses, including the raffle link, so they do not compare with figures in earlier reports.",
+        "104 clicks this week against 46, both weeks counted the same way. Booking links drew 35 against 14, the raffle link 43 against 11, and location information links 20 against 12. The Murray Hill booking link and the homepage link drew no clicks this week. The raffle link leads to the raffle entry form, which has 24 entries from 46 visits since September 22. From this week, link clicks are counted on a view that includes every link the practice uses, including the raffle link, so they do not compare with figures in earlier reports.",
     },
 
     /* No campaigns this cycle. page.tsx renders the Email panel only when
@@ -636,6 +642,7 @@ export const REPORT = {
       { q: "How short link clicks are counted", a: "All clicks on the practice’s 12 named short links, including the raffle link, counted the same way in both weeks. This is a new basis from this week, so link figures do not compare with earlier reports." },
       { q: "Why website figures are not compared this week", a: "Updates were made to the website during the week, and the way it counts visits changed from September 29. Until that is confirmed, this report shows website figures without a week-to-week comparison, and the daily chart shows clicks from Google instead." },
       { q: "Where the Social section is", a: "The social lead’s write-up arrives after first review. It is checked figure by figure against the Metricool export before it is added.", internalOnly: true },
+      { q: "Where the raffle figures come from", a: "Constant Contact’s report for the raffle entry form, read October 5. It covers the whole time the form has been live, from September 22, and does not split entries by week." },
       { q: "What is not in this report", a: "No paid advertising ran in either week. No email campaigns were sent this week. Story interactions are not in the Instagram export." },
     ] as { q: string; a: string; internalOnly?: boolean; clientOnly?: boolean }[],
   },
@@ -814,5 +821,6 @@ export const SOURCE_WINDOWS = [
   { k: "Search", v: "Sep 28 – Oct 4", p: "Against Sep 21 – 27. The last days of both weeks may still rise." },
   { k: "Website", v: "Sep 28 – Oct 4", p: "Under review from September 29. Shown without a comparison." },
   { k: "Short links", v: "Sep 28 – Oct 4", p: "All 12 named links, counted the same way in both weeks." },
+  { k: "Raffle form", v: "Sep 22 – Oct 5", p: "Constant Contact entry form, since it went live." },
   { k: "Smile Pass", v: "Aug 1 – Sep 27", p: "An overview of activity since launch, separate from the weekly figures." },
 ];
