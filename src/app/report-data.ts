@@ -30,8 +30,13 @@
 
    SOCIAL — hidden until the social lead's write-up arrives after first review.
 
-   SMILE PASS — unchanged this draft, August 1 – September 27. To be rebuilt
-     from July 1 when the Meta Ads export arrives.
+   SMILE PASS — July 1 – October 11. Current ads from Meta's export for
+     September 13 – October 12 (includes October 12). /nycsmilepass (72 clicks)
+     is reported here, not in NYCDS link totals.
+
+   CONTENT PUBLISHED — removed from the ledger and client-facing detail at
+     Walter's request: piece counts move with collabs and Stories while grid
+     posts stay steady.
 
    ENCODING — literal characters for apostrophes, dashes and the minus sign.
      No backslash-u escapes anywhere in the strings.
@@ -144,7 +149,6 @@ export const REPORT = {
       { group: "Instagram", k: "Interactions", note: "Likes, comments, saves and shares on posts and reels. The event post drew 40.", cells: [{ v: "53", c: "+2" }, { v: "51" }], trend: [42, 198, 127, 51, 53], fmt: "int" },
       { group: "Instagram", k: "Engagement rate", note: "Interactions divided by reach. Reach grew faster than interactions this week.", cells: [{ v: "3.10%", c: "−1.45 points" }, { v: "4.55%" }], trend: [6.00, 11.84, 7.96, 4.55, 3.10], fmt: "pct" },
       { group: "Instagram", k: "Followers", note: "Account total at the end of each week.", cells: [{ v: "779", c: "0" }, { v: "779" }], trend: [760, 764, 774, 779, 779], fmt: "int" },
-      { group: "Instagram", k: "Content published", note: "2 posts and 5 Stories, plus a collab reel on Dr. El Chaar’s account.", cells: [{ v: "7", c: "−8" }, { v: "15" }], trend: [7, 7, 12, 15, 7], fmt: "int" },
       { group: "Booking links", k: "Booking link clicks", note: "Plaza District 18, Upper East Side 13, Lenox Hill 13, all locations 9, Murray Hill 2.", cells: [{ v: "55", c: "+57%" }, { v: "35" }], trend: [14, 35, 55], fmt: "int" },
       { group: "Google search", k: "Times the site appeared", note: "Up for the 3rd week running.", cells: [{ v: "1,266", c: "+6%" }, { v: "1,190" }], trend: [1738, 1055, 1113, 1190, 1266], fmt: "int" },
       { group: "Google search", k: "Clicks", note: "Google is still processing the last days of this week, so this figure may rise.", cells: [{ v: "47", c: "+2" }, { v: "45" }], trend: [45, 55, 53, 45, 47], fmt: "int" },
@@ -152,7 +156,7 @@ export const REPORT = {
       { group: "Google search", k: "Doctor page click rate", note: "All 7 doctor pages: 20 clicks from 195 appearances. Dr. Farahani’s page drew 6.", cells: [{ v: "10.3%", c: "+2.0 points" }, { v: "8.3%" }], trend: [10.1, 13.3, 14.6, 8.3, 10.3], fmt: "pct1" },
       { group: "Google search", k: "Searches by name", note: "Click rate on searches for the practice or a doctor: 15 clicks from 97 appearances.", cells: [{ v: "15.5%", c: "+5.1 points" }, { v: "10.3%" }], trend: [18.3, 17.8, 10.3, 15.5], fmt: "pct1" },
       { group: "Facebook", k: "Page visits", note: "Reported for completeness. At this scale the figures move on single pieces of content.", cells: [{ v: "26", c: "+22" }, { v: "4" }], trend: [0, 15, 4, 26], fmt: "int" },
-      { group: "Facebook", k: "Views", note: "1 piece published, against 3.", cells: [{ v: "228", c: "−26%" }, { v: "309" }], trend: [103, 111, 207, 309, 228], fmt: "int" },
+      { group: "Facebook", k: "Views", note: "Account total, Metricool.", cells: [{ v: "228", c: "−26%" }, { v: "309" }], trend: [103, 111, 207, 309, 228], fmt: "int" },
     ] as { group: string; k: string; note?: string; cells: { v: string; c?: string }[]; trend: number[]; fmt: "int" | "pct" | "pct1" }[],
     after: "Website figures are being confirmed after recent updates and appear in Supporting detail.",
   },
@@ -224,7 +228,7 @@ export const REPORT = {
       },
     ],
     galleryNote:
-      "The feed pieces from October 5 – 11, ranked by views. The collab reel was published on Dr. El Chaar’s account with NYC Dental Smiles as collaborator, so its reach is not reported to NYCDS. 5 Stories complete the week. Engagement is interactions divided by reach.",
+      "The feed pieces from October 5 – 11, ranked by views. The collab reel was published on Dr. El Chaar’s account with NYC Dental Smiles as collaborator, so its reach is not reported to NYCDS. Engagement is interactions divided by reach.",
     channel: {
       title: "Search: doctor pages and name searches drew more clicks",
       body:
@@ -360,17 +364,7 @@ export const REPORT = {
         { k: "Reach per day", v: "244" },
         { k: "Accounts engaged", v: "92" },
         { k: "Followers", v: "779" },
-        { k: "Content published", v: "7" },
         { k: "Interactions", v: "53" },
-      ],
-      publishedChart: {
-        title: "What was published",
-        note: "7 pieces against 15 the week before: 5 Stories against 12, and 2 posts against 2. No NYCDS reel this week, against 1.",
-      },
-      published: [
-        { label: "Stories", value: 5 },
-        { label: "Feed posts", value: 2 },
-        { label: "Reels", value: 0 },
       ],
       postsChart: {
         title: "The feed pieces from this week",
@@ -400,7 +394,7 @@ export const REPORT = {
       ],
       storiesTitle: "Stories",
       stories:
-        "5 Stories drew 397 impressions, with an average reach of 62. The 4 Hudson Yards Stories from October 4, unmeasured last week, have now reached 337, 78, 70 and 64 accounts.",
+        "Stories drew 397 impressions, with an average reach of 62. The 4 Hudson Yards Stories from October 4, unmeasured last week, have now reached 337, 78, 70 and 64 accounts.",
       note:
         "Account totals are Metricool’s account-level figures, both weeks read October 12; last week’s views read 3,383, against 3,378 on October 5. Per-piece figures are each read the day after their week closed. Engagement rate is interactions on posts and reels divided by reach: 53 against 1,708 this week and 51 against 1,120 the week before. The collab reel is on Dr. El Chaar’s account and is not in NYCDS totals. Metricool shows 4 followers acquired and 4 lost. No paid advertising ran in either week.",
       clientNote:
@@ -577,10 +571,9 @@ export const REPORT = {
         { k: "Followers", v: "982" },
         { k: "Views", v: "228" },
         { k: "Page visits", v: "26" },
-        { k: "Content published", v: "1" },
       ],
       note:
-        "Page visits 26 against 4. Views 228 against 309, on 1 piece against 3. Followers unchanged at 982. At this scale the figures move on single pieces of content and are reported for completeness.",
+        "Page visits 26 against 4. Views 228 against 309. Followers unchanged at 982. At this scale the figures move on single pieces of content and are reported for completeness.",
     },
 
     method: [
@@ -600,45 +593,54 @@ export const REPORT = {
   },
 
   /* ------------------------------------------------------------ SMILE PASS
-     A separate overview, not part of the weekly comparison. Lifetime view,
-     August 1 – September 27, 2026. Sources: GA4 property "NYC Dental Smiles
-     Membership", Meta Ads, Metricool (organic only), Search Console, and the
-     website's own sign-up records. See `method`. */
+     A separate overview, not part of the weekly comparison. July 1 –
+     October 11, 2026. Sources: GA4 property "NYC Dental Smiles Membership",
+     Meta Ads (August export; current ads September 13 – October 12),
+     Metricool (organic only, July 10 – October 11), Search Console, and the
+     website's own sign-up records. */
   smilepass: {
     title: "NYC Smile Pass",
-    dateLine: "August 1 – September 27, 2026 · since launch",
+    dateLine: "July 1 – October 11, 2026, since launch",
     lede:
-      "An overview of Smile Pass since launch, August 1 – September 27. The August campaign brought 97% of the site’s new visitors, and 1 sign-up has come in. No paid ads have run since August 30, and the site drew 8 new visitors from September 21 to 27. Instagram ad visitors averaged under a second on the site. GA4 has no sign-up tracking yet, so it cannot connect visits to sign-ups.",
+      "Smile Pass since July 1. The August campaign brought 2,067 of the 2,294 new visitors. 2 new ads are running: the engagement ad has drawn 73 profile visits, and the leads ad, with 76% of the spend, shows no results in Meta’s export yet. October 5 – 11 drew 74 new visitors, the most in a week since August. Sign-ups to date: 2, against 1 on September 27.",
     ledeClient:
-      "An overview of NYC Smile Pass since launch, from August 1 to September 27. The August launch campaign introduced Smile Pass to 62,053 people and brought more than 2,000 visitors to the site, and 1 sign-up has come in. With a baseline now in place, the next steps focus on turning visits into members.",
+      "An overview of NYC Smile Pass since July 1. The August launch campaign introduced Smile Pass to 62,053 people, and 2 new ads are now running. October brought the most visitors in a week since the launch campaign: 74 new visitors from October 5 to 11.",
     kv: [
-      { k: "People reached by ads", v: "62,053" },
-      { k: "Landing page views from ads", v: "1,604" },
-      { k: "Cost per landing page view", v: "$0.47" },
-      { k: "New website visitors", v: "2,128" },
-      { k: "Instagram followers", v: "27" },
-      { k: "Sign-ups", v: "1" },
+      { k: "New website visitors", v: "2,294" },
+      { k: "People reached by the August campaign", v: "62,053" },
+      { k: "Profile visits from the new engagement ad", v: "73" },
+      { k: "Instagram followers", v: "30" },
+      { k: "Facebook followers", v: "14" },
+      { k: "Sign-ups", v: "2" },
     ],
     daily: [
-      { d: "Aug 1", v: 0 }, { d: "Aug 2", v: 0 }, { d: "Aug 3", v: 5 }, { d: "Aug 4", v: 10 }, { d: "Aug 5", v: 3 }, { d: "Aug 6", v: 0 },
-      { d: "Aug 7", v: 0 }, { d: "Aug 8", v: 4 }, { d: "Aug 9", v: 1 }, { d: "Aug 10", v: 11 }, { d: "Aug 11", v: 117 }, { d: "Aug 12", v: 157 },
-      { d: "Aug 13", v: 204 }, { d: "Aug 14", v: 93 }, { d: "Aug 15", v: 31 }, { d: "Aug 16", v: 102 }, { d: "Aug 17", v: 142 }, { d: "Aug 18", v: 113 },
-      { d: "Aug 19", v: 111 }, { d: "Aug 20", v: 78 }, { d: "Aug 21", v: 108 }, { d: "Aug 22", v: 128 }, { d: "Aug 23", v: 102 }, { d: "Aug 24", v: 80 },
-      { d: "Aug 25", v: 105 }, { d: "Aug 26", v: 91 }, { d: "Aug 27", v: 69 }, { d: "Aug 28", v: 72 }, { d: "Aug 29", v: 109 }, { d: "Aug 30", v: 55 },
-      { d: "Aug 31", v: 2 }, { d: "Sep 1", v: 2 }, { d: "Sep 2", v: 0 }, { d: "Sep 3", v: 0 }, { d: "Sep 4", v: 0 }, { d: "Sep 5", v: 0 },
-      { d: "Sep 6", v: 0 }, { d: "Sep 7", v: 2 }, { d: "Sep 8", v: 1 }, { d: "Sep 9", v: 0 }, { d: "Sep 10", v: 0 }, { d: "Sep 11", v: 1 },
-      { d: "Sep 12", v: 2 }, { d: "Sep 13", v: 0 }, { d: "Sep 14", v: 6 }, { d: "Sep 15", v: 0 }, { d: "Sep 16", v: 0 }, { d: "Sep 17", v: 0 },
-      { d: "Sep 18", v: 1 }, { d: "Sep 19", v: 2 }, { d: "Sep 20", v: 0 }, { d: "Sep 21", v: 5 }, { d: "Sep 22", v: 0 }, { d: "Sep 23", v: 1 },
-      { d: "Sep 24", v: 1 }, { d: "Sep 25", v: 0 }, { d: "Sep 26", v: 0 }, { d: "Sep 27", v: 1 },
+      { d: "Jul 1", v: 3 }, { d: "Jul 2", v: 2 }, { d: "Jul 3", v: 0 }, { d: "Jul 4", v: 2 }, { d: "Jul 5", v: 1 }, { d: "Jul 6", v: 6 },
+      { d: "Jul 7", v: 1 }, { d: "Jul 8", v: 0 }, { d: "Jul 9", v: 2 }, { d: "Jul 10", v: 7 }, { d: "Jul 11", v: 0 }, { d: "Jul 12", v: 1 },
+      { d: "Jul 13", v: 11 }, { d: "Jul 14", v: 6 }, { d: "Jul 15", v: 3 }, { d: "Jul 16", v: 2 }, { d: "Jul 17", v: 1 }, { d: "Jul 18", v: 1 },
+      { d: "Jul 19", v: 1 }, { d: "Jul 20", v: 6 }, { d: "Jul 21", v: 1 }, { d: "Jul 22", v: 4 }, { d: "Jul 23", v: 5 }, { d: "Jul 24", v: 2 },
+      { d: "Jul 25", v: 0 }, { d: "Jul 26", v: 1 }, { d: "Jul 27", v: 6 }, { d: "Jul 28", v: 1 }, { d: "Jul 29", v: 5 }, { d: "Jul 30", v: 2 },
+      { d: "Jul 31", v: 1 }, { d: "Aug 1", v: 0 }, { d: "Aug 2", v: 0 }, { d: "Aug 3", v: 5 }, { d: "Aug 4", v: 10 }, { d: "Aug 5", v: 3 },
+      { d: "Aug 6", v: 0 }, { d: "Aug 7", v: 0 }, { d: "Aug 8", v: 4 }, { d: "Aug 9", v: 1 }, { d: "Aug 10", v: 11 }, { d: "Aug 11", v: 117 },
+      { d: "Aug 12", v: 157 }, { d: "Aug 13", v: 204 }, { d: "Aug 14", v: 93 }, { d: "Aug 15", v: 31 }, { d: "Aug 16", v: 102 }, { d: "Aug 17", v: 142 },
+      { d: "Aug 18", v: 113 }, { d: "Aug 19", v: 111 }, { d: "Aug 20", v: 78 }, { d: "Aug 21", v: 108 }, { d: "Aug 22", v: 128 }, { d: "Aug 23", v: 102 },
+      { d: "Aug 24", v: 80 }, { d: "Aug 25", v: 105 }, { d: "Aug 26", v: 91 }, { d: "Aug 27", v: 69 }, { d: "Aug 28", v: 72 }, { d: "Aug 29", v: 109 },
+      { d: "Aug 30", v: 55 }, { d: "Aug 31", v: 2 }, { d: "Sep 1", v: 2 }, { d: "Sep 2", v: 0 }, { d: "Sep 3", v: 0 }, { d: "Sep 4", v: 0 },
+      { d: "Sep 5", v: 0 }, { d: "Sep 6", v: 0 }, { d: "Sep 7", v: 2 }, { d: "Sep 8", v: 1 }, { d: "Sep 9", v: 0 }, { d: "Sep 10", v: 0 },
+      { d: "Sep 11", v: 1 }, { d: "Sep 12", v: 2 }, { d: "Sep 13", v: 0 }, { d: "Sep 14", v: 6 }, { d: "Sep 15", v: 0 }, { d: "Sep 16", v: 0 },
+      { d: "Sep 17", v: 0 }, { d: "Sep 18", v: 1 }, { d: "Sep 19", v: 2 }, { d: "Sep 20", v: 0 }, { d: "Sep 21", v: 5 }, { d: "Sep 22", v: 0 },
+      { d: "Sep 23", v: 1 }, { d: "Sep 24", v: 1 }, { d: "Sep 25", v: 0 }, { d: "Sep 26", v: 0 }, { d: "Sep 27", v: 1 }, { d: "Sep 28", v: 6 },
+      { d: "Sep 29", v: 0 }, { d: "Sep 30", v: 1 }, { d: "Oct 1", v: 1 }, { d: "Oct 2", v: 0 }, { d: "Oct 3", v: 0 }, { d: "Oct 4", v: 0 },
+      { d: "Oct 5", v: 16 }, { d: "Oct 6", v: 3 }, { d: "Oct 7", v: 0 }, { d: "Oct 8", v: 1 }, { d: "Oct 9", v: 28 }, { d: "Oct 10", v: 18 },
+      { d: "Oct 11", v: 8 },
     ],
     dailyChart: {
-      title: "Visits peaked during the August campaign",
-      /* indices into `daily`: 10 = Aug 11, 29 = Aug 30 */
-      band: { from: 10, to: 29, label: "Aug 11 – 30" },
+      title: "Visits peaked with the August campaign and picked up again in October",
+      /* indices into `daily`: 41 = Aug 11, 60 = Aug 30 */
+      band: { from: 41, to: 60, label: "August campaign" },
       note:
-        "New website visitors each day. 2,067 of the 2,128 arrived between August 11 and 30, 97%. The campaign ended on August 30. The peak was 204 on August 13. From September 1 to 27 the site drew 25.",
+        "New website visitors each day since July 1. 2,067 of the 2,294 arrived between August 11 and 30, during the launch campaign. October 5 – 11 drew 74, against 8 the week before, and 54 of them came October 9 – 11. The new ads were active and the /nycsmilepass short link drew 72 clicks that week; the exports cannot show how much each contributed.",
       noteClient:
-        "New website visitors each day. Most arrived between August 11 and 30, during the launch campaign. September has been quieter without paid ads running, as expected for a new site still building its search and social presence.",
+        "New website visitors each day since July 1. Most arrived during the August launch campaign. Visits picked up again in October: 74 new visitors from October 5 to 11, against 8 the week before.",
     },
     ads: {
       title: "The August campaign",
@@ -651,100 +653,121 @@ export const REPORT = {
         ],
       },
       note:
-        "1 campaign, August 2026 First Month Free, with a $750 lifetime budget, ending August 30. No paid ads have run since. It was set to optimize for landing page views, not sign-ups, and delivered those cheaply. Meta ranks both ads’ conversion rate in the bottom 35% of ads; quality is average. The No Insurance ad had the higher click rate and cheaper views but received 18% of the budget. People reached counts each person once, so the 2 ad rows add up to more than the campaign total. Meta counts 1,604 landing page views; Google Analytics recorded 2,068 visits from the ads, because the 2 measure a visit differently.",
+        "1 campaign, August 2026 First Month Free, with a $750 lifetime budget, ending August 30. It was set to optimize for landing page views and delivered those cheaply. Meta ranks both ads’ conversion rate in the bottom 35% of ads; quality is average. The No Insurance ad had the higher click rate and cheaper views but received 18% of the budget. People reached counts each person once, so the 2 ad rows add up to more than the campaign total.",
       noteClient:
-        "1 campaign ran, with a $750 budget, and ended on August 30. It was set up to bring people to the site, and it did so at 47 cents a visit. The No Insurance message drew a higher click rate than the general one. People reached counts each person once, so the 2 ads add up to more than the campaign total. Meta counts 1,604 landing page views, while Google Analytics recorded 2,068 visits from the ads; the 2 tools measure a visit slightly differently.",
+        "The launch campaign ran with a $750 budget and ended on August 30. It was set up to bring people to the site, and it did so at 47 cents a visit. The No Insurance message drew a higher click rate than the general one. People reached counts each person once, so the 2 ads add up to more than the campaign total.",
+    },
+    adsNow: {
+      title: "The ads running now",
+      table: {
+        head: ["Ad", "Goal", "Spend", "People reached", "Impressions", "Result"],
+        rows: [
+          ["New Engagement Ad", "Instagram profile visits", "$16.38", "539", "651", "73 profile visits, $0.22 each"],
+          ["New Leads Ad", "Sign-ups", "$52.34", "907", "1,194", "None recorded in Meta yet"],
+          ["Total", "", "$68.72", "", "1,845", ""],
+        ],
+      },
+      tableClient: {
+        head: ["Ad", "Goal", "People reached", "Impressions", "Result"],
+        rows: [
+          ["Engagement ad", "Visits to the Smile Pass Instagram profile", "539", "651", "73 profile visits, 22 cents each"],
+          ["Leads ad", "Sign-ups", "907", "1,194", "Reported once Meta records sign-ups"],
+        ],
+      },
+      note:
+        "Meta’s export for September 13 – October 12, which includes October 12. Both ads are active and set to end November 9. 76% of the spend, $52.34 of $68.72, went to the leads ad, which optimizes for sign-ups. It has no results in the export, and GA4 records no sign-ups either: confirm the Meta pixel records a completed sign-up, or Meta cannot optimize toward people who join. People reached is not added across the 2 ads, since the same person can see both.",
+      noteClient:
+        "2 ads are running. The engagement ad brings people to the Smile Pass Instagram profile. The leads ad, which carries most of the budget, is set up to find people likely to sign up. People reached is counted per ad, since the same person can see both.",
     },
     sources: {
       title: "How visitors engaged, by source",
       table: {
         head: ["Source", "Visits", "Share that engaged", "Average time on site"],
         rows: [
-          ["Instagram ads", "1,638", "3.7%", "0.7 seconds"],
-          ["Facebook ads", "430", "10.9%", "4.7 seconds"],
-          ["Direct", "79", "22.8%", "8.3 seconds"],
-          ["Instagram and Facebook, unpaid", "29", "41.4%", "9.0 seconds"],
-          ["Google search", "20", "40.0%", "10.7 seconds"],
+          ["Instagram ads", "1,648", "3.8%", "0.8 seconds"],
+          ["Facebook ads", "444", "12.2%", "7.4 seconds"],
+          ["Direct", "213", "25.4%", "23.8 seconds"],
+          ["Google search", "69", "43.5%", "20.9 seconds"],
+          ["Instagram and Facebook, unpaid", "40", "42.5%", "11.3 seconds"],
+          ["Audience Network ads", "21", "38.1%", "0.0 seconds"],
         ],
       },
       note:
-        "Instagram ad visitors, 1,638 of the 2,202 visits, engaged 3.7% of the time and averaged 0.7 seconds. Facebook ad visitors engaged 3 times as often. Paid visits have not changed since September 20, which fits no paid ads running. Bing (3) and unassigned (3) are not shown.",
+        "July 1 – October 11. Instagram ad visitors, 1,648 of the 2,453 visits, engaged 3.8% of the time and averaged under a second. Facebook ad visitors engaged 3 times as often. Audience Network is a Meta placement outside Instagram and Facebook. Bing (5), unassigned (10) and Threads ads (3) are not shown. The site landing pages show 25 visits that began on /join.",
       noteClient:
-        "A visit counts as engaged if it lasted at least 10 seconds or included a second page. Visitors from Google, direct visits and Facebook ads spent the most time on the site; Instagram ad visits were typically brief. Sources with fewer than 5 visits are not shown.",
+        "A visit counts as engaged if it lasted at least 10 seconds or included a second page. Visitors from Google, direct visits and unpaid social spent the most time on the site. Sources with fewer than 20 visits are not shown.",
     },
     social: {
       title: "Smile Pass on social",
       table: {
         head: ["", "Instagram", "Facebook"],
         rows: [
-          ["Followers", "27 · up 11", "4 · up 4"],
-          ["Pieces published", "31 · 16 posts, 6 reels, 9 Stories", "11 · 5 posts, 6 reels"],
-          ["Average reach per post", "42", "6"],
-          ["Reels", "788 views · 104 average reach", "876 video views"],
-          ["Strongest piece", "Sep 17 reel · 339 views · 276 reach", "—"],
+          ["Followers", "30 · up 13", "14 · up 14"],
+          ["Average reach per post", "47", "5"],
+          ["Reels", "861 views · 96 average reach", "943 video views"],
+          ["Strongest piece", "Sep 17 reel · 339 views · 277 reach", "—"],
         ],
       },
       note:
-        "Unpaid content only. Metricool’s account-level reach and view totals include delivery from the ad campaign, so they are not used: Facebook reports 22.89K views on an account with 4 followers. The strongest organic piece is still the September 17 reel, “Be honest: when was your last dentist appointment?”, with 339 views and 276 reach. 2 reels went out this week: September 22 with 74 views and September 24 with 137.",
+        "Unpaid content only, July 10 – October 11, from Metricool. Account-level reach and views include ad delivery and are not used: Facebook reports 24.32K views on an account with 14 followers. The strongest organic piece is still the September 17 reel, “Be honest: when was your last dentist appointment?”, with 339 views and 277 reach. Instagram followers stood at 27 on September 27.",
       noteClient:
-        "Unpaid posts only. Both accounts are in their first weeks, and Instagram has grown to 27 followers, up 11. The strongest post was the September 17 reel asking when you last saw a dentist, with 339 views.",
+        "Unpaid posts only, from July 10. Instagram has grown to 30 followers and Facebook to 14. The strongest post is still the September 17 reel asking when you last saw a dentist, with 339 views.",
     },
     search: {
       title: "Search",
       kv: [
-        { k: "Clicks from Google", v: "4" },
-        { k: "Appearances in Google", v: "152" },
+        { k: "Clicks from Google", v: "19" },
+        { k: "Appearances in Google", v: "251" },
         { k: "Most common search", v: "“nyc dental smiles”" },
       ],
       note:
-        "8 weeks of Search Console data. Of the searches Google reports, 66 appearances were for “nyc dental smiles” and none mentioned Smile Pass by name. “dental membership plan nyc” appeared 4 times. Google withholds low-volume searches, so the list covers 72 of the 152 appearances.",
+        "July 1 – October 11. Google reports 95 appearances for “nyc dental smiles” and 1 for “smile pass”. Google withholds low-volume searches, so the list covers 107 of the 251 appearances. The sign-up page drew 1 click.",
       noteClient:
-        "Search presence is still early for a new site. Most of the searches that showed Smile Pass were for the NYC Dental Smiles name.",
+        "Search presence is still early for a new site. Most searches that showed Smile Pass were for the NYC Dental Smiles name, and the site has drawn 19 clicks from Google since July.",
     },
     findings: {
-      title: "What we learned from the launch",
+      title: "What we learned",
       items: [
         {
-          t: "The ads brought people in cheaply",
-          b: "1,604 landing page views at 47 cents each, and 62,053 people reached. The campaign was set to find people likely to open the page, and that is what it delivered.",
-          client: { t: "The launch campaign reached a wide audience", b: "62,053 people saw the ads and 1,604 visited the site from them, at 47 cents a visit." },
+          t: "The August campaign brought people in cheaply",
+          b: "1,604 landing page views at 47 cents each, and 62,053 people reached. It was set to find people likely to open the page, and that is what it delivered.",
+          client: { t: "The launch campaign reached a wide audience", b: "62,053 people saw the August ads and 1,604 visited the site from them, at 47 cents a visit." },
         },
         {
-          t: "Visits have not yet turned into sign-ups",
-          b: "1 sign-up across 2,128 new visitors and $749.85 in ad spend. Instagram ad visits averaged 0.7 seconds and 3.7% engaged, and Meta rates both ads’ conversion in the bottom 35%.",
-          client: { t: "Turning visits into sign-ups is the next focus", b: "1 sign-up has come in so far. Most ad visitors left quickly without continuing to the sign-up page, which shows where to focus next." },
+          t: "The new engagement ad is building the Instagram audience",
+          b: "73 profile visits for $16.38, 22 cents each. Instagram followers stand at 30, against 27 on September 27.",
+          client: { t: "The new ads are bringing people to Instagram", b: "The engagement ad has drawn 73 visits to the Smile Pass Instagram profile, at 22 cents each, and the account now has 30 followers." },
+        },
+        {
+          t: "October brought the most visitors since August",
+          b: "74 new visitors from October 5 to 11, against 4 to 9 a week from August 31. 54 came October 9 – 11. The new ads were active and the /nycsmilepass short link drew 72 clicks the same week.",
+          client: { t: "Visits picked up in October", b: "74 new visitors came to the site from October 5 to 11, the most in a week since the launch campaign." },
+        },
+        {
+          t: "Neither GA4 nor Meta can see a sign-up yet",
+          b: "2 sign-ups to date, from the website’s records, against 1 on September 27. The leads ad, with 76% of the current spend, shows no results, and GA4 has no sign-up event.",
+          client: { t: "Sign-ups are the focus of the leads ad", b: "Most of the current ad budget goes to the leads ad, which is set up to find people likely to join. Connecting sign-ups to Meta and Google Analytics is the next step, so every future report can measure them directly." },
         },
         {
           t: "Facebook ad visitors were more engaged than Instagram’s",
-          b: "10.9% of Facebook ad visits engaged against 3.7% from Instagram, averaging 4.7 seconds against 0.7. Instagram took 79% of the ad visits.",
+          b: "12.2% of Facebook ad visits engaged against 3.8% from Instagram, averaging 7.4 seconds against 0.8. Instagram took 79% of the Instagram and Facebook ad visits.",
           client: { t: "Facebook ad visitors stayed longer", b: "Visitors from Facebook ads were 3 times as likely to engage as visitors from Instagram ads, and stayed longer on the site." },
-        },
-        {
-          t: "Traffic follows the ads for now",
-          b: "25 new visitors from September 1 to 27. Search drew 4 clicks in 8 weeks and the social accounts have 27 and 4 followers, so there is no steady source of visitors yet.",
-          client: { t: "Search and social are still building", b: "As a new program, Smile Pass is still building its own search and social presence, so most visits so far have come from the campaign." },
-        },
-        {
-          t: "GA4 cannot see sign-ups",
-          b: "No sign-up event is set up, so GA4 shows zero regardless of what happens. The 1 sign-up is from the website’s own records. Setting this up is the first step for the next campaign, and it lets Meta optimize for sign-ups.",
-          client: { t: "Every sign-up is counted", b: "The website records each sign-up, and that is the count shown here. We are now connecting sign-ups to Google Analytics and Meta as well, so future reports can show which visits and ads led to each one." },
         },
       ],
     },
     next: {
       title: "What we’d do next",
       items: [
-        { t: "Track sign-ups in Google Analytics and Meta", b: "Record each completed sign-up as a key event, so every future report and campaign is measured on sign-ups rather than visits." },
-        { t: "Set the next campaign to optimize for sign-ups", b: "The August campaign was set to find people likely to open the page. Once sign-ups are tracked, Meta can look for people likely to join instead." },
-        { t: "Review the path from ad to sign-up", b: "Most ad visits were brief. Walking through each step from the ad to a completed sign-up on a phone will show where to make joining easier." },
-        { t: "Lead with the No Insurance message", b: "It drew a higher click rate, 3.12% against 2.49%, at a lower cost per visit, on 18% of the budget." },
-        { t: "Introduce Smile Pass to NYC Dental Smiles’ audience", b: "NYC Dental Smiles has 774 Instagram followers and 130 to 160 website visits a week. Smile Pass has 27 followers. Shared posts and links from the main practice reach people who already know it." },
+        { t: "Record each sign-up in Meta and Google Analytics", b: "The leads ad optimizes for sign-ups. Recording each completed sign-up lets Meta find more people like the ones who join, and lets every report measure sign-ups directly." },
+        { t: "Review the path from ad to sign-up", b: "Walking through each step from the ad to a completed sign-up on a phone will show where to make joining easier." },
+        { t: "Lead with the No Insurance message", b: "In August it drew a higher click rate, 3.12% against 2.49%, at a lower cost per visit." },
+        { t: "Keep sharing Smile Pass from NYC Dental Smiles", b: "The /nycsmilepass short link drew 72 clicks in its first week. NYC Dental Smiles has 779 Instagram followers; Smile Pass has 30." },
       ],
     },
     method:
-      "New visitor totals come from GA4’s daily series, August 1 – September 27. Visits by source cover the same dates. Ad figures are Meta’s August export; the campaign spent its full $750 lifetime budget and ended August 30, and no paid ads have run since, confirmed September 28. Social figures are organic only, because Metricool’s account totals include ad delivery. Search covers August 1 – September 27. The sign-up count is from the website’s own records, not GA4, and had not changed as of September 28. 4 files in this cycle’s export named for Smile Pass belonged to the NYC Dental Smiles property and were used for the weekly report instead.",
+      "New visitor totals come from GA4’s daily series, July 1 – October 11, property NYC Dental Smiles Membership; visits by source cover the same dates. August campaign figures are Meta’s August export. Current ad figures are Meta’s export for September 13 – October 12, which includes October 12. Social figures are organic only, July 10 – October 11, because Metricool’s account totals include ad delivery. Search covers July 1 – October 11. The sign-up count is from the website’s own records.",
     methodClient:
-      "Figures cover August 1 to September 27, 2026. Website figures are from Google Analytics, ad figures from Meta, social figures from Metricool and search figures from Google Search Console. The sign-up count is from the website’s own records. Social figures cover unpaid posts only.",
+      "Figures cover July 1 to October 11, 2026. Website figures are from Google Analytics, ad figures from Meta, social figures from Metricool and search figures from Google Search Console. The sign-up count is from the website’s own records. Social figures cover unpaid posts only.",
   },
 };
 
@@ -775,5 +798,5 @@ export const SOURCE_WINDOWS = [
   { k: "Short links", v: "Oct 5 – 11", p: "All named NYC Dental Smiles links, counted the same way in both weeks." },
   { k: "Email", v: "Oct 8", p: "1 campaign, Manhattan Mag Post Event." },
   { k: "Raffle form", v: "Sep 22 – close", p: "Constant Contact entry form. The raffle has closed." },
-  { k: "Smile Pass", v: "Aug 1 – Sep 27", p: "An overview of activity since launch, separate from the weekly figures." },
+  { k: "Smile Pass", v: "Jul 1 – Oct 11", p: "An overview since launch, separate from the weekly figures. Current ads: Meta, Sep 13 – Oct 12." },
 ];

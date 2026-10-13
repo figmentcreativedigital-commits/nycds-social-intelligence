@@ -284,7 +284,8 @@ a { color: inherit; }
 /* ---------- Smile Pass ---------- */
 .sp-date { display: inline-block; padding: 5px 14px; border: 1px solid var(--plum); border-radius: 30px; font-size: 14px; color: var(--plum); margin-bottom: 28px; }
 .sp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 56px; margin-top: 48px; }
-@media (max-width: 900px) { .sp-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .sp-grid { grid-template-columns: minmax(0, 1fr); } }
+.sp-wide { grid-column: 1 / -1; }
 .sp-area { width: 100%; height: auto; display: block; overflow: visible; }
 .sp-area text { font-family: var(--text); fill: var(--muted); font-size: 13px; }
 .sp-area .pk { fill: var(--ink); font-weight: 800; font-size: 14px; }
@@ -635,9 +636,6 @@ export default function Page() {
               <summary>Instagram<small>{d.subtitles.instagram}</small></summary>
               <div className="dt-p">
                 <KV items={d.instagram.kv} />
-                <Block title={d.instagram.publishedChart.title} note={d.instagram.publishedChart.note}>
-                  <Bars items={d.instagram.published} label="Pieces published by format" />
-                </Block>
                 <Block title={d.instagram.postsChart.title} note={d.instagram.postsChart.note}>
                   <Table head={["Piece", "Format", "Date", "Views", "Reach", "Interactions", "Engagement"]}
                     rows={d.instagram.posts.map((p) => [p.t, p.f, p.d, p.v, p.r, p.i, p.e])} />
@@ -753,6 +751,11 @@ export default function Page() {
               </details>
             </div>
             <div className="sp-grid">
+              <div className="sp-wide">
+                <h3 className="dt-h">{sp.adsNow.title}</h3>
+                <Table head={v(sp.adsNow.table, sp.adsNow.tableClient).head} rows={v(sp.adsNow.table, sp.adsNow.tableClient).rows} />
+                <p className="dt-note">{v(sp.adsNow.note, sp.adsNow.noteClient)}</p>
+              </div>
               <div>
                 <h3 className="dt-h">{sp.ads.title}</h3>
                 <Table head={sp.ads.table.head} rows={sp.ads.table.rows} />
