@@ -681,12 +681,16 @@ export default function Page() {
                 <Block title={d.website.sourcesChart.title} note={d.website.sourcesChart.note}>
                   <Bars items={d.website.sources} label="Sessions by source" />
                 </Block>
-                <Block title={d.website.deviceChart.title} note={d.website.deviceChart.note}>
-                  <Bars items={d.website.deviceSplit.map((x) => ({ label: x.label, value: x.pct }))} label="Share of visitors by device, percent" />
-                </Block>
-                <Block title={d.website.landingChart.title} note={d.website.landingChart.note}>
-                  <Bars items={d.website.landing} label="Views by landing page" />
-                </Block>
+                {d.website.deviceSplit.length ? (
+                  <Block title={d.website.deviceChart.title} note={d.website.deviceChart.note}>
+                    <Bars items={d.website.deviceSplit.map((x) => ({ label: x.label, value: x.pct }))} label="Share of visitors by device, percent" />
+                  </Block>
+                ) : null}
+                {d.website.landing.length ? (
+                  <Block title={d.website.landingChart.title} note={d.website.landingChart.note}>
+                    <Bars items={d.website.landing} label="Views by landing page" />
+                  </Block>
+                ) : null}
                 <p className="dt-note">{d.website.note}</p>
               </div>
             </details>
