@@ -35,9 +35,11 @@
    SMILE PASS — July 1 – October 18. Daily visitors from the Looker export,
      which matches the native GA4 series day for day through October 11.
      Sources: native GA4, property NYC Dental Smiles Membership. Sign-ups 6,
-     from the website’s records (Walter, October 19). Meta’s export for
-     October 12 – 18 is still to come: the ads table stays at September 13 –
-     October 12.
+     from the website’s records (Walter, October 19). Current ads: Meta’s
+     campaign-level export for September 20 – October 19, supplied October
+     20; it includes Monday, October 19, and Meta’s export cannot be trimmed
+     to Sunday. Leads: $153.20 of a $400 lifetime budget, no results.
+     Engagement: $43.54 of $100, 156 profile visits at $0.28.
 
    CONTENT PUBLISHED — removed from the ledger and client-facing detail at
      Walter's request: piece counts move with collabs and Stories while grid
@@ -565,22 +567,22 @@ export const REPORT = {
   /* ------------------------------------------------------------ SMILE PASS
      A separate overview, not part of the weekly comparison. July 1 –
      October 18, 2026. Sources: GA4 property "NYC Dental Smiles Membership",
-     Meta Ads (August export; current ads September 13 – October 12, the
-     October 12 – 18 export to come), Short.io, Site Kit's weekly email,
+     Meta Ads (August export; current campaigns September 20 – October 19),
+     Short.io, Site Kit's weekly email,
      Metricool (organic only), Search Console, and the website's own
      sign-up records. */
   smilepass: {
     title: "NYC Smile Pass",
     dateLine: "July 1 – October 18, 2026, since launch",
     lede:
-      "Smile Pass since July 1. 6 sign-ups to date, against 2 a week ago. October 12 – 18 drew 169 new visitors, against 74, the most in a week since August. /nycsmilepass drew 254 clicks, 249 of them tagged from the Meta ads and 206 of those from Audience Network. Meta’s figures for the week are still to come; the ads table runs to October 12.",
+      "Smile Pass since July 1. 6 sign-ups to date, against 2 a week ago. October 12 – 18 drew 169 new visitors, against 74, the most in a week since August. /nycsmilepass drew 254 clicks, 249 of them tagged from the Meta ads and 206 of those from Audience Network. The 2 current campaigns have spent $196.74, 78% of it on the leads campaign, which still records no sign-ups in Meta.",
     ledeClient:
       "An overview of NYC Smile Pass since July 1. Sign-ups reached 6, up from 2 a week ago, and the site drew 169 new visitors from October 12 to 18, the most in a week since the August launch campaign.",
     kv: [
       { k: "Sign-ups", v: "6" },
       { k: "New website visitors", v: "2,463" },
       { k: "People reached by the August campaign", v: "62,053" },
-      { k: "Profile visits from the engagement ad, to Oct 12", v: "73" },
+      { k: "Profile visits from the engagement ad", v: "156" },
       { k: "Instagram followers", v: "35" },
       { k: "Facebook followers", v: "29" },
     ],
@@ -632,24 +634,24 @@ export const REPORT = {
     adsNow: {
       title: "The ads running now",
       table: {
-        head: ["Ad", "Goal", "Spend", "People reached", "Impressions", "Result"],
+        head: ["Campaign", "Goal", "Spend of budget", "People reached", "Impressions", "Link click rate", "Result"],
         rows: [
-          ["New Engagement Ad", "Instagram profile visits", "$16.38", "539", "651", "73 profile visits, $0.22 each"],
-          ["New Leads Ad", "Sign-ups", "$52.34", "907", "1,194", "None recorded in Meta yet"],
-          ["Total", "", "$68.72", "", "1,845", ""],
+          ["Reel Engagement/Follows Fall 2026", "Instagram profile visits", "$43.54 of $100", "1,266", "1,764", "6.29%", "156 profile visits, $0.28 each"],
+          ["Reel Leads Fall 2026", "Sign-ups", "$153.20 of $400", "2,190", "3,380", "10.41%", "None recorded in Meta yet"],
+          ["Total", "", "$196.74 of $500", "", "5,144", "", ""],
         ],
       },
       tableClient: {
-        head: ["Ad", "Goal", "People reached", "Impressions", "Result"],
+        head: ["Ad", "Goal", "People reached", "Impressions", "Link click rate", "Result"],
         rows: [
-          ["Engagement ad", "Visits to the Smile Pass Instagram profile", "539", "651", "73 profile visits, 22 cents each"],
-          ["Leads ad", "Sign-ups", "907", "1,194", "Reported once Meta records sign-ups"],
+          ["Engagement ad", "Visits to the Smile Pass Instagram profile", "1,266", "1,764", "6.29%", "156 profile visits, 28 cents each"],
+          ["Leads ad", "Sign-ups", "2,190", "3,380", "10.41%", "Reported once Meta records sign-ups"],
         ],
       },
       note:
-        "Meta’s export for September 13 – October 12; the October 12 – 18 export is still to come. Both ads are active and set to end November 9. 76% of the spend, $52.34 of $68.72, went to the leads ad, which optimizes for sign-ups and shows no results through October 12; the website had recorded 2 sign-ups by October 13 and 6 by October 19. This week the ads link through /nycsmilepass: 249 of its 254 clicks carry the ads’ campaign tags, 206 from Audience Network, Meta’s placements in other apps and sites. Site Kit counts 89 visitors from Meta’s other placements for the week, against 24. People reached is not added across the 2 ads, since the same person can see both.",
+        "Meta’s campaign export for September 20 – October 19, which includes Monday, October 19. Both campaigns are active and end November 9, with $500 in lifetime budgets: $196.74 spent so far. 78% of the spend, $153.20, went to the leads campaign, which optimizes for sign-ups and still records none; the website had 6 sign-ups by October 19. Its link click rate is 10.41%, so people are clicking through. The engagement campaign has drawn 156 profile visits, up from 73 in the ad-level export to October 12. This week the ads link through /nycsmilepass: 249 of its 254 clicks carry the ads’ campaign tags, 206 from Audience Network, Meta’s placements in other apps and sites. Site Kit counts 89 visitors from Meta’s other placements for the week, against 24. People reached is not added across the 2 ads, since the same person can see both.",
       noteClient:
-        "2 ads are running, with figures through October 12. The engagement ad brings people to the Smile Pass Instagram profile. The leads ad, which carries most of the budget, is set up to find people likely to sign up. People reached is counted per ad, since the same person can see both.",
+        "2 ads are running, with figures through October 19. The engagement ad brings people to the Smile Pass Instagram profile. The leads ad, which carries most of the budget, is set up to find people likely to sign up. People reached is counted per ad, since the same person can see both.",
     },
     sources: {
       title: "How visitors engaged, by source",
@@ -702,7 +704,7 @@ export const REPORT = {
       items: [
         {
           t: "Sign-ups tripled in a week",
-          b: "6 sign-ups to date, from the website’s records, against 2 a week ago. Meta’s leads ad shows no results through October 12 and GA4 has no sign-up event, so neither can link a sign-up to an ad.",
+          b: "6 sign-ups to date, from the website’s records, against 2 a week ago. Meta’s leads campaign shows no results through October 19 and GA4 has no sign-up event, so neither can link a sign-up to an ad.",
           client: { t: "Sign-ups reached 6", b: "Sign-ups rose to 6 from 2 a week ago. Connecting sign-ups to Meta and Google Analytics is the next step, so every future report can show where members come from." },
         },
         {
@@ -712,8 +714,8 @@ export const REPORT = {
         },
         {
           t: "The engagement ad is building the Instagram audience",
-          b: "73 profile visits for $16.38 to October 12, 22 cents each. Instagram followers stand at 35, against 30 a week ago and 27 on September 27.",
-          client: { t: "Instagram is growing", b: "The engagement ad has drawn 73 visits to the Smile Pass Instagram profile, and the account has grown to 35 followers from 30 a week ago." },
+          b: "156 profile visits for $43.54 to October 19, 28 cents each, up from 73 to October 12. Instagram followers stand at 35, against 30 a week ago and 27 on September 27.",
+          client: { t: "Instagram is growing", b: "The engagement ad has drawn 156 visits to the Smile Pass Instagram profile, up from 73 a week earlier, and the account has grown to 35 followers from 30." },
         },
         {
           t: "Facebook ad visitors were more engaged than Instagram’s",
@@ -737,9 +739,9 @@ export const REPORT = {
       ],
     },
     method:
-      "New visitor totals come from GA4’s daily series, July 1 – October 18, property NYC Dental Smiles Membership; visits by source cover the same dates. August campaign figures are Meta’s August export. Current ad figures are Meta’s export for September 13 – October 12; October 12 – 18 is still to come. Short link clicks are Short.io, October 12 – 18. Social figures are organic only, July 10 – October 18, because Metricool’s account totals include ad delivery. Search covers July 1 – October 18. The sign-up count is from the website’s own records.",
+      "New visitor totals come from GA4’s daily series, July 1 – October 18, property NYC Dental Smiles Membership; visits by source cover the same dates. August campaign figures are Meta’s August export. Current ad figures are Meta’s campaign export for September 20 – October 19, which includes October 19. Short link clicks are Short.io, October 12 – 18. Social figures are organic only, July 10 – October 18, because Metricool’s account totals include ad delivery. Search covers July 1 – October 18. The sign-up count is from the website’s own records.",
     methodClient:
-      "Figures cover July 1 to October 18, 2026. Website figures are from Google Analytics, ad figures from Meta through October 12, social figures from Metricool and search figures from Google Search Console. The sign-up count is from the website’s own records. Social figures cover unpaid posts only.",
+      "Figures cover July 1 to October 18, 2026. Website figures are from Google Analytics, ad figures from Meta through October 19, social figures from Metricool and search figures from Google Search Console. The sign-up count is from the website’s own records. Social figures cover unpaid posts only.",
   },
 };
 
@@ -768,5 +770,5 @@ export const SOURCE_WINDOWS = [
   { k: "Search", v: "Oct 12 – 18", p: "Against Oct 5 – 11. The last days of this week may still rise." },
   { k: "Website", v: "Oct 12 – 18", p: "Under review. Shown without a comparison." },
   { k: "Short links", v: "Oct 12 – 18", p: "All named NYC Dental Smiles links, counted the same way in both weeks." },
-  { k: "Smile Pass", v: "Jul 1 – Oct 18", p: "An overview since launch, separate from the weekly figures. Current ads: Meta, Sep 13 – Oct 12." },
+  { k: "Smile Pass", v: "Jul 1 – Oct 18", p: "An overview since launch, separate from the weekly figures. Current ads: Meta, Sep 20 – Oct 19." },
 ];
