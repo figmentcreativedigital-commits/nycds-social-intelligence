@@ -14,8 +14,10 @@
    READ-DATE RULE — Metricool per-piece figures are each read the day after
      their week closed.
 
-   WEBSITE (GA4) — still not counting correctly: 31 of 79 sessions have no
-     source. No device or landing-page export this week, so those views are
+   WEBSITE (GA4) — Walter confirmed October 20 that NYC Dental Smiles GA4
+     tracking has been fixed; fix date not given. The October 12 – 18 export
+     still shows 31 of 79 sessions with no source, so copy says the fix is in
+     and comparisons return after a full week recorded since it. No device or landing-page export this week, so those views are
      removed. Period line uses Search Console clicks.
 
    SHORT LINKS — Short.io unfiltered view, Clicks by All, the named practice
@@ -121,15 +123,15 @@ export const REPORT = {
       },
       {
         role: "What softened",
-        text: "Searches by name clicked through 7.5% against 15.5%. Average search position 49.1 against 40.8. Location information links 26 to 18. GA4 is still not counting correctly: 31 of 79 sessions with no source.",
+        text: "Searches by name clicked through 7.5% against 15.5%. Average search position 49.1 against 40.8. Location information links 26 to 18. GA4 tracking is now fixed; this week’s export still shows 31 of 79 sessions with no source.",
         client: {
           role: "What we are monitoring",
-          text: "We are still confirming how the website counts visits after the recent updates, so website figures are shown without a comparison this week.",
+          text: "The website’s visit tracking has now been fixed. Website figures return to the week-to-week comparison once a full week has been recorded since the fix.",
         },
       },
       {
         role: "Next action",
-        text: "Get a fix date for GA4. Confirm 1 address per doctor page. Repeat the short educational reel.",
+        text: "Confirm the date the GA4 fix went live and that it holds. Confirm 1 address per doctor page. Repeat the short educational reel.",
         client: {
           role: "What we are doing next",
           text: "We will build on the short reel format that drew the strongest engagement and keep directing people to the booking links.",
@@ -164,14 +166,14 @@ export const REPORT = {
       { group: "Facebook", k: "Page visits", note: "Reported for completeness. At this scale the figures move on single pieces of content.", cells: [{ v: "22", c: "−4" }, { v: "26" }], trend: [0, 15, 4, 26, 22], fmt: "int" },
       { group: "Facebook", k: "Views", note: "Account total, Metricool.", cells: [{ v: "215", c: "−10%" }, { v: "240" }], trend: [111, 207, 309, 240, 215], fmt: "int" },
     ] as { group: string; k: string; note?: string; cells: { v: string; c?: string }[]; trend: number[]; fmt: "int" | "pct" | "pct1" }[],
-    after: "Website figures are being confirmed after recent updates and appear in Supporting detail.",
+    after: "Website visit tracking has now been fixed. Website figures appear in Supporting detail and return to this comparison once a full week has been recorded.",
   },
 
   /* -------------------------------------------- THE PERIOD LINE (signature) */
   periodLine: {
     title: "Clicks from Google rose to 58",
     note:
-      "Clicks from Google search each day across both weeks. Shown in place of new website visitors while we confirm how the site counts visits. No paid advertising ran for NYC Dental Smiles in either week.",
+      "Clicks from Google search each day across both weeks. Shown in place of new website visitors until a full week has been recorded since the tracking fix. No paid advertising ran for NYC Dental Smiles in either week.",
     /* Search Console daily clicks. Oct 5 – 11 as read October 12; Oct 12 – 18 read October 19. */
     series: [
       { d: "Oct 5", v: 12 }, { d: "Oct 6", v: 6 }, { d: "Oct 7", v: 10 },
@@ -257,11 +259,11 @@ export const REPORT = {
   attention: [
     {
       tag: "issue",
-      title: "GA4 is still not counting visits correctly",
+      title: "GA4 tracking is fixed; this week’s export still shows the gap",
       body:
-        "31 of 79 sessions have no source recorded, against 33 of 88 the week before. This is the third full week since the plugin updates.",
+        "31 of 79 sessions have no source recorded, against 33 of 88 the week before. The fix is in, and the date it went live is not yet recorded.",
       so:
-        "Ask Johana and Aren for a fix date and confirm the GA4 tag fires on every page. Website figures stay out of the comparison until then.",
+        "Record the date the fix went live. Next week, check that sessions with no source fall and new visitors line up with Search Console clicks before website figures rejoin the comparison.",
     },
     {
       tag: "expected",
@@ -318,8 +320,8 @@ export const REPORT = {
   /* ------------------------------------------------------------- NEXT MOVES */
   moves: [
     {
-      action: "Get a fix date for the website’s visit tracking",
-      why: "GA4 has miscounted for 3 full weeks, and 31 of 79 sessions have no source.",
+      action: "Confirm the GA4 fix holds",
+      why: "Tracking has been fixed, and this week’s export still shows 31 of 79 sessions with no source.",
       owner: "Web — Figment with Johana and Aren",
       measure: "GA4 visits back in line with Search Console clicks.",
     },
@@ -499,7 +501,7 @@ export const REPORT = {
       },
       landing: [] as { label: string; value: number }[],
       note:
-        "We are confirming how the site counts visits after recent updates, so this week’s figures may be low and are not compared with last week. 2 further sessions came from a short link and a payment partner. No paid advertising ran for NYC Dental Smiles in either week.",
+        "The site’s visit tracking has now been fixed. This week’s figures are shown without a comparison until a full week has been recorded since the fix. 2 further sessions came from a short link and a payment partner. No paid advertising ran for NYC Dental Smiles in either week.",
     },
 
     links: {
@@ -558,7 +560,7 @@ export const REPORT = {
       { q: "How the doctor page click rate is calculated", a: "Every doctor page address, counted the same way in both weeks: 22 clicks from 208 appearances this week, 20 from 195 the week before." },
       { q: "How searches by name are counted", a: "Searches that include the practice name or a doctor’s surname, matched the same way in both weeks, within Google’s query sample." },
       { q: "How short link clicks are counted", a: "All clicks on the practice’s named short links, counted the same way in both weeks. The Smile Pass link is reported in the Smile Pass section." },
-      { q: "Why website figures are not compared this week", a: "Updates were made to the website at the end of September, and the way it counts visits changed from September 29. Until that is confirmed, website figures are shown without a week-to-week comparison, and the daily chart shows clicks from Google instead." },
+      { q: "Why website figures are not compared this week", a: "Updates were made to the website at the end of September, and the way it counts visits changed from September 29. That has now been fixed. Until a full week has been recorded since the fix, website figures are shown without a week-to-week comparison, and the daily chart shows clicks from Google instead." },
       { q: "Where the Social section is", a: "The social lead’s write-up arrives after first review. It is checked figure by figure against the Metricool export before it is added.", internalOnly: true },
       { q: "What is not in this report", a: "No paid advertising ran for NYC Dental Smiles in either week, and no email campaign went out this week. Story interactions are not in the Instagram export." },
     ] as { q: string; a: string; internalOnly?: boolean; clientOnly?: boolean }[],
@@ -768,7 +770,7 @@ export const SOURCE_WINDOWS = [
   { k: "Instagram", v: "Oct 12 – 18", p: "Account-level figures from Metricool, against Oct 5 – 11." },
   { k: "Facebook", v: "Oct 12 – 18", p: "Account-level figures from Metricool." },
   { k: "Search", v: "Oct 12 – 18", p: "Against Oct 5 – 11. The last days of this week may still rise." },
-  { k: "Website", v: "Oct 12 – 18", p: "Under review. Shown without a comparison." },
+  { k: "Website", v: "Oct 12 – 18", p: "Tracking now fixed. Shown without a comparison this week." },
   { k: "Short links", v: "Oct 12 – 18", p: "All named NYC Dental Smiles links, counted the same way in both weeks." },
   { k: "Smile Pass", v: "Jul 1 – Oct 18", p: "An overview since launch, separate from the weekly figures. Current ads: Meta, Sep 20 – Oct 19." },
 ];
