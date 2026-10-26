@@ -28,8 +28,17 @@
      last 2 weeks. Doctor pages count every /dr- address, including the
      /doctors/ addresses, which now hold 160 of 312 doctor-page appearances.
 
-   EMAIL — no campaign data supplied for October 19 – 25. GA4 shows 5
-     sessions from Constant Contact pages.
+   EMAIL — 2 campaigns sent October 19, from each campaign’s Reporting page
+     (Walter’s screenshots, October 26). Rates are Constant Contact’s, on
+     delivered emails; bounce share on sends. NYCDS National Dental Hygiene
+     Month 2: 3,786 sends, 3,540 delivered, 1,849 all opens, 358 confirmed,
+     40 clicks, 246 bounces, 8 unsubscribes; unique clicks by link
+     /nycds-website 21, Modern Luxury 18, web version 15, homepage 14.
+     Manhattan Mag Post Event follow up 2, to the raffle list: 24 sends, 23
+     delivered, 7 all opens, 1 confirmed, 0 clicks, 1 bounce.
+
+   STAFF CONTENT — the October 22 reel is a Dental Hygiene Month reel of a
+     NYCDS hygienist talking about flossing (Walter, October 26).
 
    SOCIAL — hidden until the social lead's write-up arrives after first review.
 
@@ -78,7 +87,7 @@ export const REPORT = {
       lede: "Each measure this week and the week before, with its trend over the last 5 weeks. This week is the plum point.",
     },
     worked: {
-      title: "A short reel on flossing led the week",
+      title: "A hygienist’s Dental Hygiene Month reel led the week",
       galleryTitle: "The feed pieces from this week, ranked by views",
     },
     attention: {
@@ -103,20 +112,20 @@ export const REPORT = {
   brief: {
     title: "The Brief",
     lede: "The week in 4 points.",
-    head: "Instagram picked up: views 2,960 against 2,208 and reach per day 138 against 90. The flossing reel reached 600 accounts and drew 46 interactions, 13 of them shares. Booking links drew 28 clicks against 68, and clicks from Google fell to 43 from 58 while appearances rose to 1,699.",
-    headClient: "Instagram reach grew this week. Views rose to 2,960 and daily reach to 138, and a short reel on flossing reached 600 people and was shared 13 times. The site appeared in Google 1,699 times, up for the 5th week running.",
+    head: "Instagram picked up: views 2,960 against 2,208 and reach per day 138 against 90. The Hygiene Month reel, a hygienist on flossing, reached 600 accounts and drew 46 interactions, 13 of them shares. Booking links drew 28 clicks against 68, and clicks from Google fell to 43 from 58 while appearances rose to 1,699.",
+    headClient: "Instagram reach grew this week. Views rose to 2,960 and daily reach to 138, led by a Dental Hygiene Month reel of one of the practice’s hygienists talking about flossing, which reached 600 people and was shared 13 times. The site appeared in Google 1,699 times, up for the 5th week running.",
     items: [
       {
         role: "The outcome",
-        text: "Views 2,208 to 2,960. Daily reach 90 to 138. Interactions 43 to 63; engagement rate 6.83% to 6.52%. The flossing reel drew 901 of the 1,257 feed views and 46 of the 63 interactions. Followers 780 to 782.",
+        text: "Views 2,208 to 2,960. Daily reach 90 to 138. Interactions 43 to 63; engagement rate 6.83% to 6.52%. The Hygiene Month reel drew 901 of the 1,257 feed views and 46 of the 63 interactions. Followers 780 to 782.",
         client: {
           role: "The standout",
-          text: "A short reel on flossing reached 600 people, drew 46 interactions and was shared 13 times. Instagram views rose to 2,960 from 2,208 and daily reach to 138 from 90.",
+          text: "A Dental Hygiene Month reel featuring one of the practice’s hygienists on flossing reached 600 people, drew 46 interactions and was shared 13 times. Instagram views rose to 2,960 from 2,208 and daily reach to 138 from 90.",
         },
       },
       {
         role: "Strongest signal",
-        text: "Searches by name clicked through 11.5% against 7.5%. Google appearances 1,554 to 1,699, up for the 5th week. Website and homepage short links 6 to 32.",
+        text: "Searches by name clicked through 11.5% against 7.5%. Google appearances 1,554 to 1,699, up for the 5th week. Website and homepage short links 6 to 32; the Hygiene Month email reports 21 unique clicks on the website link.",
         client: {
           role: "The wider picture",
           text: "The site appeared in Google 1,699 times, up from 1,554. People searching for the practice or a doctor by name clicked through 11.5% of the time, up from 7.5%, and the website short links drew 32 clicks, up from 6.",
@@ -132,10 +141,10 @@ export const REPORT = {
       },
       {
         role: "Next action",
-        text: "Confirm the GA4 tag with Aren and Johana. Check every booking link. Settle 1 address per doctor page. Make more short educational reels.",
+        text: "Confirm the GA4 tag with Aren and Johana. Check every booking link. Settle 1 address per doctor page. Keep featuring the hygienists through Hygiene Month.",
         client: {
           role: "What we are doing next",
-          text: "We will keep building on short educational reels, which reached the most people this week, and review how the booking links are shared.",
+          text: "We will keep featuring the team through Dental Hygiene Month, building on the hygienist reel that reached the most people this week, and review how the booking links are shared.",
         },
       },
     ] as { role: string; text: string; client?: { role: string; text: string } }[],
@@ -153,9 +162,9 @@ export const REPORT = {
       { label: "Previous week", sub: "Oct 12 – 18" },
     ],
     rows: [
-      { group: "Instagram", k: "Views", note: "The flossing reel drew 901 of them.", cells: [{ v: "2,960", c: "+34%" }, { v: "2,208" }], trend: [3949, 3383, 5514, 2208, 2960], fmt: "int" },
-      { group: "Instagram", k: "Reach per day", note: "Average accounts reached each day. The flossing reel reached 600 on its own.", cells: [{ v: "138", c: "+53%" }, { v: "90" }], trend: [228, 160, 244, 90, 138], fmt: "int" },
-      { group: "Instagram", k: "Interactions", note: "Likes, comments, saves and shares on posts and reels. The flossing reel drew 46.", cells: [{ v: "63", c: "+20" }, { v: "43" }], trend: [127, 51, 53, 43, 63], fmt: "int" },
+      { group: "Instagram", k: "Views", note: "The Hygiene Month reel drew 901 of them.", cells: [{ v: "2,960", c: "+34%" }, { v: "2,208" }], trend: [3949, 3383, 5514, 2208, 2960], fmt: "int" },
+      { group: "Instagram", k: "Reach per day", note: "Average accounts reached each day. The Hygiene Month reel reached 600 on its own.", cells: [{ v: "138", c: "+53%" }, { v: "90" }], trend: [228, 160, 244, 90, 138], fmt: "int" },
+      { group: "Instagram", k: "Interactions", note: "Likes, comments, saves and shares on posts and reels. The Hygiene Month reel drew 46.", cells: [{ v: "63", c: "+20" }, { v: "43" }], trend: [127, 51, 53, 43, 63], fmt: "int" },
       { group: "Instagram", k: "Engagement rate", note: "Interactions divided by reach. Reach grew faster than interactions.", cells: [{ v: "6.52%", c: "−0.31 points" }, { v: "6.83%" }], trend: [7.96, 4.55, 3.10, 6.83, 6.52], fmt: "pct" },
       { group: "Instagram", k: "Followers", note: "Account total at the end of each week.", cells: [{ v: "782", c: "+2" }, { v: "780" }], trend: [774, 779, 779, 780, 782], fmt: "int" },
       { group: "Booking links", k: "Booking link clicks", note: "Plaza District 10, Murray Hill 8, all locations 5, Lenox Hill 5.", cells: [{ v: "28", c: "−59%" }, { v: "68" }], trend: [14, 35, 55, 68, 28], fmt: "int" },
@@ -200,9 +209,9 @@ export const REPORT = {
 
   /* ----------------------------------------------------------- WHAT WORKED */
   worked: {
-    ledeClient: "A short reel on flossing was the week’s strongest piece, reaching 600 people, and the Modern Luxury feature drew the highest engagement.",
+    ledeClient: "A Dental Hygiene Month reel featuring one of the practice’s hygienists was the week’s strongest piece, reaching 600 people. Reels featuring the team led on both accounts this week, with Dr. Tamay’s reel the strongest Smile Pass post so far.",
     /* Internal build only. */
-    lede: "The flossing reel led: 901 views, 600 accounts reached and 46 interactions, 13 of them shares, against 80 reached for last week’s hygienist reel. Its engagement rate, 7.7%, was below the hygienist reel’s 13.8% on a much larger audience.",
+    lede: "The Hygiene Month reel, a hygienist on flossing, led: 901 views, 600 accounts reached and 46 interactions, 13 of them shares, against 80 reached for last week’s hygienist reel. Its engagement rate, 7.7%, was below the hygienist reel’s 13.8% on a much larger audience.",
     lead: {
       kind: "Reel",
       title: "Is flossing really that important? Short answer: yes.",
@@ -215,7 +224,7 @@ export const REPORT = {
         { v: "13", l: "shares" },
       ],
       why:
-        "901 views and 600 accounts reached, with 46 interactions: 30 likes, 13 shares and 3 comments. Viewers watched an average of 9.9 seconds of the 25-second reel.",
+        "901 views and 600 accounts reached, with 46 interactions: 30 likes, 13 shares and 3 comments. Part of the practice’s Dental Hygiene Month content, with one of its hygienists on camera. Viewers watched an average of 9.9 seconds of the 25-second reel.",
       repeatable:
         "The Modern Luxury feature post on October 21 drew 356 views and the week’s highest engagement rate, 12.1%, with 4 comments. A collab post on Dr. El Chaar’s account, “Orthodontics has come a long way”, drew 11 likes and 3 shares.",
     },
@@ -295,22 +304,22 @@ export const REPORT = {
     },
     {
       tag: "limitation",
-      title: "Constant Contact sent visits with no campaign in the report",
+      title: "The raffle follow-up drew no clicks",
       body:
-        "GA4 shows 5 sessions from Constant Contact pages this week. No campaign data was supplied for October 19 – 25.",
+        "Manhattan Mag Post Event follow up 2 went to the 24 raffle contacts on October 19 with the 50% whitening offer: 7 opens, 1 confirmed, 0 clicks. The Hygiene Month email drew 358 confirmed opens and 40 clicks; 246 of its 3,786 sends bounced (6.5%).",
       so:
-        "Confirm whether an email went out; if so, add its figures.",
+        "Remove addresses that bounce from the location lists, and try a different subject or offer with the raffle contacts.",
     },
   ],
 
   /* --------------------------------------------------------- WHAT WE LEARNED */
   learned: [
-    { f: "600", u: "accounts reached by the flossing reel", t: "with 46 interactions and 13 shares." },
+    { f: "600", u: "accounts reached by the Hygiene Month reel", t: "featuring one of the practice’s hygienists, with 46 interactions and 13 shares." },
     { f: "138", u: "Instagram reach per day", t: "up from 90. Views rose to 2,960 from 2,208." },
     { f: "12.1%", u: "engagement on the Modern Luxury feature", t: "the highest of the week, with 4 comments." },
     { f: "1,699", u: "Google appearances", t: "up for the 5th week running, from 1,113 in the week of September 21." },
     { f: "11.5%", u: "click rate on searches by name", t: "up from 7.5%. “nyc dental smiles” alone drew 11 clicks." },
-    { f: "32", u: "website short link clicks", t: "up from 6." },
+    { f: "358", u: "confirmed opens on the Hygiene Month email", t: "with 40 people clicking, 18 of them through to the Modern Luxury feature." },
   ],
 
   /* ------------------------------------------------------------- NEXT MOVES */
@@ -334,10 +343,10 @@ export const REPORT = {
       measure: "1 address per doctor in Search Console.",
     },
     {
-      action: "Make more short educational reels",
-      why: "The flossing reel reached 600 accounts and drew 13 shares.",
+      action: "Keep featuring the hygienists through Hygiene Month",
+      why: "The hygienist reel reached 600 accounts and drew 13 shares, and the Dr. Tamay reel became the strongest Smile Pass post.",
       owner: "Social — Figment",
-      measure: "Reach on the next reel, against 600.",
+      measure: "Reach on the next staff reel, against 600.",
     },
     {
       action: "Replace /kuYWnG where it is still posted",
@@ -346,10 +355,10 @@ export const REPORT = {
       measure: "No clicks on /kuYWnG.",
     },
     {
-      action: "Send the raffle contacts a booking-focused follow-up",
-      why: "24 contacts joined through the raffle, and no campaign has been reported since October 8.",
+      action: "Add a booking link to the next email",
+      why: "40 people clicked the Hygiene Month email; its links went to the website, the Modern Luxury feature and the web version, and none to booking.",
       owner: "Email — Figment",
-      measure: "Booking link clicks from the email.",
+      measure: "Booking link clicks from the next email.",
     },
   ],
 
@@ -536,7 +545,28 @@ export const REPORT = {
         "74 clicks this week against 92. The homepage and website links drew 32 against 6, booking links 28 against 68, and location information links 13 against 18. The Smile Pass link is reported in the Smile Pass section.",
     },
 
-    email: null as null | {
+    email: {
+      window: "October 19, 2026 · 2 campaigns",
+      note: "The Dental Hygiene Month email reached 3,540 inboxes and drew 40 clicks, 18 of them to the Modern Luxury feature. A follow-up with the whitening offer went to the raffle contacts the same day. Rates are calculated on delivered emails.",
+      table: {
+        head: ["Campaign", "Sends", "Opens", "Clicks"],
+        rows: [
+          ["NYCDS National Dental Hygiene Month 2", "3,786", "1,849 (52.2%)", "40 (1.1%)"],
+          ["Manhattan Mag Post Event follow up 2", "24", "7 (30.4%)", "0"],
+        ],
+      },
+      tableInternal: {
+        head: ["Campaign", "Sends", "All opens", "Confirmed", "Clicks", "Bounces"],
+        rows: [
+          ["NYCDS National Dental Hygiene Month 2", "3,786", "1,849 (52.2%)", "358 (10.1%)", "40 (1.1%)", "246 (6.5%)"],
+          ["Manhattan Mag Post Event follow up 2", "24", "7 (30.4%)", "1 (4.3%)", "0", "1 (4.2%)"],
+        ],
+      },
+      tableChart: {
+        title: "The campaigns sent this week",
+        note: "From each campaign’s Reporting page. Open and click rates are on delivered emails, as Constant Contact reports them.",
+      },
+    } as null | {
       window: string;
       note: string;
       table: { head: string[]; rows: string[][] };
@@ -777,5 +807,6 @@ export const SOURCE_WINDOWS = [
   { k: "Search", v: "Oct 19 – 25", p: "Against Oct 12 – 18. The last days of this week may still rise." },
   { k: "Website", v: "Oct 19 – 25", p: "Being confirmed after the October 19 fix. Shown without a comparison." },
   { k: "Short links", v: "Oct 19 – 25", p: "All named NYC Dental Smiles links, counted the same way in both weeks." },
+  { k: "Email", v: "Oct 19", p: "2 campaigns, from each campaign’s Constant Contact report." },
   { k: "Smile Pass", v: "Jul 1 – Oct 25", p: "An overview since launch, separate from the weekly figures. Current ads: Meta, Oct 1 – 26." },
 ];
