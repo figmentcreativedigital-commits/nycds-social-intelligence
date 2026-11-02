@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 .env.local
 node_modules
+
+# API pull snapshots (client data, kept local)
+/pulls/
