@@ -295,6 +295,10 @@ a { color: inherit; }
 .sp-i { padding: 18px 0; border-bottom: 1px solid var(--rule-soft); }
 .sp-i h4 { font-size: 17px; margin-bottom: 6px; }
 .sp-i p { font-size: 16px; line-height: 1.65; }
+/* Smile Pass uses the main report typography, not the compact detail-panel styling */
+#smilepass .dt-h { font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--plum); margin: 28px 0 8px; }
+#smilepass .dt-note { font-size: 16px; color: var(--body); max-width: 66ch; }
+#smilepass .dt-s { font-size: 15px; color: var(--muted); }
 
 .foot { background: var(--plum); color: rgba(255,255,255,.88); padding: 36px 0; font-size: 14px; }
 .foot-in { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -445,7 +449,7 @@ function SeriesChart({ data, band, label }: { data: { d: string; v: number }[]; 
 
 /* ================================================================== PAGE */
 export default function Page() {
-  const brief = R.brief.items.map((item) => (IS_INTERNAL ? item : item.client ?? item));
+  const brief = R.brief.items.filter((item) => (IS_INTERNAL ? true : !item.internalOnly)).map((item) => (IS_INTERNAL ? item : item.client ?? item));
   const sb = R.scoreboard;
   const weeks = sb.weeks;
   const groups: { name: string; rows: typeof sb.rows }[] = [];
@@ -530,7 +534,7 @@ export default function Page() {
           {sb.after ? <p className="lg-after">{sb.after}</p> : null}
         </Section>
 
-        <Section id="period" title={pl.title} lede={pl.note} wash>
+        <Section id="period" title={pl.title} lede={v(pl.note, pl.noteClient)} wash>
           <div className="chart">
             <div className="key">
               <span><i style={{ background: "var(--past)" }} />{pl.bands[0].label}</span>
@@ -760,26 +764,32 @@ export default function Page() {
                 <Table head={v(sp.adsNow.table, sp.adsNow.tableClient).head} rows={v(sp.adsNow.table, sp.adsNow.tableClient).rows} />
                 <p className="dt-note">{v(sp.adsNow.note, sp.adsNow.noteClient)}</p>
               </div>
+              {IS_INTERNAL ? (
               <div>
                 <h3 className="dt-h">{sp.ads.title}</h3>
                 <Table head={sp.ads.table.head} rows={sp.ads.table.rows} />
                 <p className="dt-note">{v(sp.ads.note, sp.ads.noteClient)}</p>
               </div>
+              ) : null}
+              {IS_INTERNAL ? (
               <div>
                 <h3 className="dt-h">{sp.sources.title}</h3>
                 <Table head={sp.sources.table.head} rows={sp.sources.table.rows} />
                 <p className="dt-note">{v(sp.sources.note, sp.sources.noteClient)}</p>
               </div>
+              ) : null}
               <div>
                 <h3 className="dt-h">{sp.social.title}</h3>
                 <Table head={sp.social.table.head} rows={sp.social.table.rows} />
                 <p className="dt-note">{v(sp.social.note, sp.social.noteClient)}</p>
               </div>
+              {IS_INTERNAL ? (
               <div>
                 <h3 className="dt-h">{sp.search.title}</h3>
                 <KV items={sp.search.kv} />
                 <p className="dt-note">{v(sp.search.note, sp.search.noteClient)}</p>
               </div>
+              ) : null}
             </div>
             <div className="sp-find">
               <div className="sp-col">

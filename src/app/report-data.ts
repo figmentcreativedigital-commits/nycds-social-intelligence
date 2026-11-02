@@ -94,7 +94,7 @@ export const REPORT = {
       lede: "6 things worth a second look, each labeled so it is clear which to act on and which to note.",
     },
     learned: {
-      title: "What we learned",
+      title: "Learnings",
       lede: "6 things worth carrying into the next report.",
     },
     moves: {
@@ -110,7 +110,7 @@ export const REPORT = {
   /* ------------------------------------------------------------- THE BRIEF */
   brief: {
     title: "The Brief",
-    lede: "The week in 4 points.",
+    lede: "The week in brief.",
     head: "Instagram settled back from last week’s reel: views 2,584 against 2,962, reach per day 113 against 138. The October 29 reel on the mouth–body connection reached 295 accounts with 28 interactions. Booking links rose to 45 from 28, and clicks from Google held at 41 against 43 while appearances came down to 1,496.",
     headClient: "Booking link clicks rose to 45 this week, up from 28, led by Murray Hill. A reel on how oral health connects to overall health reached 295 people, and Instagram followers grew to 792. The site drew 41 clicks from Google.",
     items: [
@@ -140,13 +140,14 @@ export const REPORT = {
       },
       {
         role: "Next action",
+        internalOnly: true,
         text: "Confirm the GA4 tag with Aren and Johana. Settle 1 address per doctor page. Add a booking link to the next email. Confirm the boosted–post spend and whether to report it.",
         client: {
           role: "What we are doing next",
           text: "We will keep featuring the team through the month and add a booking link to the next email, building on the booking clicks that rose this week.",
         },
       },
-    ] as { role: string; text: string; client?: { role: string; text: string } }[],
+    ] as { role: string; text: string; internalOnly?: boolean; client?: { role: string; text: string } }[],
   },
 
   /* ------------------------------------------------------------ SCOREBOARD */
@@ -183,6 +184,8 @@ export const REPORT = {
     title: "Clicks from Google held at 41",
     note:
       "Clicks from Google search each day across both weeks. Shown in place of new website visitors while the website’s visit tracking is confirmed.",
+    noteClient:
+      "Clicks from Google search each day across both weeks.",
     /* Search Console daily clicks, both weeks read November 2. */
     series: [
       { d: "Oct 19", v: 11 }, { d: "Oct 20", v: 7 }, { d: "Oct 21", v: 7 },
@@ -785,7 +788,7 @@ export const ALL_SECTIONS: SectionDef[] = [
   { id: "period", label: "Daily clicks" },
   { id: "worked", label: "What worked" },
   { id: "attention", label: "Needs attention", internalOnly: true },
-  { id: "learned", label: "What we learned" },
+  { id: "learned", label: "Learnings" },
   { id: "moves", label: "Next moves", internalOnly: true },
   { id: "detail", label: "Detail" },
   { id: "smilepass", label: "Smile Pass" },
