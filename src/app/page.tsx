@@ -268,6 +268,8 @@ a { color: inherit; }
 .tbl td { padding: 9px 0 9px 14px; border-bottom: 1px solid var(--rule-soft); text-align: right; color: var(--ink); vertical-align: top; }
 .tbl th:first-child, .tbl td:first-child { text-align: left; padding-left: 0; }
 .tbl td:first-child { color: var(--body); }
+.tbl th.tl, .tbl td.tl { text-align: left; }
+.tbl th.tr, .tbl td.tr { text-align: right; }
 .tbl-wrap { overflow-x: auto; }
 .bl { display: grid; gap: 10px; max-width: 760px; }
 .bl-r { display: grid; grid-template-columns: minmax(150px, 230px) 1fr 56px; gap: 14px; align-items: center; font-size: 15px; }
@@ -389,12 +391,13 @@ function Bars({ items, label }: { items: { label: string; value: number }[]; lab
   );
 }
 
-function Table({ head, rows }: { head: string[]; rows: string[][] }) {
+function Table({ head, rows, align }: { head: string[]; rows: string[][]; align?: ("l" | "r")[] }) {
+  const cls = (j: number) => (align && align[j] ? (align[j] === "l" ? "tl" : "tr") : undefined);
   return (
     <div className="tbl-wrap">
       <table className="tbl">
-        <thead><tr>{head.map((h, i) => <th key={i} scope="col">{h}</th>)}</tr></thead>
-        <tbody>{rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}</tbody>
+        <thead><tr>{head.map((h, i) => <th key={i} scope="col" className={cls(i)}>{h}</th>)}</tr></thead>
+        <tbody>{rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j} className={cls(j)}>{c}</td>)}</tr>)}</tbody>
       </table>
     </div>
   );
@@ -761,7 +764,7 @@ export default function Page() {
             <div className="sp-grid">
               <div className="sp-wide">
                 <h3 className="dt-h">{sp.adsNow.title}</h3>
-                <Table head={v(sp.adsNow.table, sp.adsNow.tableClient).head} rows={v(sp.adsNow.table, sp.adsNow.tableClient).rows} />
+                <Table head={v(sp.adsNow.table, sp.adsNow.tableClient).head} rows={v(sp.adsNow.table, sp.adsNow.tableClient).rows} align={IS_INTERNAL ? ["l", "l", "r", "r", "r", "r", "l"] : ["l", "l", "r", "r", "r", "l"]} />
                 <p className="dt-note">{v(sp.adsNow.note, sp.adsNow.noteClient)}</p>
               </div>
               {IS_INTERNAL ? (
