@@ -1,0 +1,17 @@
+{
+  "_about": "Search Console figures as reported, per client and week (Monday date). gsc-pull.mjs takes scoreboard trend points older than the previous week from here, so the trend-shift guard holds even if Google restates an old week. Seeded from the deployed Oct 26 – Nov 1 reports; each cycle adds its week with --record. Rates are in percent.",
+  "nycds": {
+    "2026-09-28": { "clicks": 45, "impressions": 1190, "ctr": 3.78, "nameCtr": 10.3, "doctorCtr": 8.3, "source": "published trend, Oct 26 – Nov 1 report" },
+    "2026-10-05": { "clicks": 47, "impressions": 1266, "ctr": 3.71, "nameCtr": 15.5, "doctorCtr": 10.3, "source": "published trend, Oct 26 – Nov 1 report" },
+    "2026-10-12": { "clicks": 58, "impressions": 1554, "ctr": 3.73, "nameCtr": 7.5, "doctorCtr": 10.6, "source": "published trend, Oct 26 – Nov 1 report" },
+    "2026-10-19": { "clicks": 43, "impressions": 1699, "ctr": 2.53, "nameCtr": 11.5, "doctorCtr": 4.8, "position": 49.2, "doctorClicks": 15, "doctorImpressions": 312, "source": "published, re-pulled Nov 2" },
+    "2026-10-26": { "clicks": 41, "impressions": 1496, "ctr": 2.74, "nameCtr": 12.1, "doctorCtr": 5.0, "position": 45.0, "nameClicks": 11, "nameImpressions": 91, "doctorClicks": 16, "doctorImpressions": 319, "source": "published, read Nov 2" }
+  },
+  "eec": {
+    "2026-09-28": { "clicks": 65, "impressions": 582, "ctr": 11.17, "usPosition": 4.74, "source": "published trend, Oct 26 – Nov 1 report" },
+    "2026-10-05": { "clicks": 58, "impressions": 518, "ctr": 11.20, "usPosition": 6.77, "source": "published trend, Oct 26 – Nov 1 report" },
+    "2026-10-12": { "clicks": 62, "impressions": 512, "ctr": 12.11, "usPosition": 5.05, "source": "published trend, Oct 26 – Nov 1 report" },
+    "2026-10-19": { "clicks": 52, "impressions": 466, "ctr": 11.16, "usPosition": 5.25, "source": "published trend, Oct 26 – Nov 1 report" },
+    "2026-10-26": { "clicks": 40, "impressions": 427, "ctr": 9.37, "usPosition": 4.79, "usClicks": 39, "usImpressions": 377, "source": "published, read Nov 2" }
+  }
+}
