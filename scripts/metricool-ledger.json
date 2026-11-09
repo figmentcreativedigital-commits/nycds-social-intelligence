@@ -102,11 +102,23 @@
     },
     "2026-10-26": {
       "followers": 3353,
-      "views": 16700,
-      "reachPerDay": 1395,
-      "interactions": 272,
-      "er": 2.79,
-      "source": "published, Oct 26 – Nov 1 report (read Nov 2; views rounded by Metricool's UI)"
+      "views": 16731,
+      "reachPerDay": 1396,
+      "interactions": 275,
+      "er": 2.81,
+      "source": "published, Oct 26 – Nov 1 report (read Nov 2; views rounded by Metricool's UI)",
+      "restated": "metricool-pull 2026-11-09T15:07:55.404Z"
+    },
+    "2026-11-02": {
+      "followers": 3352,
+      "views": 7553,
+      "reach": 2707,
+      "reachPerDay": 387,
+      "interactions": 115,
+      "er": 4.25,
+      "accountsEngaged": 183,
+      "storiesImpressions": 1494,
+      "source": "metricool-pull 2026-11-09T15:07:55.404Z"
     }
   }
 }

@@ -105,13 +105,23 @@
       "source": "published trend, Oct 26 – Nov 1 report"
     },
     "2026-10-26": {
-      "clicks": 40,
-      "impressions": 427,
-      "ctr": 9.37,
+      "clicks": 41,
+      "impressions": 428,
+      "ctr": 9.58,
       "usPosition": 4.79,
-      "usClicks": 39,
+      "usClicks": 40,
       "usImpressions": 377,
-      "source": "published, read Nov 2"
+      "source": "published, read Nov 2",
+      "restated": "gsc-pull 2026-11-09T15:07:55.968Z"
+    },
+    "2026-11-02": {
+      "clicks": 48,
+      "impressions": 496,
+      "ctr": 9.68,
+      "usPosition": 4.52,
+      "usClicks": 46,
+      "usImpressions": 454,
+      "source": "gsc-pull 2026-11-09T15:07:55.968Z"
     }
   }
 }

@@ -27,8 +27,16 @@
     "2026-10-26": {
       "newUsers": 156,
       "googleVisits": 64,
-      "sessions": 204,
-      "source": "published, read Nov 2"
+      "sessions": 203,
+      "source": "published, read Nov 2",
+      "restated": "ga4-pull 2026-11-09T16:34:37.317Z"
+    },
+    "2026-11-02": {
+      "newUsers": 218,
+      "sessions": 270,
+      "googleVisits": 83,
+      "source": "ga4-pull 2026-11-09T16:34:37.317Z",
+      "note": "our own traffic filtered out of every report (eec-prototype.vercel.app, figmentcreative.com), from this cycle"
     }
   },
   "nycds": {

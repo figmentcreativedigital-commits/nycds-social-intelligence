@@ -24,6 +24,9 @@
    - Device shares are of active users. Landing-page counts leave out
      "(not set)". "Landings" and "views by landing page" are page views of
      sessions that started on that page.
+   - Our own traffic is left out of every report for a client with
+     excludeSources in its config (EEC: eec-prototype.vercel.app and
+     figmentcreative.com, from November 9, 2026), by a session-source filter.
    - EEC scoreboard trend points older than the previous week come from
      scripts/ga4-ledger.json (figures as reported); the previous week is
      re-read and restated, as the EEC report does with GA4.
@@ -51,7 +54,12 @@ const DEFAULT_TOKEN_URI = "https://oauth2.googleapis.com/token";
 
 const CLIENTS = {
   nycds: { name: "NYC Dental Smiles", host: "nycdentalsmiles.com", idEnv: "GA4_NYCDS_PROPERTY", from: "2026-09-28" },
-  eec: { name: "Edgard El Chaar, DDS, PC", host: "edgardelchaar.com", idEnv: "GA4_EEC_PROPERTY", from: "2026-09-28" },
+  /* excludeSources: our own traffic, left out of every report with a
+     session-source filter (Walter, November 9, 2026). Visits through the
+     review prototype and figmentcreative.com are Figment's, not the
+     practice's audience. */
+  eec: { name: "Edgard El Chaar, DDS, PC", host: "edgardelchaar.com", idEnv: "GA4_EEC_PROPERTY", from: "2026-09-28",
+    excludeSources: ["eec-prototype.vercel.app", "figmentcreative.com"] },
   smilepass: { name: "NYC Smile Pass", host: "nycsmilepass.com", idEnv: "GA4_SMILEPASS_PROPERTY", from: "2026-07-01" },
 };
 
@@ -364,13 +372,15 @@ async function pull(clientId, mon) {
   const sun = (w) => addDays(w, 6);
   const raw = {};
   const run = async (id, prop, label, a, b, dims, metrics) => {
-    const body = { dateRanges: [{ startDate: a, endDate: b }], ...(dims.length ? { dimensions: dims.map((name) => ({ name })) } : {}), metrics: metrics.map((name) => ({ name })) };
+    const ex = CLIENTS[id].excludeSources ?? [];
+    const filter = ex.length ? { dimensionFilter: { notExpression: { filter: { fieldName: "sessionSource", inListFilter: { values: ex, caseSensitive: false } } } } } : {};
+    const body = { dateRanges: [{ startDate: a, endDate: b }], ...(dims.length ? { dimensions: dims.map((name) => ({ name })) } : {}), metrics: metrics.map((name) => ({ name })), ...filter };
     const r = await report(key, prop.id, body);
     raw[`${id}:${label}`] = { property: prop.id, body, ...r };
     if (r.error) fail(`GA4 report "${label}" failed for ${CLIENTS[id].host}: ${r.error}`);
     return objects(r);
   };
-  const out = { clientId, mon, weeks, readAt: new Date().toISOString(), byWeek: {}, raw, warnings: [] };
+  const out = { clientId, mon, weeks, readAt: new Date().toISOString(), excludedSources: CLIENTS[clientId].excludeSources ?? [], byWeek: {}, raw, warnings: [] };
   const prop = propFor(clientId);
   out.property = { id: prop.id, name: prop.name };
 
@@ -463,6 +473,7 @@ function render(pull, ledger) {
   p(`GA4 pull · ${CLIENTS[clientId].name} · property ${pull.property.id} (${pull.property.name})`);
   p(`Week: ${range(mon)}, ${mon.slice(0, 4)} · Monday to Sunday in the property's time zone · against ${range(prev)}`);
   p(`Read: ${new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" }).format(new Date(pull.readAt))} New York. GA keeps processing for a few days: sessions can still move by 1 or 2.`);
+  if (pull.excludedSources?.length) p(`Our own traffic left out of every figure: ${pull.excludedSources.join(", ")}.`);
   p();
   p("TOTALS");
   p(`  Sessions          ${int(sessions(cur)).padStart(6)}   from ${int(sessions(pre))}`);
