@@ -61,7 +61,8 @@ const TOP_LIMIT = 500;
 
 /* ------------------------------------------------------------ CLIENT RULES */
 /* path (no leading slash) → [label as it appears in report-data.ts, group]
-   "" is the bare domain (the homepage link). Groups: web, booking, info. */
+   "" is the bare domain (the homepage link). Groups: web, booking, info,
+   campaign (links for a single campaign, reported as their own line). */
 export const CLIENTS = {
   nycds: {
     name: "NYC Dental Smiles",
@@ -84,6 +85,11 @@ export const CLIENTS = {
       "NYCDS-60th-Street": ["Lenox Hill — booking", "booking"],
       "NYCDS-58th-Street": ["Plaza District — booking", "booking"],
       "NYCDS-5thAve": ["Upper East Side — booking", "booking"],
+      /* Veterans Day Dental Care Nomination, a Google Form. Walter confirmed
+         /vdaynom26 as a live NYCDS link (November 9, 2026). /y9wdZ7, created
+         October 29, opens the same form and counts with it. */
+      "vdaynom26": ["Veterans Day nomination", "campaign"],
+      "y9wdZ7": ["Veterans Day nomination", "campaign"],
     },
     separate: { nycsmilepass: "Smile Pass" },
     excludePrefixes: [["DDS-PC-", "EEC (DDS-PC)"]],
@@ -338,6 +344,7 @@ function summarize(week) {
   return {
     named: week.rows.filter((r) => r.cls === "named"),
     booking: byGroup("booking"), info: byGroup("info"), web: byGroup("web"),
+    campaign: byGroup("campaign"),
     total: sum((r) => r.cls === "named"),
     domainTotal: sum(() => true),
     separate: week.rows.filter((r) => r.cls === "separate"),
@@ -374,6 +381,7 @@ function checks(cur, curSum, rules, links) {
 function printReport(rules, cur, prev, links, pulledAt, trend = []) {
   const c = summarize(cur), p = summarize(prev);
   const hasInfo = Object.values(rules.named).some(([, g]) => g === "info");
+  const hasCampaign = Object.values(rules.named).some(([, g]) => g === "campaign");
   const prevOf = (r) => prev.rows.find((x) => x.path === r.path)?.total ?? 0;
   const L = [];
   const row = (label, a, b) => L.push(`  ${label.padEnd(52)}${String(a).padStart(7)}${String(b).padStart(9)}`);
@@ -381,7 +389,7 @@ function printReport(rules, cur, prev, links, pulledAt, trend = []) {
 
   L.push(`Short.io · ${rules.name} · ${cur.window.label}, ${year} against ${prev.window.label}`);
   L.push(`Window ${TZ}, Monday 00:00 to Sunday 23:59. Pulled ${pulledAt}.`);
-  L.push(`Basis: path view, All clicks (the same figures as the dashboard's Path view export).`);
+  L.push(`Basis: path view, unfiltered. This leaves out most automated clicks, so it is not the dashboard's All clicks figure.`);
   L.push("");
   L.push(`  ${"Named practice links".padEnd(52)}${"This wk".padStart(7)}${"Prev wk".padStart(9)}`);
   for (const [pth] of Object.entries(rules.named)) {
@@ -392,6 +400,7 @@ function printReport(rules, cur, prev, links, pulledAt, trend = []) {
   row("Booking links", fmt(c.booking), fmt(p.booking));
   if (hasInfo) row("Location information links", fmt(c.info), fmt(p.info));
   row("Homepage and website", fmt(c.web), fmt(p.web));
+  if (hasCampaign) row("Campaign links", fmt(c.campaign), fmt(p.campaign));
   row("Named total", fmt(c.total), fmt(p.total));
   L.push("");
   const block = (title, list, prevList) => {
@@ -424,6 +433,7 @@ function printReport(rules, cur, prev, links, pulledAt, trend = []) {
   L.push(`        { k: "Booking · all locations", v: "${fmt(c.booking)}" },`);
   if (hasInfo) L.push(`        { k: "Location pages", v: "${fmt(c.info)}" },`);
   L.push(`        { k: "Homepage and website", v: "${fmt(c.web)}" },`);
+  if (hasCampaign) L.push(`        { k: "Campaign links", v: "${fmt(c.campaign)}" },`);
   L.push(`        { k: "Total", v: "${fmt(c.total)}" },`);
   L.push("      ],");
   L.push("      dests: [", ...dests, "      ],");
@@ -783,7 +793,7 @@ export async function main(argv = process.argv.slice(2)) {
   fs.mkdirSync(dir, { recursive: true });
   const base = path.join(dir, `${cw.monday}_${cw.sunday}`);
   const mergedFrom = src ? { mergedFrom: { id: src.id, hostname: src.hostname, paths: rules.merge.paths } } : {};
-  const basis = rules.pathFilter ? { basis: "path view, All clicks, /* filtered out in the query", filter: rules.pathFilter } : { basis: "path view, All clicks" };
+  const basis = rules.pathFilter ? { basis: "path view, All clicks, /* filtered out in the query", filter: rules.pathFilter } : { basis: "path view, unfiltered (not All clicks)" };
   fs.writeFileSync(`${base}.json`, JSON.stringify({ client: clientKey, domain: { id: domain.id, hostname: domain.hostname }, ...mergedFrom, pulledAt, statsHost, ...basis, current: cur, previous: prev, earlier: older }, null, 2));
   fs.writeFileSync(`${base}.txt`, report + "\n");
   console.log(`\nSaved ${base}.json and ${base}.txt`);

@@ -1,17 +1,112 @@
 {
   "_about": "Figures as reported, per client and week (Monday date). metricool-pull.mjs builds the older scoreboard trend points from here, because per-piece figures (interactions, engagement rate) keep growing after a week closes and a re-pull no longer matches what was published. Seeded from the deployed Oct 26 – Nov 1 reports; each cycle adds its week with --record.",
   "nycds": {
-    "2026-09-28": { "followers": 779, "views": 3383, "reachPerDay": 160, "interactions": 51, "er": 4.55, "fbPageVisits": 4, "fbViews": 309, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-05": { "followers": 779, "views": 5514, "reachPerDay": 244, "interactions": 53, "er": 3.10, "fbPageVisits": 26, "fbViews": 240, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-12": { "followers": 780, "views": 2208, "reachPerDay": 90, "interactions": 43, "er": 6.83, "fbPageVisits": 22, "fbViews": 220, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-19": { "followers": 782, "views": 2962, "reachPerDay": 138, "interactions": 63, "er": 6.52, "fbPageVisits": 10, "fbViews": 202, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-26": { "followers": 792, "views": 2584, "reachPerDay": 113, "interactions": 42, "er": 5.31, "fbPageVisits": 8, "fbViews": 82, "source": "published, Oct 26 – Nov 1 report (read Nov 2)" }
+    "2026-09-28": {
+      "followers": 779,
+      "views": 3383,
+      "reachPerDay": 160,
+      "interactions": 51,
+      "er": 4.55,
+      "fbPageVisits": 4,
+      "fbViews": 309,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-05": {
+      "followers": 779,
+      "views": 5514,
+      "reachPerDay": 244,
+      "interactions": 53,
+      "er": 3.1,
+      "fbPageVisits": 26,
+      "fbViews": 240,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-12": {
+      "followers": 780,
+      "views": 2208,
+      "reachPerDay": 90,
+      "interactions": 43,
+      "er": 6.83,
+      "fbPageVisits": 22,
+      "fbViews": 220,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-19": {
+      "followers": 782,
+      "views": 2962,
+      "reachPerDay": 138,
+      "interactions": 63,
+      "er": 6.52,
+      "fbPageVisits": 10,
+      "fbViews": 202,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-26": {
+      "followers": 792,
+      "views": 2593,
+      "reachPerDay": 113,
+      "interactions": 42,
+      "er": 5.31,
+      "fbPageVisits": 8,
+      "fbViews": 85,
+      "source": "published, Oct 26 – Nov 1 report (read Nov 2)",
+      "restated": "metricool-pull 2026-11-09T13:55:03.760Z"
+    },
+    "2026-11-02": {
+      "followers": 798,
+      "views": 3739,
+      "reach": 1614,
+      "reachPerDay": 231,
+      "interactions": 141,
+      "er": 8.72,
+      "accountsEngaged": 149,
+      "storiesImpressions": 206,
+      "fbViews": 188,
+      "fbPageVisits": 24,
+      "fbFollowers": 982,
+      "source": "metricool-pull 2026-11-09T13:55:03.760Z"
+    }
   },
   "eec": {
-    "2026-09-28": { "followers": 3251, "views": 8526, "reachPerDay": 527, "interactions": 224, "er": 6.07, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-05": { "followers": 3257, "views": 6626, "reachPerDay": 363, "interactions": 132, "er": 5.19, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-12": { "followers": 3264, "views": 6083, "reachPerDay": 381, "interactions": 157, "er": 5.89, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-19": { "followers": 3267, "views": 2951, "reachPerDay": 136, "interactions": 31, "er": 3.26, "source": "published trend, Oct 26 – Nov 1 report (restated Nov 2)" },
-    "2026-10-26": { "followers": 3353, "views": 16700, "reachPerDay": 1395, "interactions": 272, "er": 2.79, "source": "published, Oct 26 – Nov 1 report (read Nov 2; views rounded by Metricool's UI)" }
+    "2026-09-28": {
+      "followers": 3251,
+      "views": 8526,
+      "reachPerDay": 527,
+      "interactions": 224,
+      "er": 6.07,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-05": {
+      "followers": 3257,
+      "views": 6626,
+      "reachPerDay": 363,
+      "interactions": 132,
+      "er": 5.19,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-12": {
+      "followers": 3264,
+      "views": 6083,
+      "reachPerDay": 381,
+      "interactions": 157,
+      "er": 5.89,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-19": {
+      "followers": 3267,
+      "views": 2951,
+      "reachPerDay": 136,
+      "interactions": 31,
+      "er": 3.26,
+      "source": "published trend, Oct 26 – Nov 1 report (restated Nov 2)"
+    },
+    "2026-10-26": {
+      "followers": 3353,
+      "views": 16700,
+      "reachPerDay": 1395,
+      "interactions": 272,
+      "er": 2.79,
+      "source": "published, Oct 26 – Nov 1 report (read Nov 2; views rounded by Metricool's UI)"
+    }
   }
 }

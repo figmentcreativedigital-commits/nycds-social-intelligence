@@ -1,14 +1,55 @@
 {
   "_about": "GA4 figures as reported, per client and week (Monday date). ga4-pull.mjs takes EEC scoreboard trend points older than the previous week from here; NYCDS and Smile Pass weeks are kept for the record. Seeded from the deployed Oct 26 – Nov 1 reports; each cycle adds its week with --record.",
   "eec": {
-    "2026-09-28": { "newUsers": 290, "googleVisits": 103, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-05": { "newUsers": 393, "googleVisits": 85, "sessions": 454, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-12": { "newUsers": 172, "googleVisits": 99, "sessions": 233, "source": "published trend, Oct 26 – Nov 1 report" },
-    "2026-10-19": { "newUsers": 294, "googleVisits": 83, "sessions": 344, "source": "published, re-pulled Nov 2" },
-    "2026-10-26": { "newUsers": 156, "googleVisits": 64, "sessions": 204, "source": "published, read Nov 2" }
+    "2026-09-28": {
+      "newUsers": 290,
+      "googleVisits": 103,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-05": {
+      "newUsers": 393,
+      "googleVisits": 85,
+      "sessions": 454,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-12": {
+      "newUsers": 172,
+      "googleVisits": 99,
+      "sessions": 233,
+      "source": "published trend, Oct 26 – Nov 1 report"
+    },
+    "2026-10-19": {
+      "newUsers": 294,
+      "googleVisits": 83,
+      "sessions": 344,
+      "source": "published, re-pulled Nov 2"
+    },
+    "2026-10-26": {
+      "newUsers": 156,
+      "googleVisits": 64,
+      "sessions": 204,
+      "source": "published, read Nov 2"
+    }
   },
   "nycds": {
-    "2026-10-19": { "newUsers": 3, "sessions": 79, "source": "published, Oct 26 – Nov 1 report" },
-    "2026-10-26": { "newUsers": 2, "sessions": 64, "source": "published, read Nov 2" }
+    "2026-10-19": {
+      "newUsers": 3,
+      "sessions": 79,
+      "source": "published, Oct 26 – Nov 1 report"
+    },
+    "2026-10-26": {
+      "newUsers": 2,
+      "sessions": 64,
+      "source": "published, read Nov 2",
+      "googleVisits": 16,
+      "restated": "ga4-pull 2026-11-09T13:55:15.067Z"
+    },
+    "2026-11-02": {
+      "newUsers": 1,
+      "sessions": 46,
+      "googleVisits": 10,
+      "source": "ga4-pull 2026-11-09T13:55:15.067Z",
+      "note": "as reported: the pull read 51 sessions and 6 new users; 5 of each came from a spam referral (gipkd.com) and are excluded"
+    }
   }
 }
