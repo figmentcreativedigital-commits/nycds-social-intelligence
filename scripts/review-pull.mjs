@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* ==========================================================================
-   review-pull.mjs · monthly figures for the EEC 3 / 6 / 12 month review
+   review-pull.mjs · monthly figures for the 3 / 6 / 12 month reviews
    --------------------------------------------------------------------------
    Run from the NYCDS repo root, in your own Terminal (the APIs are not
    reachable from Claude's sandbox):
@@ -8,8 +8,11 @@
      node scripts/review-pull.mjs --client eec              24 months ending the
                                                             last complete month
      node scripts/review-pull.mjs --client eec --end 2026-10   a specific end month
+     node scripts/review-pull.mjs --client nycds            NYC Dental Smiles
 
-   Saves pulls/review/eec/<end month>.json and .txt (/pulls/ is gitignored).
+   Saves pulls/review/<client>/<end month>.json and .txt (/pulls/ is gitignored).
+   NYCDS also reads Facebook, monthly Search query and page lists, GA4 sources
+   over the whole span and the NYC Smile Pass site (see CLIENTS below).
    Reads, by calendar month in New York time:
    - Instagram (Metricool brand "DDS PC"): followers (month-end reading),
      views, reach (daily reach summed), interactions (feed posts + reels, per
@@ -61,6 +64,28 @@ const CLIENTS = {
     // Search and website figures are US only (Walter, November 9, 2026).
     // All-country totals are still read, for the self-check and for context.
     country: { label: "US", gsc: "usa", ga4: "United States" },
+  },
+  /* NYC Dental Smiles (added November 9, 2026). Same windows, US scope and
+     own-traffic rule as EEC, plus: Facebook (Metricool), monthly Search query
+     and page lists (searches by name, doctor pages), GA4 sources over the
+     whole span (so spam referrals can be spotted), and the NYC Smile Pass
+     site's monthly visitors. Short links are on the NYCDS weekly basis: the
+     unfiltered path view, which is Short.io's Human clicks. */
+  nycds: {
+    name: "NYC Dental Smiles",
+    host: "nycdentalsmiles.com",
+    metricoolBlogId: 6338794,
+    facebook: true,
+    gscSiteEnv: "GSC_NYCDS_SITE",
+    ga4IdEnv: "GA4_NYCDS_PROPERTY",
+    // gipkd.com: the spam referral the weekly report drops by hand. Every
+    // *.vercel.app source is Figment's (prototypes and the report sites).
+    excludeSources: ["gipkd.com", "figmentcreative.com"],
+    excludeSourceEndsWith: ["vercel.app"],
+    extended: true,
+    shortio: "nycds",
+    country: { label: "US", gsc: "usa", ga4: "United States" },
+    smilepass: { name: "NYC Smile Pass", host: "nycsmilepass.com", ga4IdEnv: "GA4_SMILEPASS_PROPERTY" },
   },
 };
 
@@ -239,8 +264,18 @@ async function pullGsc(client, months, windows) {
     win[w.id] = { pages, pagesCover: { clicks: pages.reduce((t, x) => t + x.clicks, 0), of: total }, queries: await gscQuery(key, site, { ...r, dimensions: ["query"], ...scope }),
       ...(client.country ? { pagesAll: await gscQuery(key, site, { ...r, dimensions: ["page"] }) } : {}) };
   }
+  // Extended clients (NYCDS): query and page lists for every month, in the
+  // same scope, for searches by name and doctor pages month by month.
+  let lists = null;
+  if (client.extended) {
+    lists = {};
+    for (const m of months) {
+      const r = { startDate: firstDay(m), endDate: lastDay(m) };
+      lists[m] = { queries: await gscQuery(key, site, { ...r, dimensions: ["query"], ...scope }), pages: await gscQuery(key, site, { ...r, dimensions: ["page"], ...scope }) };
+    }
+  }
   const firstDate = all.length ? all.map((r) => r.keys[0]).sort()[0] : null;
-  return { site, country: client.country?.label ?? "All", firstDate, monthly, daily, dailyAll: all, dailyUs: us, windows: win };
+  return { site, country: client.country?.label ?? "All", firstDate, monthly, daily, dailyAll: all, dailyUs: us, windows: win, ...(lists ? { lists } : {}) };
 }
 
 /* -------------------------------------------------------------------- GA4 */
@@ -285,7 +320,10 @@ async function pullGa4(client, months, windows, checkWeek) {
   const key = loadGoogleKey();
   const prop = await ga4Property(key, client);
   const ex = client.excludeSources ?? [];
-  const exclusion = ex.length ? { notExpression: { filter: { fieldName: "sessionSource", inListFilter: { values: ex, caseSensitive: false } } } } : null;
+  const exEnds = client.excludeSourceEndsWith ?? [];
+  const exList = ex.length ? { filter: { fieldName: "sessionSource", inListFilter: { values: ex, caseSensitive: false } } } : null;
+  const exParts = [exList, ...exEnds.map((v) => ({ filter: { fieldName: "sessionSource", stringFilter: { matchType: "ENDS_WITH", value: v, caseSensitive: false } } }))].filter(Boolean);
+  const exclusion = exParts.length === 0 ? null : exParts.length === 1 ? { notExpression: exParts[0] } : { notExpression: { orGroup: { expressions: exParts } } };
   // Every report drops own traffic. scoped() also keeps only client.country
   // (US only for EEC); everything() reads every country, for the self-check
   // against the weekly ledgers (which are all-country) and for context.
@@ -322,6 +360,7 @@ async function pullGa4(client, months, windows, checkWeek) {
       constantContact: s(S.filter(isCC), "sessions"), bioLink: s(S.filter(isBio), "sessions"),
       other: s(S.filter((x) => !isGoogle(x) && !isDirect(x) && x.sessionSource !== "(not set)"), "sessions"),
       new404: s(n404.filter((r) => r.yearMonth === m.replace("-", "")), "newUsers"),
+      ...(client.extended ? { notSet: s(S.filter((x) => x.sessionSource === "(not set)"), "sessions"), activeUsers: s(D, "activeUsers"), pageViews: s(D, "screenPageViews") } : {}),
       all: (() => { const DA = dailyAll.filter((r) => isoOf(r.date).startsWith(m)), SA = bySourceAll.filter((r) => r.yearMonth === m.replace("-", ""));
         return { newUsers: s(DA, "newUsers"), sessions: s(DA, "sessions"), googleVisits: s(SA.filter(isGoogle), "sessions") }; })(),
     };
@@ -342,8 +381,65 @@ async function pullGa4(client, months, windows, checkWeek) {
     check = { googleVisits: await read(everything()), scopedGoogleVisits: country ? await read(scoped()) : null };
   }
   const firstDate = dailyAll.filter((r) => r.sessions > 0).map((r) => isoOf(r.date)).sort()[0] ?? null;
-  return { property: prop, excludedSources: ex, country: client.country?.label ?? "All", firstDate, monthly,
-    daily: daily.map((r) => ({ ...r, date: isoOf(r.date) })), dailyAll: dailyAll.map((r) => ({ date: isoOf(r.date), sessions: r.sessions, newUsers: r.newUsers })), windows: win, check };
+  // Extended clients: every source over the whole span, in scope and across
+  // all countries, so spam referrals and our own traffic can be checked.
+  let sources = null;
+  if (client.extended) {
+    const roll = (rows) => {
+      const by = new Map();
+      for (const r of rows) {
+        const k = `${r.sessionSource} / ${r.sessionMedium}`;
+        const o = by.get(k) ?? { source: r.sessionSource, medium: r.sessionMedium, sessions: 0, engagedSessions: 0, newUsers: 0, months: {} };
+        o.sessions += r.sessions || 0; o.engagedSessions += r.engagedSessions || 0; o.newUsers += r.newUsers || 0;
+        o.months[r.yearMonth] = (o.months[r.yearMonth] ?? 0) + (r.sessions || 0);
+        by.set(k, o);
+      }
+      return [...by.values()].sort((a, b) => b.sessions - a.sessions);
+    };
+    const allBy = country ? await ga4Report(key, prop, { ...range(from, to), dimensions: dims("yearMonth", "sessionSource", "sessionMedium"), metrics: mets("sessions", "engagedSessions", "newUsers"), ...everything() }) : bySource;
+    sources = { scoped: roll(bySource), all: roll(allBy) };
+  }
+  return { property: prop, excludedSources: ex, ...(exEnds.length ? { excludedSourcesEndingWith: exEnds } : {}), country: client.country?.label ?? "All", firstDate, monthly,
+    daily: daily.map((r) => ({ ...r, date: isoOf(r.date) })), dailyAll: dailyAll.map((r) => ({ date: isoOf(r.date), sessions: r.sessions, newUsers: r.newUsers })), windows: win, check,
+    ...(sources ? { sources } : {}) };
+}
+
+/* NYC Smile Pass site (NYCDS only): monthly new visitors and sessions by
+   source, in the property's own time zone (Los Angeles), US only and all
+   countries. Groups as in ga4-pull.mjs. */
+const spGroup = (s, m) => {
+  const src = String(s).toLowerCase(), med = String(m).toLowerCase();
+  if (med === "paid" && src === "ig") return "Instagram ads";
+  if (med === "paid" && src === "an") return "Audience Network";
+  if (med === "paid" && src === "fb") return "Facebook ads";
+  if (med === "paid" && src === "th") return "Threads ads";
+  if (med === "social" || /(^|\.)(facebook|instagram)\.com$/.test(src) || /^(l|lm|m)\.facebook\.com$/.test(src)) return "Unpaid social";
+  if (src === "google" && med === "organic") return "Google search";
+  if (src === "(direct)") return "Direct";
+  if (src === "(not set)") return "Not recorded";
+  return "Other";
+};
+async function pullSmilePass(client, months) {
+  const sp = client.smilepass;
+  const key = loadGoogleKey();
+  const prop = await ga4Property(key, { host: sp.host, ga4IdEnv: sp.ga4IdEnv });
+  const range = { dateRanges: [{ startDate: firstDay(months[0]), endDate: lastDay(months[months.length - 1]) }] };
+  const us = { dimensionFilter: { filter: { fieldName: "country", stringFilter: { matchType: "EXACT", value: client.country.ga4 } } } };
+  const body = { ...range, dimensions: [{ name: "yearMonth" }, { name: "sessionSource" }, { name: "sessionMedium" }], metrics: [{ name: "sessions" }, { name: "newUsers" }, { name: "engagedSessions" }] };
+  const scoped = await ga4Report(key, prop, { ...body, ...us });
+  const all = await ga4Report(key, prop, body);
+  const monthly = {};
+  for (const m of months) {
+    const ym = m.replace("-", "");
+    const pack = (rows) => {
+      const R = rows.filter((r) => r.yearMonth === ym), groups = {};
+      for (const r of R) { const g = spGroup(r.sessionSource, r.sessionMedium); groups[g] = (groups[g] ?? 0) + r.sessions; }
+      return { newUsers: R.reduce((t, r) => t + r.newUsers, 0), sessions: R.reduce((t, r) => t + r.sessions, 0), engagedSessions: R.reduce((t, r) => t + r.engagedSessions, 0), groups };
+    };
+    monthly[m] = { ...pack(scoped), all: pack(all) };
+  }
+  const firstMonth = months.find((m) => monthly[m].all.sessions > 0) ?? null;
+  return { property: prop, timeZone: "property's own (Los Angeles)", country: client.country.label, firstMonth, monthly };
 }
 
 /* -------------------------------------------------------------- Metricool */
@@ -358,6 +454,13 @@ const MC_METRICS = {
   storiesImpressions: { agg: "sum",  candidates: [["stories", "impressions"]], sparse: true },
   followersGained:    { agg: "sum",  candidates: [["account", "followers_gained"]], sparse: true, optional: true },
   followersLost:      { agg: "sum",  candidates: [["account", "followers_lost"]], sparse: true, optional: true },
+};
+/* Facebook, for clients with facebook: true (NYCDS). Names as in
+   metricool-pull.mjs: Page Media View, page visits, page follows. */
+const MC_FB = {
+  fbViews:      { network: "facebook", agg: "sum",  candidates: [["account", "page_media_view"]] },
+  fbPageVisits: { network: "facebook", agg: "sum",  candidates: [["account", "pageViews"]] },
+  fbFollowers:  { network: "facebook", agg: "last", candidates: [["account", "pageFollows"]] },
 };
 async function mcGet(p, params) {
   const url = `${MC_BASE}${p}?${new URLSearchParams({ ...params, userId: process.env.METRICOOL_USER_ID || "" })}`;
@@ -440,19 +543,20 @@ async function pullMetricool(client, months, contentFrom) {
   if (!process.env.METRICOOL_USER_TOKEN || !process.env.METRICOOL_USER_ID) fail("METRICOOL_USER_TOKEN and METRICOOL_USER_ID must be set in .env.local.");
   const from = firstDay(months[0]), to = lastDay(months[months.length - 1]);
   const series = {}, resolved = {}, warnings = [];
-  for (const [k, m] of Object.entries(MC_METRICS)) {
+  const METRICS = client.facebook ? { ...MC_METRICS, ...MC_FB } : MC_METRICS;
+  for (const [k, m] of Object.entries(METRICS)) {
     let chosen = null;
     const all = new Map();
     for (const [subject, metric] of m.candidates) {
       let any = false;
       for (const [a, b] of chunks(from, to)) {
-        const r = await mcGet("/v2/analytics/timelines", { blogId: client.metricoolBlogId, from: nyIso(a, "00:00:00"), to: nyIso(b, "23:59:59"), timezone: TZ, metric, subject, network: "instagram" });
+        const r = await mcGet("/v2/analytics/timelines", { blogId: client.metricoolBlogId, from: nyIso(a, "00:00:00"), to: nyIso(b, "23:59:59"), timezone: TZ, metric, subject, network: m.network ?? "instagram" });
         if (r.status >= 200 && r.status < 300) { const s = parseTimeline(r.json); if (s.size) any = true; for (const [d, v] of s) all.set(d, v); }
         await sleep(120);
       }
       if (any) { chosen = `${subject}/${metric}`; break; }
     }
-    if (!chosen) { if (!m.optional) warnings.push(`Instagram ${k}: no timeline from Metricool`); continue; }
+    if (!chosen) { if (!m.optional) warnings.push(`${m.network === "facebook" ? "Facebook" : "Instagram"} ${k}: no timeline from Metricool`); continue; }
     resolved[k] = chosen;
     series[k] = all;
   }
@@ -460,12 +564,12 @@ async function pullMetricool(client, months, contentFrom) {
   for (const mo of months) {
     const days = Array.from({ length: daysIn(mo) }, (_, i) => addDays(firstDay(mo), i));
     const row = { daysInMonth: days.length };
-    for (const [k, m] of Object.entries(MC_METRICS)) {
+    for (const [k, m] of Object.entries(METRICS)) {
       const s = series[k];
       if (!s) { row[k] = null; continue; }
       const vals = days.map((d) => s.get(d));
       // A zero followers or reach reading means Metricool has no data for that day.
-      const present = vals.filter((v) => v !== null && v !== undefined && !((k === "followers" || k === "reach") && v === 0));
+      const present = vals.filter((v) => v !== null && v !== undefined && !((k === "followers" || k === "reach" || k === "fbFollowers") && v === 0));
       row[`${k}Days`] = present.length;
       if (m.agg === "last") {
         let last = null, lastDate = null;
@@ -522,6 +626,7 @@ async function sioPathView(domainId, startMs, endMs, key, filter) {
 
 async function pullShortio(client, months, checkWeek) {
   const rules = SIO[client.shortio];
+  if (!rules.merge) return pullShortioSingle(client, rules, months, checkWeek);
   const key = process.env[rules.apiKeyEnv];
   if (!key) fail(`${rules.apiKeyEnv} is not set in .env.local.`);
   const mergeFrom = SIO[rules.merge.client];
@@ -564,6 +669,47 @@ async function pullShortio(client, months, checkWeek) {
   const catalog = [...links.map((l) => ({ ...l, domain: rules.hostname })), ...mergeLinks.map((l) => ({ ...l, domain: mergeFrom.hostname }))]
     .map((l) => ({ path: norm(l.path), domain: l.domain, title: l.title ?? null, originalURL: l.originalURL ?? null, createdAt: l.createdAt ? nyParts(Date.parse(l.createdAt)).date : null }));
   return { basis: "path view, All clicks, /* filtered out in the query; DDS-PC links on the NYCDS domain counted as EEC booking", startMonth, monthly, links: catalog, check };
+}
+
+/* One domain, no merge (NYCDS). Same path view and filter as the weekly pull:
+   NYCDS sends none, the unfiltered view, which is the dashboard's Human
+   clicks; it returns a /* row, which is left out. Booking links are grouped
+   by location from their label ("Lenox Hill — booking" → Lenox Hill), so the
+   Dentrix links count with each location's current link. */
+async function pullShortioSingle(client, rules, months, checkWeek) {
+  const key = process.env[rules.apiKeyEnv];
+  if (!key) fail(`${rules.apiKeyEnv} is not set in .env.local.`);
+  const domainId = await sioDomainId(rules, key);
+  const links = await listLinks(domainId, key);
+  const own = links.filter((l) => ["named", "separate"].includes(classify(norm(l.path), rules).cls));
+  const created = own.map((l) => l.createdAt).filter(Boolean).map((c) => nyParts(Date.parse(c)).date).sort();
+  const startMonth = created.length ? created[0].slice(0, 7) : months[0];
+  const read = async (startMs, endMs) => {
+    const top = await sioPathView(domainId, startMs, endMs, key, rules.pathFilter);
+    await sleep(250);
+    if (!Array.isArray(top)) throw new Error("Short.io path view returned no rows");
+    const out = { booking: 0, web: 0, campaign: 0, total: 0, separate: {}, excluded: 0, unidentified: {}, byLocation: {}, byPath: {}, starRow: top.some((t) => norm(t.column) === "*") };
+    for (const t of top) {
+      const p = norm(t.column), n = Number(t.score), c = classify(p, rules);
+      if (c.cls === "named") {
+        out.byPath[p] = (out.byPath[p] ?? 0) + n;
+        out.total += n;
+        out[c.group] = (out[c.group] ?? 0) + n;
+        if (c.group === "booking") { const loc = c.label.split(" — ")[0]; out.byLocation[loc] = (out.byLocation[loc] ?? 0) + n; }
+      } else if (c.cls === "separate") out.separate[c.label] = (out.separate[c.label] ?? 0) + n;
+      else if (c.cls === "excluded") { if (c.label !== "/* catch-all") out.excluded += n; }
+      else out.unidentified[p] = (out.unidentified[p] ?? 0) + n;
+    }
+    return out;
+  };
+  const monthly = {};
+  for (const m of months) {
+    if (m < startMonth) { monthly[m] = null; continue; }
+    monthly[m] = await read(zonedMidnight(firstDay(m), TZ), zonedMidnight(firstDay(addMonths(m, 1)), TZ) - 1);
+  }
+  const check = checkWeek ? await read(zonedMidnight(checkWeek, TZ), zonedMidnight(addDays(checkWeek, 7), TZ) - 1) : null;
+  const catalog = links.map((l) => { const c = classify(norm(l.path), rules); return { path: norm(l.path), domain: rules.hostname, cls: c.cls, label: c.label, group: c.group ?? null, title: l.title ?? null, originalURL: l.originalURL ?? null, createdAt: l.createdAt ? nyParts(Date.parse(l.createdAt)).date : null }; });
+  return { basis: rules.pathFilter ? "path view, All clicks, /* filtered out in the query" : "path view, unfiltered (the dashboard's Human clicks), as the weekly NYCDS pull", filtered: Boolean(rules.pathFilter), startMonth, monthly, links: catalog, check };
 }
 
 /* ------------------------------------------------------------- self-check */
@@ -619,6 +765,8 @@ async function main() {
   const ga4 = await pullGa4(client, months, windows, checkWeek);
   console.log("Reading Short.io…");
   const shortio = await pullShortio(client, months, checkWeek);
+  let smilepass = null;
+  if (client.smilepass) { console.log("Reading the Smile Pass site (GA4)…"); smilepass = await pullSmilePass(client, months); }
 
   /* Self-check: one ledger week rebuilt from the monthly pull's daily data. */
   const checks = [];
@@ -629,10 +777,11 @@ async function main() {
     const g = gscMonth(gsc.dailyAll.filter((r) => days.includes(r.keys[0]))), gu = gscMonth(gsc.dailyUs.filter((r) => days.includes(r.keys[0])));
     ok(g.clicks === L.gsc.clicks && g.impressions === L.gsc.impressions, `Search Console week of ${short(checkWeek)}, all countries: ${g.clicks} clicks, ${g.impressions} impressions`, `ledger ${L.gsc.clicks}, ${L.gsc.impressions}`);
     if (L.gsc.usClicks !== undefined) ok(gu.clicks === L.gsc.usClicks && gu.impressions === L.gsc.usImpressions, `Search Console week of ${short(checkWeek)}, US: ${gu.clicks} clicks, ${gu.impressions} impressions`, `ledger ${L.gsc.usClicks}, ${L.gsc.usImpressions}`);
-    ok(Math.abs(gu.position - L.gsc.usPosition) < 0.006, `US position ${p2(gu.position)}`, `ledger ${L.gsc.usPosition}`);
+    if (L.gsc.usPosition !== undefined) ok(Math.abs(gu.position - L.gsc.usPosition) < 0.006, `US position ${p2(gu.position)}`, `ledger ${L.gsc.usPosition}`);
+    else if (L.gsc.position !== undefined) ok(Math.abs(g.position - L.gsc.position) < 0.051, `Position, all countries ${g.position.toFixed(1)}`, `ledger ${L.gsc.position}`);
     const nu = ga4.dailyAll.filter((r) => days.includes(r.date)).reduce((t, r) => t + r.newUsers, 0);
     ok(nu === L.ga4.newUsers, `GA4 new visitors, all countries ${nu}`, `ledger ${L.ga4.newUsers}`);
-    ok(ga4.check.googleVisits === L.ga4.googleVisits, `GA4 visits from Google, all countries ${ga4.check.googleVisits}`, `ledger ${L.ga4.googleVisits}`);
+    if (L.ga4.googleVisits !== undefined) ok(ga4.check.googleVisits === L.ga4.googleVisits, `GA4 visits from Google, all countries ${ga4.check.googleVisits}`, `ledger ${L.ga4.googleVisits}`);
     if (ga4.check.scopedGoogleVisits !== null) {
       const nuS = ga4.daily.filter((r) => days.includes(r.date)).reduce((t, r) => t + r.newUsers, 0);
       ok(nuS <= nu && ga4.check.scopedGoogleVisits <= ga4.check.googleVisits, `GA4 ${ga4.country} only: ${nuS} new visitors, ${ga4.check.scopedGoogleVisits} visits from Google`, "(no more than all countries)");
@@ -644,11 +793,14 @@ async function main() {
     ok((d.followers?.[days[6]] ?? null) === L.mc.followers, `Instagram followers on ${short(days[6])} ${int(d.followers?.[days[6]])}`, `ledger ${int(L.mc.followers)}`);
     const it = s("interactions");
     ok(it >= L.mc.interactions && it <= L.mc.interactions * 1.5 + 10, `Instagram interactions ${it}`, `ledger ${L.mc.interactions} (interactions keep growing after a week closes)`);
+    if (client.facebook && L.mc.fbViews !== undefined) ok(s("fbViews") === L.mc.fbViews, `Facebook views ${int(s("fbViews"))}`, `ledger ${int(L.mc.fbViews)}`);
+    if (client.facebook && L.mc.fbPageVisits !== undefined) ok(s("fbPageVisits") === L.mc.fbPageVisits, `Facebook page visits ${s("fbPageVisits")}`, `ledger ${L.mc.fbPageVisits}`);
     const wk = latestWeeklyShortio(clientId, checkWeek);
     if (wk) ok(shortio.check.total === wk.total, `Short.io week of ${short(checkWeek)}: ${shortio.check.total} named clicks`, `weekly pull ${wk.file} read ${wk.total} (${wk.pulledAt}); Short.io can revise past weeks`);
     else checks.push(`  · Short.io: no weekly pull on disk holds the week of ${short(checkWeek)}, so it is not checked`);
   } else checks.push("  · No ledger week falls inside these months, so nothing is checked");
-  ok(Object.values(shortio.monthly).every((m) => !m || !m.starRow), "Short.io /* filter applied in every month: no /* row came back");
+  if (shortio.filtered !== false) ok(Object.values(shortio.monthly).every((m) => !m || !m.starRow), "Short.io /* filter applied in every month: no /* row came back");
+  else checks.push("  · Short.io read unfiltered (Human clicks), as the weekly NYCDS pull; /* left out");
   if (gsc.country !== "All") ok(months.every((m) => gsc.monthly[m].clicks <= gsc.monthly[m].all.clicks && gsc.monthly[m].impressions <= gsc.monthly[m].all.impressions), `Search Console ${gsc.country} figures are within all-country figures in every month`);
   if (ga4.country !== "All") ok(months.every((m) => ga4.monthly[m].newUsers <= ga4.monthly[m].all.newUsers && ga4.monthly[m].sessions <= ga4.monthly[m].all.sessions && ga4.monthly[m].googleVisits <= ga4.monthly[m].all.googleVisits), `GA4 ${ga4.country} figures are within all-country figures in every month`);
 
@@ -656,7 +808,7 @@ async function main() {
   const L = [];
   L.push(`Review pull · ${client.name} · ${mLabel(months[0])} – ${mLabel(end)}`);
   L.push(`Read ${new Intl.DateTimeFormat("en-US", { timeZone: TZ, dateStyle: "medium", timeStyle: "short" }).format(new Date(readAt))} New York · ${requests} requests`);
-  L.push(`Our own traffic left out of every GA4 figure: ${client.excludeSources.join(", ")}.`);
+  L.push(`Our own traffic left out of every GA4 figure: ${[...client.excludeSources, ...(client.excludeSourceEndsWith ?? []).map((x) => `any source ending ${x}`)].join(", ")}.`);
   L.push("");
   L.push("COVERAGE · first day each source has data");
   L.push(`  Instagram views ${metricool.firstDates.views ?? "none"} · reach ${metricool.firstDates.reach ?? "none"} · followers ${metricool.firstDates.followers ?? "none"} · interactions ${metricool.firstDates.interactions ?? "none"}`);
@@ -676,10 +828,35 @@ async function main() {
   head(["New vis.", "Sessions", "Google", "Direct", "404 new", "Days", "All new", "All Google"]);
   for (const m of months) { const r = ga4.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${[int(r.newUsers), int(r.sessions), int(r.googleVisits), int(r.direct), int(r.new404), String(r.days), int(r.all.newUsers), int(r.all.googleVisits)].map((c) => c.padStart(11)).join("")}`); }
   L.push("");
-  L.push("SHORT.IO · named links, all clicks");
-  head(["Homepage", "Booking", "Midtown", "UES", "Other", "Total"]);
-  for (const m of months) { const r = shortio.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${(r ? [r.home, r.booking, r.midtown, r.ues, r.other, r.total].map(int) : Array(6).fill("—")).map((c) => c.padStart(11)).join("")}`); }
+  if (shortio.filtered === false) {
+    L.push("SHORT.IO · named links, unfiltered path view (Human clicks); booking by location");
+    const locs = [...new Set(Object.values(shortio.monthly).flatMap((r) => (r ? Object.keys(r.byLocation) : [])))].sort();
+    head([...locs.map((x) => x.split(" ")[0]), "Booking", "Website", "Campaign", "Smile Pass"]);
+    for (const m of months) { const r = shortio.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${(r ? [...locs.map((x) => r.byLocation[x] ?? 0), r.booking, r.web, r.campaign, r.separate["Smile Pass"] ?? 0].map(int) : Array(locs.length + 4).fill("—")).map((c) => c.padStart(11)).join("")}`); }
+  } else {
+    L.push("SHORT.IO · named links, all clicks");
+    head(["Homepage", "Booking", "Midtown", "UES", "Other", "Total"]);
+    for (const m of months) { const r = shortio.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${(r ? [r.home, r.booking, r.midtown, r.ues, r.other, r.total].map(int) : Array(6).fill("—")).map((c) => c.padStart(11)).join("")}`); }
+  }
   L.push("");
+  if (client.facebook) {
+    L.push("FACEBOOK");
+    head(["Followers", "Views", "Visits"]);
+    for (const m of months) { const r = metricool.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${[int(r.fbFollowers), int(r.fbViews), int(r.fbPageVisits)].map((c) => c.padStart(11)).join("")}`); }
+    L.push("");
+  }
+  if (ga4.sources) {
+    L.push(`GA4 SOURCES · top 12 over the ${months.length} months, ${ga4.country} (all countries in brackets)`);
+    for (const x of ga4.sources.scoped.slice(0, 12)) L.push(`  ${`${x.source} / ${x.medium}`.slice(0, 40).padEnd(42)}${int(x.sessions).padStart(8)} sessions · ${int(x.newUsers).padStart(6)} new  (${int(ga4.sources.all.find((a) => a.source === x.source && a.medium === x.medium)?.sessions ?? 0)})`);
+    L.push(`  Source not recorded, by month: ${months.filter((m) => ga4.monthly[m].sessions).map((m) => `${MONTHS[+m.slice(5, 7) - 1]} ${m.slice(2, 4)} ${ga4.monthly[m].notSet}/${ga4.monthly[m].sessions}`).join(" · ")}`);
+    L.push("");
+  }
+  if (smilepass) {
+    L.push(`SMILE PASS SITE (GA4 ${smilepass.property}, Los Angeles time) · from ${smilepass.firstMonth ? mLabel(smilepass.firstMonth) : "none"}`);
+    head(["New vis.", "Sessions", "All new"]);
+    for (const m of months.filter((x) => smilepass.firstMonth && x >= smilepass.firstMonth)) { const r = smilepass.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${[int(r.newUsers), int(r.sessions), int(r.all.newUsers)].map((c) => c.padStart(11)).join("")}`); }
+    L.push("");
+  }
   L.push(`INSTAGRAM CONTENT · ${metricool.content.length} reels and feed posts published ${mLabel(windows[2].months[0])} – ${mLabel(end)}, figures as read now; top 5 by views`);
   for (const p of metricool.content.slice(0, 5)) L.push(`  ${p.format.padEnd(5)} ${short(p.date).padEnd(7)} ${int(p.views).padStart(7)} views · ${int(p.reach).padStart(6)} reach · ${int(p.interactions).padStart(4)} interactions  ${p.title.slice(0, 50)}`);
   L.push("");
@@ -692,7 +869,7 @@ async function main() {
   const dir = path.join(process.cwd(), "pulls", "review", clientId);
   fs.mkdirSync(dir, { recursive: true });
   const base = path.join(dir, end);
-  fs.writeFileSync(`${base}.json`, JSON.stringify({ client: clientId, end, months, windows, readAt, checkWeek, checks, metricool, gsc, ga4, shortio }, null, 2));
+  fs.writeFileSync(`${base}.json`, JSON.stringify({ client: clientId, end, months, windows, readAt, checkWeek, checks, metricool, gsc, ga4, shortio, ...(smilepass ? { smilepass } : {}) }, null, 2));
   fs.writeFileSync(`${base}.txt`, text + "\n");
   console.log(`\nSaved ${base}.json and ${base}.txt`);
   if (checks.some((c) => c.includes("✗"))) { console.log("\nA check failed: send Claude the output before these figures are used."); process.exitCode = 1; }
