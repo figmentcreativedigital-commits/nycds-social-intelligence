@@ -58,6 +58,9 @@ const CLIENTS = {
     // Keep in step with ga4-pull.mjs (Walter, November 9, 2026).
     excludeSources: ["eec-prototype.vercel.app", "figmentcreative.com"],
     shortio: "eec",
+    // Search and website figures are US only (Walter, November 9, 2026).
+    // All-country totals are still read, for the self-check and for context.
+    country: { label: "US", gsc: "usa", ga4: "United States" },
   },
 };
 
@@ -199,25 +202,45 @@ function gscMonth(rows) {
   return { clicks, impressions, posImpr, position: impressions ? posImpr / impressions : null, days: rows.length };
 }
 
+const gscCountry = (code) => ({ dimensionFilterGroups: [{ filters: [{ dimension: "country", operator: "equals", expression: code }] }] });
+
+// Top-level monthly figures, daily rows and window page and query lists are
+// for client.country when it is set (US only for EEC); "all" holds every
+// country. US position is always read, as the weekly reports use it.
 async function pullGsc(client, months, windows) {
   const key = loadGoogleKey();
   const site = await gscSite(key, client);
   const from = firstDay(months[0]), to = lastDay(months[months.length - 1]);
+  const scope = client.country ? gscCountry(client.country.gsc) : {};
   const all = await gscQuery(key, site, { startDate: from, endDate: to, dimensions: ["date"] });
-  const us = await gscQuery(key, site, { startDate: from, endDate: to, dimensions: ["date"], dimensionFilterGroups: [{ filters: [{ dimension: "country", operator: "equals", expression: "usa" }] }] });
+  const us = await gscQuery(key, site, { startDate: from, endDate: to, dimensions: ["date"], ...gscCountry("usa") });
+  const daily = !client.country ? all : client.country.gsc === "usa" ? us : await gscQuery(key, site, { startDate: from, endDate: to, dimensions: ["date"], ...scope });
   const monthly = {};
   for (const m of months) {
-    const a = gscMonth(all.filter((r) => r.keys[0].startsWith(m))), u = gscMonth(us.filter((r) => r.keys[0].startsWith(m)));
-    monthly[m] = { clicks: a.clicks, impressions: a.impressions, posImpr: a.posImpr, position: a.position, days: a.days,
-      usClicks: u.clicks, usImpressions: u.impressions, usPosImpr: u.posImpr, usPosition: u.position, usDays: u.days };
+    const of = (rows) => gscMonth(rows.filter((r) => r.keys[0].startsWith(m)));
+    const s = of(daily), a = of(all), u = of(us);
+    monthly[m] = { clicks: s.clicks, impressions: s.impressions, posImpr: s.posImpr, position: s.position, days: s.days,
+      usClicks: u.clicks, usImpressions: u.impressions, usPosImpr: u.posImpr, usPosition: u.position, usDays: u.days,
+      all: { clicks: a.clicks, impressions: a.impressions, posImpr: a.posImpr, position: a.position, days: a.days } };
   }
+  // Page lists for one country cover only part of its clicks: Google leaves
+  // privacy-filtered searches out of page rows once a country is set, by
+  // filter or by a page × country read (Nov 9 pull: US pages 281 of 678 US
+  // clicks for Aug–Oct either way, close to the 265 with a known query). Each
+  // list carries its coverage of the monthly total, so copy can say so, and
+  // the all-country list (complete) is kept beside it: page claims for one
+  // country rest on bounds from it (all-country page clicks less every click
+  // from outside the country).
   const win = {};
   for (const w of windows) {
     const r = { startDate: firstDay(w.months[0]), endDate: lastDay(w.months[w.months.length - 1]) };
-    win[w.id] = { pages: await gscQuery(key, site, { ...r, dimensions: ["page"] }), queries: await gscQuery(key, site, { ...r, dimensions: ["query"] }) };
+    const pages = await gscQuery(key, site, { ...r, dimensions: ["page"], ...scope });
+    const total = w.months.reduce((t, m) => t + monthly[m].clicks, 0);
+    win[w.id] = { pages, pagesCover: { clicks: pages.reduce((t, x) => t + x.clicks, 0), of: total }, queries: await gscQuery(key, site, { ...r, dimensions: ["query"], ...scope }),
+      ...(client.country ? { pagesAll: await gscQuery(key, site, { ...r, dimensions: ["page"] }) } : {}) };
   }
   const firstDate = all.length ? all.map((r) => r.keys[0]).sort()[0] : null;
-  return { site, firstDate, monthly, daily: all, dailyUs: us, windows: win };
+  return { site, country: client.country?.label ?? "All", firstDate, monthly, daily, dailyAll: all, dailyUs: us, windows: win };
 }
 
 /* -------------------------------------------------------------------- GA4 */
@@ -263,19 +286,27 @@ async function pullGa4(client, months, windows, checkWeek) {
   const prop = await ga4Property(key, client);
   const ex = client.excludeSources ?? [];
   const exclusion = ex.length ? { notExpression: { filter: { fieldName: "sessionSource", inListFilter: { values: ex, caseSensitive: false } } } } : null;
-  const withFilter = (extra) => {
-    const parts = [exclusion, extra].filter(Boolean);
+  // Every report drops own traffic. scoped() also keeps only client.country
+  // (US only for EEC); everything() reads every country, for the self-check
+  // against the weekly ledgers (which are all-country) and for context.
+  const country = client.country ? { filter: { fieldName: "country", stringFilter: { matchType: "EXACT", value: client.country.ga4 } } } : null;
+  const withFilter = (...extra) => {
+    const parts = [exclusion, ...extra].filter(Boolean);
     return parts.length === 0 ? {} : parts.length === 1 ? { dimensionFilter: parts[0] } : { dimensionFilter: { andGroup: { expressions: parts } } };
   };
+  const scoped = (extra) => withFilter(country, extra);
+  const everything = () => withFilter();
   const range = (a, b) => ({ dateRanges: [{ startDate: a, endDate: b }] });
   const dims = (...d) => d.map((name) => ({ name }));
   const mets = (...m) => m.map((name) => ({ name }));
   const from = firstDay(months[0]), to = lastDay(months[months.length - 1]);
 
-  const daily = await ga4Report(key, prop, { ...range(from, to), dimensions: dims("date"), metrics: mets(...ENG), ...withFilter() });
-  const bySource = await ga4Report(key, prop, { ...range(from, to), dimensions: dims("yearMonth", "sessionSource", "sessionMedium"), metrics: mets("sessions", "engagedSessions", "userEngagementDuration", "newUsers"), ...withFilter() });
+  const daily = await ga4Report(key, prop, { ...range(from, to), dimensions: dims("date"), metrics: mets(...ENG), ...scoped() });
+  const bySource = await ga4Report(key, prop, { ...range(from, to), dimensions: dims("yearMonth", "sessionSource", "sessionMedium"), metrics: mets("sessions", "engagedSessions", "userEngagementDuration", "newUsers"), ...scoped() });
   const n404 = await ga4Report(key, prop, { ...range(from, to), dimensions: dims("yearMonth", "pageTitle"), metrics: mets("newUsers", "screenPageViews"),
-    ...withFilter({ filter: { fieldName: "pageTitle", stringFilter: { matchType: "BEGINS_WITH", value: "404" } } }) });
+    ...scoped({ filter: { fieldName: "pageTitle", stringFilter: { matchType: "BEGINS_WITH", value: "404" } } }) });
+  const dailyAll = country ? await ga4Report(key, prop, { ...range(from, to), dimensions: dims("date"), metrics: mets("sessions", "newUsers"), ...everything() }) : daily;
+  const bySourceAll = country ? await ga4Report(key, prop, { ...range(from, to), dimensions: dims("yearMonth", "sessionSource", "sessionMedium"), metrics: mets("sessions"), ...everything() }) : bySource;
 
   const monthly = {};
   for (const m of months) {
@@ -284,32 +315,35 @@ async function pullGa4(client, months, windows, checkWeek) {
     const s = (rows, k) => rows.reduce((t, r) => t + (r[k] || 0), 0);
     const g = S.filter(isGoogle), d = S.filter(isDirect);
     monthly[m] = {
-      days: D.filter((r) => r.sessions > 0).length,
+      days: dailyAll.filter((r) => isoOf(r.date).startsWith(m) && r.sessions > 0).length,
       newUsers: s(D, "newUsers"), sessions: s(D, "sessions"), engagedSessions: s(D, "engagedSessions"), engagementTime: s(D, "userEngagementDuration"),
       googleVisits: s(g, "sessions"), googleEngaged: s(g, "engagedSessions"), googleTime: s(g, "userEngagementDuration"),
       direct: s(d, "sessions"), directEngaged: s(d, "engagedSessions"), directTime: s(d, "userEngagementDuration"),
       constantContact: s(S.filter(isCC), "sessions"), bioLink: s(S.filter(isBio), "sessions"),
       other: s(S.filter((x) => !isGoogle(x) && !isDirect(x) && x.sessionSource !== "(not set)"), "sessions"),
       new404: s(n404.filter((r) => r.yearMonth === m.replace("-", "")), "newUsers"),
+      all: (() => { const DA = dailyAll.filter((r) => isoOf(r.date).startsWith(m)), SA = bySourceAll.filter((r) => r.yearMonth === m.replace("-", ""));
+        return { newUsers: s(DA, "newUsers"), sessions: s(DA, "sessions"), googleVisits: s(SA.filter(isGoogle), "sessions") }; })(),
     };
   }
   const win = {};
   for (const w of windows) {
     const a = firstDay(w.months[0]), b = lastDay(w.months[w.months.length - 1]);
     win[w.id] = {
-      totals: (await ga4Report(key, prop, { ...range(a, b), metrics: mets(...ENG), ...withFilter() }))[0] ?? {},
-      devices: await ga4Report(key, prop, { ...range(a, b), dimensions: dims("deviceCategory"), metrics: mets("activeUsers", "sessions"), ...withFilter() }),
-      landing: await ga4Report(key, prop, { ...range(a, b), dimensions: dims("landingPage"), metrics: mets("sessions", "newUsers", "engagedSessions", "screenPageViews"), ...withFilter() }),
-      sources: await ga4Report(key, prop, { ...range(a, b), dimensions: dims("sessionSource", "sessionMedium"), metrics: mets("sessions", "engagedSessions", "userEngagementDuration", "newUsers"), ...withFilter() }),
+      totals: (await ga4Report(key, prop, { ...range(a, b), metrics: mets(...ENG), ...scoped() }))[0] ?? {},
+      devices: await ga4Report(key, prop, { ...range(a, b), dimensions: dims("deviceCategory"), metrics: mets("activeUsers", "sessions"), ...scoped() }),
+      landing: await ga4Report(key, prop, { ...range(a, b), dimensions: dims("landingPage"), metrics: mets("sessions", "newUsers", "engagedSessions", "screenPageViews"), ...scoped() }),
+      sources: await ga4Report(key, prop, { ...range(a, b), dimensions: dims("sessionSource", "sessionMedium"), metrics: mets("sessions", "engagedSessions", "userEngagementDuration", "newUsers"), ...scoped() }),
     };
   }
   let check = null;
   if (checkWeek) {
-    const src = await ga4Report(key, prop, { ...range(checkWeek, addDays(checkWeek, 6)), dimensions: dims("sessionSource", "sessionMedium"), metrics: mets("sessions"), ...withFilter() });
-    check = { googleVisits: src.filter(isGoogle).reduce((t, r) => t + r.sessions, 0) };
+    const read = async (f) => (await ga4Report(key, prop, { ...range(checkWeek, addDays(checkWeek, 6)), dimensions: dims("sessionSource", "sessionMedium"), metrics: mets("sessions"), ...f })).filter(isGoogle).reduce((t, r) => t + r.sessions, 0);
+    check = { googleVisits: await read(everything()), scopedGoogleVisits: country ? await read(scoped()) : null };
   }
-  const firstDate = daily.filter((r) => r.sessions > 0).map((r) => isoOf(r.date)).sort()[0] ?? null;
-  return { property: prop, excludedSources: ex, firstDate, monthly, daily: daily.map((r) => ({ ...r, date: isoOf(r.date) })), windows: win, check };
+  const firstDate = dailyAll.filter((r) => r.sessions > 0).map((r) => isoOf(r.date)).sort()[0] ?? null;
+  return { property: prop, excludedSources: ex, country: client.country?.label ?? "All", firstDate, monthly,
+    daily: daily.map((r) => ({ ...r, date: isoOf(r.date) })), dailyAll: dailyAll.map((r) => ({ date: isoOf(r.date), sessions: r.sessions, newUsers: r.newUsers })), windows: win, check };
 }
 
 /* -------------------------------------------------------------- Metricool */
@@ -592,12 +626,17 @@ async function main() {
   if (checkWeek) {
     const days = Array.from({ length: 7 }, (_, i) => addDays(checkWeek, i));
     const L = { gsc: ledger("gsc")[clientId][checkWeek], ga4: ledger("ga4")[clientId][checkWeek], mc: ledger("metricool")[clientId][checkWeek] };
-    const g = gscMonth(gsc.daily.filter((r) => days.includes(r.keys[0]))), gu = gscMonth(gsc.dailyUs.filter((r) => days.includes(r.keys[0])));
-    ok(g.clicks === L.gsc.clicks && g.impressions === L.gsc.impressions, `Search Console week of ${short(checkWeek)}: ${g.clicks} clicks, ${g.impressions} impressions`, `ledger ${L.gsc.clicks}, ${L.gsc.impressions}`);
+    const g = gscMonth(gsc.dailyAll.filter((r) => days.includes(r.keys[0]))), gu = gscMonth(gsc.dailyUs.filter((r) => days.includes(r.keys[0])));
+    ok(g.clicks === L.gsc.clicks && g.impressions === L.gsc.impressions, `Search Console week of ${short(checkWeek)}, all countries: ${g.clicks} clicks, ${g.impressions} impressions`, `ledger ${L.gsc.clicks}, ${L.gsc.impressions}`);
+    if (L.gsc.usClicks !== undefined) ok(gu.clicks === L.gsc.usClicks && gu.impressions === L.gsc.usImpressions, `Search Console week of ${short(checkWeek)}, US: ${gu.clicks} clicks, ${gu.impressions} impressions`, `ledger ${L.gsc.usClicks}, ${L.gsc.usImpressions}`);
     ok(Math.abs(gu.position - L.gsc.usPosition) < 0.006, `US position ${p2(gu.position)}`, `ledger ${L.gsc.usPosition}`);
-    const nu = ga4.daily.filter((r) => days.includes(r.date)).reduce((t, r) => t + r.newUsers, 0);
-    ok(nu === L.ga4.newUsers, `GA4 new visitors ${nu}`, `ledger ${L.ga4.newUsers}`);
-    ok(ga4.check.googleVisits === L.ga4.googleVisits, `GA4 visits from Google ${ga4.check.googleVisits}`, `ledger ${L.ga4.googleVisits}`);
+    const nu = ga4.dailyAll.filter((r) => days.includes(r.date)).reduce((t, r) => t + r.newUsers, 0);
+    ok(nu === L.ga4.newUsers, `GA4 new visitors, all countries ${nu}`, `ledger ${L.ga4.newUsers}`);
+    ok(ga4.check.googleVisits === L.ga4.googleVisits, `GA4 visits from Google, all countries ${ga4.check.googleVisits}`, `ledger ${L.ga4.googleVisits}`);
+    if (ga4.check.scopedGoogleVisits !== null) {
+      const nuS = ga4.daily.filter((r) => days.includes(r.date)).reduce((t, r) => t + r.newUsers, 0);
+      ok(nuS <= nu && ga4.check.scopedGoogleVisits <= ga4.check.googleVisits, `GA4 ${ga4.country} only: ${nuS} new visitors, ${ga4.check.scopedGoogleVisits} visits from Google`, "(no more than all countries)");
+    }
     const d = metricool.daily;
     const s = (k) => days.reduce((t, x) => t + (d[k]?.[x] ?? 0), 0);
     ok(s("views") === L.mc.views, `Instagram views ${int(s("views"))}`, `ledger ${int(L.mc.views)}`);
@@ -610,6 +649,8 @@ async function main() {
     else checks.push(`  · Short.io: no weekly pull on disk holds the week of ${short(checkWeek)}, so it is not checked`);
   } else checks.push("  · No ledger week falls inside these months, so nothing is checked");
   ok(Object.values(shortio.monthly).every((m) => !m || !m.starRow), "Short.io /* filter applied in every month: no /* row came back");
+  if (gsc.country !== "All") ok(months.every((m) => gsc.monthly[m].clicks <= gsc.monthly[m].all.clicks && gsc.monthly[m].impressions <= gsc.monthly[m].all.impressions), `Search Console ${gsc.country} figures are within all-country figures in every month`);
+  if (ga4.country !== "All") ok(months.every((m) => ga4.monthly[m].newUsers <= ga4.monthly[m].all.newUsers && ga4.monthly[m].sessions <= ga4.monthly[m].all.sessions && ga4.monthly[m].googleVisits <= ga4.monthly[m].all.googleVisits), `GA4 ${ga4.country} figures are within all-country figures in every month`);
 
   /* Text summary. */
   const L = [];
@@ -626,13 +667,14 @@ async function main() {
   head(["Followers", "Views", "Reach/day", "Interact.", "ER", "Engaged"]);
   for (const m of months) { const r = metricool.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${[int(r.followers), int(r.views), int(r.reachPerDay), int(r.interactions), r.er === null ? "—" : r.er.toFixed(2) + "%", int(r.accountsEngaged)].map((c) => c.padStart(11)).join("")}`); }
   L.push("");
-  L.push("SEARCH CONSOLE");
-  head(["Clicks", "Impr.", "Rate", "US pos.", "Days"]);
-  for (const m of months) { const r = gsc.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${[int(r.clicks), int(r.impressions), r.impressions ? (100 * r.clicks / r.impressions).toFixed(2) + "%" : "—", p2(r.usPosition), String(r.days)].map((c) => c.padStart(11)).join("")}`); }
+  L.push(`SEARCH CONSOLE · ${gsc.country === "All" ? "all countries" : `${gsc.country} only; last column all countries`}`);
+  head(["Clicks", "Impr.", "Rate", "US pos.", "Days", "All clicks"]);
+  for (const m of months) { const r = gsc.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${[int(r.clicks), int(r.impressions), r.impressions ? (100 * r.clicks / r.impressions).toFixed(2) + "%" : "—", p2(r.usPosition), String(r.days), int(r.all.clicks)].map((c) => c.padStart(11)).join("")}`); }
+  L.push(`  Page lists cover: ${windows.map((w) => { const x = gsc.windows[w.id]; return `${w.id} ${int(x.pagesCover.clicks)} of ${int(x.pagesCover.of)} clicks`; }).join(" · ")}${gsc.country === "All" ? "" : ` (Google leaves part of ${gsc.country} search out of page lists)`}`);
   L.push("");
-  L.push("GA4");
-  head(["New vis.", "Sessions", "Google", "Direct", "404 new", "Days"]);
-  for (const m of months) { const r = ga4.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${[int(r.newUsers), int(r.sessions), int(r.googleVisits), int(r.direct), int(r.new404), String(r.days)].map((c) => c.padStart(11)).join("")}`); }
+  L.push(`GA4 · ${ga4.country === "All" ? "all countries" : `${ga4.country} only; last 2 columns all countries`}`);
+  head(["New vis.", "Sessions", "Google", "Direct", "404 new", "Days", "All new", "All Google"]);
+  for (const m of months) { const r = ga4.monthly[m]; L.push(`  ${mLabel(m).padEnd(10)}${[int(r.newUsers), int(r.sessions), int(r.googleVisits), int(r.direct), int(r.new404), String(r.days), int(r.all.newUsers), int(r.all.googleVisits)].map((c) => c.padStart(11)).join("")}`); }
   L.push("");
   L.push("SHORT.IO · named links, all clicks");
   head(["Homepage", "Booking", "Midtown", "UES", "Other", "Total"]);
