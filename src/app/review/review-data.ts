@@ -35,7 +35,8 @@
 
    US ONLY (Walter, Nov 9) — Search figures count the US only. Google lists
      only part of US search by page (188 of 631 clicks for Aug – Oct), so the
-     client text gives no page figures.
+     client text gives no page figures. Walter, Nov 10: the client text does
+     not say "US"; US is assumed. Internal notes still name it.
 
    SHORT LINKS — the NYCDS weekly basis: Short.io's unfiltered path view, which
      is the dashboard's Human clicks (the EEC review counts all clicks). Booking
@@ -122,7 +123,7 @@ const LEAD: Record<WinId, Lead> = {
   "12m": {
     kicker: "The year to October 31, 2026",
     against: false,
-    headline: "2,211 booking link clicks and 2,703 clicks from US Google searches over the year.",
+    headline: "2,211 booking link clicks and 2,703 clicks from Google search over the year.",
     deck: `Clicks from Google grew from 40 in November 2025 to more than 200 a month from January. Instagram views reached ${short(136277)}, and emails were delivered ${short(36989)} times.`,
     figures: [
       { v: "2,211", l: "Booking link clicks", sub: "Recorded from September 2025" },
@@ -164,7 +165,7 @@ const LEAD: Record<WinId, Lead> = {
 const BRIEF = [
   { role: "The windows", text: "Each view ends October 31, 2026. 3 months is August to October, 6 months is May to October, and 12 months is November 2025 to October 2026. The review moves forward each month." },
   { role: "The comparison", text: "Each figure is compared with the equal period before it. Where that period has no full record, the figure stands alone with its start date." },
-  { role: "What is left out", text: "A measure shows only in views its source fully covers. Search figures cover the US only. Website visits are left out while the site’s visit tracking is confirmed, and Facebook while we confirm a stretch from June 22 to July 31, 2026." },
+  { role: "What is left out", text: "A measure shows only in views its source fully covers. Website visits are left out while the site’s visit tracking is confirmed, and Facebook while we confirm a stretch from June 22 to July 31, 2026." },
 ];
 
 /* -------------------------------------------------------------- THE NUMBERS */
@@ -204,12 +205,12 @@ const NUMBERS: Record<WinId, Row[]> = {
       note: `${NAME_DEF} that led to a click: 172 clicks from 1,053 appearances, against 211 from 2,022. The rate rose mainly because searches for Dr. El Chaar by name showed this site far less often, 29 times against 590.`,
       noteInternal: "Rule v1-nov3 (practice name, nyc smiles, El Chaar, doctor surnames from the site’s doctor pages; site: queries out) on the US monthly query lists. El Chaar searches: 3 clicks from 590 appearances (May – July, weighted position 8.8) against 1 from 29 (August – October, positions 22 to 71, weighted 39.6). The pull does not show where those searches lead now. Without them, 16.7% against 14.5%." },
     { group: "Search", k: "Search click rate", v: "2.81%", prior: "1.39%", c: "+1.42 points",
-      note: "Clicks as a share of appearances in US Google results. The rate rose as the general searches described below fell away." },
+      note: "Clicks as a share of appearances in Google results. The rate rose as the general searches described below fell away." },
     { group: "Search", k: "Search clicks", v: "631", prior: "889", c: "−29.0%",
-      note: "Clicks from US Google searches. May to July included June and July, the year’s 2 highest months, 297 and 312. Clicks have held between 201 and 227 a month since August.",
+      note: "Clicks from Google searches. May to July included June and July, the year’s 2 highest months, 297 and 312. Clicks have held between 201 and 227 a month since August.",
       noteInternal: "Clicks on queries at position 10 or better also eased: 175 against 238 (listed queries). Not explained by the general searches alone; watch the page-one terms." },
     { group: "Search", k: "Search appearances", v: short(22465), prior: short(63890), c: "−64.8%",
-      note: "Times the site appeared in US Google results. From March to July the homepage also appeared, well down the results, for general searches such as “dentist nyc”, which drew almost no clicks. Those appearances fell away from August.",
+      note: "Times the site appeared in Google results. From March to July the homepage also appeared, well down the results, for general searches such as “dentist nyc”, which drew almost no clicks. Those appearances fell away from August.",
       noteInternal: "Average position 54.78 against 37.83 (kept out of the client rows: it follows the general-search appearances). June’s listed queries put 19,951 of 23,148 appearances beyond position 20." },
     { group: "Email", k: "Emails delivered", v: short(13467), prior: "5,775", c: "+133.2%",
       note: "Total deliveries across the period’s emails.",
@@ -246,10 +247,10 @@ const NUMBERS: Record<WinId, Row[]> = {
       note: `${BOOK_DEF} ${NEW_LINKS} The new links drew 396 of them; the 4 earlier links drew 1,059, against 756.`,
       noteInternal: `Lenox Hill 405, Plaza District 364, Upper East Side 324, Murray Hill 301, all locations 61; against 234, 199, 167, 156. Monthly 221, 155, 227, 195, 358, 299. ${SHORTIO_INT}` },
     { group: "Search", k: "Search clicks", v: "1,520", prior: "1,183", c: "+28.5%",
-      note: "Clicks from US Google searches. Google’s record for the site starts in October 2025, so the earlier period includes its first months.",
+      note: "Clicks from Google searches. Google’s record for the site starts in October 2025, so the earlier period includes its first months.",
       noteInternal: "Without November 2025 (40): 253.3 a month against 228.6, +10.8%." },
     { group: "Search", k: "Search appearances", v: short(86355), prior: short(32138), c: "+168.7%",
-      note: "Times the site appeared in US Google results, including general searches such as “dentist nyc” from March to July, well down the results." },
+      note: "Times the site appeared in Google results, including general searches such as “dentist nyc” from March to July, well down the results." },
     { group: "Search", k: "Name searches clicked", v: "12.5%", prior: "15.6%", c: "−3.2 points",
       note: `${NAME_DEF}: 383 clicks from 3,075 appearances, against 308 from 1,970. Clicks on these searches rose 24%. The rate fell mainly because searches for Dr. El Chaar by name showed this site 619 times, against 69, with few clicks.`,
       noteInternal: "El Chaar searches: 4 clicks from 619 appearances against 0 from 69. Without them, 15.4% against 16.2% (appearances 2,456 against 1,901)." },
@@ -262,9 +263,9 @@ const NUMBERS: Record<WinId, Row[]> = {
       note: `${BOOK_DEF} ${NEW_LINKS} The new links drew 396 of them.`,
       noteInternal: `Lenox Hill 639, Plaza District 563, Upper East Side 491, Murray Hill 457, all locations 61. Dentrix 1,815. ${SHORTIO_INT}` },
     { group: "Search", k: "Search clicks", v: "2,703", na: "Recorded from October 2025",
-      note: "Clicks from US Google searches. They grew from 40 in November 2025 to more than 200 a month from January." },
+      note: "Clicks from Google searches. They grew from 40 in November 2025 to more than 200 a month from January." },
     { group: "Search", k: "Search appearances", v: short(118493), na: "Recorded from October 2025",
-      note: "Times the site appeared in US Google results." },
+      note: "Times the site appeared in Google results." },
     { group: "Search", k: "Name searches clicked", v: "13.7%", na: "Recorded from October 2025",
       note: `${NAME_DEF}: 691 clicks from 5,045 appearances. “nyc dental smiles” alone drew 332 clicks at an average position of 1.5.`,
       noteInternal: "Includes 688 appearances (4 clicks) on searches for Dr. El Chaar; without them, 15.8%." },
@@ -315,7 +316,7 @@ const CHARTS_ALL: (Chart & { internalOnly?: boolean; clientOnly?: boolean })[] =
     caption: { "3m": `${short(44824)} against ${short(38992)}`, "6m": `${short(83816)} against ${short(52461)}`, "12m": `${short(136277)} · recorded from August 23, 2025` } },
   { id: "c-search", title: "Search clicks", unit: "clicks", priorIn: ["3m", "6m"],
     points: months("2025-11", [40, 161, 214, 256, 235, 277, 280, 297, 312, 227, 203, 201]),
-    note: "US searches, from November 2025, the first full month on record.",
+    note: "From November 2025, the first full month on record.",
     caption: { "3m": "631 against 889", "6m": "1,520 against 1,183", "12m": "2,703 · recorded from October 2025" } },
   { id: "c-mail", title: "Email clicks", unit: "clicks", priorIn: ["3m", "6m", "12m"],
     points: months("2024-11", [0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 385, 52, 18, 20, 20, 0, 5, 3, 16, 50, 52, 19, 70]),
@@ -370,10 +371,10 @@ const SEARCH_TABLE = {
 };
 
 const SEARCH_CLIENT = [
-  "Google’s record for the site starts in October 2025. US clicks grew from 40 in November to more than 200 a month from January, reached 312 in July, and have held between 201 and 227 a month since August.",
+  "Google’s record for the site starts in October 2025. Clicks grew from 40 in November to more than 200 a month from January, reached 312 in July, and have held between 201 and 227 a month since August.",
   "Searches for the practice by name lead. “nyc dental smiles” drew 332 clicks over the year at an average position of 1.5, and searches naming the practice or one of its doctors led to a click 13.7% of the time.",
   `From March to July the homepage also appeared for general searches such as “dentist nyc”, mostly well down the results, where it drew almost no clicks. Appearances peaked in June at ${short(29605)} and those general searches fell away from August, which is why appearances and the average position moved far more than clicks.`,
-  "All figures here are US only. Website visits are left out while the site’s visit tracking is confirmed.",
+  "Website visits are left out while the site’s visit tracking is confirmed.",
 ];
 
 const SEARCH_INTERNAL = [
@@ -409,7 +410,7 @@ const DETAIL_PANELS: Panel[] = [
       ["Booking links", "September 2025 onward; new links for each location from September 8, 2026"],
       ["Email", "NYC Dental Smiles emails since November 2024"],
       ["Confirmed email opens", "Every email from April 10, 2026"],
-      ["Search", "US only; October 2025 onward"],
+      ["Search", "October 2025 onward"],
       ["Website visits", "Left out while the site’s visit tracking is confirmed"],
     ],
     note: "From the November 9 pull. A measure appears in a view only when its source covers every month of it, and is compared only when the earlier window is covered as well. Search Console starts October 7, 2025. GA4 starts October 10, 2025 and its new visitors stop on September 30, 2026, so the website is out of every view this edition.",
@@ -417,7 +418,7 @@ const DETAIL_PANELS: Panel[] = [
   { id: "method", title: "How the figures are measured",
     rows: [],
     note: "Instagram and Facebook: Metricool account timelines summed by day in New York time; responses are interactions (likes, comments, saves, shares) on feed posts and reels on their publish date; engagement rate is interactions ÷ summed daily reach. Short links: Short.io path view, unfiltered (Human clicks), nycdentalsmileteam.short.gy; booking = the 4 Dentrix links and the 5 links of September 8, 2026, by location; website links held out; Smile Pass, DDS-PC and unlisted paths left out. Email: Constant Contact per-send results, rates on delivered, the Smile Pass announcement left out. Search: Search Console daily rows filtered to the US, position impression-weighted; searches by name on rule v1-nov3 over the US monthly query lists.",
-    noteClient: "Instagram figures are summed by day. Responses are likes, comments, saves and shares on pieces published in the period; engagement rate is responses divided by each day’s reach, summed. Short links count clicks on each location’s booking links. Email clicks count each person once per email; email rates use delivered emails. Search figures come from Google and count the US only.",
+    noteClient: "Instagram figures are summed by day. Responses are likes, comments, saves and shares on pieces published in the period; engagement rate is responses divided by each day’s reach, summed. Short links count clicks on each location’s booking links. Email clicks count each person once per email; email rates use delivered emails. Search figures come from Google.",
     faq: [
       { q: "Why do some figures have no comparison?", a: "A figure is compared only when its source fully covers the earlier period. Otherwise it shows the date its record starts." },
       { q: "Why is Facebook not shown?", a: "Facebook views from June 22 to July 31, 2026 ran far above any other part of the year, and that stretch falls inside every comparison here. We are confirming it, and Facebook returns in a later edition." },
@@ -454,11 +455,11 @@ export const RV = {
     footnote: "Read November 9, 2026. Pieces keep gathering responses.",
   },
   search: {
-    lede: "The new site’s first year in Google, US searches only.",
+    lede: "The new site’s first year in Google.",
     paras: SEARCH_CLIENT,
     parasInternal: IS_INTERNAL ? SEARCH_INTERNAL : [],
     table: SEARCH_TABLE,
-    tableNote: "Google’s search reporting, US only. Position is the average place in the results, lower is better. Name searches clicked: searches naming the practice or one of its doctors that led to a click.",
+    tableNote: "Google’s search reporting. Position is the average place in the results, lower is better. Name searches clicked: searches naming the practice or one of its doctors that led to a click.",
   },
   notes: { lede: "Gaps, oddities and open questions. Internal only.", items: IS_INTERNAL ? NOTES : [] },
   detail: { lede: "How the review is built and what each source covers.", panels: DETAIL_PANELS.map((p) => ({ ...p, note: pick(p.note, p.noteClient ?? p.note) })) },

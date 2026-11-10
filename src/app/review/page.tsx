@@ -715,7 +715,7 @@ export default function ReviewPage() {
           </div>
           <div className="st-wrap">
             <table className="st">
-              <caption className="sr">US search by month, November 2025 to October 2026</caption>
+              <caption className="sr">Search by month, November 2025 to October 2026</caption>
               <thead><tr>{RV.search.table.head.map((h) => <th key={h} scope="col">{h}</th>)}</tr></thead>
               <tbody>{RV.search.table.rows.map((r) => <tr key={r[0]}>{r.map((c, i) => <td key={i}>{c}</td>)}</tr>)}</tbody>
             </table>
