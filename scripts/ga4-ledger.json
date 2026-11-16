@@ -33,10 +33,18 @@
     },
     "2026-11-02": {
       "newUsers": 218,
-      "sessions": 270,
+      "sessions": 269,
       "googleVisits": 83,
       "source": "ga4-pull 2026-11-09T16:34:37.317Z",
-      "note": "our own traffic filtered out of every report (eec-prototype.vercel.app, figmentcreative.com), from this cycle"
+      "note": "our own traffic filtered out of every report (eec-prototype.vercel.app, figmentcreative.com), from this cycle",
+      "restated": "ga4-pull 2026-11-16T12:53:32.486Z"
+    },
+    "2026-11-09": {
+      "newUsers": 252,
+      "sessions": 306,
+      "googleVisits": 78,
+      "source": "ga4-pull 2026-11-16T12:53:32.486Z",
+      "note": "our own traffic filtered out of every report"
     }
   },
   "nycds": {

@@ -116,12 +116,22 @@
     },
     "2026-11-02": {
       "clicks": 48,
-      "impressions": 496,
-      "ctr": 9.68,
-      "usPosition": 4.52,
+      "impressions": 498,
+      "ctr": 9.64,
+      "usPosition": 4.51,
       "usClicks": 46,
-      "usImpressions": 454,
-      "source": "gsc-pull 2026-11-09T15:07:55.968Z"
+      "usImpressions": 455,
+      "source": "gsc-pull 2026-11-09T15:07:55.968Z",
+      "restated": "gsc-pull 2026-11-16T12:53:14.734Z"
+    },
+    "2026-11-09": {
+      "clicks": 58,
+      "impressions": 1089,
+      "ctr": 5.33,
+      "usPosition": 8.24,
+      "usClicks": 51,
+      "usImpressions": 846,
+      "source": "gsc-pull 2026-11-16T12:53:14.734Z"
     }
   }
 }
