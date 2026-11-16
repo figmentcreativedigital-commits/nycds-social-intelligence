@@ -132,7 +132,24 @@ export const REPORT = {
     title: "The Brief",
     lede: "The week in brief.",
     head: "Booking links rose to 96 from 54, the most of the 5 weeks shown, with every location up. Google clicks 42 against 37 on 1,534 appearances, average position 38.6 from 43.8, and doctor-page click rate 5.8% from 2.3%. Instagram fell back after the Veterans Day reel week: reach per day 141 against 231, interactions 27 against 141, engagement rate 2.74%. Followers 801. Smile Pass drew 29 new visitors against 243 once the fall ads ended November 9; membership leads hold at 10.",
-    headClient: "Booking links drew 96 clicks, up from 54, with every location rising. Clicks from Google rose to 42, and doctor pages clicked through 5.8% of the time, up from 2.3%. On Instagram, Dr. Farahani’s bridge restoration led the week, and followers rose to 801.",
+    /* The masthead lead, restructured November 16 (Walter: the 3-sentence
+       paragraph at display size read as a wall of text). It runs kicker,
+       headline, deck, figures, as the EEC report has since November 2.
+       THE HEADLINE IS ONE IDEA, under about 12 words. The deck adds what the
+       figures do not show. Every figure here renders in both builds; only
+       `head` above is internal (shown under the figures in the internal
+       build). Each figure carries last week's value in `was`. */
+    lead: {
+      kicker: "Booking links",
+      headline: "Every location drew more booking clicks this week.",
+      deck: "Murray Hill led with 28, and Plaza District more than doubled to 22.",
+      figures: [
+        { v: "96", l: "Booking link clicks", was: "from 54" },
+        { v: "42", l: "Clicks from Google", was: "from 37" },
+        { v: "5.8%", l: "Doctor page click rate", was: "from 2.3%" },
+        { v: "801", l: "Instagram followers", was: "from 798" },
+      ] as { v: string; l: string; was: string }[],
+    },
     items: [
       {
         role: "The outcome",

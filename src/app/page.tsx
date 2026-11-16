@@ -77,8 +77,24 @@ a { color: inherit; }
 .mast-badge { display: inline-block; margin-left: 10px; padding: 1px 11px; border: 1px solid rgba(255,255,255,.6); border-radius: 30px; font-family: var(--text); font-size: 13px; vertical-align: 2px; }
 .mast-when { text-align: right; font-size: 15px; color: rgba(255,255,255,.88); line-height: 1.5; }
 .mast-when b { display: block; font-weight: 800; font-size: 18px; color: #fff; }
-.mast-head { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.32; color: #fff; max-width: 30ch; margin-top: 40px; }
-.mast-paid { margin-top: 18px; font-size: 15px; color: rgba(255,255,255,.82); max-width: 62ch; }
+.mast-lead { margin-top: 44px; }
+.mast-kick { font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.72); }
+.mast-hl { font-family: var(--display); font-weight: 400; font-size: clamp(32px, 4.4vw, 56px); line-height: 1.1; letter-spacing: -.005em; color: #fff; max-width: 21ch; margin-top: 14px; text-wrap: balance; }
+.mast-deck { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.5; color: rgba(255,255,255,.86); max-width: 60ch; margin-top: 18px; }
+.mast-figs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 44px; border-top: 1px solid rgba(255,255,255,.3); }
+.mast-fig { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 6px; padding: 22px 20px 4px; border-left: 1px solid rgba(255,255,255,.18); }
+.mast-fig:first-child { padding-left: 0; border-left: 0; }
+.mast-fig dt { font-size: 14px; line-height: 1.35; color: rgba(255,255,255,.82); }
+.mast-fig dd { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.mast-fv { font-family: var(--display); font-size: clamp(34px, 3.4vw, 46px); line-height: 1; color: #fff; font-variant-numeric: lining-nums tabular-nums; }
+.mast-was { font-size: 13px; color: rgba(255,255,255,.66); white-space: nowrap; }
+.mast-note { margin-top: 26px; padding: 14px 16px; border: 1px dashed rgba(255,255,255,.35); font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.88); max-width: 90ch; }
+.mast-paid { margin-top: 22px; font-size: 14px; color: rgba(255,255,255,.72); max-width: 62ch; }
+@media (max-width: 760px) {
+  .mast-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mast-fig:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .mast-fig:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.18); }
+}
 @media (max-width: 640px) { .mast-when { text-align: left; } .mast-logo img { width: 200px; } }
 
 /* ---------- brief: short columns under the headline ---------- */
@@ -309,8 +325,9 @@ a { color: inherit; }
 @media print {
   .rail, .ig, .tv, .dly-hint { display: none; }
   .mast { background: #fff; color: var(--ink); }
-  .mast-head, .mast-when b { color: var(--plum); }
-  .mast-when, .mast-kind, .mast-paid { color: var(--muted); }
+  .mast-hl, .mast-fv, .mast-when b { color: var(--plum); }
+  .mast-when, .mast-kind, .mast-paid, .mast-kick, .mast-deck, .mast-fig dt, .mast-was, .mast-note { color: var(--muted); }
+  .mast-figs, .mast-fig, .mast-note { border-color: var(--rule); }
   .mast-wm { display: none; }
   .mast-logo img { filter: brightness(0) saturate(100%) invert(33%) sepia(12%) saturate(900%) hue-rotate(275deg); }
   .dt details > *:not(summary) { display: block; }
@@ -480,7 +497,20 @@ export default function Page() {
             </div>
             <p className="mast-when"><b>{R.period.label}</b>Compared with {R.period.comparedWith}</p>
           </div>
-          <p className="mast-head">{v(R.brief.head, R.brief.headClient)}</p>
+          <div className="mast-lead">
+            <p className="mast-kick">{R.brief.lead.kicker}</p>
+            <p className="mast-hl">{R.brief.lead.headline}</p>
+            <p className="mast-deck">{R.brief.lead.deck}</p>
+          </div>
+          <dl className="mast-figs">
+            {R.brief.lead.figures.map((f) => (
+              <div className="mast-fig" key={f.l}>
+                <dt>{f.l}</dt>
+                <dd><span className="mast-fv">{f.v}</span><span className="mast-was">{f.was}</span></dd>
+              </div>
+            ))}
+          </dl>
+          {IS_INTERNAL ? <p className="mast-note">{R.brief.head}</p> : null}
           <p className="mast-paid">{R.period.paidStatus}</p>
         </div>
       </header>
