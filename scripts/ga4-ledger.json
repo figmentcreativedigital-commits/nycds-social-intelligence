@@ -65,7 +65,15 @@
       "sessions": 46,
       "googleVisits": 10,
       "source": "ga4-pull 2026-11-09T13:55:15.067Z",
-      "note": "as reported: the pull read 51 sessions and 6 new users; 5 of each came from a spam referral (gipkd.com) and are excluded"
+      "note": "as reported: the pull read 51 sessions and 6 new users; 5 of each came from a spam referral (gipkd.com) and are excluded",
+      "restated": "ga4-pull 2026-11-16T13:35:41.658Z (re-read 51 sessions / 6 new users; less the 5 spam sessions, unchanged)"
+    },
+    "2026-11-09": {
+      "newUsers": 3,
+      "sessions": 77,
+      "googleVisits": 16,
+      "source": "ga4-pull 2026-11-16T13:35:41.658Z",
+      "note": "as reported: no spam referral this week; 3 sessions from figmentcreative.com (Figment’s own visits) kept in, as NYCDS has no own-traffic rule"
     }
   }
 }

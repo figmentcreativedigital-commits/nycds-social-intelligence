@@ -54,17 +54,32 @@
     },
     "2026-11-02": {
       "followers": 798,
-      "views": 3739,
+      "views": 3744,
       "reach": 1614,
       "reachPerDay": 231,
       "interactions": 141,
       "er": 8.72,
       "accountsEngaged": 149,
       "storiesImpressions": 206,
-      "fbViews": 188,
+      "fbViews": 194,
       "fbPageVisits": 24,
       "fbFollowers": 982,
-      "source": "metricool-pull 2026-11-09T13:55:03.760Z"
+      "source": "metricool-pull 2026-11-09T13:55:03.760Z",
+      "restated": "metricool-pull 2026-11-16T13:35:09.159Z"
+    },
+    "2026-11-09": {
+      "followers": 801,
+      "views": 2596,
+      "reach": 986,
+      "reachPerDay": 141,
+      "interactions": 27,
+      "er": 2.74,
+      "accountsEngaged": 76,
+      "storiesImpressions": 321,
+      "fbViews": 83,
+      "fbPageVisits": 12,
+      "fbFollowers": 982,
+      "source": "metricool-pull 2026-11-16T13:35:09.159Z"
     }
   },
   "eec": {
